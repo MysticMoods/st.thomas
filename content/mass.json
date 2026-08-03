@@ -1,0 +1,88 @@
+{
+  "note": {
+    "en": "Timings are revised at the start of each liturgical season. Confessions are always heard thirty minutes before every Mass.",
+    "ml": "ഓരോ ആരാധനക്രമ കാലത്തിന്റെയും ആരംഭത്തിൽ സമയക്രമം പുതുക്കുന്നതാണ്. എല്ലാ കുർബാനയ്ക്കും മുപ്പത് മിനിറ്റ് മുൻപ് കുമ്പസാരം ഉണ്ടായിരിക്കും."
+  },
+  "groups": [
+    {
+      "id": "sunday",
+      "icon": "sun",
+      "accent": "gold",
+      "title": { "en": "Sunday", "ml": "ഞായറാഴ്ച" },
+      "subtitle": { "en": "The Lord's Day", "ml": "കർത്തൃദിനം" },
+      "image": "/images/site/interior-feast.jpg",
+      "entries": [
+        { "time": "6:15 AM", "label": { "en": "First Holy Mass", "ml": "ഒന്നാം വിശുദ്ധ കുർബാന" }, "note": { "en": "Malayalam", "ml": "മലയാളം" } },
+        { "time": "8:00 AM", "label": { "en": "Second Holy Mass", "ml": "രണ്ടാം വിശുദ്ധ കുർബാന" }, "note": { "en": "Malayalam · Choir", "ml": "മലയാളം · ഗായകസംഘം" } },
+        { "time": "10:00 AM", "label": { "en": "Family Mass", "ml": "കുടുംബ കുർബാന" }, "note": { "en": "English · Children's homily", "ml": "ഇംഗ്ലീഷ് · കുട്ടികളുടെ പ്രസംഗം" } },
+        { "time": "5:30 PM", "label": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "note": { "en": "Malayalam", "ml": "മലയാളം" } }
+      ]
+    },
+    {
+      "id": "weekdays",
+      "icon": "candle",
+      "accent": "navy",
+      "title": { "en": "Weekdays", "ml": "പ്രവൃത്തി ദിവസങ്ങൾ" },
+      "subtitle": { "en": "Monday to Saturday", "ml": "തിങ്കൾ മുതൽ ശനി വരെ" },
+      "image": "/images/site/candle-quiet.jpg",
+      "entries": [
+        { "time": "6:30 AM", "label": { "en": "Morning Mass", "ml": "പ്രഭാത കുർബാന" }, "note": { "en": "Monday – Saturday", "ml": "തിങ്കൾ – ശനി" } },
+        { "time": "6:00 PM", "label": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "note": { "en": "Tuesday, Thursday, Saturday", "ml": "ചൊവ്വ, വ്യാഴം, ശനി" } },
+        { "time": "5:15 PM", "label": { "en": "Rosary", "ml": "ജപമാല" }, "note": { "en": "Daily, before evening Mass", "ml": "ദിവസവും, സായാഹ്ന കുർബാനയ്ക്കു മുൻപ്" } }
+      ]
+    },
+    {
+      "id": "holydays",
+      "icon": "cross",
+      "accent": "burgundy",
+      "title": { "en": "Holy Days", "ml": "കടമുള്ള തിരുനാളുകൾ" },
+      "subtitle": { "en": "Days of obligation", "ml": "കടമുള്ള ദിവസങ്ങൾ" },
+      "image": "/images/site/candles-cross.jpg",
+      "entries": [
+        { "time": "6:00 AM", "label": { "en": "First Mass", "ml": "ഒന്നാം കുർബാന" }, "note": { "en": "Malayalam", "ml": "മലയാളം" } },
+        { "time": "9:00 AM", "label": { "en": "Solemn High Mass", "ml": "ആഘോഷമായ കുർബാന" }, "note": { "en": "With procession", "ml": "പ്രദക്ഷിണത്തോടെ" } },
+        { "time": "6:00 PM", "label": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "note": { "en": "Malayalam", "ml": "മലയാളം" } }
+      ]
+    },
+    {
+      "id": "confession",
+      "icon": "key",
+      "accent": "stone",
+      "title": { "en": "Confession", "ml": "കുമ്പസാരം" },
+      "subtitle": { "en": "Sacrament of Reconciliation", "ml": "അനുരഞ്ജന കൂദാശ" },
+      "image": "/images/site/votive.jpg",
+      "entries": [
+        { "time": "30 min", "label": { "en": "Before every Mass", "ml": "എല്ലാ കുർബാനയ്ക്കും മുൻപ്" }, "note": { "en": "Daily", "ml": "ദിവസവും" } },
+        { "time": "4:00 PM", "label": { "en": "Saturday", "ml": "ശനിയാഴ്ച" }, "note": { "en": "Until 5:45 PM", "ml": "വൈകുന്നേരം 5:45 വരെ" } },
+        { "time": "By appointment", "label": { "en": "Parish office", "ml": "ഇടവക ഓഫീസ്" }, "note": { "en": "Call +91 98470 12345", "ml": "വിളിക്കുക +91 98470 12345" } }
+      ]
+    },
+    {
+      "id": "adoration",
+      "icon": "monstrance",
+      "accent": "gold",
+      "title": { "en": "Adoration", "ml": "ആരാധന" },
+      "subtitle": { "en": "Before the Blessed Sacrament", "ml": "പരിശുദ്ധ കുർബാനയുടെ മുൻപിൽ" },
+      "image": "/images/site/lantern.jpg",
+      "entries": [
+        { "time": "7:00 PM", "label": { "en": "Thursday Adoration", "ml": "വ്യാഴാഴ്ച ആരാധന" }, "note": { "en": "One hour, with Benediction", "ml": "ഒരു മണിക്കൂർ, ആശീർവാദത്തോടെ" } },
+        { "time": "9:00 PM", "label": { "en": "First Friday Vigil", "ml": "ഒന്നാം വെള്ളി ജാഗരണം" }, "note": { "en": "Until midnight", "ml": "അർദ്ധരാത്രി വരെ" } },
+        { "time": "All day", "label": { "en": "Adoration Chapel", "ml": "ആരാധനാ ചാപ്പൽ" }, "note": { "en": "6:00 AM – 8:00 PM", "ml": "രാവിലെ 6:00 – രാത്രി 8:00" } }
+      ]
+    },
+    {
+      "id": "special",
+      "icon": "dove",
+      "accent": "navy",
+      "title": { "en": "Special Services", "ml": "പ്രത്യേക ശുശ്രൂഷകൾ" },
+      "subtitle": { "en": "Sacraments & devotions", "ml": "കൂദാശകളും ഭക്തകൃത്യങ്ങളും" },
+      "image": "/images/site/rosary.jpg",
+      "entries": [
+        { "time": "Saturday", "label": { "en": "Baptisms", "ml": "മാമ്മോദീസ" }, "note": { "en": "11:00 AM · book two weeks ahead", "ml": "രാവിലെ 11:00 · രണ്ടാഴ്ച മുൻപ് ബുക്ക് ചെയ്യുക" } },
+        { "time": "First Saturday", "label": { "en": "Anointing of the Sick", "ml": "രോഗീലേപനം" }, "note": { "en": "After morning Mass", "ml": "പ്രഭാത കുർബാനയ്ക്കു ശേഷം" } },
+        { "time": "Wednesday", "label": { "en": "Novena to St. Thomas", "ml": "മാർ തോമാ ശ്ലീഹായുടെ നൊവേന" }, "note": { "en": "After 6:30 AM Mass", "ml": "രാവിലെ 6:30 കുർബാനയ്ക്കു ശേഷം" } },
+        { "time": "On request", "label": { "en": "House blessings & marriages", "ml": "ഭവനാശീർവാദവും വിവാഹവും" }, "note": { "en": "Contact the parish office", "ml": "ഇടവക ഓഫീസുമായി ബന്ധപ്പെടുക" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "title": { "en": "Parish Ministries", "ml": "ഇടവക ശുശ്രൂഷകൾ" },
+  "subtitle": {
+    "en": "Ten ways this parish serves — every one of them run by parishioners, every one of them open to you.",
+    "ml": "ഈ ഇടവക ശുശ്രൂഷ ചെയ്യുന്ന പത്ത് വഴികൾ — എല്ലാം ഇടവകാംഗങ്ങൾ നടത്തുന്നത്, എല്ലാം നിങ്ങൾക്കായി തുറന്നിരിക്കുന്നത്."
+  },
+  "items": [
+    {
+      "id": "youth",
+      "icon": "flame",
+      "name": { "en": "Youth Movement", "ml": "യുവജന പ്രസ്ഥാനം" },
+      "description": { "en": "Friday gatherings, retreats and the annual pilgrimage on foot to Malayattoor.", "ml": "വെള്ളിയാഴ്ച കൂട്ടായ്മകൾ, ധ്യാനങ്ങൾ, മലയാറ്റൂരിലേക്കുള്ള വാർഷിക കാൽനട തീർത്ഥാടനം." },
+      "lead": { "en": "Fr. Alex Panackal", "ml": "ഫാ. അലക്സ് പനയ്ക്കൽ" },
+      "members": 118
+    },
+    {
+      "id": "sundayschool",
+      "icon": "book",
+      "name": { "en": "Sunday School", "ml": "ഞായറാഴ്ച മതബോധനം" },
+      "description": { "en": "Catechism for twelve grades, every Sunday between the second and third Mass.", "ml": "പന്ത്രണ്ട് ക്ലാസുകൾക്കുള്ള മതബോധനം, എല്ലാ ഞായറാഴ്ചയും രണ്ടാം, മൂന്നാം കുർബാനകൾക്കിടയിൽ." },
+      "lead": { "en": "Mrs. Elsy Joseph", "ml": "ശ്രീമതി എൽസി ജോസഫ്" },
+      "members": 241
+    },
+    {
+      "id": "choir",
+      "icon": "music",
+      "name": { "en": "Parish Choir", "ml": "ഇടവക ഗായകസംഘം" },
+      "description": { "en": "Founded 1974. Sings at the 8:00 AM Mass and every solemnity of the year.", "ml": "1974-ൽ സ്ഥാപിതം. രാവിലെ 8:00 കുർബാനയിലും വർഷത്തിലെ എല്ലാ ആഘോഷങ്ങളിലും ആലപിക്കുന്നു." },
+      "lead": { "en": "Mr. Jose Chakkalakkal", "ml": "ശ്രീ ജോസ് ചക്കാലയ്ക്കൽ" },
+      "members": 46
+    },
+    {
+      "id": "familyunits",
+      "icon": "home",
+      "name": { "en": "Family Units", "ml": "കുടുംബക്കൂട്ടായ്മകൾ" },
+      "description": { "en": "Nine units named for the apostles, meeting in homes on Monday evenings.", "ml": "ശ്ലീഹന്മാരുടെ പേരിലുള്ള ഒൻപത് കൂട്ടായ്മകൾ, തിങ്കളാഴ്ച വൈകുന്നേരങ്ങളിൽ ഭവനങ്ങളിൽ ഒത്തുചേരുന്നു." },
+      "lead": { "en": "Mr. Antony Varghese", "ml": "ശ്രീ ആന്റണി വർഗീസ്" },
+      "members": 428
+    },
+    {
+      "id": "mathruvedi",
+      "icon": "rose",
+      "name": { "en": "Women's Association", "ml": "മാതൃവേദി" },
+      "description": { "en": "Mathruvedi — kitchen for the feast, care for the widowed, and the Wednesday sewing circle.", "ml": "മാതൃവേദി — തിരുനാൾ അടുക്കള, വിധവകൾക്കുള്ള പരിചരണം, ബുധനാഴ്ചത്തെ തയ്യൽ കൂട്ടായ്മ." },
+      "lead": { "en": "Mrs. Mary Thomas", "ml": "ശ്രീമതി മേരി തോമസ്" },
+      "members": 205
+    },
+    {
+      "id": "pithruvedi",
+      "icon": "shield",
+      "name": { "en": "Men's Association", "ml": "പിതൃവേദി" },
+      "description": { "en": "Pithruvedi — parish maintenance, the feast procession, and the cemetery committee.", "ml": "പിതൃവേദി — ഇടവക പരിപാലനം, തിരുനാൾ പ്രദക്ഷിണം, സെമിത്തേരി കമ്മിറ്റി." },
+      "lead": { "en": "Mr. Devassy Kunnel", "ml": "ശ്രീ ദേവസ്സി കുന്നേൽ" },
+      "members": 186
+    },
+    {
+      "id": "prayergroups",
+      "icon": "hands",
+      "name": { "en": "Prayer Groups", "ml": "പ്രാർത്ഥനാ കൂട്ടായ്മകൾ" },
+      "description": { "en": "Legion of Mary, Jesus Youth cell, and the Tuesday intercession chain.", "ml": "ലീജിയൻ ഓഫ് മേരി, ജീസസ് യൂത്ത് സെൽ, ചൊവ്വാഴ്ചത്തെ മാധ്യസ്ഥ പ്രാർത്ഥനാ ശൃംഖല." },
+      "lead": { "en": "Mrs. Alice Paul", "ml": "ശ്രീമതി ആലീസ് പോൾ" },
+      "members": 97
+    },
+    {
+      "id": "charity",
+      "icon": "heart",
+      "name": { "en": "Charity Ministry", "ml": "കാരുണ്യ ശുശ്രൂഷ" },
+      "description": { "en": "Sunday rounds with provisions, the medical fund, and house repairs before the monsoon.", "ml": "ഭക്ഷ്യസാധനങ്ങളുമായി ഞായറാഴ്ച സന്ദർശനം, മെഡിക്കൽ ഫണ്ട്, മഴക്കാലത്തിനു മുൻപുള്ള ഭവന അറ്റകുറ്റപ്പണികൾ." },
+      "lead": { "en": "Fr. Nithin Vadakkan", "ml": "ഫാ. നിഥിൻ വടക്കൻ" },
+      "members": 64
+    },
+    {
+      "id": "bible",
+      "icon": "scroll",
+      "name": { "en": "Bible Study", "ml": "ബൈബിൾ പഠനം" },
+      "description": { "en": "Tuesday evenings in the parish library. Currently reading the Gospel of John.", "ml": "ചൊവ്വാഴ്ച വൈകുന്നേരങ്ങളിൽ ഇടവക ലൈബ്രറിയിൽ. ഇപ്പോൾ യോഹന്നാന്റെ സുവിശേഷം വായിക്കുന്നു." },
+      "lead": { "en": "Fr. Jibin Thattil", "ml": "ഫാ. ജിബിൻ തട്ടിൽ" },
+      "members": 52
+    },
+    {
+      "id": "altarservers",
+      "icon": "candle",
+      "name": { "en": "Altar Servers", "ml": "അൾത്താര ശുശ്രൂഷികൾ" },
+      "description": { "en": "Forty-two servers, trained on Saturday mornings in the sacristy.", "ml": "നാൽപ്പത്തിരണ്ട് ശുശ്രൂഷികൾ, ശനിയാഴ്ച രാവിലെ സങ്കീർത്തിയിൽ പരിശീലനം." },
+      "lead": { "en": "Mr. Sunil Mathew", "ml": "ശ്രീ സുനിൽ മാത്യു" },
+      "members": 42
+    }
+  ]
+}

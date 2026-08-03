@@ -1,0 +1,99 @@
+{
+  "title": { "en": "Those Who Served Before Us", "ml": "മുൻഗാമികളായ ഇടയന്മാർ" },
+  "subtitle": {
+    "en": "Thirteen decades, ten shepherds. Their names are read aloud at the Dukhrana Mass each year.",
+    "ml": "പതിമൂന്ന് ദശകങ്ങൾ, പത്ത് ഇടയന്മാർ. എല്ലാ വർഷവും ദുക്റാന കുർബാനയിൽ അവരുടെ പേരുകൾ ഉറക്കെ വായിക്കപ്പെടുന്നു."
+  },
+  "priests": [
+    {
+      "name": { "en": "Rev. Fr. Thomas Vadakkedath", "ml": "റവ. ഫാ. തോമസ് വടക്കേടത്ത്" },
+      "years": "1893 – 1911",
+      "image": "/images/site/past-priest-1.jpg",
+      "bio": {
+        "en": "The founding vicar. He walked from Aloor every Saturday to say Sunday Mass under a thatched roof, and registered the first eleven families in a ledger still kept in the parish safe.",
+        "ml": "സ്ഥാപക വികാരി. ഓലപ്പുരയ്ക്കു കീഴിൽ ഞായറാഴ്ച കുർബാന അർപ്പിക്കാൻ എല്ലാ ശനിയാഴ്ചയും ആലൂരിൽ നിന്ന് അദ്ദേഹം നടന്നുവന്നു; ആദ്യ പതിനൊന്ന് കുടുംബങ്ങളെ ഒരു രജിസ്റ്ററിൽ ചേർത്തു — അത് ഇന്നും ഇടവക അലമാരയിൽ സൂക്ഷിച്ചിരിക്കുന്നു."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Ouseph Kalapurackal", "ml": "റവ. ഫാ. ഔസേപ്പ് കളപ്പുരയ്ക്കൽ" },
+      "years": "1911 – 1928",
+      "image": "/images/site/past-priest-2.jpg",
+      "bio": {
+        "en": "Raised the laterite church of 1921. He is remembered for refusing to lay the foundation stone until every family in debt to the parish had been forgiven their dues.",
+        "ml": "1921-ലെ വെട്ടുകല്ല് ദേവാലയം പണിതു. ഇടവകയോട് കടബാധ്യതയുള്ള ഓരോ കുടുംബത്തിന്റെയും കടം ഇളവു ചെയ്യുന്നതുവരെ ശിലാസ്ഥാപനം നടത്താൻ വിസമ്മതിച്ചതിന്റെ പേരിൽ അദ്ദേഹം ഓർമ്മിക്കപ്പെടുന്നു."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Mathai Chirayath", "ml": "റവ. ഫാ. മത്തായി ചിറയത്ത്" },
+      "years": "1928 – 1945",
+      "image": "/images/site/past-priest-3.jpg",
+      "bio": {
+        "en": "Opened the parish school in a cattle shed during the war years and taught arithmetic himself when the teacher was conscripted.",
+        "ml": "യുദ്ധകാലത്ത് ഒരു തൊഴുത്തിൽ ഇടവക സ്കൂൾ ആരംഭിച്ചു; അധ്യാപകൻ പട്ടാളത്തിലേക്ക് പോയപ്പോൾ സ്വയം കണക്ക് പഠിപ്പിച്ചു."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Joseph Manakkatt", "ml": "റവ. ഫാ. ജോസഫ് മണക്കാട്ട്" },
+      "years": "1945 – 1959",
+      "image": "/images/site/past-priest-4.jpg",
+      "bio": {
+        "en": "Built the bell tower in 1954. The bell, cast in Mangalore, was pulled up the hill by forty men and two bullocks on the eve of the Dukhrana.",
+        "ml": "1954-ൽ മണിമാളിക പണിതു. മംഗലാപുരത്ത് വാർത്ത മണി, ദുക്റാനയുടെ തലേന്ന് നാൽപ്പത് പുരുഷന്മാരും രണ്ട് കാളകളും ചേർന്ന് കുന്നിൻമുകളിലേക്ക് വലിച്ചുകയറ്റി."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Antony Karottu", "ml": "റവ. ഫാ. ആന്റണി കാരോട്ട്" },
+      "years": "1959 – 1972",
+      "image": "/images/site/past-priest-5.jpg",
+      "bio": {
+        "en": "Began the family unit system that still orders parish life, dividing the hill into nine units named after the apostles.",
+        "ml": "ഇന്നും ഇടവക ജീവിതം ക്രമപ്പെടുത്തുന്ന കുടുംബക്കൂട്ടായ്മ സമ്പ്രദായം ആരംഭിച്ചു; കുന്നിനെ ശ്ലീഹന്മാരുടെ പേരിലുള്ള ഒൻപത് കൂട്ടായ്മകളായി വിഭജിച്ചു."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Varghese Palathinkal", "ml": "റവ. ഫാ. വർഗീസ് പാലത്തിങ്കൽ" },
+      "years": "1972 – 1984",
+      "image": "/images/site/past-priest-6.jpg",
+      "bio": {
+        "en": "A quiet reformer. He introduced Malayalam hymnody at the principal Mass and founded the parish choir with fourteen schoolchildren.",
+        "ml": "ശാന്തനായ ഒരു നവീകർത്താവ്. പ്രധാന കുർബാനയിൽ മലയാള ഗാനങ്ങൾ അവതരിപ്പിച്ചു; പതിനാല് സ്കൂൾ കുട്ടികളുമായി ഇടവക ഗായകസംഘം സ്ഥാപിച്ചു."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Jacob Puthenpurackal", "ml": "റവ. ഫാ. ജേക്കബ് പുത്തൻപുരയ്ക്കൽ" },
+      "years": "1984 – 1996",
+      "image": "/images/site/past-priest-7.jpg",
+      "bio": {
+        "en": "Oversaw the building and consecration of the present sanctuary in 1988, keeping the carved teak rafters of the old church above the altar.",
+        "ml": "1988-ൽ ഇന്നത്തെ ദേവാലയത്തിന്റെ നിർമ്മാണവും കൂദാശയും നിർവഹിച്ചു; പഴയ ദേവാലയത്തിലെ കൊത്തുപണിയുള്ള തേക്കിൻ കഴുക്കോലുകൾ അൾത്താരയ്ക്കു മുകളിൽ നിലനിർത്തി."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Paul Nedumthuruthil", "ml": "റവ. ഫാ. പോൾ നെടുംതുരുത്തിൽ" },
+      "years": "1996 – 2006",
+      "image": "/images/site/past-priest-8.jpg",
+      "bio": {
+        "en": "Started the charity ministry after the floods of 1999, and the parish medical fund that has since supported over six hundred treatments.",
+        "ml": "1999-ലെ വെള്ളപ്പൊക്കത്തിനുശേഷം കാരുണ്യ ശുശ്രൂഷയും, അറുനൂറിലധികം ചികിത്സകൾക്ക് സഹായമായ ഇടവക മെഡിക്കൽ ഫണ്ടും ആരംഭിച്ചു."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. George Ambooken", "ml": "റവ. ഫാ. ജോർജ് അമ്പൂക്കൻ" },
+      "years": "2006 – 2013",
+      "image": "/images/site/past-priest-9.jpg",
+      "bio": {
+        "en": "Renovated the cemetery chapel and catalogued the parish archive — nine hundred baptismal entries transcribed by hand into a digital register.",
+        "ml": "സെമിത്തേരി ചാപ്പൽ പുതുക്കിപ്പണിതു; ഇടവക രേഖകൾ ക്രമപ്പെടുത്തി — തൊള്ളായിരം മാമ്മോദീസ രേഖകൾ കൈകൊണ്ട് ഡിജിറ്റൽ രജിസ്റ്ററിലേക്ക് പകർത്തി."
+      }
+    },
+    {
+      "name": { "en": "Rev. Fr. Davis Kanjirathinkal", "ml": "റവ. ഫാ. ഡേവിസ് കാഞ്ഞിരത്തിങ്കൽ" },
+      "years": "2013 – 2019",
+      "image": "/images/site/past-priest-10.jpg",
+      "bio": {
+        "en": "Rebuilt the parish hall and began the Sunday livestream so that families working abroad could hear the bell at the elevation.",
+        "ml": "ഇടവക ഹാൾ പുതുക്കിപ്പണിതു; വിദേശത്ത് ജോലി ചെയ്യുന്ന കുടുംബങ്ങൾക്ക് ഉയർത്തലിന്റെ മണിനാദം കേൾക്കാൻ ഞായറാഴ്ച തത്സമയ സംപ്രേഷണം ആരംഭിച്ചു."
+      }
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: 'Playfair Display';
+    --font-serif: 'Cormorant Garamond';
+    --font-sans: 'Inter', 'Source Sans 3';
+    --font-malayalam: 'Noto Sans Malayalam';
+
+    --page: 251 248 243; /* stone-50 */
+    --page-alt: 245 239 229;
+    --ink: 11 21 38;
+    --muted: 104 92 76;
+    --line: 219 206 185;
+    --card: 255 255 255;
+  }
+
+  .dark {
+    --page: 8 13 24;
+    --page-alt: 11 21 38;
+    --ink: 240 236 228;
+    --muted: 166 149 124;
+    --line: 32 46 72;
+    --card: 12 22 40;
+  }
+
+  * {
+    border-color: rgb(var(--line));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: rgb(var(--page));
+    color: rgb(var(--ink));
+    font-feature-settings: 'kern', 'liga', 'calt';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Malayalam needs a taller line box and its own face. */
+  html[data-lang='ml'] body,
+  html[data-lang='ml'] h1,
+  html[data-lang='ml'] h2,
+  html[data-lang='ml'] h3,
+  html[data-lang='ml'] h4,
+  html[data-lang='ml'] .font-display,
+  html[data-lang='ml'] .font-serif {
+    font-family: var(--font-malayalam), 'Noto Sans Malayalam', sans-serif;
+    line-height: 1.7;
+  }
+
+  html[data-lang='ml'] .tracking-sacred,
+  html[data-lang='ml'] .tracking-widest,
+  html[data-lang='ml'] .tracking-\[0\.3em\] {
+    letter-spacing: 0.08em;
+  }
+
+  /*
+   * Malayalam compounds run long — "കുടുംബക്കൂട്ടായ്മ" is a single unbreakable
+   * token that will not fit a narrow calendar column or ministry card. Let the
+   * browser break at a cluster boundary rather than spill past the card edge.
+   * `break-word` only kicks in when the word cannot fit on a line of its own,
+   * so ordinary prose is untouched.
+   */
+  html[data-lang='ml'] body {
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgba(201, 162, 39, 0.28);
+    color: rgb(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px solid #c9a227;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--page-alt));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(140, 122, 80, 0.4);
+    border-radius: 999px;
+    border: 3px solid rgb(var(--page-alt));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 162, 39, 0.7);
+  }
+}
+
+@layer components {
+  .section {
+    @apply relative py-24 md:py-32 lg:py-40;
+  }
+
+  .section-tight {
+    @apply relative py-20 md:py-24;
+  }
+
+  /* A hairline rule that fades into the page, used under section headings. */
+  .gold-rule {
+    @apply block h-px w-24 bg-gold-line;
+  }
+
+  .eyebrow {
+    @apply font-sans text-2xs font-medium uppercase tracking-sacred text-gold-500 dark:text-gold-300 sm:text-xs;
+  }
+
+  .heading-xl {
+    @apply font-display text-4xl font-normal leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl;
+  }
+
+  .heading-lg {
+    @apply font-display text-3xl font-normal leading-[1.12] tracking-tight sm:text-4xl lg:text-[2.75rem];
+  }
+
+  .heading-md {
+    @apply font-display text-2xl font-normal leading-snug sm:text-3xl;
+  }
+
+  .lede {
+    @apply font-serif text-xl leading-relaxed text-[rgb(var(--muted))] sm:text-2xl;
+  }
+
+  .body-text {
+    @apply font-sans text-base leading-relaxed text-[rgb(var(--muted))] sm:text-[1.0625rem];
+  }
+
+  .card {
+    @apply relative overflow-hidden rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))] transition-all duration-500 ease-sacred;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:border-gold-300/70 hover:shadow-lift dark:hover:border-gold-500/40;
+  }
+
+  .glass {
+    @apply border border-white/15 bg-white/10 backdrop-blur-xl backdrop-saturate-150;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm px-7 py-3.5 font-sans text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 ease-sacred disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-gold-400 text-navy-950 hover:bg-gold-300 hover:shadow-gold;
+  }
+
+  .btn-ghost {
+    @apply btn border border-white/40 text-white hover:border-gold-300 hover:bg-white/10 hover:text-gold-200;
+  }
+
+  .btn-outline {
+    @apply btn border border-navy-800/25 text-navy-800 hover:border-gold-400 hover:bg-gold-400/10 dark:border-white/20 dark:text-stone-100 dark:hover:border-gold-300;
+  }
+
+  .field {
+    @apply w-full rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--page))] px-4 py-3 font-sans text-[0.95rem] text-[rgb(var(--ink))] outline-none transition-colors duration-300 placeholder:text-[rgb(var(--muted))]/60 focus:border-gold-400;
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden bg-stone-200/70 dark:bg-navy-800/70;
+  }
+
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent dark:via-white/10;
+  }
+
+  /* Vertical rhythm marker used by the timeline and schedule cards. */
+  .rule-y {
+    @apply absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-gold-400/50 to-transparent;
+  }
+}
+
+@layer utilities {
+  .text-shadow-sacred {
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .grain::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 bg-stone-grain opacity-[0.035] mix-blend-multiply dark:opacity-[0.05] dark:mix-blend-screen;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Respect the visitor's motion preference throughout. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Printing a Mass schedule or notice should look like a parish bulletin. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}

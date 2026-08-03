@@ -1,0 +1,85 @@
+{
+  "title": { "en": "This Week in the Parish", "ml": "ഈ ആഴ്ച ഇടവകയിൽ" },
+  "subtitle": {
+    "en": "The ordinary rhythm of our week — everyone is welcome at every one of these.",
+    "ml": "ഞങ്ങളുടെ ആഴ്ചയുടെ സാധാരണ താളം — ഇവയിലെല്ലാം എല്ലാവരും സ്വാഗതം."
+  },
+  "days": [
+    {
+      "key": "mon",
+      "name": { "en": "Monday", "ml": "തിങ്കൾ" },
+      "short": { "en": "Mon", "ml": "തിങ്കൾ" },
+      "events": [
+        { "time": "6:30 AM", "title": { "en": "Holy Mass", "ml": "വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "5:15 PM", "title": { "en": "Rosary & Novena", "ml": "ജപമാലയും നൊവേനയും" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "prayer" },
+        { "time": "7:00 PM", "title": { "en": "Family Unit Prayer", "ml": "കുടുംബക്കൂട്ടായ്മ പ്രാർത്ഥന" }, "place": { "en": "Rotating homes", "ml": "ഭവനങ്ങളിൽ മാറിമാറി" }, "tag": "community" }
+      ]
+    },
+    {
+      "key": "tue",
+      "name": { "en": "Tuesday", "ml": "ചൊവ്വ" },
+      "short": { "en": "Tue", "ml": "ചൊവ്വ" },
+      "events": [
+        { "time": "6:30 AM", "title": { "en": "Holy Mass", "ml": "വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "4:30 PM", "title": { "en": "Legion of Mary", "ml": "ലീജിയൻ ഓഫ് മേരി" }, "place": { "en": "St. Thomas Hall", "ml": "സെന്റ് തോമസ് ഹാൾ" }, "tag": "prayer" },
+        { "time": "6:00 PM", "title": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "7:15 PM", "title": { "en": "Bible Study — Gospel of John", "ml": "ബൈബിൾ പഠനം — യോഹന്നാന്റെ സുവിശേഷം" }, "place": { "en": "Parish Library", "ml": "ഇടവക ലൈബ്രറി" }, "tag": "formation" }
+      ]
+    },
+    {
+      "key": "wed",
+      "name": { "en": "Wednesday", "ml": "ബുധൻ" },
+      "short": { "en": "Wed", "ml": "ബുധൻ" },
+      "events": [
+        { "time": "6:30 AM", "title": { "en": "Holy Mass & Novena to St. Thomas", "ml": "വിശുദ്ധ കുർബാനയും മാർ തോമാ നൊവേനയും" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "3:00 PM", "title": { "en": "Mathruvedi Meeting", "ml": "മാതൃവേദി യോഗം" }, "place": { "en": "St. Thomas Hall", "ml": "സെന്റ് തോമസ് ഹാൾ" }, "tag": "community" },
+        { "time": "6:30 PM", "title": { "en": "Choir Practice", "ml": "ഗായകസംഘ പരിശീലനം" }, "place": { "en": "Choir Loft", "ml": "ഗായക ഗാലറി" }, "tag": "music" }
+      ]
+    },
+    {
+      "key": "thu",
+      "name": { "en": "Thursday", "ml": "വ്യാഴം" },
+      "short": { "en": "Thu", "ml": "വ്യാഴം" },
+      "events": [
+        { "time": "6:30 AM", "title": { "en": "Holy Mass", "ml": "വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "6:00 PM", "title": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "7:00 PM", "title": { "en": "Eucharistic Adoration", "ml": "വിശുദ്ധ കുർബാന ആരാധന" }, "place": { "en": "Adoration Chapel", "ml": "ആരാധനാ ചാപ്പൽ" }, "tag": "prayer" }
+      ]
+    },
+    {
+      "key": "fri",
+      "name": { "en": "Friday", "ml": "വെള്ളി" },
+      "short": { "en": "Fri", "ml": "വെള്ളി" },
+      "events": [
+        { "time": "6:30 AM", "title": { "en": "Holy Mass", "ml": "വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "5:00 PM", "title": { "en": "Way of the Cross", "ml": "കുരിശിന്റെ വഴി" }, "place": { "en": "Hill Path", "ml": "കുന്നിൻ പാത" }, "tag": "prayer" },
+        { "time": "7:00 PM", "title": { "en": "Youth Movement Gathering", "ml": "യുവജന കൂട്ടായ്മ" }, "place": { "en": "St. Thomas Hall", "ml": "സെന്റ് തോമസ് ഹാൾ" }, "tag": "youth" }
+      ]
+    },
+    {
+      "key": "sat",
+      "name": { "en": "Saturday", "ml": "ശനി" },
+      "short": { "en": "Sat", "ml": "ശനി" },
+      "events": [
+        { "time": "6:30 AM", "title": { "en": "Holy Mass", "ml": "വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "9:00 AM", "title": { "en": "Altar Servers Training", "ml": "അൾത്താര ബാലന്മാരുടെ പരിശീലനം" }, "place": { "en": "Sacristy", "ml": "സങ്കീർത്തി" }, "tag": "formation" },
+        { "time": "11:00 AM", "title": { "en": "Baptisms", "ml": "മാമ്മോദീസ" }, "place": { "en": "Baptistry", "ml": "മാമ്മോദീസ മുറി" }, "tag": "sacrament" },
+        { "time": "4:00 PM", "title": { "en": "Confessions", "ml": "കുമ്പസാരം" }, "place": { "en": "Confessional", "ml": "കുമ്പസാരക്കൂട്" }, "tag": "sacrament" },
+        { "time": "6:00 PM", "title": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" }
+      ]
+    },
+    {
+      "key": "sun",
+      "name": { "en": "Sunday", "ml": "ഞായർ" },
+      "short": { "en": "Sun", "ml": "ഞായർ" },
+      "events": [
+        { "time": "6:15 AM", "title": { "en": "First Holy Mass", "ml": "ഒന്നാം വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "8:00 AM", "title": { "en": "Second Holy Mass", "ml": "രണ്ടാം വിശുദ്ധ കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "9:15 AM", "title": { "en": "Catechism Classes", "ml": "മതബോധന ക്ലാസുകൾ" }, "place": { "en": "Parish School", "ml": "ഇടവക സ്കൂൾ" }, "tag": "formation" },
+        { "time": "10:00 AM", "title": { "en": "Family Mass (English)", "ml": "കുടുംബ കുർബാന (ഇംഗ്ലീഷ്)" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" },
+        { "time": "4:00 PM", "title": { "en": "Charity Ministry Rounds", "ml": "കാരുണ്യ ശുശ്രൂഷ സന്ദർശനം" }, "place": { "en": "Parish Boundary", "ml": "ഇടവക പരിധി" }, "tag": "service" },
+        { "time": "5:30 PM", "title": { "en": "Evening Mass", "ml": "സായാഹ്ന കുർബാന" }, "place": { "en": "Main Church", "ml": "പ്രധാന ദേവാലയം" }, "tag": "liturgy" }
+      ]
+    }
+  ]
+}

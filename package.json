@@ -1,0 +1,30 @@
+{
+  "name": "st-thomas-church-mangalassery",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bilingual (English / Malayalam) parish website for St. Thomas Church, Mangalassery",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "node scripts/e2e.mjs",
+    "images": "python scripts/curate-images.py"
+  },
+  "dependencies": {
+    "framer-motion": "^11.15.0",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
+    "playwright": "^1.62.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
+  }
+}

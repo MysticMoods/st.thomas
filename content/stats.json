@@ -1,0 +1,85 @@
+{
+  "title": {
+    "en": "The Parish in Numbers",
+    "ml": "കണക്കുകളിൽ ഇടവക"
+  },
+  "subtitle": {
+    "en": "As recorded in the parish register on 31 March 2026.",
+    "ml": "2026 മാർച്ച് 31-ലെ ഇടവക രജിസ്റ്റർ പ്രകാരം."
+  },
+  "image": "/images/site/congregation.jpg",
+  "items": [
+    {
+      "id": "families",
+      "value": 428,
+      "suffix": "",
+      "label": {
+        "en": "Registered Families",
+        "ml": "രജിസ്റ്റർ ചെയ്ത കുടുംബങ്ങൾ"
+      }
+    },
+    {
+      "id": "members",
+      "value": 1746,
+      "suffix": "",
+      "label": {
+        "en": "Total Members",
+        "ml": "ആകെ അംഗങ്ങൾ"
+      }
+    },
+    {
+      "id": "youth",
+      "value": 312,
+      "suffix": "",
+      "label": {
+        "en": "Youth",
+        "ml": "യുവജനങ്ങൾ"
+      }
+    },
+    {
+      "id": "children",
+      "value": 286,
+      "suffix": "",
+      "label": {
+        "en": "Children",
+        "ml": "കുട്ടികൾ"
+      }
+    },
+    {
+      "id": "seniors",
+      "value": 194,
+      "suffix": "",
+      "label": {
+        "en": "Senior Citizens",
+        "ml": "മുതിർന്ന പൗരന്മാർ"
+      }
+    },
+    {
+      "id": "catechism",
+      "value": 241,
+      "suffix": "",
+      "label": {
+        "en": "Catechism Students",
+        "ml": "മതബോധന വിദ്യാർത്ഥികൾ"
+      }
+    },
+    {
+      "id": "choir",
+      "value": 46,
+      "suffix": "",
+      "label": {
+        "en": "Choir Members",
+        "ml": "ഗായകസംഘാംഗങ്ങൾ"
+      }
+    },
+    {
+      "id": "prayergroups",
+      "value": 9,
+      "suffix": "",
+      "label": {
+        "en": "Prayer Groups",
+        "ml": "പ്രാർത്ഥനാ കൂട്ടായ്മകൾ"
+      }
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "parish": {
+    "name": { "en": "St. Thomas Church", "ml": "സെന്റ് തോമസ് ദേവാലയം" },
+    "place": { "en": "Mangalassery", "ml": "മംഗലശ്ശേരി" },
+    "established": "1893",
+    "forane": { "en": "Mangalassery Forane", "ml": "മംഗലശ്ശേരി ഫൊറോന" },
+    "diocese": { "en": "Diocese of Aloor", "ml": "ആലൂർ രൂപത" },
+    "tagline": {
+      "en": "A house of prayer for all people",
+      "ml": "എല്ലാ ജനങ്ങൾക്കുമുള്ള പ്രാർത്ഥനാലയം"
+    }
+  },
+  "hero": {
+    "images": [
+      "/images/site/hero-nave.jpg",
+      "/images/site/hero-vault.jpg",
+      "/images/site/hero-pews.jpg"
+    ],
+    "eyebrow": { "en": "Established 1893 · Diocese of Aloor", "ml": "സ്ഥാപിതം 1893 · ആലൂർ രൂപത" },
+    "verse": {
+      "en": "How lovely is your dwelling place, O Lord of hosts.",
+      "ml": "സൈന്യങ്ങളുടെ കർത്താവേ, അങ്ങയുടെ വാസസ്ഥലം എത്ര മനോഹരം!"
+    },
+    "verseRef": { "en": "Psalm 84:1", "ml": "സങ്കീർത്തനം 84:1" },
+    "welcome": {
+      "en": "For over a century this hill has kept a light burning. Whether you have come home after many years or are stepping through our doors for the first time, there is a place for you here.",
+      "ml": "ഒരു നൂറ്റാണ്ടിലേറെയായി ഈ കുന്നിൻ മുകളിൽ ഒരു ദീപം എരിഞ്ഞുകൊണ്ടിരിക്കുന്നു. വർഷങ്ങൾക്കുശേഷം തിരികെ വന്നവരായാലും ആദ്യമായി ഈ പടികൾ കയറുന്നവരായാലും, ഇവിടെ നിങ്ങൾക്കായി ഒരിടമുണ്ട്."
+    },
+    "actions": [
+      { "label": { "en": "Mass Timings", "ml": "കുർബാന സമയം" }, "href": "#mass-timings", "variant": "primary" },
+      { "label": { "en": "Parish News", "ml": "ഇടവക വാർത്തകൾ" }, "href": "#notices", "variant": "ghost" },
+      { "label": { "en": "Contact", "ml": "ബന്ധപ്പെടുക" }, "href": "#contact", "variant": "ghost" }
+    ]
+  },
+  "contact": {
+    "address": {
+      "en": "St. Thomas Church, Church Hill Road, Mangalassery P.O., Thrissur District, Kerala 680 121, India",
+      "ml": "സെന്റ് തോമസ് ദേവാലയം, ചർച്ച് ഹിൽ റോഡ്, മംഗലശ്ശേരി പി.ഒ., തൃശ്ശൂർ ജില്ല, കേരളം 680 121"
+    },
+    "phone": "+91 487 246 8120",
+    "office": "+91 98470 12345",
+    "emergency": "+91 98470 67890",
+    "email": "office@stthomasmangalassery.org",
+    "whatsapp": "919847012345",
+    "mapEmbed": "https://www.google.com/maps?q=Thrissur%2C%20Kerala%2C%20India&output=embed",
+    "mapLink": "https://www.google.com/maps/search/?api=1&query=Thrissur+Kerala+India",
+    "coordinates": { "lat": 10.5276, "lng": 76.2144 },
+    "officeHours": [
+      {
+        "days": { "en": "Monday – Friday", "ml": "തിങ്കൾ – വെള്ളി" },
+        "hours": { "en": "9:00 AM – 1:00 PM · 3:00 PM – 5:30 PM", "ml": "രാവിലെ 9:00 – ഉച്ചയ്ക്ക് 1:00 · വൈകുന്നേരം 3:00 – 5:30" }
+      },
+      {
+        "days": { "en": "Saturday", "ml": "ശനി" },
+        "hours": { "en": "9:00 AM – 12:30 PM", "ml": "രാവിലെ 9:00 – ഉച്ചയ്ക്ക് 12:30" }
+      },
+      {
+        "days": { "en": "Sunday", "ml": "ഞായർ" },
+        "hours": { "en": "After each Holy Mass", "ml": "ഓരോ വിശുദ്ധ കുർബാനയ്ക്കു ശേഷം" }
+      }
+    ]
+  },
+  "social": [
+    { "network": "facebook", "label": "Facebook", "url": "https://facebook.com/", "handle": "@stthomasmangalassery" },
+    { "network": "instagram", "label": "Instagram", "url": "https://instagram.com/", "handle": "@stthomas.mangalassery" },
+    { "network": "youtube", "label": "YouTube", "url": "https://www.youtube.com/@vatican", "handle": "St. Thomas Mangalassery" },
+    { "network": "whatsapp", "label": "WhatsApp", "url": "https://wa.me/919847012345", "handle": "Parish Office" },
+    { "network": "telegram", "label": "Telegram", "url": "https://t.me/", "handle": "@stthomasparish" },
+    { "network": "x", "label": "X", "url": "https://x.com/", "handle": "@stthomasparish" },
+    { "network": "email", "label": "Email", "url": "mailto:office@stthomasmangalassery.org", "handle": "office@stthomasmangalassery.org" },
+    { "network": "website", "label": "Website", "url": "https://stthomasmangalassery.org", "handle": "stthomasmangalassery.org" }
+  ],
+  "newsletter": {
+    "title": { "en": "The Parish Letter", "ml": "ഇടവക ലേഖനം" },
+    "description": {
+      "en": "A short note every Friday evening — the Sunday readings, the week's intentions, and news from our families.",
+      "ml": "എല്ലാ വെള്ളിയാഴ്ച വൈകുന്നേരവും ഒരു ചെറിയ കുറിപ്പ് — ഞായറാഴ്ചത്തെ വായനകൾ, ആഴ്ചയിലെ നിയോഗങ്ങൾ, കുടുംബങ്ങളിൽ നിന്നുള്ള വാർത്തകൾ."
+    },
+    "image": "/images/site/candle-quiet.jpg"
+  },
+  "seo": {
+    "title": "St. Thomas Church, Mangalassery",
+    "description": "The parish community of St. Thomas Church, Mangalassery — Mass timings, parish news, ministries, gallery and contact. Established 1893, Diocese of Aloor, Kerala.",
+    "keywords": [
+      "St. Thomas Church Mangalassery",
+      "Mangalassery parish",
+      "Catholic church Kerala",
+      "Mass timings Mangalassery",
+      "Diocese of Aloor"
+    ],
+    "url": "https://stthomasmangalassery.org",
+    "ogImage": "/images/site/hero-nave.jpg"
+  }
+}

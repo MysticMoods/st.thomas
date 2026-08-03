@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+build
+.env
+.env.local
+.env*.local
+public/uploads
+content/messages.json
+content/subscribers.json
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store

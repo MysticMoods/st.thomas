@@ -1,0 +1,415 @@
+'use client'
+
+import { useState } from 'react'
+
+import { Icon } from '@/components/ui/Icon'
+import { cn } from '@/lib/utils'
+
+type Json = unknown
+
+const IMAGE_KEYS = new Set(['image', 'src', 'ogImage', 'file', 'images', 'photo'])
+const LONG_KEYS = new Set(['body', 'message', 'description', 'bio', 'welcome', 'lede', 'note', 'excerpt', 'quote'])
+
+function isBilingual(value: unknown): value is { en: string; ml: string } {
+  return (
+    !!value &&
+    typeof value === 'object' &&
+    !Array.isArray(value) &&
+    'en' in (value as object) &&
+    'ml' in (value as object) &&
+    Object.keys(value as object).length === 2
+  )
+}
+
+function label(key: string) {
+  return key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/[-_]/g, ' ')
+    .replace(/^./, (c) => c.toUpperCase())
+    .trim()
+}
+
+/** Short human summary shown on a collapsed array item. */
+function preview(value: unknown): string {
+  if (isBilingual(value)) return value.en
+  if (typeof value === 'string') return value
+  if (typeof value === 'number') return String(value)
+  if (Array.isArray(value)) return `${value.length} items`
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>
+    for (const key of ['title', 'name', 'label', 'question', 'id', 'time', 'years']) {
+      if (key in record) return preview(record[key])
+    }
+  }
+  return ''
+}
+
+export function JsonEditor({
+  value,
+  onChange,
+  path = [],
+  depth = 0,
+}: {
+  value: Json
+  onChange: (next: Json) => void
+  path?: string[]
+  depth?: number
+}) {
+  const key = path[path.length - 1] ?? ''
+
+  if (isBilingual(value)) {
+    return <BilingualField value={value} onChange={onChange} name={key} />
+  }
+
+  if (Array.isArray(value)) {
+    return <ArrayField value={value} onChange={onChange} path={path} depth={depth} />
+  }
+
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>
+    return (
+      <div className={cn('flex flex-col gap-5', depth > 0 && 'border-l border-stone-300/60 pl-5 dark:border-navy-700')}>
+        {Object.entries(record).map(([childKey, childValue]) => (
+          <Row key={childKey} name={childKey} value={childValue}>
+            <JsonEditor
+              value={childValue}
+              onChange={(next) => onChange({ ...record, [childKey]: next })}
+              path={[...path, childKey]}
+              depth={depth + 1}
+            />
+          </Row>
+        ))}
+      </div>
+    )
+  }
+
+  if (typeof value === 'boolean') {
+    return (
+      <label className="inline-flex cursor-pointer items-center gap-3">
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={(e) => onChange(e.target.checked)}
+          className="h-4 w-4 accent-gold-500"
+        />
+        <span className="font-sans text-sm text-[rgb(var(--muted))]">{value ? 'Yes' : 'No'}</span>
+      </label>
+    )
+  }
+
+  if (typeof value === 'number') {
+    return (
+      <input
+        type="number"
+        value={value}
+        onChange={(e) => onChange(e.target.value === '' ? 0 : Number(e.target.value))}
+        className="field max-w-[12rem] tabular-nums"
+      />
+    )
+  }
+
+  const text = String(value ?? '')
+
+  if (IMAGE_KEYS.has(key) || text.startsWith('/images/') || text.startsWith('/uploads/')) {
+    return <ImageField value={text} onChange={onChange} />
+  }
+
+  if (LONG_KEYS.has(key) || text.length > 110) {
+    return (
+      <textarea
+        value={text}
+        rows={Math.min(10, Math.max(3, Math.ceil(text.length / 80)))}
+        onChange={(e) => onChange(e.target.value)}
+        className="field resize-y"
+      />
+    )
+  }
+
+  return <input value={text} onChange={(e) => onChange(e.target.value)} className="field" />
+}
+
+function Row({
+  name,
+  value,
+  children,
+}: {
+  name: string
+  value: unknown
+  children: React.ReactNode
+}) {
+  const complex = !!value && typeof value === 'object' && !isBilingual(value)
+  return (
+    <div className="flex flex-col gap-2">
+      <span
+        className={cn(
+          'font-sans text-2xs uppercase tracking-[0.16em]',
+          complex ? 'text-gold-600 dark:text-gold-400' : 'text-[rgb(var(--muted))]',
+        )}
+      >
+        {label(name)}
+      </span>
+      {children}
+    </div>
+  )
+}
+
+function BilingualField({
+  value,
+  onChange,
+  name,
+}: {
+  value: { en: string; ml: string }
+  onChange: (next: Json) => void
+  name: string
+}) {
+  const long = LONG_KEYS.has(name) || value.en.length > 110
+  const Field = long ? 'textarea' : 'input'
+  const shared = 'field'
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      {(['en', 'ml'] as const).map((code) => (
+        <label key={code} className="flex flex-col gap-1.5">
+          <span className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-gold-600/80 dark:text-gold-400/80">
+            {code === 'en' ? 'English' : 'മലയാളം'}
+          </span>
+          <Field
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            {...({ rows: long ? 5 : undefined } as any)}
+            value={value[code]}
+            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+              onChange({ ...value, [code]: e.target.value })
+            }
+            className={cn(shared, long && 'resize-y', code === 'ml' && 'font-malayalam')}
+          />
+        </label>
+      ))}
+    </div>
+  )
+}
+
+function ImageField({ value, onChange }: { value: string; onChange: (next: Json) => void }) {
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+
+  async function upload(file: File) {
+    setBusy(true)
+    setError('')
+    try {
+      const data = new FormData()
+      data.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: data })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? 'Upload failed')
+      onChange(json.path)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Upload failed')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const isImage = /\.(jpe?g|png|webp|avif)$/i.test(value)
+
+  return (
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+      {isImage && value ? (
+        // Uploaded files are served straight from /public, so a plain img keeps
+        // the editor free of next/image domain configuration.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={value}
+          alt=""
+          className="h-20 w-28 shrink-0 rounded-sm border border-[rgb(var(--line))] object-cover"
+        />
+      ) : null}
+      <div className="flex flex-1 flex-col gap-2">
+        <input value={value} onChange={(e) => onChange(e.target.value)} className="field" />
+        <div className="flex items-center gap-3">
+          <label className="btn-outline cursor-pointer !px-4 !py-2 !text-[0.6rem]">
+            <Icon name="download" className="h-3.5 w-3.5 rotate-180" />
+            {busy ? 'Uploading…' : 'Upload'}
+            <input
+              type="file"
+              accept="image/*,application/pdf"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) upload(file)
+                e.target.value = ''
+              }}
+            />
+          </label>
+          {error ? <span className="font-sans text-2xs text-burgundy-500">{error}</span> : null}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ArrayField({
+  value,
+  onChange,
+  path,
+  depth,
+}: {
+  value: unknown[]
+  onChange: (next: Json) => void
+  path: string[]
+  depth: number
+}) {
+  const [open, setOpen] = useState<number | null>(value.length === 1 ? 0 : null)
+
+  const primitive = value.every((item) => typeof item !== 'object' || item === null)
+
+  const move = (from: number, to: number) => {
+    if (to < 0 || to >= value.length) return
+    const next = [...value]
+    const [item] = next.splice(from, 1)
+    next.splice(to, 0, item)
+    onChange(next)
+    setOpen(to)
+  }
+
+  const remove = (index: number) => {
+    onChange(value.filter((_, i) => i !== index))
+    setOpen(null)
+  }
+
+  const add = () => {
+    const template = value[0]
+    const blank = template === undefined ? '' : blankLike(template)
+    onChange([...value, blank])
+    setOpen(value.length)
+  }
+
+  if (primitive) {
+    return (
+      <div className="flex flex-col gap-2">
+        {value.map((item, i) => (
+          <div key={i} className="flex gap-2">
+            <JsonEditor
+              value={item}
+              path={path}
+              depth={depth + 1}
+              onChange={(next) => onChange(value.map((v, j) => (j === i ? next : v)))}
+            />
+            <button
+              type="button"
+              onClick={() => remove(i)}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-sm border border-[rgb(var(--line))] text-[rgb(var(--muted))] transition-colors hover:border-burgundy-400 hover:text-burgundy-500"
+              aria-label="Remove"
+            >
+              <Icon name="close" className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        ))}
+        <button type="button" onClick={add} className="btn-outline self-start !px-4 !py-2 !text-[0.6rem]">
+          <Icon name="plus" className="h-3.5 w-3.5" />
+          Add
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      {value.map((item, i) => {
+        const expanded = open === i
+        return (
+          <div
+            key={i}
+            className="overflow-hidden rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--page))]"
+          >
+            <div className="flex items-center gap-2 px-3 py-2.5">
+              <button
+                type="button"
+                onClick={() => setOpen(expanded ? null : i)}
+                className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                aria-expanded={expanded}
+              >
+                <Icon
+                  name="chevronDown"
+                  className={cn(
+                    'h-3.5 w-3.5 shrink-0 text-gold-500 transition-transform duration-300',
+                    expanded && 'rotate-180',
+                  )}
+                />
+                <span className="truncate font-sans text-sm text-[rgb(var(--ink))]">
+                  {preview(item) || `Item ${i + 1}`}
+                </span>
+              </button>
+              <div className="flex shrink-0 items-center gap-1">
+                <IconButton label="Move up" icon="arrowUp" onClick={() => move(i, i - 1)} />
+                <IconButton
+                  label="Move down"
+                  icon="arrowUp"
+                  className="rotate-180"
+                  onClick={() => move(i, i + 1)}
+                />
+                <IconButton label="Remove" icon="close" danger onClick={() => remove(i)} />
+              </div>
+            </div>
+            {expanded ? (
+              <div className="border-t border-[rgb(var(--line))] p-4">
+                <JsonEditor
+                  value={item}
+                  path={path}
+                  depth={depth + 1}
+                  onChange={(next) => onChange(value.map((v, j) => (j === i ? next : v)))}
+                />
+              </div>
+            ) : null}
+          </div>
+        )
+      })}
+      <button type="button" onClick={add} className="btn-outline self-start !px-4 !py-2 !text-[0.6rem]">
+        <Icon name="plus" className="h-3.5 w-3.5" />
+        Add item
+      </button>
+    </div>
+  )
+}
+
+function IconButton({
+  label: title,
+  icon,
+  onClick,
+  danger,
+  className,
+}: {
+  label: string
+  icon: string
+  onClick: () => void
+  danger?: boolean
+  className?: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      aria-label={title}
+      className={cn(
+        'grid h-8 w-8 place-items-center rounded-sm border border-transparent text-[rgb(var(--muted))] transition-colors',
+        danger ? 'hover:border-burgundy-400 hover:text-burgundy-500' : 'hover:border-gold-400 hover:text-gold-500',
+      )}
+    >
+      <Icon name={icon} className={cn('h-3.5 w-3.5', className)} />
+    </button>
+  )
+}
+
+/** Builds an empty record shaped like an existing sibling. */
+function blankLike(template: unknown): unknown {
+  if (isBilingual(template)) return { en: '', ml: '' }
+  if (Array.isArray(template)) return []
+  if (template && typeof template === 'object') {
+    return Object.fromEntries(
+      Object.entries(template as Record<string, unknown>).map(([k, v]) => [k, blankLike(v)]),
+    )
+  }
+  if (typeof template === 'number') return 0
+  if (typeof template === 'boolean') return false
+  return ''
+}

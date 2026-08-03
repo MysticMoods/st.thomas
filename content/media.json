@@ -1,0 +1,81 @@
+{
+  "title": { "en": "Latest from the Parish", "ml": "ഇടവകയിൽ നിന്ന് പുതിയത്" },
+  "subtitle": {
+    "en": "Sunday homilies and livestreams, for our families who are far from home.",
+    "ml": "വീട്ടിൽ നിന്ന് അകലെയുള്ള ഞങ്ങളുടെ കുടുംബങ്ങൾക്കായി ഞായറാഴ്ച പ്രസംഗങ്ങളും തത്സമയ സംപ്രേഷണങ്ങളും."
+  },
+  "channel": {
+    "name": "St. Thomas Church Mangalassery",
+    "url": "https://www.youtube.com/@vatican",
+    "note": {
+      "en": "Connect the parish YouTube channel in the admin dashboard and new uploads will appear here automatically.",
+      "ml": "അഡ്മിൻ ഡാഷ്ബോർഡിൽ ഇടവക യൂട്യൂബ് ചാനൽ ബന്ധിപ്പിച്ചാൽ പുതിയ വീഡിയോകൾ ഇവിടെ സ്വയമേവ ദൃശ്യമാകും."
+    }
+  },
+  "videos": [
+    {
+      "id": "sQNJs89E6x8",
+      "title": { "en": "Sung Vespers — Psalm 91", "ml": "സന്ധ്യാ പ്രാർത്ഥന — സങ്കീർത്തനം 91" },
+      "description": {
+        "en": "The parish choir in the nave on the eve of the Dukhrana. Recorded live, without accompaniment.",
+        "ml": "ദുക്റാനയുടെ തലേന്ന് ദേവാലയത്തിൽ ഇടവക ഗായകസംഘം. ഉപകരണങ്ങളില്ലാതെ തത്സമയം റെക്കോർഡ് ചെയ്തത്."
+      },
+      "published": "2026-08-02",
+      "duration": "6:21",
+      "featured": true
+    },
+    {
+      "id": "meraq5kMlNk",
+      "title": { "en": "Organ Recital — Feast Evening", "ml": "ഓർഗൻ സംഗീതം — തിരുനാൾ സന്ധ്യ" },
+      "description": {
+        "en": "The parish organ, restored in 2024, played after the evening prayer.",
+        "ml": "2024-ൽ പുതുക്കിയ ഇടവക ഓർഗൻ, സന്ധ്യാ പ്രാർത്ഥനയ്ക്കു ശേഷം."
+      },
+      "published": "2026-06-14",
+      "duration": "42:08"
+    },
+    {
+      "id": "z96qe75LOF8",
+      "title": { "en": "Chant for the Lenten Vigil", "ml": "നോമ്പുകാല ജാഗരണത്തിനുള്ള കീർത്തനം" },
+      "description": {
+        "en": "From the night vigil of the parish Lenten retreat.",
+        "ml": "ഇടവക നോമ്പുകാല ധ്യാനത്തിലെ രാത്രി ജാഗരണത്തിൽ നിന്ന്."
+      },
+      "published": "2026-03-20",
+      "duration": "58:40"
+    },
+    {
+      "id": "SQadcm_dwEM",
+      "title": { "en": "Carols on the Hill — Christmas", "ml": "കുന്നിൻ മുകളിലെ കരോൾ — ക്രിസ്മസ്" },
+      "description": {
+        "en": "The children's choir on the church steps, Christmas Eve.",
+        "ml": "ക്രിസ്മസ് തലേന്ന് ദേവാലയ പടികളിൽ കുട്ടികളുടെ ഗായകസംഘം."
+      },
+      "published": "2025-12-24",
+      "duration": "4:56"
+    }
+  ],
+  "bulletins": [
+    {
+      "id": "b1",
+      "title": { "en": "Parish Bulletin — August 2026", "ml": "ഇടവക ബുള്ളറ്റിൻ — 2026 ഓഗസ്റ്റ്" },
+      "date": "2026-08-01",
+      "size": "1.2 MB",
+      "file": "/bulletins/bulletin-2026-08.pdf"
+    },
+    {
+      "id": "b2",
+      "title": { "en": "Parish Bulletin — July 2026", "ml": "ഇടവക ബുള്ളറ്റിൻ — 2026 ജൂലൈ" },
+      "date": "2026-07-01",
+      "size": "1.1 MB",
+      "file": "/bulletins/bulletin-2026-07.pdf"
+    },
+    {
+      "id": "b3",
+      "title": { "en": "Dukhrana Feast Souvenir 2026", "ml": "ദുക്റാന തിരുനാൾ സുവനീർ 2026" },
+      "date": "2026-07-03",
+      "size": "4.6 MB",
+      "file": "/bulletins/dukhrana-2026.pdf"
+    }
+  ]
+}

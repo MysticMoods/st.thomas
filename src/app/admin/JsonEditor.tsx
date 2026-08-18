@@ -10,7 +10,10 @@ import { useAutoTranslate } from './AutoTranslate'
 type Json = unknown
 
 const IMAGE_KEYS = new Set(['image', 'src', 'ogImage', 'file', 'images', 'photo'])
-const LONG_KEYS = new Set(['body', 'message', 'description', 'bio', 'welcome', 'lede', 'note', 'excerpt', 'quote'])
+const LONG_KEYS = new Set([
+  'body', 'message', 'description', 'bio', 'welcome', 'lede', 'note', 'excerpt', 'quote',
+  'history', 'tribute', 'survivedBy', 'joinNote', 'subtitle', 'receiptNote',
+])
 
 function isBilingual(value: unknown): value is { en: string; ml: string } {
   return (
@@ -39,7 +42,7 @@ function preview(value: unknown): string {
   if (Array.isArray(value)) return `${value.length} items`
   if (value && typeof value === 'object') {
     const record = value as Record<string, unknown>
-    for (const key of ['title', 'name', 'label', 'question', 'id', 'time', 'years']) {
+    for (const key of ['title', 'name', 'label', 'question', 'id', 'time', 'years', 'role', 'died']) {
       if (key in record) return preview(record[key])
     }
   }

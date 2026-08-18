@@ -1,89 +1,1202 @@
 {
-  "title": { "en": "Parish Ministries", "ml": "ഇടവക ശുശ്രൂഷകൾ" },
+  "title": {
+    "en": "Parish Ministries",
+    "ml": "ഇടവക ശുശ്രൂഷകൾ"
+  },
   "subtitle": {
-    "en": "Ten ways this parish serves — every one of them run by parishioners, every one of them open to you.",
-    "ml": "ഈ ഇടവക ശുശ്രൂഷ ചെയ്യുന്ന പത്ത് വഴികൾ — എല്ലാം ഇടവകാംഗങ്ങൾ നടത്തുന്നത്, എല്ലാം നിങ്ങൾക്കായി തുറന്നിരിക്കുന്നത്."
+    "en": "Ten ways this parish serves — every one of them run by parishioners, every one of them open to you. Tap any card to read more.",
+    "ml": "ഈ ഇടവക ശുശ്രൂഷ ചെയ്യുന്ന പത്ത് വഴികൾ — എല്ലാം ഇടവകാംഗങ്ങൾ നടത്തുന്നത്, എല്ലാം നിങ്ങൾക്കായി തുറന്നിരിക്കുന്നത്. കൂടുതൽ വായിക്കാൻ ഏതെങ്കിലും കാർഡിൽ ഞെക്കുക."
+  },
+  "labels": {
+    "about": {
+      "en": "About",
+      "ml": "വിവരണം"
+    },
+    "team": {
+      "en": "Members",
+      "ml": "അംഗങ്ങൾ"
+    },
+    "events": {
+      "en": "Events",
+      "ml": "പരിപാടികൾ"
+    },
+    "history": {
+      "en": "History",
+      "ml": "ചരിത്രം"
+    }
   },
   "items": [
     {
       "id": "youth",
       "icon": "flame",
-      "name": { "en": "Youth Movement", "ml": "യുവജന പ്രസ്ഥാനം" },
-      "description": { "en": "Friday gatherings, retreats and the annual pilgrimage on foot to Malayattoor.", "ml": "വെള്ളിയാഴ്ച കൂട്ടായ്മകൾ, ധ്യാനങ്ങൾ, മലയാറ്റൂരിലേക്കുള്ള വാർഷിക കാൽനട തീർത്ഥാടനം." },
-      "lead": { "en": "Fr. Alex Panackal", "ml": "ഫാ. അലക്സ് പനയ്ക്കൽ" },
-      "members": 118
+      "name": {
+        "en": "Youth Movement",
+        "ml": "യുവജന പ്രസ്ഥാനം"
+      },
+      "description": {
+        "en": "Friday gatherings, retreats and the annual pilgrimage on foot to Malayattoor.",
+        "ml": "വെള്ളിയാഴ്ച കൂട്ടായ്മകൾ, ധ്യാനങ്ങൾ, മലയാറ്റൂരിലേക്കുള്ള വാർഷിക കാൽനട തീർത്ഥാടനം."
+      },
+      "lead": {
+        "en": "Fr. Alex Panackal",
+        "ml": "ഫാ. അലക്സ് പനയ്ക്കൽ"
+      },
+      "members": 118,
+      "image": "/images/site/youth-group.jpg",
+      "since": "1978",
+      "meets": {
+        "en": "Fridays, 7:00 PM",
+        "ml": "വെള്ളിയാഴ്ചകളിൽ വൈകുന്നേരം 7:00"
+      },
+      "place": {
+        "en": "Parish Hall, upper room",
+        "ml": "ഇടവക ഹാൾ, മുകൾ നില"
+      },
+      "leadRole": {
+        "en": "Director & Assistant Vicar",
+        "ml": "ഡയറക്ടർ, അസി. വികാരി"
+      },
+      "leadPhone": "+91 98470 12346",
+      "history": {
+        "en": "Begun in 1978 by a handful of college students who wanted the church open on Friday evenings. It has since sent eleven of its members to the seminary and the convent, and it has never once cancelled the Malayattoor walk — not even in the flood year.",
+        "ml": "വെള്ളിയാഴ്ച വൈകുന്നേരങ്ങളിൽ പള്ളി തുറന്നിരിക്കണമെന്ന് ആഗ്രഹിച്ച ഏതാനും കോളേജ് വിദ്യാർത്ഥികൾ 1978-ൽ ആരംഭിച്ചത്. ഇതിനകം പതിനൊന്ന് അംഗങ്ങളെ സെമിനാരിയിലേക്കും മഠത്തിലേക്കും അയച്ചു; പ്രളയവർഷത്തിൽ പോലും മലയാറ്റൂർ യാത്ര ഒരിക്കലും റദ്ദാക്കിയിട്ടില്ല."
+      },
+      "activities": [
+        {
+          "en": "Friday prayer and faith-sharing, followed by ground work",
+          "ml": "വെള്ളിയാഴ്ച പ്രാർത്ഥനയും വിശ്വാസ പങ്കുവയ്ക്കലും, തുടർന്ന് മൈതാന ജോലികൾ"
+        },
+        {
+          "en": "Malayattoor pilgrimage on foot, every March",
+          "ml": "എല്ലാ മാർച്ചിലും മലയാറ്റൂരിലേക്ക് കാൽനട തീർത്ഥാടനം"
+        },
+        {
+          "en": "Blood donor register kept with the parish office",
+          "ml": "ഇടവക ഓഫീസിൽ സൂക്ഷിക്കുന്ന രക്തദാതാക്കളുടെ രജിസ്റ്റർ"
+        },
+        {
+          "en": "Christmas carol rounds of every household",
+          "ml": "എല്ലാ ഭവനങ്ങളിലുമുള്ള ക്രിസ്മസ് കരോൾ സന്ദർശനം"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Anila Sebastian",
+            "ml": "അനില സെബാസ്റ്റ്യൻ"
+          },
+          "role": {
+            "en": "Animator",
+            "ml": "ആനിമേറ്റർ"
+          }
+        },
+        {
+          "name": {
+            "en": "Rijo Manakkattu",
+            "ml": "റിജോ മണക്കാട്ട്"
+          },
+          "role": {
+            "en": "Secretary",
+            "ml": "സെക്രട്ടറി"
+          }
+        },
+        {
+          "name": {
+            "en": "Neethu Joy",
+            "ml": "നീതു ജോയ്"
+          },
+          "role": {
+            "en": "Treasurer",
+            "ml": "ട്രഷറർ"
+          }
+        },
+        {
+          "name": {
+            "en": "Alan Vadakkan",
+            "ml": "അലൻ വടക്കൻ"
+          },
+          "role": {
+            "en": "Sports & outreach",
+            "ml": "കായികം, ഔട്ട്റീച്ച്"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-09-25",
+          "title": {
+            "en": "Youth night vigil",
+            "ml": "യുവജന രാത്രി ജാഗരണം"
+          },
+          "place": {
+            "en": "Main Church",
+            "ml": "പ്രധാന ദേവാലയം"
+          }
+        },
+        {
+          "date": "2026-12-24",
+          "title": {
+            "en": "Carol rounds begin",
+            "ml": "കരോൾ സന്ദർശനം ആരംഭിക്കുന്നു"
+          },
+          "place": {
+            "en": "All wards",
+            "ml": "എല്ലാ വാർഡുകളും"
+          }
+        },
+        {
+          "date": "2027-03-06",
+          "title": {
+            "en": "Malayattoor walk",
+            "ml": "മലയാറ്റൂർ കാൽനട യാത്ര"
+          },
+          "place": {
+            "en": "From the church gate",
+            "ml": "പള്ളി കവാടത്തിൽ നിന്ന്"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Anyone between sixteen and thirty-five is already a member — simply come on a Friday.",
+        "ml": "പതിനാറിനും മുപ്പത്തിയഞ്ചിനും ഇടയിലുള്ള ആരും ഇതിനകം അംഗമാണ് — ഒരു വെള്ളിയാഴ്ച വന്നാൽ മതി."
+      }
     },
     {
       "id": "sundayschool",
       "icon": "book",
-      "name": { "en": "Sunday School", "ml": "ഞായറാഴ്ച മതബോധനം" },
-      "description": { "en": "Catechism for twelve grades, every Sunday between the second and third Mass.", "ml": "പന്ത്രണ്ട് ക്ലാസുകൾക്കുള്ള മതബോധനം, എല്ലാ ഞായറാഴ്ചയും രണ്ടാം, മൂന്നാം കുർബാനകൾക്കിടയിൽ." },
-      "lead": { "en": "Mrs. Elsy Joseph", "ml": "ശ്രീമതി എൽസി ജോസഫ്" },
-      "members": 241
+      "name": {
+        "en": "Sunday School",
+        "ml": "ഞായറാഴ്ച മതബോധനം"
+      },
+      "description": {
+        "en": "Catechism for twelve grades, every Sunday between the second and third Mass.",
+        "ml": "പന്ത്രണ്ട് ക്ലാസുകൾക്കുള്ള മതബോധനം, എല്ലാ ഞായറാഴ്ചയും രണ്ടാം, മൂന്നാം കുർബാനകൾക്കിടയിൽ."
+      },
+      "lead": {
+        "en": "Mrs. Elsy Joseph",
+        "ml": "ശ്രീമതി എൽസി ജോസഫ്"
+      },
+      "members": 241,
+      "image": "/images/site/catechism-children.jpg",
+      "since": "1952",
+      "meets": {
+        "en": "Sundays, 9:15 – 10:30 AM",
+        "ml": "ഞായറാഴ്ചകളിൽ രാവിലെ 9:15 – 10:30"
+      },
+      "place": {
+        "en": "Parish school block",
+        "ml": "ഇടവക സ്കൂൾ ബ്ലോക്ക്"
+      },
+      "leadRole": {
+        "en": "Headmistress",
+        "ml": "ഹെഡ്മിസ്ട്രസ്"
+      },
+      "leadPhone": "+91 94470 20106",
+      "history": {
+        "en": "The oldest ministry in the parish, running without a break since 1952, when classes were held under the mango tree because the school block had not been built. Twenty-two teachers now take the twelve grades.",
+        "ml": "1952 മുതൽ മുടക്കമില്ലാതെ നടക്കുന്ന ഇടവകയിലെ ഏറ്റവും പഴയ ശുശ്രൂഷ; സ്കൂൾ ബ്ലോക്ക് പണിയാത്തതിനാൽ അന്ന് ക്ലാസുകൾ മാവിൻചുവട്ടിലായിരുന്നു. ഇപ്പോൾ ഇരുപത്തിരണ്ട് അധ്യാപകർ പന്ത്രണ്ട് ക്ലാസുകൾ കൈകാര്യം ചെയ്യുന്നു."
+      },
+      "activities": [
+        {
+          "en": "Twelve graded classes, syllabus of the Archdiocese",
+          "ml": "അതിരൂപതയുടെ സിലബസ് പ്രകാരം പന്ത്രണ്ട് ക്ലാസുകൾ"
+        },
+        {
+          "en": "First Holy Communion and Confirmation preparation",
+          "ml": "പ്രഥമ ദിവ്യകാരുണ്യ സ്വീകരണത്തിനും സ്ഥൈര്യലേപനത്തിനുമുള്ള ഒരുക്കം"
+        },
+        {
+          "en": "Diocesan Bible examination coaching",
+          "ml": "രൂപതാ ബൈബിൾ പരീക്ഷാ പരിശീലനം"
+        },
+        {
+          "en": "Annual day, sports day and the Christmas tableau",
+          "ml": "വാർഷികം, കായികമേള, ക്രിസ്മസ് നാടകം"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Fr. Thomas Kalapurackal",
+            "ml": "ഫാ. തോമസ് കളപ്പുരയ്ക്കൽ"
+          },
+          "role": {
+            "en": "Manager",
+            "ml": "മാനേജർ"
+          }
+        },
+        {
+          "name": {
+            "en": "Lissy Thattil",
+            "ml": "ലിസി തട്ടിൽ"
+          },
+          "role": {
+            "en": "Assistant headmistress",
+            "ml": "അസി. ഹെഡ്മിസ്ട്രസ്"
+          }
+        },
+        {
+          "name": {
+            "en": "Bijoy Ouseph",
+            "ml": "ബിജോയ് ഔസേപ്പ്"
+          },
+          "role": {
+            "en": "Examinations",
+            "ml": "പരീക്ഷാ ചുമതല"
+          }
+        },
+        {
+          "name": {
+            "en": "Sr. Anila CMC",
+            "ml": "സി. അനില സി.എം.സി."
+          },
+          "role": {
+            "en": "Grades I – IV",
+            "ml": "ഒന്ന് – നാല് ക്ലാസുകൾ"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-10-18",
+          "title": {
+            "en": "Annual day & prize giving",
+            "ml": "വാർഷികവും സമ്മാനദാനവും"
+          },
+          "place": {
+            "en": "Parish Hall",
+            "ml": "ഇടവക ഹാൾ"
+          }
+        },
+        {
+          "date": "2026-11-15",
+          "title": {
+            "en": "Bible examination",
+            "ml": "ബൈബിൾ പരീക്ഷ"
+          },
+          "place": {
+            "en": "School block",
+            "ml": "സ്കൂൾ ബ്ലോക്ക്"
+          }
+        },
+        {
+          "date": "2027-04-11",
+          "title": {
+            "en": "First Holy Communion",
+            "ml": "പ്രഥമ ദിവ്യകാരുണ്യ സ്വീകരണം"
+          },
+          "place": {
+            "en": "Main Church",
+            "ml": "പ്രധാന ദേവാലയം"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Registration for the new academic year opens in the last week of May at the parish office.",
+        "ml": "പുതിയ അധ്യയന വർഷത്തേക്കുള്ള രജിസ്ട്രേഷൻ മെയ് അവസാന ആഴ്ച ഇടവക ഓഫീസിൽ ആരംഭിക്കുന്നു."
+      }
     },
     {
       "id": "choir",
       "icon": "music",
-      "name": { "en": "Parish Choir", "ml": "ഇടവക ഗായകസംഘം" },
-      "description": { "en": "Founded 1974. Sings at the 8:00 AM Mass and every solemnity of the year.", "ml": "1974-ൽ സ്ഥാപിതം. രാവിലെ 8:00 കുർബാനയിലും വർഷത്തിലെ എല്ലാ ആഘോഷങ്ങളിലും ആലപിക്കുന്നു." },
-      "lead": { "en": "Mr. Jose Chakkalakkal", "ml": "ശ്രീ ജോസ് ചക്കാലയ്ക്കൽ" },
-      "members": 46
+      "name": {
+        "en": "Parish Choir",
+        "ml": "ഇടവക ഗായകസംഘം"
+      },
+      "description": {
+        "en": "Founded 1974. Sings at the 8:00 AM Mass and every solemnity of the year.",
+        "ml": "1974-ൽ സ്ഥാപിതം. രാവിലെ 8:00 കുർബാനയിലും വർഷത്തിലെ എല്ലാ ആഘോഷങ്ങളിലും ആലപിക്കുന്നു."
+      },
+      "lead": {
+        "en": "Mr. Jose Chakkalakkal",
+        "ml": "ശ്രീ ജോസ് ചക്കാലയ്ക്കൽ"
+      },
+      "members": 46,
+      "image": "/images/site/choir-piano.jpg",
+      "since": "1974",
+      "meets": {
+        "en": "Saturdays, 5:00 PM",
+        "ml": "ശനിയാഴ്ചകളിൽ വൈകുന്നേരം 5:00"
+      },
+      "place": {
+        "en": "Choir loft",
+        "ml": "ഗായക ഗാലറി"
+      },
+      "leadRole": {
+        "en": "Choir master",
+        "ml": "ഗായകസംഘ നേതാവ്"
+      },
+      "leadPhone": "+91 94470 20102",
+      "history": {
+        "en": "Started with a harmonium borrowed from the school and four singers. The parish bought its own organ in 1991 from the proceeds of a single feast, and the choir has sung at every solemnity since.",
+        "ml": "സ്കൂളിൽ നിന്ന് കടം വാങ്ങിയ ഹാർമോണിയവും നാല് ഗായകരുമായി ആരംഭിച്ചു. 1991-ൽ ഒരൊറ്റ തിരുനാളിന്റെ വരുമാനത്തിൽ നിന്ന് ഇടവക സ്വന്തമായി ഓർഗൻ വാങ്ങി; അതിനുശേഷം എല്ലാ ആഘോഷങ്ങളിലും ഗായകസംഘം പാടിയിട്ടുണ്ട്."
+      },
+      "activities": [
+        {
+          "en": "Sung Mass at 8:00 AM every Sunday",
+          "ml": "എല്ലാ ഞായറാഴ്ചയും രാവിലെ 8:00 ഗാന കുർബാന"
+        },
+        {
+          "en": "Holy Week and Christmas liturgies",
+          "ml": "വിശുദ്ധ വാരവും ക്രിസ്മസ് തിരുക്കർമ്മങ്ങളും"
+        },
+        {
+          "en": "Training for new voices, and for the children's choir",
+          "ml": "പുതിയ ഗായകർക്കും ബാല ഗായകസംഘത്തിനും പരിശീലനം"
+        },
+        {
+          "en": "Wedding and funeral choir on request",
+          "ml": "ആവശ്യപ്രകാരം വിവാഹ, മരണാനന്തര ശുശ്രൂഷകളിൽ ഗാനം"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Sunitha Kalathil",
+            "ml": "സുനിത കളത്തിൽ"
+          },
+          "role": {
+            "en": "Organist",
+            "ml": "ഓർഗനിസ്റ്റ്"
+          }
+        },
+        {
+          "name": {
+            "en": "Martin D'Cruz",
+            "ml": "മാർട്ടിൻ ഡിക്രൂസ്"
+          },
+          "role": {
+            "en": "Bass lead",
+            "ml": "ബാസ് ലീഡ്"
+          }
+        },
+        {
+          "name": {
+            "en": "Neena Paul",
+            "ml": "നീന പോൾ"
+          },
+          "role": {
+            "en": "Children's choir",
+            "ml": "ബാല ഗായകസംഘം"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-12-24",
+          "title": {
+            "en": "Christmas carols, 10:30 PM",
+            "ml": "ക്രിസ്മസ് കരോൾ, രാത്രി 10:30"
+          },
+          "place": {
+            "en": "Main Church",
+            "ml": "പ്രധാന ദേവാലയം"
+          }
+        },
+        {
+          "date": "2027-03-26",
+          "title": {
+            "en": "Good Friday liturgy",
+            "ml": "ദുഃഖവെള്ളി ശുശ്രൂഷ"
+          },
+          "place": {
+            "en": "Main Church",
+            "ml": "പ്രധാന ദേവാലയം"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Voice trials are held on the first Saturday of any month. Reading music is not required.",
+        "ml": "ഏത് മാസത്തിലെയും ആദ്യ ശനിയാഴ്ച ശബ്ദ പരിശോധന നടക്കുന്നു. സംഗീത ലിപി അറിയേണ്ട ആവശ്യമില്ല."
+      }
     },
     {
       "id": "familyunits",
       "icon": "home",
-      "name": { "en": "Family Units", "ml": "കുടുംബക്കൂട്ടായ്മകൾ" },
-      "description": { "en": "Nine units named for the apostles, meeting in homes on Monday evenings.", "ml": "ശ്ലീഹന്മാരുടെ പേരിലുള്ള ഒൻപത് കൂട്ടായ്മകൾ, തിങ്കളാഴ്ച വൈകുന്നേരങ്ങളിൽ ഭവനങ്ങളിൽ ഒത്തുചേരുന്നു." },
-      "lead": { "en": "Mr. Antony Varghese", "ml": "ശ്രീ ആന്റണി വർഗീസ്" },
-      "members": 428
+      "name": {
+        "en": "Family Units",
+        "ml": "കുടുംബക്കൂട്ടായ്മകൾ"
+      },
+      "description": {
+        "en": "Nine units named for the apostles, meeting in homes on Monday evenings.",
+        "ml": "ശ്ലീഹന്മാരുടെ പേരിലുള്ള ഒൻപത് കൂട്ടായ്മകൾ, തിങ്കളാഴ്ച വൈകുന്നേരങ്ങളിൽ ഭവനങ്ങളിൽ ഒത്തുചേരുന്നു."
+      },
+      "lead": {
+        "en": "Mr. Antony Varghese",
+        "ml": "ശ്രീ ആന്റണി വർഗീസ്"
+      },
+      "members": 428,
+      "image": "/images/site/family-units.jpg",
+      "since": "1986",
+      "meets": {
+        "en": "Mondays, 7:00 PM",
+        "ml": "തിങ്കളാഴ്ചകളിൽ വൈകുന്നേരം 7:00"
+      },
+      "place": {
+        "en": "In members' homes, by rotation",
+        "ml": "അംഗങ്ങളുടെ ഭവനങ്ങളിൽ, ഊഴമനുസരിച്ച്"
+      },
+      "leadRole": {
+        "en": "Convenor & Parish Secretary",
+        "ml": "കൺവീനർ, ഇടവക സെക്രട്ടറി"
+      },
+      "leadPhone": "+91 94470 20103",
+      "history": {
+        "en": "The parish was divided into nine units in 1986 so that no household would be unknown to its neighbours. The units run the feast kitchen between them, and each takes one month of the novena.",
+        "ml": "ഒരു കുടുംബവും അയൽക്കാർക്ക് അപരിചിതമാകരുതെന്ന ലക്ഷ്യത്തോടെ 1986-ൽ ഇടവകയെ ഒൻപത് കൂട്ടായ്മകളായി തിരിച്ചു. തിരുനാൾ അടുക്കള ഇവ പങ്കിട്ടു നടത്തുന്നു; ഓരോന്നും നൊവേനയുടെ ഒരു മാസം ഏറ്റെടുക്കുന്നു."
+      },
+      "activities": [
+        {
+          "en": "Monday evening prayer in a different home each week",
+          "ml": "ഓരോ ആഴ്ചയും വ്യത്യസ്ത ഭവനത്തിൽ തിങ്കളാഴ്ച സന്ധ്യാ പ്രാർത്ഥന"
+        },
+        {
+          "en": "Feast kitchen and the procession arrangements",
+          "ml": "തിരുനാൾ അടുക്കളയും പ്രദക്ഷിണ ക്രമീകരണങ്ങളും"
+        },
+        {
+          "en": "Visiting the sick and the housebound of the unit",
+          "ml": "കൂട്ടായ്മയിലെ രോഗികളെയും വീട്ടിൽ കഴിയുന്നവരെയും സന്ദർശിക്കൽ"
+        },
+        {
+          "en": "Unit day with a shared meal, once a year",
+          "ml": "വർഷത്തിലൊരിക്കൽ സഹഭോജനത്തോടെ കൂട്ടായ്മ ദിനം"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Joy Manakkattu",
+            "ml": "ജോയ് മണക്കാട്ട്"
+          },
+          "role": {
+            "en": "St. Peter's Unit",
+            "ml": "വി. പത്രോസ് കൂട്ടായ്മ"
+          }
+        },
+        {
+          "name": {
+            "en": "Sheeja Vadakkan",
+            "ml": "ഷീജ വടക്കൻ"
+          },
+          "role": {
+            "en": "St. Joseph's Unit",
+            "ml": "വി. യൗസേപ്പ് കൂട്ടായ്മ"
+          }
+        },
+        {
+          "name": {
+            "en": "Bijoy Ouseph",
+            "ml": "ബിജോയ് ഔസേപ്പ്"
+          },
+          "role": {
+            "en": "St. Sebastian's Unit",
+            "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
+          }
+        },
+        {
+          "name": {
+            "en": "Rosily Kalathil",
+            "ml": "റോസിലി കളത്തിൽ"
+          },
+          "role": {
+            "en": "St. Thomas Unit",
+            "ml": "വി. തോമാശ്ലീഹാ കൂട്ടായ്മ"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-09-20",
+          "title": {
+            "en": "Parish Family Day",
+            "ml": "ഇടവക കുടുംബ സംഗമം"
+          },
+          "place": {
+            "en": "Parish grounds",
+            "ml": "ഇടവക മൈതാനം"
+          }
+        },
+        {
+          "date": "2026-10-03",
+          "title": {
+            "en": "Grotto Rosary, unit by unit",
+            "ml": "ഗ്രോട്ടോ ജപമാല, കൂട്ടായ്മ തിരിച്ച്"
+          },
+          "place": {
+            "en": "Members' homes",
+            "ml": "അംഗങ്ങളുടെ ഭവനങ്ങൾ"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Every household in the parish register already belongs to a unit. The office will tell you which.",
+        "ml": "ഇടവക രജിസ്റ്ററിലെ എല്ലാ കുടുംബവും ഇതിനകം ഒരു കൂട്ടായ്മയിൽ ഉൾപ്പെട്ടിട്ടുണ്ട്. ഏതെന്ന് ഓഫീസ് അറിയിക്കും."
+      }
     },
     {
       "id": "mathruvedi",
       "icon": "rose",
-      "name": { "en": "Women's Association", "ml": "മാതൃവേദി" },
-      "description": { "en": "Mathruvedi — kitchen for the feast, care for the widowed, and the Wednesday sewing circle.", "ml": "മാതൃവേദി — തിരുനാൾ അടുക്കള, വിധവകൾക്കുള്ള പരിചരണം, ബുധനാഴ്ചത്തെ തയ്യൽ കൂട്ടായ്മ." },
-      "lead": { "en": "Mrs. Mary Thomas", "ml": "ശ്രീമതി മേരി തോമസ്" },
-      "members": 205
+      "name": {
+        "en": "Women's Association",
+        "ml": "മാതൃവേദി"
+      },
+      "description": {
+        "en": "Mathruvedi — kitchen for the feast, care for the widowed, and the Wednesday sewing circle.",
+        "ml": "മാതൃവേദി — തിരുനാൾ അടുക്കള, വിധവകൾക്കുള്ള പരിചരണം, ബുധനാഴ്ചത്തെ തയ്യൽ കൂട്ടായ്മ."
+      },
+      "lead": {
+        "en": "Mrs. Mary Thomas",
+        "ml": "ശ്രീമതി മേരി തോമസ്"
+      },
+      "members": 205,
+      "image": "/images/site/community-women.jpg",
+      "since": "1983",
+      "meets": {
+        "en": "Wednesdays, 3:30 PM",
+        "ml": "ബുധനാഴ്ചകളിൽ ഉച്ചകഴിഞ്ഞ് 3:30"
+      },
+      "place": {
+        "en": "Parish Hall",
+        "ml": "ഇടവക ഹാൾ"
+      },
+      "leadRole": {
+        "en": "President",
+        "ml": "പ്രസിഡന്റ്"
+      },
+      "leadPhone": "+91 94470 20104",
+      "history": {
+        "en": "Formed in 1983 to run the feast kitchen, which until then fell to whoever could be found. It now keeps a standing fund for widows of the parish, raised entirely from the sale of what the sewing circle makes.",
+        "ml": "അന്നുവരെ ആരെയെങ്കിലും കണ്ടെത്തി ഏൽപ്പിച്ചിരുന്ന തിരുനാൾ അടുക്കള നടത്താൻ 1983-ൽ രൂപീകരിച്ചു. തയ്യൽ കൂട്ടായ്മ ഉണ്ടാക്കുന്നവയുടെ വിൽപ്പനയിൽ നിന്ന് മാത്രം സ്വരൂപിക്കുന്ന ഒരു സ്ഥിര ഫണ്ട് ഇപ്പോൾ ഇടവകയിലെ വിധവകൾക്കായി സൂക്ഷിക്കുന്നു."
+      },
+      "activities": [
+        {
+          "en": "Wednesday sewing circle and its annual sale",
+          "ml": "ബുധനാഴ്ചത്തെ തയ്യൽ കൂട്ടായ്മയും വാർഷിക വിൽപ്പനയും"
+        },
+        {
+          "en": "The feast kitchen, and the meal for every household",
+          "ml": "തിരുനാൾ അടുക്കളയും എല്ലാ കുടുംബങ്ങൾക്കുമുള്ള സദ്യയും"
+        },
+        {
+          "en": "Widows' fund and monthly home visits",
+          "ml": "വിധവാ ഫണ്ടും മാസംതോറുമുള്ള ഭവന സന്ദർശനവും"
+        },
+        {
+          "en": "Altar linen, vestments and church cleaning roster",
+          "ml": "അൾത്താര വസ്ത്രങ്ങൾ, തിരുവസ്ത്രങ്ങൾ, ദേവാലയ ശുചീകരണ ക്രമം"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Alice Paul",
+            "ml": "ആലീസ് പോൾ"
+          },
+          "role": {
+            "en": "Secretary",
+            "ml": "സെക്രട്ടറി"
+          }
+        },
+        {
+          "name": {
+            "en": "Lissy Thattil",
+            "ml": "ലിസി തട്ടിൽ"
+          },
+          "role": {
+            "en": "Treasurer",
+            "ml": "ട്രഷറർ"
+          }
+        },
+        {
+          "name": {
+            "en": "Annamma Chakkalakkal",
+            "ml": "അന്നമ്മ ചക്കാലയ്ക്കൽ"
+          },
+          "role": {
+            "en": "Kitchen convenor",
+            "ml": "അടുക്കള കൺവീനർ"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-09-16",
+          "title": {
+            "en": "Annual sale of the sewing circle",
+            "ml": "തയ്യൽ കൂട്ടായ്മയുടെ വാർഷിക വിൽപ്പന"
+          },
+          "place": {
+            "en": "Parish Hall",
+            "ml": "ഇടവക ഹാൾ"
+          }
+        },
+        {
+          "date": "2026-12-08",
+          "title": {
+            "en": "Mathruvedi day",
+            "ml": "മാതൃവേദി ദിനം"
+          },
+          "place": {
+            "en": "Parish Hall",
+            "ml": "ഇടവക ഹാൾ"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Every married woman of the parish is a member by right. Come on any Wednesday.",
+        "ml": "ഇടവകയിലെ വിവാഹിതരായ എല്ലാ സ്ത്രീകളും അവകാശപ്രകാരം അംഗങ്ങളാണ്. ഏത് ബുധനാഴ്ചയും വരാം."
+      }
     },
     {
       "id": "pithruvedi",
       "icon": "shield",
-      "name": { "en": "Men's Association", "ml": "പിതൃവേദി" },
-      "description": { "en": "Pithruvedi — parish maintenance, the feast procession, and the cemetery committee.", "ml": "പിതൃവേദി — ഇടവക പരിപാലനം, തിരുനാൾ പ്രദക്ഷിണം, സെമിത്തേരി കമ്മിറ്റി." },
-      "lead": { "en": "Mr. Devassy Kunnel", "ml": "ശ്രീ ദേവസ്സി കുന്നേൽ" },
-      "members": 186
+      "name": {
+        "en": "Men's Association",
+        "ml": "പിതൃവേദി"
+      },
+      "description": {
+        "en": "Pithruvedi — parish maintenance, the feast procession, and the cemetery committee.",
+        "ml": "പിതൃവേദി — ഇടവക പരിപാലനം, തിരുനാൾ പ്രദക്ഷിണം, സെമിത്തേരി കമ്മിറ്റി."
+      },
+      "lead": {
+        "en": "Mr. Devassy Kunnel",
+        "ml": "ശ്രീ ദേവസ്സി കുന്നേൽ"
+      },
+      "members": 186,
+      "image": "/images/site/community-group.jpg",
+      "since": "1989",
+      "meets": {
+        "en": "Second Sunday, after the second Mass",
+        "ml": "രണ്ടാം ഞായർ, രണ്ടാം കുർബാനയ്ക്ക് ശേഷം"
+      },
+      "place": {
+        "en": "Parish Hall",
+        "ml": "ഇടവക ഹാൾ"
+      },
+      "leadRole": {
+        "en": "President & Senior Trustee",
+        "ml": "പ്രസിഡന്റ്, മുതിർന്ന കൈക്കാരൻ"
+      },
+      "leadPhone": "+91 94470 20101",
+      "history": {
+        "en": "Raised the bell tower in 1993 with its own labour on Sundays, and has maintained the cemetery wall, the gates and the parish vehicles ever since.",
+        "ml": "1993-ൽ ഞായറാഴ്ചകളിലെ സ്വന്തം അധ്വാനത്താൽ മണിമാളിക ഉയർത്തി; അന്നുമുതൽ സെമിത്തേരി മതിൽ, കവാടങ്ങൾ, ഇടവക വാഹനങ്ങൾ എന്നിവ പരിപാലിക്കുന്നു."
+      },
+      "activities": [
+        {
+          "en": "Maintenance Sundays — grounds, wiring, painting",
+          "ml": "പരിപാലന ഞായറാഴ്ചകൾ — മൈതാനം, വയറിംഗ്, പെയിന്റിംഗ്"
+        },
+        {
+          "en": "Feast procession, pandal and lighting",
+          "ml": "തിരുനാൾ പ്രദക്ഷിണം, പന്തൽ, വിളക്കുകൾ"
+        },
+        {
+          "en": "Cemetery committee and grave upkeep",
+          "ml": "സെമിത്തേരി കമ്മിറ്റിയും കല്ലറ പരിപാലനവും"
+        },
+        {
+          "en": "Funeral arrangements for any family that asks",
+          "ml": "ആവശ്യപ്പെടുന്ന ഏത് കുടുംബത്തിനും മരണാനന്തര ക്രമീകരണങ്ങൾ"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Xavier Puthanpurackal",
+            "ml": "സേവ്യർ പുത്തൻപുരയ്ക്കൽ"
+          },
+          "role": {
+            "en": "Cemetery convenor",
+            "ml": "സെമിത്തേരി കൺവീനർ"
+          }
+        },
+        {
+          "name": {
+            "en": "Paul Vattaparambil",
+            "ml": "പോൾ വട്ടപ്പറമ്പിൽ"
+          },
+          "role": {
+            "en": "Secretary",
+            "ml": "സെക്രട്ടറി"
+          }
+        },
+        {
+          "name": {
+            "en": "Joy Manakkattu",
+            "ml": "ജോയ് മണക്കാട്ട്"
+          },
+          "role": {
+            "en": "Works & materials",
+            "ml": "പണികളും സാമഗ്രികളും"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-11-02",
+          "title": {
+            "en": "Cemetery cleaning before All Souls",
+            "ml": "മരിച്ചവരുടെ ഓർമ്മയ്ക്ക് മുൻപ് സെമിത്തേരി ശുചീകരണം"
+          },
+          "place": {
+            "en": "Parish Cemetery",
+            "ml": "ഇടവക സെമിത്തേരി"
+          }
+        },
+        {
+          "date": "2026-12-13",
+          "title": {
+            "en": "Pithruvedi general body",
+            "ml": "പിതൃവേദി പൊതുയോഗം"
+          },
+          "place": {
+            "en": "Parish Hall",
+            "ml": "ഇടവക ഹാൾ"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Open to every man of the parish over twenty-one. Attendance at one maintenance Sunday is the whole initiation.",
+        "ml": "ഇരുപത്തിയൊന്ന് വയസ്സിന് മുകളിലുള്ള ഇടവകയിലെ എല്ലാ പുരുഷന്മാർക്കും തുറന്നിരിക്കുന്നു. ഒരു പരിപാലന ഞായറാഴ്ചയിലെ പങ്കാളിത്തമാണ് ആകെയുള്ള പ്രവേശനക്രമം."
+      }
     },
     {
       "id": "prayergroups",
       "icon": "hands",
-      "name": { "en": "Prayer Groups", "ml": "പ്രാർത്ഥനാ കൂട്ടായ്മകൾ" },
-      "description": { "en": "Legion of Mary, Jesus Youth cell, and the Tuesday intercession chain.", "ml": "ലീജിയൻ ഓഫ് മേരി, ജീസസ് യൂത്ത് സെൽ, ചൊവ്വാഴ്ചത്തെ മാധ്യസ്ഥ പ്രാർത്ഥനാ ശൃംഖല." },
-      "lead": { "en": "Mrs. Alice Paul", "ml": "ശ്രീമതി ആലീസ് പോൾ" },
-      "members": 97
+      "name": {
+        "en": "Prayer Groups",
+        "ml": "പ്രാർത്ഥനാ കൂട്ടായ്മകൾ"
+      },
+      "description": {
+        "en": "Legion of Mary, Jesus Youth cell, and the Tuesday intercession chain.",
+        "ml": "ലീജിയൻ ഓഫ് മേരി, ജീസസ് യൂത്ത് സെൽ, ചൊവ്വാഴ്ചത്തെ മാധ്യസ്ഥ പ്രാർത്ഥനാ ശൃംഖല."
+      },
+      "lead": {
+        "en": "Mrs. Alice Paul",
+        "ml": "ശ്രീമതി ആലീസ് പോൾ"
+      },
+      "members": 97,
+      "image": "/images/site/rosary.jpg",
+      "since": "1996",
+      "meets": {
+        "en": "Tuesdays, 6:00 PM",
+        "ml": "ചൊവ്വാഴ്ചകളിൽ വൈകുന്നേരം 6:00"
+      },
+      "place": {
+        "en": "Adoration chapel",
+        "ml": "ആരാധനാ ചാപ്പൽ"
+      },
+      "leadRole": {
+        "en": "Praesidium president",
+        "ml": "പ്രസീദിയം പ്രസിഡന്റ്"
+      },
+      "leadPhone": "+91 94470 20107",
+      "history": {
+        "en": "The Legion praesidium was erected in 1996 and has not missed a weekly meeting since. The intercession chain keeps a book of requests at the chapel door; nothing written in it is ever read aloud.",
+        "ml": "1996-ൽ ലീജിയൻ പ്രസീദിയം സ്ഥാപിതമായി; അന്നുമുതൽ ഒരു പ്രതിവാര യോഗവും മുടങ്ങിയിട്ടില്ല. മാധ്യസ്ഥ ശൃംഖല ചാപ്പൽ വാതിൽക്കൽ അപേക്ഷാ പുസ്തകം സൂക്ഷിക്കുന്നു; അതിൽ എഴുതുന്നത് ഒരിക്കലും ഉറക്കെ വായിക്കില്ല."
+      },
+      "activities": [
+        {
+          "en": "Legion of Mary weekly praesidium",
+          "ml": "ലീജിയൻ ഓഫ് മേരി പ്രതിവാര പ്രസീദിയം"
+        },
+        {
+          "en": "Tuesday intercession for written requests",
+          "ml": "എഴുതി നൽകുന്ന നിയോഗങ്ങൾക്കായി ചൊവ്വാഴ്ച മാധ്യസ്ഥ പ്രാർത്ഥന"
+        },
+        {
+          "en": "Jesus Youth cell for students",
+          "ml": "വിദ്യാർത്ഥികൾക്കുള്ള ജീസസ് യൂത്ത് സെൽ"
+        },
+        {
+          "en": "First Friday adoration through the night",
+          "ml": "ആദ്യ വെള്ളിയാഴ്ച രാത്രി മുഴുവൻ ആരാധന"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Rosily Kalathil",
+            "ml": "റോസിലി കളത്തിൽ"
+          },
+          "role": {
+            "en": "Legion secretary",
+            "ml": "ലീജിയൻ സെക്രട്ടറി"
+          }
+        },
+        {
+          "name": {
+            "en": "Neethu Joy",
+            "ml": "നീതു ജോയ്"
+          },
+          "role": {
+            "en": "Jesus Youth cell",
+            "ml": "ജീസസ് യൂത്ത് സെൽ"
+          }
+        },
+        {
+          "name": {
+            "en": "Fr. Jibin Thattil",
+            "ml": "ഫാ. ജിബിൻ തട്ടിൽ"
+          },
+          "role": {
+            "en": "Spiritual director",
+            "ml": "ആത്മീയ നിർദ്ദേശകൻ"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-10-04",
+          "title": {
+            "en": "Rosary month opens",
+            "ml": "ജപമാല മാസം ആരംഭിക്കുന്നു"
+          },
+          "place": {
+            "en": "Main Church",
+            "ml": "പ്രധാന ദേവാലയം"
+          }
+        },
+        {
+          "date": "2026-11-06",
+          "title": {
+            "en": "First Friday night adoration",
+            "ml": "ആദ്യ വെള്ളിയാഴ്ച രാത്രി ആരാധന"
+          },
+          "place": {
+            "en": "Adoration chapel",
+            "ml": "ആരാധനാ ചാപ്പൽ"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Leave your intention in the book at the chapel door — no name needed — or come on a Tuesday.",
+        "ml": "ചാപ്പൽ വാതിൽക്കലുള്ള പുസ്തകത്തിൽ നിങ്ങളുടെ നിയോഗം എഴുതുക — പേര് വേണ്ട — അല്ലെങ്കിൽ ഒരു ചൊവ്വാഴ്ച വരിക."
+      }
     },
     {
       "id": "charity",
       "icon": "heart",
-      "name": { "en": "Charity Ministry", "ml": "കാരുണ്യ ശുശ്രൂഷ" },
-      "description": { "en": "Sunday rounds with provisions, the medical fund, and house repairs before the monsoon.", "ml": "ഭക്ഷ്യസാധനങ്ങളുമായി ഞായറാഴ്ച സന്ദർശനം, മെഡിക്കൽ ഫണ്ട്, മഴക്കാലത്തിനു മുൻപുള്ള ഭവന അറ്റകുറ്റപ്പണികൾ." },
-      "lead": { "en": "Fr. Nithin Vadakkan", "ml": "ഫാ. നിഥിൻ വടക്കൻ" },
-      "members": 64
+      "name": {
+        "en": "Charity Ministry",
+        "ml": "കാരുണ്യ ശുശ്രൂഷ"
+      },
+      "description": {
+        "en": "Sunday rounds with provisions, the medical fund, and house repairs before the monsoon.",
+        "ml": "ഭക്ഷ്യസാധനങ്ങളുമായി ഞായറാഴ്ച സന്ദർശനം, മെഡിക്കൽ ഫണ്ട്, മഴക്കാലത്തിനു മുൻപുള്ള ഭവന അറ്റകുറ്റപ്പണികൾ."
+      },
+      "lead": {
+        "en": "Fr. Nithin Vadakkan",
+        "ml": "ഫാ. നിഥിൻ വടക്കൻ"
+      },
+      "members": 64,
+      "image": "/images/site/charity-hands.jpg",
+      "since": "2004",
+      "meets": {
+        "en": "Sundays, 11:30 AM",
+        "ml": "ഞായറാഴ്ചകളിൽ രാവിലെ 11:30"
+      },
+      "place": {
+        "en": "Parish office",
+        "ml": "ഇടവക ഓഫീസ്"
+      },
+      "leadRole": {
+        "en": "Director",
+        "ml": "ഡയറക്ടർ"
+      },
+      "leadPhone": "+91 94470 20115",
+      "history": {
+        "en": "Begun after the 2004 floods with one van and a list of eight houses. The list stands at fourteen households today, and the names on it are known to no one outside this ministry.",
+        "ml": "2004-ലെ പ്രളയത്തിനു ശേഷം ഒരു വാനും എട്ട് വീടുകളുടെ പട്ടികയുമായി ആരംഭിച്ചു. ഇന്ന് പട്ടികയിൽ പതിനാല് കുടുംബങ്ങളുണ്ട്; അതിലെ പേരുകൾ ഈ ശുശ്രൂഷയ്ക്ക് പുറത്ത് ആർക്കും അറിയില്ല."
+      },
+      "activities": [
+        {
+          "en": "Provisions delivered every Sunday, quietly",
+          "ml": "എല്ലാ ഞായറാഴ്ചയും നിശ്ശബ്ദമായി എത്തിക്കുന്ന ഭക്ഷ്യസാധനങ്ങൾ"
+        },
+        {
+          "en": "Medical fund for bills a family cannot meet",
+          "ml": "കുടുംബത്തിന് താങ്ങാനാവാത്ത ബില്ലുകൾക്കുള്ള ചികിത്സാ ഫണ്ട്"
+        },
+        {
+          "en": "House repairs before every monsoon",
+          "ml": "എല്ലാ മഴക്കാലത്തിനും മുൻപുള്ള ഭവന അറ്റകുറ്റപ്പണികൾ"
+        },
+        {
+          "en": "Education fund for thirty-one children",
+          "ml": "മുപ്പത്തിയൊന്ന് കുട്ടികൾക്കുള്ള വിദ്യാഭ്യാസ ഫണ്ട്"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Rosily Kalathil",
+            "ml": "റോസിലി കളത്തിൽ"
+          },
+          "role": {
+            "en": "Convenor",
+            "ml": "കൺവീനർ"
+          }
+        },
+        {
+          "name": {
+            "en": "Sunil Mathew",
+            "ml": "സുനിൽ മാത്യു"
+          },
+          "role": {
+            "en": "Fund accounts",
+            "ml": "ഫണ്ട് കണക്കുകൾ"
+          }
+        },
+        {
+          "name": {
+            "en": "Sheeja Vadakkan",
+            "ml": "ഷീജ വടക്കൻ"
+          },
+          "role": {
+            "en": "Home visits",
+            "ml": "ഭവന സന്ദർശനം"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-09-27",
+          "title": {
+            "en": "Monsoon repair drive",
+            "ml": "മഴക്കാല അറ്റകുറ്റപ്പണി യജ്ഞം"
+          },
+          "place": {
+            "en": "Across the wards",
+            "ml": "വാർഡുകളിലുടനീളം"
+          }
+        },
+        {
+          "date": "2026-12-20",
+          "title": {
+            "en": "Christmas provisions round",
+            "ml": "ക്രിസ്മസ് ഭക്ഷ്യവിതരണം"
+          },
+          "place": {
+            "en": "Parish office",
+            "ml": "ഇടവക ഓഫീസ്"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Help is always wanted on Sunday rounds. Gifts to the fund can be made through the donation section on this page.",
+        "ml": "ഞായറാഴ്ച സന്ദർശനങ്ങളിൽ എപ്പോഴും സഹായം ആവശ്യമുണ്ട്. ഈ പേജിലെ സംഭാവനാ വിഭാഗം വഴി ഫണ്ടിലേക്ക് നൽകാം."
+      }
     },
     {
       "id": "bible",
       "icon": "scroll",
-      "name": { "en": "Bible Study", "ml": "ബൈബിൾ പഠനം" },
-      "description": { "en": "Tuesday evenings in the parish library. Currently reading the Gospel of John.", "ml": "ചൊവ്വാഴ്ച വൈകുന്നേരങ്ങളിൽ ഇടവക ലൈബ്രറിയിൽ. ഇപ്പോൾ യോഹന്നാന്റെ സുവിശേഷം വായിക്കുന്നു." },
-      "lead": { "en": "Fr. Jibin Thattil", "ml": "ഫാ. ജിബിൻ തട്ടിൽ" },
-      "members": 52
+      "name": {
+        "en": "Bible Study",
+        "ml": "ബൈബിൾ പഠനം"
+      },
+      "description": {
+        "en": "Tuesday evenings in the parish library. Currently reading the Gospel of John.",
+        "ml": "ചൊവ്വാഴ്ച വൈകുന്നേരങ്ങളിൽ ഇടവക ലൈബ്രറിയിൽ. ഇപ്പോൾ യോഹന്നാന്റെ സുവിശേഷം വായിക്കുന്നു."
+      },
+      "lead": {
+        "en": "Fr. Jibin Thattil",
+        "ml": "ഫാ. ജിബിൻ തട്ടിൽ"
+      },
+      "members": 52,
+      "image": "/images/site/bible-study.jpg",
+      "since": "2011",
+      "meets": {
+        "en": "Tuesdays, 7:15 PM",
+        "ml": "ചൊവ്വാഴ്ചകളിൽ വൈകുന്നേരം 7:15"
+      },
+      "place": {
+        "en": "Parish library",
+        "ml": "ഇടവക ലൈബ്രറി"
+      },
+      "leadRole": {
+        "en": "Animator",
+        "ml": "ആനിമേറ്റർ"
+      },
+      "leadPhone": "+91 94470 20117",
+      "history": {
+        "en": "Started in the library founded by the late Ouseph Chakkalakkal, with the rule that anyone may ask any question and nobody is corrected in public. Four books of the New Testament have been read through since.",
+        "ml": "പരേതനായ ഔസേപ്പ് ചക്കാലയ്ക്കൽ സ്ഥാപിച്ച ലൈബ്രറിയിൽ ആരംഭിച്ചു — ആർക്കും ഏത് ചോദ്യവും ചോദിക്കാം, ആരെയും പരസ്യമായി തിരുത്തില്ല എന്ന നിയമത്തോടെ. അതിനുശേഷം പുതിയ നിയമത്തിലെ നാല് പുസ്തകങ്ങൾ വായിച്ചു തീർത്തു."
+      },
+      "activities": [
+        {
+          "en": "Weekly reading, one chapter at a time",
+          "ml": "ആഴ്ചതോറും ഒരു അധ്യായം വീതം വായന"
+        },
+        {
+          "en": "Lenten and Advent scripture series",
+          "ml": "നോമ്പുകാല, മംഗളവാർത്താക്കാല വിശുദ്ധ ഗ്രന്ഥ പഠന പരമ്പര"
+        },
+        {
+          "en": "Coaching for the diocesan Bible examination",
+          "ml": "രൂപതാ ബൈബിൾ പരീക്ഷയ്ക്കുള്ള പരിശീലനം"
+        },
+        {
+          "en": "The parish library, open after every Sunday Mass",
+          "ml": "എല്ലാ ഞായറാഴ്ച കുർബാനയ്ക്കു ശേഷവും തുറക്കുന്ന ഇടവക ലൈബ്രറി"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Martin D'Cruz",
+            "ml": "മാർട്ടിൻ ഡിക്രൂസ്"
+          },
+          "role": {
+            "en": "Librarian",
+            "ml": "ലൈബ്രേറിയൻ"
+          }
+        },
+        {
+          "name": {
+            "en": "Elsy Joseph",
+            "ml": "എൽസി ജോസഫ്"
+          },
+          "role": {
+            "en": "Examination coaching",
+            "ml": "പരീക്ഷാ പരിശീലനം"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-11-15",
+          "title": {
+            "en": "Diocesan Bible examination",
+            "ml": "രൂപതാ ബൈബിൾ പരീക്ഷ"
+          },
+          "place": {
+            "en": "School block",
+            "ml": "സ്കൂൾ ബ്ലോക്ക്"
+          }
+        },
+        {
+          "date": "2026-11-29",
+          "title": {
+            "en": "Advent scripture series begins",
+            "ml": "മംഗളവാർത്താക്കാല പഠന പരമ്പര ആരംഭിക്കുന്നു"
+          },
+          "place": {
+            "en": "Parish library",
+            "ml": "ഇടവക ലൈബ്രറി"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Bring your own Bible if you have one; spare copies are kept in the library.",
+        "ml": "സ്വന്തം ബൈബിൾ ഉണ്ടെങ്കിൽ കൊണ്ടുവരിക; അധിക പ്രതികൾ ലൈബ്രറിയിൽ സൂക്ഷിച്ചിട്ടുണ്ട്."
+      }
     },
     {
       "id": "altarservers",
       "icon": "candle",
-      "name": { "en": "Altar Servers", "ml": "അൾത്താര ശുശ്രൂഷികൾ" },
-      "description": { "en": "Forty-two servers, trained on Saturday mornings in the sacristy.", "ml": "നാൽപ്പത്തിരണ്ട് ശുശ്രൂഷികൾ, ശനിയാഴ്ച രാവിലെ സങ്കീർത്തിയിൽ പരിശീലനം." },
-      "lead": { "en": "Mr. Sunil Mathew", "ml": "ശ്രീ സുനിൽ മാത്യു" },
-      "members": 42
+      "name": {
+        "en": "Altar Servers",
+        "ml": "അൾത്താര ശുശ്രൂഷികൾ"
+      },
+      "description": {
+        "en": "Forty-two servers, trained on Saturday mornings in the sacristy.",
+        "ml": "നാൽപ്പത്തിരണ്ട് ശുശ്രൂഷികൾ, ശനിയാഴ്ച രാവിലെ സങ്കീർത്തിയിൽ പരിശീലനം."
+      },
+      "lead": {
+        "en": "Mr. Sunil Mathew",
+        "ml": "ശ്രീ സുനിൽ മാത്യു"
+      },
+      "members": 42,
+      "image": "/images/site/candles-cross.jpg",
+      "since": "1968",
+      "meets": {
+        "en": "Saturdays, 8:30 AM",
+        "ml": "ശനിയാഴ്ചകളിൽ രാവിലെ 8:30"
+      },
+      "place": {
+        "en": "Sacristy",
+        "ml": "സങ്കീർത്തി"
+      },
+      "leadRole": {
+        "en": "Master of ceremonies",
+        "ml": "കർമ്മക്രമ പരിശീലകൻ"
+      },
+      "leadPhone": "+91 94470 20105",
+      "history": {
+        "en": "The oldest continuous roster in the parish. Six of the priests who have served this church began at this altar as boys, and the roster book from 1968 is still in the sacristy cupboard.",
+        "ml": "ഇടവകയിലെ ഏറ്റവും പഴയ തുടർച്ചയായ ശുശ്രൂഷാ ക്രമം. ഈ ദേവാലയത്തിൽ ശുശ്രൂഷ ചെയ്ത ആറ് വൈദികർ ബാലന്മാരായി ഈ അൾത്താരയിൽ തുടങ്ങിയവരാണ്; 1968 മുതലുള്ള ക്രമപ്പുസ്തകം ഇന്നും സങ്കീർത്തിയിലെ അലമാരയിലുണ്ട്."
+      },
+      "activities": [
+        {
+          "en": "Serving at every Mass on the weekly roster",
+          "ml": "പ്രതിവാര ക്രമപ്രകാരം എല്ലാ കുർബാനയിലും ശുശ്രൂഷ"
+        },
+        {
+          "en": "Saturday training in the sacristy",
+          "ml": "ശനിയാഴ്ച സങ്കീർത്തിയിൽ പരിശീലനം"
+        },
+        {
+          "en": "Holy Week ceremonies and the feast procession",
+          "ml": "വിശുദ്ധ വാര ശുശ്രൂഷകളും തിരുനാൾ പ്രദക്ഷിണവും"
+        },
+        {
+          "en": "Annual outing after the Easter season",
+          "ml": "ഈസ്റ്റർ കാലത്തിനു ശേഷം വാർഷിക വിനോദയാത്ര"
+        }
+      ],
+      "team": [
+        {
+          "name": {
+            "en": "Alan Vadakkan",
+            "ml": "അലൻ വടക്കൻ"
+          },
+          "role": {
+            "en": "Senior server",
+            "ml": "സീനിയർ ശുശ്രൂഷി"
+          }
+        },
+        {
+          "name": {
+            "en": "Rijo Manakkattu",
+            "ml": "റിജോ മണക്കാട്ട്"
+          },
+          "role": {
+            "en": "Roster",
+            "ml": "ക്രമപ്പട്ടിക"
+          }
+        }
+      ],
+      "events": [
+        {
+          "date": "2026-12-24",
+          "title": {
+            "en": "Christmas vigil rehearsal",
+            "ml": "ക്രിസ്മസ് രാത്രി കുർബാന റിഹേഴ്സൽ"
+          },
+          "place": {
+            "en": "Main Church",
+            "ml": "പ്രധാന ദേവാലയം"
+          }
+        },
+        {
+          "date": "2027-03-25",
+          "title": {
+            "en": "Holy Week ceremonies training",
+            "ml": "വിശുദ്ധ വാര ശുശ്രൂഷ പരിശീലനം"
+          },
+          "place": {
+            "en": "Sacristy",
+            "ml": "സങ്കീർത്തി"
+          }
+        }
+      ],
+      "joinNote": {
+        "en": "Boys and girls who have made their First Communion may join. Speak to the sacristan after any Mass.",
+        "ml": "പ്രഥമ ദിവ്യകാരുണ്യം സ്വീകരിച്ച ആൺകുട്ടികൾക്കും പെൺകുട്ടികൾക്കും ചേരാം. ഏത് കുർബാനയ്ക്കു ശേഷവും കപ്യാരെ കാണുക."
+      }
     }
   ]
 }

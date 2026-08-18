@@ -10,15 +10,25 @@ import { SocialRow } from './SocialRow'
 import { Icon } from './ui/Icon'
 import { ParishEmblem } from './ui/ParishEmblem'
 
+/**
+ * Every entry is an absolute link, so the footer works the same on /obituary
+ * as it does on the homepage.
+ */
 const QUICK_LINKS = [
-  { id: 'about', label: ui.nav.about },
-  { id: 'mass-timings', label: ui.nav.mass },
-  { id: 'weekly-events', label: ui.nav.events },
-  { id: 'priests', label: ui.nav.priests },
-  { id: 'gallery', label: ui.nav.gallery },
-  { id: 'notices', label: ui.nav.notices },
-  { id: 'members', label: ui.nav.members },
-  { id: 'contact', label: ui.nav.contact },
+  { href: '/#about', label: ui.nav.about },
+  { href: '/#mass-timings', label: ui.nav.mass },
+  { href: '/#upcoming', label: ui.nav.upcoming },
+  { href: '/#weekly-events', label: ui.nav.events },
+  { href: '/#priests', label: ui.nav.priests },
+  { href: '/#committee', label: ui.nav.committee },
+  { href: '/#ministries', label: ui.nav.ministries },
+  { href: '/#gallery', label: ui.nav.gallery },
+  { href: '/#media', label: ui.nav.media },
+  { href: '/#notices', label: ui.nav.notices },
+  { href: '/obituary', label: ui.nav.obituary },
+  { href: '/#donate', label: ui.nav.donate },
+  { href: '/#members', label: ui.nav.members },
+  { href: '/#contact', label: ui.nav.contact },
 ]
 
 export function Footer({
@@ -79,9 +89,9 @@ export function Footer({
             </h4>
             <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 lg:grid-cols-1">
               {QUICK_LINKS.map((link) => (
-                <li key={link.id}>
+                <li key={link.href}>
                   <a
-                    href={`#${link.id}`}
+                    href={link.href}
                     className="font-sans text-sm text-stone-400 transition-colors hover:text-gold-200"
                   >
                     {t(link.label)}
@@ -105,7 +115,7 @@ export function Footer({
               ))}
             </ul>
             <a
-              href="#mass-timings"
+              href="/#mass-timings"
               className="mt-5 inline-flex items-center gap-2 font-sans text-2xs uppercase tracking-[0.16em] text-gold-400 transition-colors hover:text-gold-200"
             >
               {t(ui.common.viewAll)}
@@ -121,7 +131,7 @@ export function Footer({
             <ul className="mt-6 flex flex-col gap-4">
               {latest.map((notice) => (
                 <li key={notice.id}>
-                  <a href="#notices" className="group block">
+                  <a href="/#notices" className="group block">
                     <span className="block font-sans text-2xs tabular-nums text-stone-500">
                       {formatDate(notice.date, lang, { day: 'numeric', month: 'short' })}
                     </span>
@@ -145,7 +155,7 @@ export function Footer({
           </div>
 
           <a
-            href="#newsletter"
+            href="/#newsletter"
             className="group flex items-center gap-4 rounded-sm border border-white/10 px-6 py-5 transition-colors hover:border-gold-400/50"
           >
             <Icon name="mail" className="h-5 w-5 text-gold-400" />

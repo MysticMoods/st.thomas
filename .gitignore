@@ -9,6 +9,7 @@ public/uploads
 content/.backups
 content/messages.json
 content/subscribers.json
+content/donations.json
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store

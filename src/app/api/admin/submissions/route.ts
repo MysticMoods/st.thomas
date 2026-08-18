@@ -10,13 +10,15 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
-  const [subscribers, messages] = await Promise.all([
+  const [subscribers, messages, donations] = await Promise.all([
     readRecords('subscribers'),
     readRecords('messages'),
+    readRecords('donations'),
   ])
 
   return NextResponse.json({
     subscribers: subscribers.slice(0, 200),
     messages: messages.slice(0, 100),
+    donations: donations.slice(0, 500),
   })
 }

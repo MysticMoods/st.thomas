@@ -1,0 +1,155 @@
+{
+  "title": { "en": "Obituary", "ml": "ചരമ പംക്തി" },
+  "subtitle": {
+    "en": "The parish remembers those who have gone before us, marked with the sign of faith.",
+    "ml": "വിശ്വാസത്തിന്റെ അടയാളത്തോടെ നമുക്കു മുൻപേ കടന്നുപോയവരെ ഇടവക ഓർക്കുന്നു."
+  },
+  "prayer": {
+    "en": "Eternal rest grant unto them, O Lord, and let perpetual light shine upon them.",
+    "ml": "കർത്താവേ, അവർക്ക് നിത്യശാന്തി നൽകണമേ; നിത്യപ്രകാശം അവരുടെമേൽ പ്രകാശിക്കട്ടെ."
+  },
+  "note": {
+    "en": "To have a death entered in the parish register and announced at the Masses, please contact the parish office. Anniversary Masses are arranged through the same office.",
+    "ml": "ഒരു മരണം ഇടവക രജിസ്റ്ററിൽ ചേർക്കാനും കുർബാനകളിൽ അറിയിക്കാനും ഇടവക ഓഫീസുമായി ബന്ധപ്പെടുക. ഓർമ്മ കുർബാനകളും ഇതേ ഓഫീസ് വഴിയാണ് ക്രമീകരിക്കുന്നത്."
+  },
+  "items": [
+    {
+      "id": "ob01",
+      "name": { "en": "Thresiamma Devassy", "ml": "ത്രേസ്യാമ്മ ദേവസ്സി" },
+      "image": "/images/site/candle-quiet.jpg",
+      "age": 86,
+      "born": "1940-02-11",
+      "died": "2026-08-09",
+      "house": { "en": "Kunnel House", "ml": "കുന്നേൽ ഭവനം" },
+      "unit": { "en": "St. Peter's Family Unit", "ml": "വി. പത്രോസ് കുടുംബക്കൂട്ടായ്മ" },
+      "funeral": {
+        "date": "2026-08-10T15:30:00+05:30",
+        "time": { "en": "3:30 PM", "ml": "ഉച്ചകഴിഞ്ഞ് 3:30" },
+        "place": { "en": "St. Thomas Church, Mangalassery", "ml": "സെന്റ് തോമസ് പള്ളി, മംഗളശ്ശേരി" }
+      },
+      "survivedBy": {
+        "en": "Wife of the late Devassy Kunnel. Mother of Jose, Mary and Sr. Anila CMC. Grandmother of eleven.",
+        "ml": "പരേതനായ ദേവസ്സി കുന്നേലിന്റെ ഭാര്യ. ജോസ്, മേരി, സി. അനില സി.എം.സി. എന്നിവരുടെ മാതാവ്. പതിനൊന്ന് പേരക്കുട്ടികൾ."
+      },
+      "tribute": {
+        "en": "For thirty years she washed and ironed the altar linen of this church without once being asked, and she taught two generations of Mathruvedi women to do the same.",
+        "ml": "മുപ്പത് വർഷം ആരും ആവശ്യപ്പെടാതെ തന്നെ ഈ ദേവാലയത്തിലെ അൾത്താര വസ്ത്രങ്ങൾ അലക്കി ഇസ്തിരിയിട്ടു; രണ്ട് തലമുറ മാതൃവേദി അംഗങ്ങളെ അതേ ശുശ്രൂഷ പഠിപ്പിച്ചു."
+      }
+    },
+    {
+      "id": "ob02",
+      "name": { "en": "Ouseph Chakkalakkal", "ml": "ഔസേപ്പ് ചക്കാലയ്ക്കൽ" },
+      "image": "/images/site/rustic-candle.jpg",
+      "age": 74,
+      "born": "1952-06-30",
+      "died": "2026-07-28",
+      "house": { "en": "Chakkalakkal House", "ml": "ചക്കാലയ്ക്കൽ ഭവനം" },
+      "unit": { "en": "St. Sebastian's Family Unit", "ml": "വി. സെബസ്ത്യാനോസ് കുടുംബക്കൂട്ടായ്മ" },
+      "funeral": {
+        "date": "2026-07-29T16:00:00+05:30",
+        "time": { "en": "4:00 PM", "ml": "വൈകുന്നേരം 4:00" },
+        "place": { "en": "St. Thomas Church, Mangalassery", "ml": "സെന്റ് തോമസ് പള്ളി, മംഗളശ്ശേരി" }
+      },
+      "survivedBy": {
+        "en": "Husband of Annamma. Father of Bijoy, Bindu and Biju. Retired headmaster of the parish school.",
+        "ml": "അന്നമ്മയുടെ ഭർത്താവ്. ബിജോയ്, ബിന്ദു, ബിജു എന്നിവരുടെ പിതാവ്. ഇടവക സ്കൂളിലെ വിരമിച്ച ഹെഡ്മാസ്റ്റർ."
+      },
+      "tribute": {
+        "en": "He rang the church bell as a boy in 1963 and read the Sunday epistle for forty-one years. The parish library was his idea and, for most of its life, his own money.",
+        "ml": "1963-ൽ ബാലനായിരിക്കെ പള്ളിമണി മുഴക്കി; നാൽപ്പത്തിയൊന്ന് വർഷം ഞായറാഴ്ചത്തെ ലേഖനം വായിച്ചു. ഇടവക ലൈബ്രറി അദ്ദേഹത്തിന്റെ ആശയമായിരുന്നു, ഏറെക്കാലം അദ്ദേഹത്തിന്റെ സ്വന്തം പണവും."
+      }
+    },
+    {
+      "id": "ob03",
+      "name": { "en": "Mariyakutty Panackal", "ml": "മറിയക്കുട്ടി പനയ്ക്കൽ" },
+      "image": "/images/site/votive.jpg",
+      "age": 91,
+      "born": "1935-01-19",
+      "died": "2026-06-14",
+      "house": { "en": "Panackal House", "ml": "പനയ്ക്കൽ ഭവനം" },
+      "unit": { "en": "St. Mary's Family Unit", "ml": "വി. മറിയം കുടുംബക്കൂട്ടായ്മ" },
+      "funeral": {
+        "date": "2026-06-15T15:00:00+05:30",
+        "time": { "en": "3:00 PM", "ml": "ഉച്ചകഴിഞ്ഞ് 3:00" },
+        "place": { "en": "St. Thomas Church, Mangalassery", "ml": "സെന്റ് തോമസ് പള്ളി, മംഗളശ്ശേരി" }
+      },
+      "survivedBy": {
+        "en": "Widow of Varkey Panackal. Mother of six, grandmother of nineteen, great-grandmother of four.",
+        "ml": "വർക്കി പനയ്ക്കലിന്റെ വിധവ. ആറ് മക്കൾ, പത്തൊൻപത് പേരക്കുട്ടികൾ, നാല് മുതുമക്കൾ."
+      },
+      "tribute": {
+        "en": "The oldest member of the parish register at her death. She remembered the old thatched church and could name every vicar since 1948.",
+        "ml": "മരണസമയത്ത് ഇടവക രജിസ്റ്ററിലെ ഏറ്റവും പ്രായമേറിയ അംഗം. പഴയ ഓലപ്പള്ളി ഓർത്തിരുന്നു; 1948 മുതലുള്ള എല്ലാ വികാരിമാരുടെയും പേര് പറയാമായിരുന്നു."
+      }
+    },
+    {
+      "id": "ob04",
+      "name": { "en": "Antony Vadakkan", "ml": "ആന്റണി വടക്കൻ" },
+      "image": "/images/site/lantern.jpg",
+      "age": 58,
+      "born": "1968-04-25",
+      "died": "2026-05-02",
+      "house": { "en": "Vadakkan House", "ml": "വടക്കൻ ഭവനം" },
+      "unit": { "en": "St. Joseph's Family Unit", "ml": "വി. യൗസേപ്പ് കുടുംബക്കൂട്ടായ്മ" },
+      "funeral": {
+        "date": "2026-05-03T16:30:00+05:30",
+        "time": { "en": "4:30 PM", "ml": "വൈകുന്നേരം 4:30" },
+        "place": { "en": "St. Thomas Church, Mangalassery", "ml": "സെന്റ് തോമസ് പള്ളി, മംഗളശ്ശേരി" }
+      },
+      "survivedBy": {
+        "en": "Husband of Sheeja. Father of Aleena and Alan. Member of the parish committee for two terms.",
+        "ml": "ഷീജയുടെ ഭർത്താവ്. അലീനയുടെയും അലന്റെയും പിതാവ്. രണ്ട് തവണ ഇടവക കമ്മിറ്റി അംഗം."
+      },
+      "tribute": {
+        "en": "He drove the parish ambulance at any hour it was needed, and never once sent a bill to a family.",
+        "ml": "ആവശ്യമുള്ള ഏത് നേരത്തും ഇടവക ആംബുലൻസ് ഓടിച്ചു; ഒരു കുടുംബത്തിനും ഒരിക്കലും ബിൽ നൽകിയില്ല."
+      }
+    },
+    {
+      "id": "ob05",
+      "name": { "en": "Elikutty Thattil", "ml": "ഏലിക്കുട്ടി തട്ടിൽ" },
+      "image": "/images/site/candle-quiet.jpg",
+      "age": 79,
+      "born": "1947-09-12",
+      "died": "2026-03-21",
+      "house": { "en": "Thattil House", "ml": "തട്ടിൽ ഭവനം" },
+      "unit": { "en": "St. Alphonsa Family Unit", "ml": "വി. അൽഫോൻസാമ്മ കുടുംബക്കൂട്ടായ്മ" },
+      "funeral": {
+        "date": "2026-03-22T15:30:00+05:30",
+        "time": { "en": "3:30 PM", "ml": "ഉച്ചകഴിഞ്ഞ് 3:30" },
+        "place": { "en": "St. Thomas Church, Mangalassery", "ml": "സെന്റ് തോമസ് പള്ളി, മംഗളശ്ശേരി" }
+      },
+      "survivedBy": {
+        "en": "Wife of the late Paulose Thattil. Mother of Fr. Jibin Thattil and Lissy. Grandmother of five.",
+        "ml": "പരേതനായ പൗലോസ് തട്ടിലിന്റെ ഭാര്യ. ഫാ. ജിബിൻ തട്ടിലിന്റെയും ലിസിയുടെയും മാതാവ്. അഞ്ച് പേരക്കുട്ടികൾ."
+      },
+      "tribute": {
+        "en": "She cooked for the feast kitchen for over forty years and trained the Mathruvedi in the old measures no recipe book carries.",
+        "ml": "നാൽപ്പതിലേറെ വർഷം തിരുനാൾ അടുക്കളയിൽ പാചകം ചെയ്തു; ഒരു പാചകപുസ്തകത്തിലുമില്ലാത്ത പഴയ അളവുകൾ മാതൃവേദിയെ പഠിപ്പിച്ചു."
+      }
+    },
+    {
+      "id": "ob06",
+      "name": { "en": "Varghese Kalathil", "ml": "വർഗീസ് കളത്തിൽ" },
+      "image": "/images/site/rustic-candle.jpg",
+      "age": 83,
+      "born": "1943-11-07",
+      "died": "2025-12-19",
+      "house": { "en": "Kalathil House", "ml": "കളത്തിൽ ഭവനം" },
+      "unit": { "en": "St. Thomas Family Unit", "ml": "വി. തോമാശ്ലീഹാ കുടുംബക്കൂട്ടായ്മ" },
+      "funeral": {
+        "date": "2025-12-20T15:00:00+05:30",
+        "time": { "en": "3:00 PM", "ml": "ഉച്ചകഴിഞ്ഞ് 3:00" },
+        "place": { "en": "St. Thomas Church, Mangalassery", "ml": "സെന്റ് തോമസ് പള്ളി, മംഗളശ്ശേരി" }
+      },
+      "survivedBy": {
+        "en": "Husband of the late Rosy. Father of Sunil, Sunitha and Sunny. Trustee of the parish, 1989 and 1994.",
+        "ml": "പരേതയായ റോസിയുടെ ഭർത്താവ്. സുനിൽ, സുനിത, സണ്ണി എന്നിവരുടെ പിതാവ്. 1989-ലും 1994-ലും ഇടവക കൈക്കാരൻ."
+      },
+      "tribute": {
+        "en": "The bell tower was raised in his term as trustee. He kept the accounts of that build in a single ruled notebook, still held in the parish office.",
+        "ml": "അദ്ദേഹം കൈക്കാരനായിരുന്ന കാലത്താണ് മണിമാളിക ഉയർന്നത്. ആ നിർമ്മാണത്തിന്റെ കണക്കുകൾ ഒരൊറ്റ വരയിട്ട നോട്ടുബുക്കിൽ സൂക്ഷിച്ചു; അത് ഇന്നും ഇടവക ഓഫീസിലുണ്ട്."
+      }
+    }
+  ]
+}

@@ -20,22 +20,40 @@ type SectionDef = {
 
 const SECTIONS: SectionDef[] = [
   { key: 'site', name: 'Homepage & Banners', icon: 'home', blurb: 'Hero images, welcome text, contact details, social links' },
+  { key: 'upcoming', name: 'Upcoming Events', icon: 'sparkle', blurb: 'Dated events, and the welcome popup that announces them' },
   { key: 'notices', name: 'Notice Board', icon: 'bell', blurb: 'Parish news, banns, funeral notices, prayer requests' },
+  { key: 'obituaries', name: 'Obituary Column', icon: 'candle', blurb: 'Deaths, funeral details and the memorial for each' },
   { key: 'events', name: 'Weekly Events', icon: 'calendar', blurb: 'The seven day parish calendar' },
   { key: 'mass', name: 'Mass Timings', icon: 'clock', blurb: 'Sunday, weekday, holy day, confession, adoration' },
-  { key: 'feast', name: 'Feast Announcement', icon: 'sparkle', blurb: 'Banner, date, countdown and programme' },
   { key: 'clergy', name: 'Parish Priest', icon: 'users', blurb: 'Photo, message, quote and contact details' },
+  { key: 'committee', name: 'Parish Committee', icon: 'shield', blurb: 'Office bearers, ward members and their term' },
   { key: 'past-priests', name: 'Past Priests', icon: 'scroll', blurb: 'The timeline of former vicars' },
   { key: 'gallery', name: 'Gallery', icon: 'plus', blurb: 'Upload photographs and set their category' },
   { key: 'media', name: 'Videos & Bulletins', icon: 'youtube', blurb: 'YouTube videos and downloadable PDF bulletins' },
   { key: 'stats', name: 'Parish Statistics', icon: 'users', blurb: 'Summary counts shown on the homepage' },
-  { key: 'ministries', name: 'Ministries', icon: 'flame', blurb: 'The ten parish ministries and their leads' },
+  { key: 'ministries', name: 'Ministries', icon: 'flame', blurb: 'Each ministry, its leader, team, events and history' },
+  { key: 'donation', name: 'Donations', icon: 'heart', blurb: 'Funds, suggested amounts, bank and UPI details' },
   { key: 'about', name: 'About the Church', icon: 'book', blurb: 'History, mission, vision, patron, architecture' },
 ]
+
+type Donation = {
+  paymentId: string
+  amount: number
+  currency?: string
+  status?: string
+  method?: string
+  fundName?: string
+  donor?: string
+  intention?: string
+  email?: string
+  phone?: string
+  at: string
+}
 
 type Submissions = {
   subscribers: { email: string; at: string }[]
   messages: { name: string; email: string; phone?: string; subject?: string; message: string; at: string }[]
+  donations: Donation[]
 }
 
 export function AdminApp() {
@@ -82,7 +100,7 @@ export function AdminApp() {
       fetch('/api/admin/submissions', { cache: 'no-store' })
         .then((r) => r.json())
         .then(setSubmissions)
-        .catch(() => setSubmissions({ subscribers: [], messages: [] }))
+        .catch(() => setSubmissions({ subscribers: [], messages: [], donations: [] }))
       return
     }
     load(active)
@@ -256,10 +274,10 @@ export function AdminApp() {
               <Icon name="mail" className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--muted))]" />
               <span>
                 <span className="block font-sans text-sm font-medium text-[rgb(var(--ink))]">
-                  Inbox & Subscribers
+                  Inbox, Gifts & Subscribers
                 </span>
                 <span className="mt-0.5 block font-sans text-2xs leading-snug text-[rgb(var(--muted))]">
-                  Messages from the contact form
+                  Contact form messages and every donation received
                 </span>
               </span>
             </button>
@@ -364,8 +382,11 @@ function Inbox({ submissions }: { submissions: Submissions | null }) {
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-      <section className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
+    <div className="flex flex-col gap-6">
+      <Donations donations={submissions.donations ?? []} />
+
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+        <section className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
         <h2 className="border-b border-[rgb(var(--line))] px-6 py-5 font-display text-xl text-[rgb(var(--ink))]">
           Messages ({submissions.messages.length})
         </h2>
@@ -422,6 +443,168 @@ function Inbox({ submissions }: { submissions: Submissions | null }) {
           )}
         </ul>
       </section>
+      </div>
     </div>
+  )
+}
+
+/**
+ * Every gift Razorpay has confirmed, newest first, with the running totals the
+ * treasurer reads out at the committee meeting and a CSV for the account book.
+ */
+function Donations({ donations }: { donations: Donation[] }) {
+  const received = donations.filter((d) => d.status === 'captured' || d.status === 'authorized')
+  const total = received.reduce((sum, d) => sum + (Number(d.amount) || 0), 0)
+
+  const now = new Date()
+  const thisMonth = received
+    .filter((d) => {
+      const at = new Date(d.at)
+      return at.getMonth() === now.getMonth() && at.getFullYear() === now.getFullYear()
+    })
+    .reduce((sum, d) => sum + (Number(d.amount) || 0), 0)
+
+  const rupees = (value: number) => `₹${value.toLocaleString('en-IN')}`
+
+  function exportCsv() {
+    const header = [
+      'Date',
+      'Payment ID',
+      'Donor',
+      'Fund',
+      'Amount',
+      'Status',
+      'Method',
+      'Email',
+      'Phone',
+      'Intention',
+    ]
+    const rows = donations.map((d) => [
+      new Date(d.at).toLocaleString('en-IN'),
+      d.paymentId,
+      d.donor ?? '',
+      d.fundName ?? '',
+      String(d.amount ?? ''),
+      d.status ?? '',
+      d.method ?? '',
+      d.email ?? '',
+      d.phone ?? '',
+      d.intention ?? '',
+    ])
+    // Quote every cell — a donor's name or intention may contain a comma.
+    const csv = [header, ...rows]
+      .map((row) => row.map((cell) => '"' + String(cell).replace(/"/g, '""') + '"').join(','))
+      .join('\n')
+
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `donations-${new Date().toISOString().slice(0, 10)}.csv`
+    link.click()
+    URL.revokeObjectURL(url)
+  }
+
+  return (
+    <section className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[rgb(var(--line))] px-6 py-5">
+        <div>
+          <h2 className="font-display text-xl text-[rgb(var(--ink))]">
+            Donations ({received.length})
+          </h2>
+          <p className="mt-1 font-sans text-2xs text-[rgb(var(--muted))]">
+            content/donations.json · written only after Razorpay confirms the payment
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="text-right">
+            <p className="font-display text-2xl tabular-nums text-gold-600 dark:text-gold-300">
+              {rupees(total)}
+            </p>
+            <p className="font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))]">
+              received in all
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="font-display text-2xl tabular-nums text-[rgb(var(--ink))]">
+              {rupees(thisMonth)}
+            </p>
+            <p className="font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))]">
+              this month
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={exportCsv}
+            disabled={donations.length === 0}
+            className="rounded-sm border border-[rgb(var(--line))] px-4 py-2 font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400 hover:text-gold-500 disabled:opacity-40"
+          >
+            Export CSV
+          </button>
+        </div>
+      </div>
+
+      {donations.length === 0 ? (
+        <p className="px-6 py-8 font-sans text-sm text-[rgb(var(--muted))]">
+          Nothing yet. Gifts made through the donation section appear here the moment Razorpay
+          confirms them.
+        </p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[46rem] border-collapse">
+            <thead>
+              <tr className="border-b border-[rgb(var(--line))] text-left">
+                {['Date', 'Donor', 'Fund', 'Amount', 'Status', 'Reference'].map((head) => (
+                  <th
+                    key={head}
+                    className="px-6 py-3 font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))]"
+                  >
+                    {head}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[rgb(var(--line))]">
+              {donations.slice(0, 100).map((d) => (
+                <tr key={d.paymentId}>
+                  <td className="px-6 py-3 font-sans text-2xs tabular-nums text-[rgb(var(--muted))]">
+                    {new Date(d.at).toLocaleString('en-IN')}
+                  </td>
+                  <td className="px-6 py-3 font-sans text-sm text-[rgb(var(--ink))]">
+                    {d.donor || 'Anonymous'}
+                    {d.intention ? (
+                      <span className="mt-0.5 block font-sans text-2xs text-[rgb(var(--muted))]">
+                        {d.intention}
+                      </span>
+                    ) : null}
+                  </td>
+                  <td className="px-6 py-3 font-sans text-2xs text-[rgb(var(--muted))]">
+                    {d.fundName || '—'}
+                  </td>
+                  <td className="px-6 py-3 font-sans text-sm font-semibold tabular-nums text-gold-600 dark:text-gold-300">
+                    {rupees(Number(d.amount) || 0)}
+                  </td>
+                  <td className="px-6 py-3">
+                    <span
+                      className={cn(
+                        'rounded-full border px-2.5 py-1 font-sans text-[0.58rem] uppercase tracking-[0.12em]',
+                        d.status === 'captured' || d.status === 'authorized'
+                          ? 'border-gold-400/60 text-gold-600 dark:text-gold-300'
+                          : 'border-burgundy-400/50 text-burgundy-500 dark:text-burgundy-300',
+                      )}
+                    >
+                      {d.status ?? 'unknown'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-3 font-mono text-2xs text-[rgb(var(--muted))]">
+                    {d.paymentId}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   )
 }

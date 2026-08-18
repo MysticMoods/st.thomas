@@ -161,6 +161,12 @@ const paths: Record<string, React.ReactNode> = {
   plus: <path d="M12 5v14M5 12h14" />,
   minus: <path d="M5 12h14" />,
   download: <path d="M12 3.6v11.2M7.6 10.6 12 15l4.4-4.4M4.4 19.6h15.2" />,
+  copy: (
+    <>
+      <rect x="9" y="9" width="11" height="12" rx="2" />
+      <path d="M15 5.5A2.5 2.5 0 0 0 12.5 3h-6A2.5 2.5 0 0 0 4 5.5v9A2.5 2.5 0 0 0 6.5 17" />
+    </>
+  ),
   file: (
     <>
       <path d="M6 2.8h7.4L19 8.4v12.8H6z" />

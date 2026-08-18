@@ -35,8 +35,10 @@ those credentials are the only ones that work. The user ID is matched case-insen
 password exactly. Change both — and `ADMIN_SESSION_SECRET` — before this goes anywhere public.
 
 Once signed in, that account can edit everything on the site: phone numbers, email addresses,
-hero banners, Mass timings, weekly events, notices, feast dates, priests, statistics, gallery
-photographs, YouTube videos and PDF bulletins.
+hero banners, Mass timings, weekly and dated events, notices, the obituary column, priests, the
+parish committee, ministries, donation funds and bank details, statistics, gallery photographs,
+YouTube videos and PDF bulletins. It also shows every donation Razorpay has confirmed, with a
+CSV export for the account book.
 
 ---
 
@@ -52,17 +54,21 @@ and never falls back to an untranslated string.
 | `about.json` | History, mission, vision, patron saint, architecture, diocese, parish register, emblem |
 | `mass.json` | Sunday, weekday, holy day, confession, adoration and special service timings |
 | `events.json` | The seven-day parish calendar (today's column highlights itself) |
+| `upcoming.json` | Dated events, and the welcome popup that announces the next three |
 | `clergy.json` | Parish priest — photo, message, quote and contact details |
 | `past-priests.json` | The animated timeline of former vicars |
 | `stats.json` | The eight animated counters |
-| `ministries.json` | The ten parish ministries |
+| `committee.json` | The parish committee — office bearers, ward members and their term |
+| `ministries.json` | The ten parish ministries, each with its leader, team, events and history |
+| `donation.json` | Giving: funds, suggested amounts, limits, bank and UPI details |
 | `gallery.json` | Masonry gallery items and their categories |
 | `notices.json` | Notice board: news, feasts, prayer requests, funerals, banns, catechism, youth |
-| `feast.json` | Upcoming feast banner, countdown target and programme |
+| `obituaries.json` | The obituary column — deaths, funeral details and each memorial |
 | `media.json` | YouTube videos and downloadable PDF bulletins |
 
-`content/messages.json` and `content/subscribers.json` are created at runtime by the contact and
-newsletter forms. Both are git-ignored — they hold people's addresses.
+`content/messages.json`, `content/subscribers.json` and `content/donations.json` are created at
+runtime by the contact form, the newsletter and the donation flow. All three are git-ignored —
+they hold people's addresses and their giving.
 
 ### Editing without touching JSON
 
@@ -106,17 +112,36 @@ The dashboard also has an inbox for contact-form messages and newsletter subscri
   (twenty per section) before it is overwritten, and the new file is written to a
   temporary path and renamed into place, so a crash cannot leave broken JSON.
 - Translation runs server-side behind the same session check.
-- Content writes are restricted to the twelve known keys, so no path traversal is possible.
+- Content writes are restricted to the known content keys, so no path traversal is possible.
+- Card and UPI details are typed into Razorpay's own hosted checkout; this server never sees
+  them and stores only Razorpay's payment id. A donation is written to
+  `content/donations.json` only after its signature is verified **and** the amount has been
+  read back from Razorpay — the amount the browser claims is never trusted.
+- Order creation is rate limited to ten attempts per IP per ten minutes, and the amount is
+  checked against the limits in `content/donation.json`.
+- The webhook rejects anything whose `x-razorpay-signature` does not match
+  `RAZORPAY_WEBHOOK_SECRET`, and will not record a payment the browser has already recorded.
 - `robots.txt` and the page metadata keep `/admin` and `/api` out of search engines.
 
 ---
 
 ## What is in the build
 
-**Sections** — hero (parallax, cross-fading images), about, Mass timings, weekly calendar, parish
-priest, animated statistics, ministries, past-priests timeline, masonry gallery
-with a full-screen lightbox, latest video and bulletins, feast countdown, notice board, members,
-newsletter, contact with map and form, footer.
+**Sections** — hero (parallax, cross-fading images), about, Mass timings, upcoming events,
+weekly calendar, parish priest, parish committee, animated statistics, ministries (each opening
+a detail panel), past-priests timeline, masonry gallery with a full-screen lightbox, latest video
+and bulletins, giving, notice board, obituary column, members, newsletter, contact with map and
+form, footer. A second route, `/obituary`, carries the full memorial archive.
+
+**The welcome popup** — the next three dated events from `upcoming.json`, shown a moment after
+the homepage settles. Dismissing it is remembered for the number of hours set in that file, so
+nobody is shown it twice in a visit. Past events drop out of both the popup and the section on
+their own; when nothing is upcoming, neither appears.
+
+**Giving** — Razorpay checkout for card, UPI, net banking and wallets, over the funds listed in
+`content/donation.json`. With `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` unset the checkout
+button is switched off and the bank and UPI panel carries the section on its own, so the page is
+never a dead end.
 
 **Motion** — scroll reveals, hero parallax and slow zoom, four full-width parallax bands set
 between sections (the photograph drifts against the page while the verse over it moves the other

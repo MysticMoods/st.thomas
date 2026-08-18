@@ -85,8 +85,11 @@ export async function getContent(): Promise<Content> {
     ministries,
     gallery,
     notices,
-    feast,
     media,
+    upcoming,
+    obituaries,
+    committee,
+    donation,
   ] = await Promise.all([
     readContent('site'),
     readContent('about'),
@@ -98,8 +101,11 @@ export async function getContent(): Promise<Content> {
     readContent('ministries'),
     readContent('gallery'),
     readContent('notices'),
-    readContent('feast'),
     readContent('media'),
+    readContent('upcoming'),
+    readContent('obituaries'),
+    readContent('committee'),
+    readContent('donation'),
   ])
 
   return {
@@ -113,13 +119,19 @@ export async function getContent(): Promise<Content> {
     ministries,
     gallery,
     notices,
-    feast,
     media,
+    upcoming,
+    obituaries,
+    committee,
+    donation,
   } as Content
 }
 
-/** Appends a record to a small JSON list under content/ (subscribers, messages). */
-export async function appendRecord(name: 'subscribers' | 'messages', record: unknown) {
+/** Runtime lists written by the public forms, not by the dashboard editor. */
+export type RecordList = 'subscribers' | 'messages' | 'donations'
+
+/** Appends a record to a small JSON list under content/. */
+export async function appendRecord(name: RecordList, record: unknown) {
   const target = path.join(DIR, `${name}.json`)
   let list: unknown[] = []
   try {
@@ -132,7 +144,7 @@ export async function appendRecord(name: 'subscribers' | 'messages', record: unk
   await fs.writeFile(target, JSON.stringify(list.slice(0, 2000), null, 2) + '\n', 'utf-8')
 }
 
-export async function readRecords(name: 'subscribers' | 'messages') {
+export async function readRecords(name: RecordList) {
   try {
     const raw = await fs.readFile(path.join(DIR, `${name}.json`), 'utf-8')
     const list = JSON.parse(raw)

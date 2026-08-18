@@ -1,0 +1,99 @@
+{
+  "eyebrow": { "en": "Support the parish", "ml": "ഇടവകയെ പിന്തുണയ്ക്കുക" },
+  "title": { "en": "Give to St. Thomas", "ml": "സെന്റ് തോമസിന് സംഭാവന നൽകുക" },
+  "subtitle": {
+    "en": "Every rupee given here is spent on this hill — the lamp that burns before the altar, the child whose fees are paid, the roof that keeps the rain out.",
+    "ml": "ഇവിടെ നൽകുന്ന ഓരോ രൂപയും ഈ കുന്നിൽ തന്നെ ചെലവഴിക്കുന്നു — അൾത്താരയ്ക്ക് മുൻപിൽ കത്തുന്ന വിളക്ക്, ഫീസടയ്ക്കുന്ന കുട്ടി, മഴ തടയുന്ന മേൽക്കൂര."
+  },
+  "image": "/images/site/wheat-hands.jpg",
+  "note": {
+    "en": "Payments are handled by Razorpay. The parish never sees or stores your card or UPI details.",
+    "ml": "പണമിടപാടുകൾ റേസർപേ വഴിയാണ്. നിങ്ങളുടെ കാർഡ് അല്ലെങ്കിൽ യുപിഐ വിവരങ്ങൾ ഇടവക കാണുകയോ സൂക്ഷിക്കുകയോ ചെയ്യുന്നില്ല."
+  },
+  "presets": [250, 500, 1000, 2500, 5000, 10000],
+  "minAmount": 10,
+  "maxAmount": 500000,
+  "funds": [
+    {
+      "id": "general",
+      "icon": "cross",
+      "title": { "en": "Where it is needed most", "ml": "ഏറ്റവും ആവശ്യമുള്ളിടത്ത്" },
+      "description": {
+        "en": "The everyday running of the church — electricity, altar bread and wine, flowers, and the salaries of the sacristan and sweeper.",
+        "ml": "ദേവാലയത്തിന്റെ ദൈനംദിന നടത്തിപ്പ് — വൈദ്യുതി, തിരുവോസ്തിയും വീഞ്ഞും, പുഷ്പങ്ങൾ, കപ്യാരുടെയും തൂപ്പുകാരന്റെയും വേതനം."
+      }
+    },
+    {
+      "id": "charity",
+      "icon": "heart",
+      "title": { "en": "Charity & medical fund", "ml": "കാരുണ്യ, ചികിത്സാ ഫണ്ട്" },
+      "description": {
+        "en": "Provisions carried to fourteen households every Sunday, hospital bills the family cannot meet, and house repairs before the monsoon.",
+        "ml": "എല്ലാ ഞായറാഴ്ചയും പതിനാല് കുടുംബങ്ങൾക്ക് എത്തിക്കുന്ന ഭക്ഷ്യസാധനങ്ങൾ, കുടുംബത്തിന് താങ്ങാനാവാത്ത ആശുപത്രി ബില്ലുകൾ, മഴക്കാലത്തിനു മുൻപുള്ള ഭവന അറ്റകുറ്റപ്പണികൾ."
+      },
+      "goal": 600000,
+      "raised": 418500
+    },
+    {
+      "id": "education",
+      "icon": "book",
+      "title": { "en": "Education fund", "ml": "വിദ്യാഭ്യാസ ഫണ്ട്" },
+      "description": {
+        "en": "School and college fees for thirty-one children of the parish, along with books, uniforms and the bus pass.",
+        "ml": "ഇടവകയിലെ മുപ്പത്തിയൊന്ന് കുട്ടികളുടെ സ്കൂൾ, കോളേജ് ഫീസ്, ഒപ്പം പുസ്തകങ്ങൾ, യൂണിഫോം, ബസ് പാസ്."
+      },
+      "goal": 450000,
+      "raised": 312000
+    },
+    {
+      "id": "building",
+      "icon": "home",
+      "title": { "en": "Church restoration", "ml": "ദേവാലയ പുനരുദ്ധാരണം" },
+      "description": {
+        "en": "Re-tiling the nave roof, restoring the 1893 teak doors, and rewiring the bell tower before the centenary of the present building.",
+        "ml": "ദേവാലയ മേൽക്കൂര ഓട് പുതുക്കൽ, 1893-ലെ തേക്കുവാതിലുകളുടെ പുനരുദ്ധാരണം, ഇപ്പോഴത്തെ കെട്ടിടത്തിന്റെ ശതാബ്ദിക്ക് മുൻപ് മണിമാളികയുടെ വയറിംഗ് പുതുക്കൽ."
+      },
+      "goal": 2500000,
+      "raised": 1145000
+    },
+    {
+      "id": "mass",
+      "icon": "candle",
+      "title": { "en": "Mass offering", "ml": "കുർബാന കാഴ്ച" },
+      "description": {
+        "en": "Ask for a Mass to be offered for your intention, for the sick, or in memory of someone who has died. The office will confirm the date with you.",
+        "ml": "നിങ്ങളുടെ നിയോഗത്തിനോ രോഗികൾക്കുവേണ്ടിയോ മരിച്ചവരുടെ ഓർമ്മയ്ക്കോ കുർബാന അർപ്പിക്കാൻ അപേക്ഷിക്കുക. തീയതി ഓഫീസ് അറിയിക്കും."
+      }
+    }
+  ],
+  "bank": {
+    "accountName": "St. Thomas Church Mangalassery",
+    "accountNumber": "0741 5300 0012 847",
+    "ifsc": "SIBL0000741",
+    "bankName": "South Indian Bank",
+    "branch": "Mangalassery",
+    "upiId": "stthomasmangalassery@sib"
+  },
+  "assurance": [
+    {
+      "en": "Card, UPI, net banking and wallets — all through Razorpay's secured checkout.",
+      "ml": "കാർഡ്, യുപിഐ, നെറ്റ് ബാങ്കിംഗ്, വാലറ്റുകൾ — എല്ലാം റേസർപേയുടെ സുരക്ഷിത ചെക്കൗട്ട് വഴി."
+    },
+    {
+      "en": "A receipt reaches your email as soon as the payment is confirmed.",
+      "ml": "പണമടവ് സ്ഥിരീകരിച്ചാലുടൻ രസീത് നിങ്ങളുടെ ഇമെയിലിൽ എത്തും."
+    },
+    {
+      "en": "Accounts are read out at the general body meeting every year and audited before that.",
+      "ml": "കണക്കുകൾ എല്ലാ വർഷവും പൊതുയോഗത്തിൽ വായിക്കുന്നു; അതിനു മുൻപ് ഓഡിറ്റ് ചെയ്യുന്നു."
+    },
+    {
+      "en": "Give anonymously if you wish — leave the name field as it is.",
+      "ml": "ആഗ്രഹമുണ്ടെങ്കിൽ പേരില്ലാതെ നൽകാം — പേരിന്റെ കളം ഒഴിച്ചിടുക."
+    }
+  ],
+  "receiptNote": {
+    "en": "For a stamped receipt for income tax purposes, write to the parish office with your payment reference.",
+    "ml": "ആദായനികുതി ആവശ്യങ്ങൾക്കുള്ള സീൽ ചെയ്ത രസീതിനായി, പണമടവിന്റെ റഫറൻസ് സഹിതം ഇടവക ഓഫീസിലേക്ക് എഴുതുക."
+  }
+}

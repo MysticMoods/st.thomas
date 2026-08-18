@@ -5,24 +5,40 @@ import { useEffect, useState } from 'react'
 
 import { ui, useLang } from '@/lib/i18n'
 import { useTheme } from '@/lib/theme'
-import type { SiteContent } from '@/lib/types'
+import type { L, SiteContent } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 import { Icon } from './ui/Icon'
 import { ParishEmblem } from './ui/ParishEmblem'
 
-const LINKS = [
+type NavLink = {
+  /** Section id on the homepage, or a route of its own. */
+  id: string
+  label: L
+  href?: string
+  /** Hidden from the horizontal bar, still listed in the drawer. */
+  drawerOnly?: boolean
+}
+
+const LINKS: NavLink[] = [
   { id: 'top', label: ui.nav.home },
   { id: 'about', label: ui.nav.about },
   { id: 'mass-timings', label: ui.nav.mass },
-  { id: 'weekly-events', label: ui.nav.events },
+  { id: 'upcoming', label: ui.nav.upcoming },
+  { id: 'weekly-events', label: ui.nav.events, drawerOnly: true },
   { id: 'priests', label: ui.nav.priests },
+  { id: 'committee', label: ui.nav.committee },
+  { id: 'ministries', label: ui.nav.ministries, drawerOnly: true },
   { id: 'gallery', label: ui.nav.gallery },
-  { id: 'media', label: ui.nav.media },
+  { id: 'media', label: ui.nav.media, drawerOnly: true },
   { id: 'notices', label: ui.nav.notices },
-  { id: 'members', label: ui.nav.members },
+  { id: 'obituary', label: ui.nav.obituary, href: '/obituary' },
+  { id: 'members', label: ui.nav.members, drawerOnly: true },
   { id: 'contact', label: ui.nav.contact },
 ]
+
+/** The bar itself, which has to stay inside one line at 1440px. */
+const BAR_LINKS = LINKS.filter((link) => !link.drawerOnly)
 
 export function Navigation({ site }: { site: SiteContent }) {
   const { t, lang, setLang } = useLang()
@@ -45,7 +61,9 @@ export function Navigation({ site }: { site: SiteContent }) {
 
   // Highlight the section currently filling the viewport.
   useEffect(() => {
-    const targets = LINKS.map((l) => document.getElementById(l.id)).filter(
+    const targets = LINKS.filter((l) => !l.href)
+      .map((l) => document.getElementById(l.id))
+      .filter(
       (el): el is HTMLElement => Boolean(el),
     )
     const observer = new IntersectionObserver(
@@ -68,11 +86,23 @@ export function Navigation({ site }: { site: SiteContent }) {
     }
   }, [open])
 
-  const onNavigate = (id: string) => {
+  const onNavigate = (link: NavLink) => {
     setOpen(false)
-    const el = document.getElementById(id)
-    if (!el) return
-    const top = id === 'top' ? 0 : el.getBoundingClientRect().top + window.scrollY - 78
+
+    // A link with its own route leaves the page.
+    if (link.href) {
+      window.location.href = link.href
+      return
+    }
+
+    // Section links work from /obituary too — they go home first.
+    const el = document.getElementById(link.id)
+    if (!el) {
+      window.location.href = link.id === 'top' ? '/' : `/#${link.id}`
+      return
+    }
+
+    const top = link.id === 'top' ? 0 : el.getBoundingClientRect().top + window.scrollY - 78
     window.scrollTo({ top, behavior: 'smooth' })
   }
 
@@ -96,7 +126,7 @@ export function Navigation({ site }: { site: SiteContent }) {
         <nav className="container flex items-center justify-between gap-6" aria-label="Primary">
           <button
             type="button"
-            onClick={() => onNavigate('top')}
+            onClick={() => onNavigate(LINKS[0])}
             className="group flex shrink-0 items-center gap-3 text-left"
           >
             <ParishEmblem
@@ -127,11 +157,11 @@ export function Navigation({ site }: { site: SiteContent }) {
           </button>
 
           <ul className={cn('hidden items-center gap-0.5', wide ? 'nav-ml:flex' : 'nav:flex')}>
-            {LINKS.map((link) => (
+            {BAR_LINKS.map((link) => (
               <li key={link.id}>
                 <button
                   type="button"
-                  onClick={() => onNavigate(link.id)}
+                  onClick={() => onNavigate(link)}
                   aria-current={active === link.id ? 'true' : undefined}
                   className={cn(
                     'relative whitespace-nowrap rounded-sm py-2 font-sans font-medium uppercase transition-colors duration-300',
@@ -185,6 +215,20 @@ export function Navigation({ site }: { site: SiteContent }) {
                 </button>
               ))}
             </div>
+
+            {/* giving gets its own button — it is never buried in the list */}
+            <button
+              type="button"
+              onClick={() => onNavigate({ id: 'donate', label: ui.nav.donate })}
+              className={cn(
+                'hidden rounded-sm px-4 py-2.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.14em] transition-all duration-300 sm:block',
+                solid
+                  ? 'bg-gold-400 text-navy-950 hover:bg-gold-300'
+                  : 'border border-gold-300/70 text-gold-100 hover:bg-gold-400 hover:text-navy-950',
+              )}
+            >
+              {t(ui.nav.donate)}
+            </button>
 
             <button
               type="button"
@@ -263,7 +307,7 @@ export function Navigation({ site }: { site: SiteContent }) {
                   >
                     <button
                       type="button"
-                      onClick={() => onNavigate(link.id)}
+                      onClick={() => onNavigate(link)}
                       className="w-full border-b border-[rgb(var(--line))] py-4 text-left font-display text-xl text-[rgb(var(--ink))] transition-colors hover:text-gold-500"
                     >
                       {t(link.label)}
@@ -272,7 +316,16 @@ export function Navigation({ site }: { site: SiteContent }) {
                 ))}
               </ul>
 
-              <div className="mt-8 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onNavigate({ id: 'donate', label: ui.nav.donate })}
+                className="btn-primary mt-6 w-full"
+              >
+                {t(ui.nav.donate)}
+                <Icon name="heart" className="h-4 w-4" />
+              </button>
+
+              <div className="mt-6 flex items-center gap-2">
                 {(['en', 'ml'] as const).map((code) => (
                   <button
                     key={code}

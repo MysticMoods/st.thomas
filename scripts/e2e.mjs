@@ -25,6 +25,15 @@ await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2500)
 ok('home renders hero', (await page.locator('h1').first().innerText()).includes('St. Thomas'))
 
+// upcoming events popup — it greets every first-time visitor and must go away
+ok('upcoming events popup opens', (await page.locator('[role=dialog]').count()) === 1)
+await page.click('[role=dialog] button:has-text("Maybe later")')
+await page.waitForTimeout(700)
+ok('popup dismisses', (await page.locator('[role=dialog]').count()) === 0)
+await page.reload({ waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2600)
+ok('popup stays dismissed on the next page load', (await page.locator('[role=dialog]').count()) === 0)
+
 // language switch
 await page.click('button:has-text("മലയാളം")')
 await page.waitForTimeout(600)
@@ -62,10 +71,72 @@ await page.locator('#notices button:has-text("Read more")').first().click()
 await page.waitForTimeout(700)
 ok('notice expands', (await page.locator('#notices button:has-text("Show less")').count()) > 0)
 
-// countdown running
-await page.locator('#feast').scrollIntoViewIfNeeded(); await page.waitForTimeout(1500)
-const cd = await page.locator('#feast .tabular-nums').first().innerText()
-ok('feast countdown renders', /\d/.test(cd), cd)
+// upcoming events section
+await page.locator('#upcoming').scrollIntoViewIfNeeded(); await page.waitForTimeout(1200)
+ok('upcoming events section lists dated events', (await page.locator('#upcoming article').count()) > 1,
+   `${await page.locator('#upcoming article').count()} events`)
+
+// parish committee
+await page.locator('#committee').scrollIntoViewIfNeeded(); await page.waitForTimeout(1200)
+ok('committee lists at least fifteen members', (await page.locator('#committee article').count()) >= 15,
+   `${await page.locator('#committee article').count()} members`)
+
+// ministry detail panel
+await page.locator('#ministries').scrollIntoViewIfNeeded(); await page.waitForTimeout(1200)
+await page.locator('#ministries button.card').first().click()
+await page.waitForTimeout(800)
+ok('ministry panel opens', await page.locator('[role=dialog]').isVisible())
+ok('ministry panel offers its tabs', (await page.locator('[role=dialog] [role=tab]').count()) >= 3,
+   `${await page.locator('[role=dialog] [role=tab]').count()} tabs`)
+await page.locator('[role=dialog] [role=tab]').nth(1).click()
+await page.waitForTimeout(500)
+ok('ministry tab switches', (await page.locator('[role=dialog] [role=tab][aria-selected=true]').count()) === 1)
+await page.keyboard.press('Escape'); await page.waitForTimeout(600)
+ok('ministry panel closes on Escape', (await page.locator('[role=dialog]').count()) === 0)
+
+// donation
+await page.locator('#donate').scrollIntoViewIfNeeded(); await page.waitForTimeout(1200)
+ok('donation section offers preset amounts', (await page.locator('#donate button:has-text("₹")').count()) >= 5)
+await page.locator('#donate button:has-text("₹1,000")').first().click()
+await page.waitForTimeout(400)
+ok('donation amount button selects', (await page.locator('#donate button[aria-pressed=true]').count()) >= 1)
+
+// the order route refuses anything outside the limits in content/donation.json
+const tooSmall = await page.request.post('http://localhost:3000/api/donate/order', {
+  data: { fund: 'general', amount: 1 },
+})
+ok('donation order rejects an amount below the minimum', [422, 503].includes(tooSmall.status()),
+   `status=${tooSmall.status()}`)
+const badFund = await page.request.post('http://localhost:3000/api/donate/order', {
+  data: { fund: 'not-a-fund', amount: 500 },
+})
+ok('donation order rejects an unknown fund', [422, 503].includes(badFund.status()),
+   `status=${badFund.status()}`)
+const forgedVerify = await page.request.post('http://localhost:3000/api/donate/verify', {
+  data: { razorpay_order_id: 'order_x', razorpay_payment_id: 'pay_x', razorpay_signature: 'forged' },
+})
+ok('donation verify rejects a forged signature', [400, 503].includes(forgedVerify.status()),
+   `status=${forgedVerify.status()}`)
+const forgedHook = await page.request.post('http://localhost:3000/api/donate/webhook', {
+  data: { event: 'payment.captured' },
+})
+ok('donation webhook rejects an unsigned call', forgedHook.status() === 400)
+
+// obituary — homepage strip, memorial dialog, and the archive page
+await page.locator('#obituary').scrollIntoViewIfNeeded(); await page.waitForTimeout(1200)
+ok('obituary strip shows recent memorials', (await page.locator('#obituary button.card').count()) === 4,
+   `${await page.locator('#obituary button.card').count()} cards`)
+await page.locator('#obituary button.card').first().click()
+await page.waitForTimeout(800)
+ok('memorial dialog opens', await page.locator('[role=dialog]').isVisible())
+await page.keyboard.press('Escape'); await page.waitForTimeout(600)
+
+await page.goto('http://localhost:3000/obituary', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2000)
+ok('obituary archive page lists every memorial', (await page.locator('button.card').count()) >= 6,
+   `${await page.locator('button.card').count()} cards`)
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(1800)
 
 // newsletter + contact
 const nl = await page.request.post('http://localhost:3000/api/newsletter', { data: { email: 'test.parishioner@example.com' } })
@@ -97,6 +168,10 @@ await page.fill('#admin-password', 'mangalassery1893')
 await page.click('button[type=submit]')
 await page.waitForTimeout(3500)
 ok('admin signs in (user id case-insensitive)', (await page.locator('text=Parish Dashboard').count()) > 0 && (await page.locator('#admin-password').count()) === 0)
+
+await page.click('button:has-text("Inbox, Gifts & Subscribers")')
+await page.waitForTimeout(1600)
+ok('dashboard shows the donations panel', (await page.locator('text=Donations (').count()) > 0)
 
 await page.click('button:has-text("Parish Statistics")')
 await page.waitForTimeout(1500)

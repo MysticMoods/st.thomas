@@ -110,9 +110,27 @@ export type StatsContent = {
   items: { id: string; value: number; suffix: string; label: L }[]
 }
 
+export type MinistryMember = {
+  name: L
+  role: L
+}
+
+export type MinistryEvent = {
+  date: string
+  title: L
+  place: L
+}
+
 export type MinistriesContent = {
   title: L
   subtitle: L
+  /** Shown on the detail panel above the tabs. */
+  labels?: {
+    about: L
+    team: L
+    events: L
+    history: L
+  }
   items: {
     id: string
     icon: string
@@ -120,6 +138,19 @@ export type MinistriesContent = {
     description: L
     lead: L
     members: number
+    /** Everything below is shown only inside the detail panel. */
+    image?: string
+    since?: string
+    meets?: L
+    place?: L
+    leadRole?: L
+    leadPhone?: string
+    leadImage?: string
+    history?: L
+    activities?: L[]
+    team?: MinistryMember[]
+    events?: MinistryEvent[]
+    joinNote?: L
   }[]
 }
 
@@ -151,25 +182,6 @@ export type NoticesContent = {
   }[]
 }
 
-export type FeastContent = {
-  eyebrow: L
-  name: L
-  localName: L
-  date: string
-  displayDate: L
-  image: string
-  description: L
-  schedule: { time: L; item: L }[]
-  cta: { label: L; href: string }
-  countdownLabels: {
-    days: L
-    hours: L
-    minutes: L
-    seconds: L
-    arrived: L
-  }
-}
-
 export type MediaContent = {
   title: L
   subtitle: L
@@ -185,6 +197,116 @@ export type MediaContent = {
   bulletins: { id: string; title: L; date: string; size: string; file: string }[]
 }
 
+export type UpcomingEvent = {
+  id: string
+  /** ISO date (or date-time) the event starts. Past events drop out on their own. */
+  date: string
+  /** Optional last day for something that runs over several days. */
+  endDate?: string
+  time: L
+  title: L
+  place: L
+  category: string
+  image: string
+  highlight?: boolean
+  description: L
+  cta?: { label: L; href: string }
+}
+
+export type UpcomingContent = {
+  popup: {
+    enabled: boolean
+    eyebrow: L
+    title: L
+    subtitle: L
+    /** Seconds to wait after the page settles before the card appears. */
+    delaySeconds: number
+    /** How long a dismissal is remembered, in hours. */
+    remindAfterHours: number
+    cta: { label: L; href: string }
+    dismiss: L
+  }
+  title: L
+  subtitle: L
+  events: UpcomingEvent[]
+}
+
+export type Obituary = {
+  id: string
+  name: L
+  image: string
+  age: number
+  born: string
+  died: string
+  house: L
+  unit: L
+  funeral: { date: string; time: L; place: L }
+  survivedBy: L
+  tribute: L
+}
+
+export type ObituariesContent = {
+  title: L
+  subtitle: L
+  /** Printed under every memorial card. */
+  prayer: L
+  note: L
+  items: Obituary[]
+}
+
+export type CommitteeMember = {
+  id: string
+  name: L
+  role: L
+  unit: L
+  image: string
+  phone: string
+  since: string
+  /** Office bearers are shown first, in a larger card. */
+  office?: boolean
+}
+
+export type CommitteeContent = {
+  title: L
+  subtitle: L
+  term: L
+  note: L
+  members: CommitteeMember[]
+}
+
+export type DonationFund = {
+  id: string
+  icon: string
+  title: L
+  description: L
+  /** Optional progress figures, both in rupees. Omit to hide the bar. */
+  goal?: number
+  raised?: number
+}
+
+export type DonationContent = {
+  eyebrow: L
+  title: L
+  subtitle: L
+  image: string
+  note: L
+  /** Rupee amounts offered as one-tap buttons. */
+  presets: number[]
+  minAmount: number
+  maxAmount: number
+  funds: DonationFund[]
+  bank: {
+    accountName: string
+    accountNumber: string
+    ifsc: string
+    bankName: string
+    branch: string
+    upiId: string
+  }
+  assurance: L[]
+  receiptNote: L
+}
+
 export type Content = {
   site: SiteContent
   about: AboutContent
@@ -196,8 +318,11 @@ export type Content = {
   ministries: MinistriesContent
   gallery: GalleryContent
   notices: NoticesContent
-  feast: FeastContent
   media: MediaContent
+  upcoming: UpcomingContent
+  obituaries: ObituariesContent
+  committee: CommitteeContent
+  donation: DonationContent
 }
 
 /** Keys the admin dashboard may read and write. */
@@ -212,8 +337,11 @@ export const CONTENT_KEYS = [
   'ministries',
   'gallery',
   'notices',
-  'feast',
   'media',
+  'upcoming',
+  'obituaries',
+  'committee',
+  'donation',
 ] as const
 
 export type ContentKey = (typeof CONTENT_KEYS)[number]

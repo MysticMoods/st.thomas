@@ -11,10 +11,11 @@ const config: Config = {
     },
     extend: {
       screens: {
-        /* Widths at which the ten-item horizontal nav actually fits.
-           Malayalam labels are wider, so they need their own threshold. */
-        nav: '1440px',
-        'nav-ml': '1600px',
+        /* Widths at which the ten-item horizontal nav plus the Donate button
+           actually fits. Malayalam labels are wider, so they need their own
+           threshold. */
+        nav: '1500px',
+        'nav-ml': '1680px',
       },
       borderRadius: {
         /* The site's corner language. `rounded-sm` is the default everywhere,

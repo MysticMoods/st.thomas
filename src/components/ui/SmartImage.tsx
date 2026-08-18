@@ -18,6 +18,7 @@ export function SmartImage({
 }: ImageProps & {
   wrapperClassName?: string
   zoom?: boolean
+  /** Set false for a full-bleed photograph that runs to the section edge. */
   rounded?: boolean
 }) {
   const [loaded, setLoaded] = useState(false)

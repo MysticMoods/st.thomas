@@ -113,7 +113,7 @@ export function Media({ media }: { media: MediaContent }) {
                   rel="noreferrer noopener"
                   className="group flex gap-4 rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))] p-3 transition-all duration-500 ease-sacred hover:-translate-y-0.5 hover:border-gold-300/70 hover:shadow-sacred"
                 >
-                  <span className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-[2px] bg-navy-900 sm:w-36">
+                  <span className="relative aspect-video w-32 shrink-0 overflow-hidden rounded-md bg-navy-900 sm:w-36">
                     <Image
                       src={thumb(video.id)}
                       alt=""

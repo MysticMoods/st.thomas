@@ -118,11 +118,40 @@ await page.waitForTimeout(1800)
 const restored = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
 ok('admin restores original value', String(restored.data.items[0].value) === original)
 
+// concurrency guard — a save built on a stale copy must be refused
+const cur = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
+ok('content GET returns a version', typeof cur.version === 'string' && cur.version.length > 0)
+const staleSave = await page.request.put('http://localhost:3000/api/admin/content/stats', {
+  data: { data: cur.data, version: 'stale-version-string' },
+})
+ok('stale save rejected with 409', staleSave.status() === 409)
+const freshSave = await page.request.put('http://localhost:3000/api/admin/content/stats', {
+  data: { data: cur.data, version: cur.version },
+})
+ok('save with current version accepted', freshSave.ok())
+
+// machine translation for the bilingual fields
+const tr = await page.request.post('http://localhost:3000/api/admin/translate', {
+  data: { text: 'Holy Mass', from: 'en', to: 'ml' },
+})
+const trJson = tr.ok() ? await tr.json() : { text: '' }
+ok('translate en -> ml returns Malayalam', tr.ok() && /[ഀ-ൿ]/.test(trJson.text || ''), trJson.text)
+const trBack = await page.request.post('http://localhost:3000/api/admin/translate', {
+  data: { text: 'ഇടവക വികാരി', from: 'ml', to: 'en' },
+})
+const trBackJson = trBack.ok() ? await trBack.json() : { text: '' }
+ok('translate ml -> en returns English', trBack.ok() && /[A-Za-z]/.test(trBackJson.text || ''), trBackJson.text)
+
 // logout
 await page.click('button:has-text("Sign out")')
 await page.waitForTimeout(2000)
 const afterLogout = await page.request.get('http://localhost:3000/api/admin/content/stats')
 ok('sign out invalidates session', afterLogout.status() === 401)
+
+const trAnon = await page.request.post('http://localhost:3000/api/admin/translate', {
+  data: { text: 'Holy Mass', from: 'en', to: 'ml' },
+})
+ok('translate API rejects signed-out caller', trAnon.status() === 401)
 
 ok('no uncaught console/page errors', errors.length === 0, errors.slice(0, 3).join(' | '))
 

@@ -17,10 +17,59 @@ export async function readContent<T = unknown>(key: ContentKey): Promise<T> {
   return JSON.parse(raw) as T
 }
 
-/** Writes one content file, pretty printed so it stays reviewable in git. */
+/**
+ * A cheap fingerprint of the file as it stands right now. The dashboard sends
+ * back the version it loaded, so a save made from a stale editor — a second tab,
+ * or another member of staff who saved first — is rejected instead of silently
+ * overwriting the newer copy.
+ */
+export async function contentVersion(key: ContentKey): Promise<string> {
+  if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
+  const stat = await fs.stat(file(key))
+  return `${stat.mtimeMs.toFixed(0)}-${stat.size}`
+}
+
+const BACKUPS = path.join(DIR, '.backups')
+const KEEP_BACKUPS = 20
+
+/** Copies the current file aside before it is overwritten. Never fatal. */
+async function backup(key: ContentKey) {
+  try {
+    const current = await fs.readFile(file(key), 'utf-8')
+    await fs.mkdir(BACKUPS, { recursive: true })
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-')
+    await fs.writeFile(path.join(BACKUPS, `${key}.${stamp}.json`), current, 'utf-8')
+
+    // keep only the most recent copies of this key
+    const all = (await fs.readdir(BACKUPS))
+      .filter((name) => name.startsWith(`${key}.`))
+      .sort()
+    await Promise.all(
+      all.slice(0, Math.max(0, all.length - KEEP_BACKUPS)).map((name) =>
+        fs.rm(path.join(BACKUPS, name), { force: true }),
+      ),
+    )
+  } catch {
+    /* a missing or unreadable original must not block the save */
+  }
+}
+
+/**
+ * Writes one content file, pretty printed so it stays reviewable in git.
+ *
+ * The previous version is copied to `content/.backups/` first, and the new one
+ * is written to a temporary file and renamed into place — a crash mid-write can
+ * never leave a half-written, unparseable content file behind.
+ */
 export async function writeContent(key: ContentKey, data: unknown): Promise<void> {
   if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
-  await fs.writeFile(file(key), JSON.stringify(data, null, 2) + '\n', 'utf-8')
+
+  await backup(key)
+
+  const target = file(key)
+  const temp = `${target}.${process.pid}.tmp`
+  await fs.writeFile(temp, JSON.stringify(data, null, 2) + '\n', 'utf-8')
+  await fs.rename(temp, target)
 }
 
 /** Loads every content file for the public site. */

@@ -95,7 +95,6 @@ export type ClergyContent = {
     message: L
     signature: L
   }
-  assistants: { name: L; role: L; image: string; phone: string; email: string }[]
 }
 
 export type PastPriestsContent = {

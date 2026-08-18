@@ -16,6 +16,14 @@ const config: Config = {
         nav: '1440px',
         'nav-ml': '1600px',
       },
+      borderRadius: {
+        /* The site's corner language. `rounded-sm` is the default everywhere,
+           so softening it here rounds every card, button, field and image. */
+        sm: '0.625rem', // 10px
+        DEFAULT: '0.625rem',
+        md: '0.75rem', // 12px
+        lg: '0.875rem', // 14px
+      },
       colors: {
         /* Deep Vatican blue — the spine of the palette */
         navy: {

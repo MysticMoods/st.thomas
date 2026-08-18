@@ -1,9 +1,18 @@
 {
   "parishPriest": {
-    "name": { "en": "Rev. Fr. Sebastian Kuriakose", "ml": "റവ. ഫാ. സെബാസ്റ്റ്യൻ കുര്യാക്കോസ്" },
-    "designation": { "en": "Parish Priest", "ml": "ഇടവക വികാരി" },
-    "since": { "en": "Vicar since June 2019", "ml": "2019 ജൂൺ മുതൽ വികാരി" },
-    "image": "/images/site/priest-parish.jpg",
+    "name": {
+      "en": "Rev. Fr. Jose",
+      "ml": "ഫാ. ജോസ്"
+    },
+    "designation": {
+      "en": "Parish Priest",
+      "ml": "ഇടവക വികാരി"
+    },
+    "since": {
+      "en": "Vicar since may  2019",
+      "ml": "2019 മെയ് മുതൽ വികാരി"
+    },
+    "image": "/uploads/img-20260208-wa0007-msdcox8p.jpg",
     "phone": "+91 98470 12345",
     "email": "vicar@stthomasmangalassery.org",
     "whatsapp": "919847012345",
@@ -15,29 +24,9 @@
       "en": "Dear friends, when I first walked up to this church seven years ago, an elderly woman was sweeping the veranda before dawn. She had done it every morning for thirty-one years. That is the parish I was given — quiet, faithful, entirely unimpressed by titles. Whatever brings you to this page, know that the doors below the bell tower are genuinely open. Come for the Mass, come for the silence of a weekday morning, or come simply because you need somewhere to sit. We will be glad you did.",
       "ml": "പ്രിയ സ്നേഹിതരേ, ഏഴു വർഷം മുൻപ് ഞാൻ ആദ്യമായി ഈ ദേവാലയത്തിലേക്ക് നടന്നുകയറിയപ്പോൾ, പുലർച്ചെ ഒരു വൃദ്ധ സ്ത്രീ വരാന്ത അടിച്ചുവാരുകയായിരുന്നു. മുപ്പത്തിയൊന്ന് വർഷമായി എല്ലാ പ്രഭാതത്തിലും അവർ അത് ചെയ്യുന്നു. അതാണ് എനിക്ക് ലഭിച്ച ഇടവക — ശാന്തം, വിശ്വസ്തം, പദവികളിൽ ഒട്ടും ഭ്രമമില്ലാത്തത്. എന്ത് കാരണത്താൽ നിങ്ങൾ ഈ താളിൽ എത്തിയാലും, മണിമാളികയ്ക്കു താഴെയുള്ള വാതിലുകൾ യഥാർത്ഥത്തിൽ തുറന്നിരിക്കുന്നു എന്നറിയുക. കുർബാനയ്ക്കായി വരൂ, ഒരു പ്രവൃത്തിദിന പ്രഭാതത്തിന്റെ നിശ്ശബ്ദതയ്ക്കായി വരൂ, അല്ലെങ്കിൽ ഇരിക്കാൻ ഒരിടം വേണമെന്നതുകൊണ്ടു മാത്രം വരൂ. നിങ്ങൾ വന്നതിൽ ഞങ്ങൾക്ക് സന്തോഷമാകും."
     },
-    "signature": { "en": "Fr. Sebastian Kuriakose", "ml": "ഫാ. സെബാസ്റ്റ്യൻ കുര്യാക്കോസ്" }
-  },
-  "assistants": [
-    {
-      "name": { "en": "Rev. Fr. Alex Panackal", "ml": "റവ. ഫാ. അലക്സ് പനയ്ക്കൽ" },
-      "role": { "en": "Assistant Vicar · Youth & Catechism", "ml": "അസിസ്റ്റന്റ് വികാരി · യുവജനം & മതബോധനം" },
-      "image": "/images/site/priest-asst-1.jpg",
-      "phone": "+91 98470 22334",
-      "email": "alex@stthomasmangalassery.org"
-    },
-    {
-      "name": { "en": "Rev. Fr. Jibin Thattil", "ml": "റവ. ഫാ. ജിബിൻ തട്ടിൽ" },
-      "role": { "en": "Assistant Vicar · Family Apostolate", "ml": "അസിസ്റ്റന്റ് വികാരി · കുടുംബ പ്രേഷിതത്വം" },
-      "image": "/images/site/priest-asst-2.jpg",
-      "phone": "+91 98470 33445",
-      "email": "jibin@stthomasmangalassery.org"
-    },
-    {
-      "name": { "en": "Rev. Fr. Nithin Vadakkan", "ml": "റവ. ഫാ. നിഥിൻ വടക്കൻ" },
-      "role": { "en": "Assistant Vicar · Charity & Media", "ml": "അസിസ്റ്റന്റ് വികാരി · കാരുണ്യം & മീഡിയ" },
-      "image": "/images/site/priest-asst-3.jpg",
-      "phone": "+91 98470 44556",
-      "email": "nithin@stthomasmangalassery.org"
+    "signature": {
+      "en": "",
+      "ml": ""
     }
-  ]
+  }
 }

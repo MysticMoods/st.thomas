@@ -14,7 +14,7 @@ logo, photograph or piece of copy is copied from any of them. The parish emblem 
 
 ```bash
 npm install
-cp .env.example .env.local     # then edit both values
+cp .env.example .env.local     # then edit all three values
 npm run dev                    # http://localhost:3000
 ```
 
@@ -52,7 +52,7 @@ and never falls back to an untranslated string.
 | `about.json` | History, mission, vision, patron saint, architecture, diocese, parish register, emblem |
 | `mass.json` | Sunday, weekday, holy day, confession, adoration and special service timings |
 | `events.json` | The seven-day parish calendar (today's column highlights itself) |
-| `clergy.json` | Parish priest — photo, message, quote, contacts — and the assistant priests |
+| `clergy.json` | Parish priest — photo, message, quote and contact details |
 | `past-priests.json` | The animated timeline of former vicars |
 | `stats.json` | The eight animated counters |
 | `ministries.json` | The ten parish ministries |
@@ -68,7 +68,11 @@ newsletter forms. Both are git-ignored — they hold people's addresses.
 
 `/admin` renders a form for every file above. It understands the shape of the data:
 
-- bilingual fields appear as a side-by-side **English / മലയാളം** pair;
+- bilingual fields appear as a side-by-side **English / മലയാളം** pair, and translate
+  themselves — type an English notice, move to the next field, and the Malayalam box
+  fills in automatically (and the other way round). A **Translate** button above each
+  box re-runs it and overwrites what is there. Machine output is a draft: it stays
+  editable and should be read before publishing;
 - arrays become reorderable cards with add and remove;
 - any field holding an image or PDF path gets a preview and an **Upload** button
   (files land in `public/uploads/`);
@@ -95,6 +99,13 @@ The dashboard also has an inbox for contact-form messages and newsletter subscri
 - `/admin` verifies the signature **server-side before rendering**, and every write endpoint
   re-checks it — there is no client-only guard.
 - Uploads are limited to 8 MB and to JPG, PNG, WebP, AVIF and PDF.
+- Saves carry the file fingerprint they were loaded from. If someone else saved that
+  section first, the stale save is refused with a 409 instead of quietly overwriting
+  their work.
+- The previous version of every content file is copied to `content/.backups/`
+  (twenty per section) before it is overwritten, and the new file is written to a
+  temporary path and renamed into place, so a crash cannot leave broken JSON.
+- Translation runs server-side behind the same session check.
 - Content writes are restricted to the twelve known keys, so no path traversal is possible.
 - `robots.txt` and the page metadata keep `/admin` and `/api` out of search engines.
 
@@ -103,13 +114,15 @@ The dashboard also has an inbox for contact-form messages and newsletter subscri
 ## What is in the build
 
 **Sections** — hero (parallax, cross-fading images), about, Mass timings, weekly calendar, parish
-priest, assistant priests, animated statistics, ministries, past-priests timeline, masonry gallery
+priest, animated statistics, ministries, past-priests timeline, masonry gallery
 with a full-screen lightbox, latest video and bulletins, feast countdown, notice board, members,
 newsletter, contact with map and form, footer.
 
-**Motion** — scroll reveals, hero parallax and slow zoom, animated counters, a timeline whose gold
-spine fills as you scroll, card hover lifts, image zooms, glass surfaces, skeleton loading. Every
-one of them is disabled when the visitor has `prefers-reduced-motion` set.
+**Motion** — scroll reveals, hero parallax and slow zoom, four full-width parallax bands set
+between sections (the photograph drifts against the page while the verse over it moves the other
+way), animated counters, a timeline whose gold spine fills as you scroll, card hover lifts, image
+zooms, glass surfaces, skeleton loading. Every one of them is disabled when the visitor has
+`prefers-reduced-motion` set.
 
 **Responsiveness** — one column on phones through to a seven-column parish calendar and a
 1440 px container on large displays; the layout keeps working on a TV.
@@ -152,7 +165,7 @@ Replace them before the site goes live.
 
 ```
 content/            bilingual JSON — the whole editable site
-public/images/site/ 64 curated CC0 photographs
+public/images/site/ 61 curated CC0 photographs
 scripts/            image sourcing and curation
 src/app/            routes: /, /admin, /privacy, /credits, /api/*
 src/components/     one file per section, primitives under ui/

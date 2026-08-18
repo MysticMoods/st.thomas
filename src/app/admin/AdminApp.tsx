@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
 import { ParishEmblem } from '@/components/ui/ParishEmblem'
@@ -8,6 +8,7 @@ import { useTheme } from '@/lib/theme'
 import type { ContentKey } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
+import { AutoTranslateToggle, useAutoTranslate } from './AutoTranslate'
 import { JsonEditor } from './JsonEditor'
 
 type SectionDef = {
@@ -23,7 +24,7 @@ const SECTIONS: SectionDef[] = [
   { key: 'events', name: 'Weekly Events', icon: 'calendar', blurb: 'The seven day parish calendar' },
   { key: 'mass', name: 'Mass Timings', icon: 'clock', blurb: 'Sunday, weekday, holy day, confession, adoration' },
   { key: 'feast', name: 'Feast Announcement', icon: 'sparkle', blurb: 'Banner, date, countdown and programme' },
-  { key: 'clergy', name: 'Priests', icon: 'users', blurb: 'Parish priest message and assistant priests' },
+  { key: 'clergy', name: 'Parish Priest', icon: 'users', blurb: 'Photo, message, quote and contact details' },
   { key: 'past-priests', name: 'Past Priests', icon: 'scroll', blurb: 'The timeline of former vicars' },
   { key: 'gallery', name: 'Gallery', icon: 'plus', blurb: 'Upload photographs and set their category' },
   { key: 'media', name: 'Videos & Bulletins', icon: 'youtube', blurb: 'YouTube videos and downloadable PDF bulletins' },
@@ -42,12 +43,21 @@ export function AdminApp() {
   const [active, setActive] = useState<ContentKey | 'inbox'>('site')
   const [data, setData] = useState<unknown>(null)
   const [original, setOriginal] = useState<string>('')
+  // Fingerprint of the file as loaded — sent back on save so a stale editor
+  // cannot overwrite someone else's newer edit.
+  const [version, setVersion] = useState<string | undefined>()
   const [status, setStatus] = useState<'idle' | 'loading' | 'saving' | 'saved' | 'error'>('idle')
   const [error, setError] = useState('')
   const [raw, setRaw] = useState(false)
   const [rawText, setRawText] = useState('')
   const [submissions, setSubmissions] = useState<Submissions | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { waitForIdle } = useAutoTranslate()
+
+  // Always holds the newest editor state, so a save that waited for a
+  // translation writes the translated text rather than the older snapshot.
+  const dataRef = useRef<unknown>(null)
+  dataRef.current = data
 
   const load = useCallback(async (key: ContentKey) => {
     setStatus('loading')
@@ -59,6 +69,7 @@ export function AdminApp() {
       setData(json.data)
       setOriginal(JSON.stringify(json.data))
       setRawText(JSON.stringify(json.data, null, 2))
+      setVersion(json.version)
       setStatus('idle')
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Load failed')
@@ -81,7 +92,11 @@ export function AdminApp() {
 
   async function save() {
     if (active === 'inbox') return
-    let payload = data
+    // Clicking Save blurs the field, which may start a translation. Let it finish.
+    setStatus('saving')
+    await waitForIdle()
+
+    let payload = dataRef.current
     if (raw) {
       try {
         payload = JSON.parse(rawText)
@@ -97,12 +112,13 @@ export function AdminApp() {
       const res = await fetch(`/api/admin/content/${active}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: payload }),
+        body: JSON.stringify({ data: payload, version }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Save failed')
       setData(payload)
       setOriginal(JSON.stringify(payload))
+      setVersion(json.version)
       setStatus('saved')
       setTimeout(() => setStatus('idle'), 2600)
     } catch (e) {
@@ -147,6 +163,8 @@ export function AdminApp() {
               Unsaved changes
             </span>
           ) : null}
+
+          <AutoTranslateToggle />
 
           <button
             type="button"

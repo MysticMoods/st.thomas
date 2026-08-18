@@ -1,7 +1,13 @@
 {
   "intro": {
-    "eyebrow": { "en": "About the Parish", "ml": "ഇടവകയെക്കുറിച്ച്" },
-    "title": { "en": "A community gathered around one altar", "ml": "ഒരു അൾത്താരയ്ക്കു ചുറ്റും ഒരുമിച്ച ഒരു സമൂഹം" },
+    "eyebrow": {
+      "en": "About the Parish",
+      "ml": "ഇടവകയെക്കുറിച്ച്"
+    },
+    "title": {
+      "en": "A community gathered around one altar",
+      "ml": "ഒരു അൾത്താരയ്ക്കു ചുറ്റും ഒരുമിച്ച ഒരു സമൂഹം"
+    },
     "lede": {
       "en": "St. Thomas Church has stood on the Mangalassery hill since 1893 — first as a thatched prayer shed for eleven families, today as the spiritual home of more than four hundred and twenty households.",
       "ml": "1893 മുതൽ മംഗലശ്ശേരി കുന്നിൽ സെന്റ് തോമസ് ദേവാലയം നിലകൊള്ളുന്നു — ആദ്യം പതിനൊന്ന് കുടുംബങ്ങൾക്കായുള്ള ഒരു ഓലപ്പുരയായി, ഇന്ന് നാനൂറ്റി ഇരുപതിലധികം കുടുംബങ്ങളുടെ ആത്മീയ ഭവനമായി."
@@ -10,8 +16,14 @@
   "cards": [
     {
       "id": "history",
-      "kicker": { "en": "Since 1893", "ml": "1893 മുതൽ" },
-      "title": { "en": "Our History", "ml": "ചരിത്രം" },
+      "kicker": {
+        "en": "Since 1893",
+        "ml": "1893 മുതൽ"
+      },
+      "title": {
+        "en": "Our History",
+        "ml": "ചരിത്രം"
+      },
       "image": "/images/site/old-church.jpg",
       "body": {
         "en": "Eleven families climbed this hill on a wet June morning in 1893 and raised a thatched shed with a wooden cross. The laterite church came in 1921, the bell tower in 1954, and the present sanctuary was consecrated in 1988. Every stone was carried up by hand.",
@@ -20,8 +32,14 @@
     },
     {
       "id": "mission",
-      "kicker": { "en": "Our Mission", "ml": "ദൗത്യം" },
-      "title": { "en": "To gather, to break bread, to go out", "ml": "ഒരുമിക്കുക, അപ്പം മുറിക്കുക, പുറപ്പെടുക" },
+      "kicker": {
+        "en": "Our Mission",
+        "ml": "ദൗത്യം"
+      },
+      "title": {
+        "en": "To gather, to break bread, to go out",
+        "ml": "ഒരുമിക്കുക, അപ്പം മുറിക്കുക, പുറപ്പെടുക"
+      },
       "image": "/images/site/bible.jpg",
       "body": {
         "en": "We exist to gather God's people around the Eucharist, to form them in the Word, and to send them back into their homes, fields and workplaces as witnesses of mercy.",
@@ -30,8 +48,14 @@
     },
     {
       "id": "vision",
-      "kicker": { "en": "Our Vision", "ml": "ദർശനം" },
-      "title": { "en": "A parish where no one is a stranger", "ml": "ആരും അപരിചിതനല്ലാത്ത ഒരു ഇടവക" },
+      "kicker": {
+        "en": "Our Vision",
+        "ml": "ദർശനം"
+      },
+      "title": {
+        "en": "A parish where no one is a stranger",
+        "ml": "ആരും അപരിചിതനല്ലാത്ത ഒരു ഇടവക"
+      },
       "image": "/images/site/wheat-hands.jpg",
       "body": {
         "en": "That every family unit becomes a small church, every young person finds a reason to stay, and no elderly parishioner spends a feast day alone.",
@@ -40,8 +64,14 @@
     },
     {
       "id": "patron",
-      "kicker": { "en": "Patron Saint", "ml": "മധ്യസ്ഥൻ" },
-      "title": { "en": "St. Thomas the Apostle", "ml": "മാർ തോമാ ശ്ലീഹാ" },
+      "kicker": {
+        "en": "Patron Saint",
+        "ml": "മധ്യസ്ഥൻ"
+      },
+      "title": {
+        "en": "St. Thomas the Apostle",
+        "ml": "മാർ തോമാ ശ്ലീഹാ"
+      },
       "image": "/images/site/doorway-light.jpg",
       "body": {
         "en": "The apostle who asked to touch the wounds, and then confessed 'My Lord and my God.' Tradition holds that he reached the Malabar coast in AD 52. Our feast — the Dukhrana — falls on the third of July.",
@@ -49,19 +79,15 @@
       }
     },
     {
-      "id": "architecture",
-      "kicker": { "en": "Architecture", "ml": "വാസ്തുശില്പം" },
-      "title": { "en": "Laterite, teak and light", "ml": "വെട്ടുകല്ലും തേക്കും വെളിച്ചവും" },
-      "image": "/images/site/glass.jpg",
-      "body": {
-        "en": "A Kerala gable roof over a nave of laterite arches, carved teak rafters from the old church retained above the sanctuary, and twenty-one stained glass panels telling the journey of the Apostle to India.",
-        "ml": "വെട്ടുകല്ലിന്റെ കമാനങ്ങൾക്കു മുകളിൽ കേരളീയ ചരിഞ്ഞ മേൽക്കൂര, പഴയ ദേവാലയത്തിലെ കൊത്തുപണികളുള്ള തേക്കിൻ കഴുക്കോലുകൾ മദ്ബഹായ്ക്കു മുകളിൽ നിലനിർത്തിയിരിക്കുന്നു, ശ്ലീഹായുടെ ഭാരതയാത്ര പറയുന്ന ഇരുപത്തിയൊന്ന് സ്റ്റെയിൻഡ് ഗ്ലാസ് ഫലകങ്ങളും."
-      }
-    },
-    {
       "id": "diocese",
-      "kicker": { "en": "Diocese", "ml": "രൂപത" },
-      "title": { "en": "Diocese of Aloor", "ml": "ആലൂർ രൂപത" },
+      "kicker": {
+        "en": "Diocese",
+        "ml": "രൂപത"
+      },
+      "title": {
+        "en": "Diocese of Angamaly",
+        "ml": "അങ്കമാലി രൂപത"
+      },
       "image": "/images/site/wooden-church.jpg",
       "body": {
         "en": "Mangalassery belongs to the Mangalassery Forane of the Diocese of Aloor, one of forty-two parishes served by the diocesan clergy under His Excellency Mar Joseph Kalarickal.",
@@ -70,15 +96,72 @@
     }
   ],
   "parishInfo": [
-    { "label": { "en": "Established", "ml": "സ്ഥാപിതം" }, "value": { "en": "12 June 1893", "ml": "1893 ജൂൺ 12" } },
-    { "label": { "en": "Consecrated", "ml": "കൂദാശ" }, "value": { "en": "3 July 1988", "ml": "1988 ജൂലൈ 3" } },
-    { "label": { "en": "Parish Feast", "ml": "ഇടവക തിരുനാൾ" }, "value": { "en": "Dukhrana · 3 July", "ml": "ദുക്റാന · ജൂലൈ 3" } },
-    { "label": { "en": "Rite", "ml": "റീത്ത്" }, "value": { "en": "Syro-Malabar", "ml": "സീറോ മലബാർ" } },
-    { "label": { "en": "Cemetery", "ml": "സെമിത്തേരി" }, "value": { "en": "Adjoining the church, open daily", "ml": "ദേവാലയത്തോട് ചേർന്ന്, എല്ലാ ദിവസവും തുറന്നിരിക്കും" } },
-    { "label": { "en": "Parish Hall", "ml": "ഇടവക ഹാൾ" }, "value": { "en": "St. Thomas Hall · 400 seats", "ml": "സെന്റ് തോമസ് ഹാൾ · 400 സീറ്റുകൾ" } }
+    {
+      "label": {
+        "en": "Established",
+        "ml": "സ്ഥാപിതം"
+      },
+      "value": {
+        "en": "12 June 1893",
+        "ml": "1893 ജൂൺ 12"
+      }
+    },
+    {
+      "label": {
+        "en": "Consecrated",
+        "ml": "കൂദാശ"
+      },
+      "value": {
+        "en": "3 July 1988",
+        "ml": "1988 ജൂലൈ 3"
+      }
+    },
+    {
+      "label": {
+        "en": "Parish Feast",
+        "ml": "ഇടവക തിരുനാൾ"
+      },
+      "value": {
+        "en": "Dukhrana · 3 July",
+        "ml": "ദുക്റാന · ജൂലൈ 3"
+      }
+    },
+    {
+      "label": {
+        "en": "Rite",
+        "ml": "റീത്ത്"
+      },
+      "value": {
+        "en": "Syro-Malabar",
+        "ml": "സീറോ മലബാർ"
+      }
+    },
+    {
+      "label": {
+        "en": "Cemetery",
+        "ml": "സെമിത്തേരി"
+      },
+      "value": {
+        "en": "Adjoining the church, open daily",
+        "ml": "ദേവാലയത്തോട് ചേർന്ന്, എല്ലാ ദിവസവും തുറന്നിരിക്കും"
+      }
+    },
+    {
+      "label": {
+        "en": "Parish Hall",
+        "ml": "ഇടവക ഹാൾ"
+      },
+      "value": {
+        "en": "St. Thomas Hall · 400 seats",
+        "ml": "സെന്റ് തോമസ് ഹാൾ · 400 സീറ്റുകൾ"
+      }
+    }
   ],
   "logo": {
-    "title": { "en": "The Parish Emblem", "ml": "ഇടവക ചിഹ്നം" },
+    "title": {
+      "en": "The Parish Emblem",
+      "ml": "ഇടവക ചിഹ്നം"
+    },
     "description": {
       "en": "A spear crossing an open Gospel beneath a lamp — the martyrdom of the Apostle, the Word he carried, and the light kept burning on this hill. The band of gold recalls the pepper vine of the Malabar coast he first walked.",
       "ml": "ഒരു വിളക്കിനു കീഴെ തുറന്ന സുവിശേഷത്തിനു കുറുകെ ഒരു കുന്തം — ശ്ലീഹായുടെ രക്തസാക്ഷിത്വം, അദ്ദേഹം വഹിച്ച വചനം, ഈ കുന്നിൽ എരിഞ്ഞുകൊണ്ടിരിക്കുന്ന ദീപം. സ്വർണ്ണനിറത്തിലുള്ള വലയം അദ്ദേഹം ആദ്യം നടന്ന മലബാർ തീരത്തെ കുരുമുളകുവള്ളിയെ ഓർമ്മിപ്പിക്കുന്നു."

@@ -87,9 +87,6 @@ PLAN = {
     "children-joy":       ("face-child_6QHKJLPY8F", CARD, 0.40),
     # clergy ---------------------------------------------------------------
     "priest-parish":      ("oldman-portrait_TTOM5R7SFF", TALL, 0.40),
-    "priest-asst-1":      ("male-portrait_LHZMZE0JL0", TALL, 0.35),
-    "priest-asst-2":      ("male-portrait_NLX0RAPBGB", TALL, 0.35),
-    "priest-asst-3":      ("young-man_SEZ0BOQJBD", TALL, 0.35),
     "past-priest-1":      ("people-old_W2QMUQHOGE", TALL, 0.35),
     "past-priest-2":      ("man-suit_OIO01RKMXU", TALL, 0.35),
     "past-priest-3":      ("man-work_LR22HMETWM", TALL, 0.35),

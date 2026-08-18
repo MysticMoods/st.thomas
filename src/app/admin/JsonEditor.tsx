@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
 import { cn } from '@/lib/utils'
+
+import { useAutoTranslate } from './AutoTranslate'
 
 type Json = unknown
 
@@ -164,26 +166,107 @@ function BilingualField({
 }) {
   const long = LONG_KEYS.has(name) || value.en.length > 110
   const Field = long ? 'textarea' : 'input'
-  const shared = 'field'
+  const [busy, setBusy] = useState<'en' | 'ml' | null>(null)
+  const [failed, setFailed] = useState('')
+  const { enabled, translate } = useAutoTranslate()
+
+  // Which box was typed in most recently. Editing English then leaving the
+  // field rewrites the Malayalam, and the other way round; whichever side was
+  // touched last is treated as the truth.
+  const edited = useRef({ en: 0, ml: 0 })
+  const order = useRef(0)
+  // Source text already translated once, so tabbing back through an untouched
+  // field does not fire the same request again.
+  const done = useRef({ en: '', ml: '' })
+
+  /** Translates one side into the other. `force` overwrites existing text. */
+  const run = useCallback(
+    async (from: 'en' | 'ml', force: boolean) => {
+      const to = from === 'en' ? 'ml' : 'en'
+      const source = value[from].trim()
+      if (!source) return
+      if (!force && value[to].trim()) return
+
+      setBusy(to)
+      setFailed('')
+      try {
+        const text = await translate(source, from, to)
+        done.current[from] = source
+        if (text) onChange({ ...value, [to]: text })
+      } catch (e) {
+        setFailed(e instanceof Error ? e.message : 'Translation failed')
+      } finally {
+        setBusy(null)
+      }
+    },
+    [value, onChange, translate],
+  )
+
+  /** Called when a box loses focus — decides whether the other side is stale. */
+  const sync = useCallback(
+    (from: 'en' | 'ml') => {
+      if (!enabled) return
+      const to = from === 'en' ? 'ml' : 'en'
+      const source = value[from].trim()
+      if (!source || source === done.current[from]) return
+      // Fill an empty box always; overwrite a filled one only when this side is
+      // the one that was just edited, so hand-written text is never clobbered
+      // by merely clicking through a field.
+      if (!value[to].trim() || edited.current[from] > edited.current[to]) run(from, true)
+    },
+    [enabled, value, run],
+  )
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      {(['en', 'ml'] as const).map((code) => (
-        <label key={code} className="flex flex-col gap-1.5">
-          <span className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-gold-600/80 dark:text-gold-400/80">
-            {code === 'en' ? 'English' : 'മലയാളം'}
-          </span>
-          <Field
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            {...({ rows: long ? 5 : undefined } as any)}
-            value={value[code]}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-              onChange({ ...value, [code]: e.target.value })
-            }
-            className={cn(shared, long && 'resize-y', code === 'ml' && 'font-malayalam')}
-          />
-        </label>
-      ))}
+    <div className="flex flex-col gap-2">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {(['en', 'ml'] as const).map((code) => (
+          <label key={code} className="flex flex-col gap-1.5">
+            <span className="flex items-center justify-between gap-2">
+              <span className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-gold-600/80 dark:text-gold-400/80">
+                {code === 'en' ? 'English' : 'മലയാളം'}
+              </span>
+              <button
+                type="button"
+                onClick={() => run(code === 'en' ? 'ml' : 'en', true)}
+                disabled={busy !== null || !value[code === 'en' ? 'ml' : 'en'].trim()}
+                title={
+                  code === 'en'
+                    ? 'Translate the Malayalam into English, replacing this box'
+                    : 'Translate the English into Malayalam, replacing this box'
+                }
+                className="flex items-center gap-1 font-sans text-[0.58rem] uppercase tracking-[0.12em] text-[rgb(var(--muted))] transition-colors hover:text-gold-500 disabled:opacity-30"
+              >
+                <Icon name="translate" className="h-3 w-3" />
+                {busy === code ? 'translating…' : 'translate'}
+              </button>
+            </span>
+            <Field
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...({ rows: long ? 5 : undefined } as any)}
+              value={value[code]}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                edited.current[code] = ++order.current
+                onChange({ ...value, [code]: e.target.value })
+              }}
+              // Typing in one box and moving on rewrites the other one.
+              onBlur={() => sync(code)}
+              className={cn(
+                'field',
+                long && 'resize-y',
+                code === 'ml' && 'font-malayalam',
+                busy === code && 'animate-pulse border-gold-400',
+              )}
+            />
+          </label>
+        ))}
+      </div>
+
+      {failed ? (
+        <p className="font-sans text-[0.6rem] text-burgundy-500 dark:text-burgundy-300">
+          {failed} — type the other language by hand.
+        </p>
+      ) : null}
     </div>
   )
 }

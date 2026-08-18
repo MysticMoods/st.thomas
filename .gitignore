@@ -6,6 +6,7 @@ build
 .env.local
 .env*.local
 public/uploads
+content/.backups
 content/messages.json
 content/subscribers.json
 *.tsbuildinfo

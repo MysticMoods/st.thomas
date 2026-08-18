@@ -172,7 +172,7 @@ export function Navigation({ site }: { site: SiteContent }) {
                   onClick={() => setLang(code)}
                   aria-pressed={lang === code}
                   className={cn(
-                    'rounded-[2px] px-2.5 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-all duration-300',
+                    'rounded-[7px] px-2.5 py-1.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-all duration-300',
                     lang === code
                       ? 'bg-gold-400 text-navy-950'
                       : solid

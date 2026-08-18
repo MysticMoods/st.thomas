@@ -56,7 +56,10 @@ export function About({ about, site }: { about: AboutContent; site: SiteContent 
         <div className="mt-24 grid items-center gap-14 lg:mt-32 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-20">
           <Reveal direction="right">
             <div className="relative mx-auto flex max-w-md flex-col items-center rounded-sm border border-gold-400/25 bg-gradient-to-b from-navy-900 to-navy-950 p-12 text-center shadow-sacred">
-              <div className="absolute inset-3 border border-gold-400/15" aria-hidden="true" />
+              <div
+                className="absolute inset-3 rounded-[7px] border border-gold-400/15"
+                aria-hidden="true"
+              />
               <ParishEmblem variant="gold" className="h-36 w-36" />
               <h3 className="mt-8 font-display text-2xl text-white">{t(about.logo.title)}</h3>
               <span className="mt-4 h-px w-16 bg-gold-line" aria-hidden="true" />

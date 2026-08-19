@@ -23,7 +23,7 @@ export default async function ObituaryPage() {
       <Navigation site={content.site} overHero={false} />
 
       {/* the fixed header sits over the page, so the column starts below it */}
-      <main className="pt-24">
+      <main className="page-body">
         <ObituaryArchive obituaries={content.obituaries} />
       </main>
 

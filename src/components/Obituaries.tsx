@@ -247,22 +247,8 @@ export function ObituaryArchive({ obituaries }: { obituaries: ObituariesContent 
   const shown = filter === 'all' ? sorted : sorted.filter((person) => year(person.died) === filter)
 
   return (
-    <section className="section-tight bg-[rgb(var(--page))]">
+    <section className="section-first bg-[rgb(var(--page))]">
       <div className="container">
-        <nav aria-label="Breadcrumb" className="mb-10">
-          <ol className="flex items-center gap-2 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))]">
-            <li>
-              <a href="/" className="transition-colors hover:text-gold-600 dark:hover:text-gold-300">
-                {t(ui.nav.home)}
-              </a>
-            </li>
-            <li aria-hidden="true">·</li>
-            <li className="text-gold-600 dark:text-gold-400" aria-current="page">
-              {t(ui.nav.obituary)}
-            </li>
-          </ol>
-        </nav>
-
         <SectionHeading
           eyebrow={{ en: 'Parish Register', ml: 'ഇടവക രജിസ്റ്റർ' }}
           title={obituaries.title}

@@ -121,6 +121,18 @@
     @apply relative py-20 md:py-24;
   }
 
+  /* Pages without a hero start directly under the fixed header. The header is
+     two rows on a laptop and one on a phone, hence the two values. */
+  .page-body {
+    @apply pt-[4.5rem] lg:pt-[7rem];
+  }
+
+  /* The first section on such a page needs far less air above it than a
+     section arriving after another section does. */
+  .section-first {
+    @apply relative pb-20 pt-10 md:pb-24 md:pt-12;
+  }
+
   /* A hairline rule that fades into the page, used under section headings. */
   .gold-rule {
     @apply block h-px w-24 bg-gold-line;

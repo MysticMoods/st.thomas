@@ -15,22 +15,8 @@ export function HallIntro({ hall }: { hall: HallContent }) {
   const { t, lang } = useLang()
 
   return (
-    <section className="section-tight bg-[rgb(var(--page))]">
+    <section className="section-first bg-[rgb(var(--page))]">
       <div className="container">
-        <nav aria-label="Breadcrumb" className="mb-10">
-          <ol className="flex items-center gap-2 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))]">
-            <li>
-              <a href="/" className="transition-colors hover:text-gold-600 dark:hover:text-gold-300">
-                {t({ en: 'Home', ml: 'ഹോം' })}
-              </a>
-            </li>
-            <li aria-hidden="true">·</li>
-            <li className="text-gold-600 dark:text-gold-400" aria-current="page">
-              {t({ en: 'Parish Hall', ml: 'ഇടവക ഹാൾ' })}
-            </li>
-          </ol>
-        </nav>
-
         <SectionHeading
           eyebrow={{ en: 'For your gathering', ml: 'നിങ്ങളുടെ ഒത്തുചേരലിന്' }}
           title={hall.title}

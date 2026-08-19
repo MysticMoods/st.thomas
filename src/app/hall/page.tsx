@@ -24,7 +24,7 @@ export default async function HallPage() {
       <Navigation site={content.site} overHero={false} />
 
       {/* the fixed header sits over the page, so the hall starts below it */}
-      <main className="pt-24">
+      <main className="page-body">
         <HallIntro hall={content.hall} />
         <HallBooking hall={content.hall} />
       </main>

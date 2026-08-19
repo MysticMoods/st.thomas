@@ -1,60 +1,461 @@
 {
-  "title": { "en": "Parish Gallery", "ml": "ചിത്രശാല" },
+  "title": {
+    "en": "Parish Gallery",
+    "ml": "ചിത്രശാല"
+  },
   "subtitle": {
     "en": "Thirteen decades of feasts, ordinary Sundays and the people in between.",
     "ml": "പതിമൂന്ന് ദശകങ്ങളിലെ തിരുനാളുകൾ, സാധാരണ ഞായറാഴ്ചകൾ, അവയ്ക്കിടയിലെ മനുഷ്യർ."
   },
   "categories": [
-    { "id": "all", "label": { "en": "All", "ml": "എല്ലാം" } },
-    { "id": "church", "label": { "en": "Church", "ml": "ദേവാലയം" } },
-    { "id": "mass", "label": { "en": "Holy Mass", "ml": "വിശുദ്ധ കുർബാന" } },
-    { "id": "christmas", "label": { "en": "Christmas", "ml": "ക്രിസ്മസ്" } },
-    { "id": "easter", "label": { "en": "Easter", "ml": "ഈസ്റ്റർ" } },
-    { "id": "feast", "label": { "en": "Parish Feast", "ml": "ഇടവക തിരുനാൾ" } },
-    { "id": "retreats", "label": { "en": "Retreats", "ml": "ധ്യാനങ്ങൾ" } },
-    { "id": "youth", "label": { "en": "Youth", "ml": "യുവജനം" } },
-    { "id": "catechism", "label": { "en": "Catechism", "ml": "മതബോധനം" } },
-    { "id": "charity", "label": { "en": "Charity", "ml": "കാരുണ്യം" } },
-    { "id": "community", "label": { "en": "Community", "ml": "സമൂഹം" } }
+    {
+      "id": "all",
+      "label": {
+        "en": "All",
+        "ml": "എല്ലാം"
+      }
+    },
+    {
+      "id": "church",
+      "label": {
+        "en": "Church",
+        "ml": "ദേവാലയം"
+      }
+    },
+    {
+      "id": "mass",
+      "label": {
+        "en": "Holy Mass",
+        "ml": "വിശുദ്ധ കുർബാന"
+      }
+    },
+    {
+      "id": "christmas",
+      "label": {
+        "en": "Christmas",
+        "ml": "ക്രിസ്മസ്"
+      }
+    },
+    {
+      "id": "easter",
+      "label": {
+        "en": "Easter",
+        "ml": "ഈസ്റ്റർ"
+      }
+    },
+    {
+      "id": "feast",
+      "label": {
+        "en": "Parish Feast",
+        "ml": "ഇടവക തിരുനാൾ"
+      }
+    },
+    {
+      "id": "retreats",
+      "label": {
+        "en": "Retreats",
+        "ml": "ധ്യാനങ്ങൾ"
+      }
+    },
+    {
+      "id": "youth",
+      "label": {
+        "en": "Youth",
+        "ml": "യുവജനം"
+      }
+    },
+    {
+      "id": "catechism",
+      "label": {
+        "en": "Catechism",
+        "ml": "മതബോധനം"
+      }
+    },
+    {
+      "id": "charity",
+      "label": {
+        "en": "Charity",
+        "ml": "കാരുണ്യം"
+      }
+    },
+    {
+      "id": "community",
+      "label": {
+        "en": "Community",
+        "ml": "സമൂഹം"
+      }
+    }
   ],
   "items": [
-    { "id": "g01", "category": "church", "src": "/images/site/hero-nave.jpg", "span": "tall", "caption": { "en": "The nave at first light", "ml": "പ്രഭാത വെളിച്ചത്തിൽ ദേവാലയം" } },
-    { "id": "g02", "category": "church", "src": "/images/site/hero-vault.jpg", "span": "wide", "caption": { "en": "Vaults above the sanctuary", "ml": "മദ്ബഹായ്ക്കു മുകളിലെ കമാനങ്ങൾ" } },
-    { "id": "g03", "category": "church", "src": "/images/site/church-exterior.jpg", "span": "wide", "caption": { "en": "The bell tower from the west path", "ml": "പടിഞ്ഞാറൻ പാതയിൽ നിന്ന് മണിമാളിക" } },
-    { "id": "g04", "category": "church", "src": "/images/site/glass.jpg", "span": "normal", "caption": { "en": "Stained glass, south aisle", "ml": "സ്റ്റെയിൻഡ് ഗ്ലാസ്, തെക്കേ ഇടനാഴി" } },
-    { "id": "g05", "category": "church", "src": "/images/site/steeple.jpg", "span": "tall", "caption": { "en": "The cross above the gable", "ml": "മേൽക്കൂരയ്ക്കു മുകളിലെ കുരിശ്" } },
-    { "id": "g06", "category": "church", "src": "/images/site/old-church.jpg", "span": "normal", "caption": { "en": "The old church, kept as a chapel", "ml": "ചാപ്പലായി സൂക്ഷിച്ചിരിക്കുന്ന പഴയ ദേവാലയം" } },
-    { "id": "g07", "category": "mass", "src": "/images/site/interior-feast.jpg", "span": "wide", "caption": { "en": "Before the Solemn High Mass", "ml": "ആഘോഷമായ കുർബാനയ്ക്കു മുൻപ്" } },
-    { "id": "g08", "category": "mass", "src": "/images/site/candles-cross.jpg", "span": "normal", "caption": { "en": "Candles set for the altar", "ml": "അൾത്താരയ്ക്കായി ഒരുക്കിയ തിരികൾ" } },
-    { "id": "g09", "category": "mass", "src": "/images/site/congregation.jpg", "span": "wide", "caption": { "en": "The eight o'clock congregation", "ml": "എട്ടു മണി കുർബാനയിലെ ജനം" } },
-    { "id": "g10", "category": "mass", "src": "/images/site/doorway-light.jpg", "span": "tall", "caption": { "en": "Waiting for confession", "ml": "കുമ്പസാരത്തിനായി കാത്ത്" } },
-    { "id": "g11", "category": "christmas", "src": "/images/site/christmas-lights.jpg", "span": "normal", "caption": { "en": "Lights on the hill path", "ml": "കുന്നിൻ പാതയിലെ ദീപങ്ങൾ" } },
-    { "id": "g12", "category": "christmas", "src": "/images/site/christmas-tree.jpg", "span": "normal", "caption": { "en": "The crib beside the sanctuary", "ml": "മദ്ബഹായ്ക്കരികിലെ പുൽക്കൂട്" } },
-    { "id": "g13", "category": "christmas", "src": "/images/site/christmas-star.jpg", "span": "tall", "caption": { "en": "The star, carried in procession", "ml": "പ്രദക്ഷിണത്തിൽ വഹിക്കുന്ന നക്ഷത്രം" } },
-    { "id": "g14", "category": "christmas", "src": "/images/site/christmas-garland.jpg", "span": "normal", "caption": { "en": "Midnight Mass preparations", "ml": "പാതിരാ കുർബാനയുടെ ഒരുക്കങ്ങൾ" } },
-    { "id": "g15", "category": "easter", "src": "/images/site/candle-quiet.jpg", "span": "normal", "caption": { "en": "The Paschal vigil", "ml": "ഉയിർപ്പു ജാഗരണം" } },
-    { "id": "g16", "category": "easter", "src": "/images/site/winter-dawn.jpg", "span": "wide", "caption": { "en": "Dawn of the Resurrection", "ml": "ഉയിർപ്പിന്റെ പ്രഭാതം" } },
-    { "id": "g17", "category": "easter", "src": "/images/site/arch-stone.jpg", "span": "normal", "caption": { "en": "The stone rolled away", "ml": "ഉരുട്ടിമാറ്റപ്പെട്ട കല്ല്" } },
-    { "id": "g18", "category": "feast", "src": "/images/site/lantern.jpg", "span": "normal", "caption": { "en": "Lamps for the Dukhrana", "ml": "ദുക്റാനയ്ക്കുള്ള വിളക്കുകൾ" } },
-    { "id": "g19", "category": "feast", "src": "/images/site/facade.jpg", "span": "tall", "caption": { "en": "The facade dressed for the feast", "ml": "തിരുനാളിനായി അലങ്കരിച്ച മുഖപ്പ്" } },
-    { "id": "g20", "category": "feast", "src": "/images/site/wooden-church.jpg", "span": "wide", "caption": { "en": "Procession route, first station", "ml": "പ്രദക്ഷിണ വഴി, ഒന്നാം സ്ഥലം" } },
-    { "id": "g21", "category": "retreats", "src": "/images/site/prayer-girl.jpg", "span": "normal", "caption": { "en": "Lenten retreat, third day", "ml": "നോമ്പുകാല ധ്യാനം, മൂന്നാം ദിവസം" } },
-    { "id": "g22", "category": "retreats", "src": "/images/site/bible-reading.jpg", "span": "normal", "caption": { "en": "Morning session, parish hall", "ml": "പ്രഭാത സെഷൻ, ഇടവക ഹാൾ" } },
-    { "id": "g23", "category": "retreats", "src": "/images/site/rustic-candle.jpg", "span": "tall", "caption": { "en": "Night vigil of the youth retreat", "ml": "യുവജന ധ്യാനത്തിലെ രാത്രി ജാഗരണം" } },
-    { "id": "g24", "category": "youth", "src": "/images/site/youth-group.jpg", "span": "wide", "caption": { "en": "Friday gathering", "ml": "വെള്ളിയാഴ്ച കൂട്ടായ്മ" } },
-    { "id": "g25", "category": "youth", "src": "/images/site/youth-outing.jpg", "span": "normal", "caption": { "en": "Pilgrimage on foot to Malayattoor", "ml": "മലയാറ്റൂരിലേക്കുള്ള കാൽനട തീർത്ഥാടനം" } },
-    { "id": "g26", "category": "youth", "src": "/images/site/choir-strings.jpg", "span": "normal", "caption": { "en": "Youth music ministry", "ml": "യുവജന സംഗീത ശുശ്രൂഷ" } },
-    { "id": "g27", "category": "catechism", "src": "/images/site/catechism-children.jpg", "span": "normal", "caption": { "en": "Sunday class, grade four", "ml": "ഞായറാഴ്ച ക്ലാസ്, നാലാം ക്ലാസ്" } },
-    { "id": "g28", "category": "catechism", "src": "/images/site/catechism-reading.jpg", "span": "wide", "caption": { "en": "First Communion preparation", "ml": "ആദ്യ കുർബാന സ്വീകരണ ഒരുക്കം" } },
-    { "id": "g29", "category": "catechism", "src": "/images/site/catechism-notes.jpg", "span": "normal", "caption": { "en": "Annual scripture examination", "ml": "വാർഷിക വേദപാഠ പരീക്ഷ" } },
-    { "id": "g30", "category": "catechism", "src": "/images/site/children-joy.jpg", "span": "tall", "caption": { "en": "After the children's homily", "ml": "കുട്ടികളുടെ പ്രസംഗത്തിനു ശേഷം" } },
-    { "id": "g31", "category": "charity", "src": "/images/site/charity-hands.jpg", "span": "normal", "caption": { "en": "Sunday provision rounds", "ml": "ഞായറാഴ്ചത്തെ ഭക്ഷ്യവിതരണം" } },
-    { "id": "g32", "category": "charity", "src": "/images/site/seniors.jpg", "span": "wide", "caption": { "en": "Visiting our elders", "ml": "മുതിർന്നവരെ സന്ദർശിക്കുന്നു" } },
-    { "id": "g33", "category": "charity", "src": "/images/site/bible-study.jpg", "span": "normal", "caption": { "en": "Books for the parish school", "ml": "ഇടവക സ്കൂളിനുള്ള പുസ്തകങ്ങൾ" } },
-    { "id": "g34", "category": "community", "src": "/images/site/community-family.jpg", "span": "normal", "caption": { "en": "Family unit Sunday", "ml": "കുടുംബക്കൂട്ടായ്മ ഞായർ" } },
-    { "id": "g35", "category": "community", "src": "/images/site/community-women.jpg", "span": "normal", "caption": { "en": "Mathruvedi feast kitchen", "ml": "മാതൃവേദി തിരുനാൾ അടുക്കള" } },
-    { "id": "g36", "category": "community", "src": "/images/site/wedding.jpg", "span": "wide", "caption": { "en": "A parish wedding", "ml": "ഒരു ഇടവക വിവാഹം" } },
-    { "id": "g37", "category": "community", "src": "/images/site/community-street.jpg", "span": "normal", "caption": { "en": "After the last Mass", "ml": "അവസാന കുർബാനയ്ക്കു ശേഷം" } },
-    { "id": "g38", "category": "community", "src": "/images/site/council.jpg", "span": "normal", "caption": { "en": "Parish council, monthly meeting", "ml": "ഇടവക കൗൺസിൽ, പ്രതിമാസ യോഗം" } }
+    {
+      "id": "g01",
+      "category": "church",
+      "src": "/images/site/hero-nave.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "The nave at first light",
+        "ml": "പ്രഭാത വെളിച്ചത്തിൽ ദേവാലയം"
+      }
+    },
+    {
+      "id": "g02",
+      "category": "church",
+      "src": "/images/site/hero-vault.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Vaults above the sanctuary",
+        "ml": "മദ്ബഹായ്ക്കു മുകളിലെ കമാനങ്ങൾ"
+      }
+    },
+    {
+      "id": "g03",
+      "category": "church",
+      "src": "/images/site/church-exterior.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "The bell tower from the west path",
+        "ml": "പടിഞ്ഞാറൻ പാതയിൽ നിന്ന് മണിമാളിക"
+      }
+    },
+    {
+      "id": "g04",
+      "category": "church",
+      "src": "/images/site/glass.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Stained glass, south aisle",
+        "ml": "സ്റ്റെയിൻഡ് ഗ്ലാസ്, തെക്കേ ഇടനാഴി"
+      }
+    },
+    {
+      "id": "g05",
+      "category": "church",
+      "src": "/images/site/steeple.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "The cross above the gable",
+        "ml": "മേൽക്കൂരയ്ക്കു മുകളിലെ കുരിശ്"
+      }
+    },
+    {
+      "id": "g06",
+      "category": "church",
+      "src": "/images/site/old-church.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "The old church, kept as a chapel",
+        "ml": "ചാപ്പലായി സൂക്ഷിച്ചിരിക്കുന്ന പഴയ ദേവാലയം"
+      }
+    },
+    {
+      "id": "g07",
+      "category": "mass",
+      "src": "/images/site/interior-feast.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Before the Solemn High Mass",
+        "ml": "ആഘോഷമായ കുർബാനയ്ക്കു മുൻപ്"
+      }
+    },
+    {
+      "id": "g08",
+      "category": "mass",
+      "src": "/images/site/candles-cross.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Candles set for the altar",
+        "ml": "അൾത്താരയ്ക്കായി ഒരുക്കിയ തിരികൾ"
+      }
+    },
+    {
+      "id": "g09",
+      "category": "mass",
+      "src": "/images/site/congregation.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "The eight o'clock congregation",
+        "ml": "എട്ടു മണി കുർബാനയിലെ ജനം"
+      }
+    },
+    {
+      "id": "g10",
+      "category": "mass",
+      "src": "/images/site/doorway-light.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "Waiting for confession",
+        "ml": "കുമ്പസാരത്തിനായി കാത്ത്"
+      }
+    },
+    {
+      "id": "g11",
+      "category": "christmas",
+      "src": "/images/site/christmas-lights.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Lights on the hill path",
+        "ml": "കുന്നിൻ പാതയിലെ ദീപങ്ങൾ"
+      }
+    },
+    {
+      "id": "g12",
+      "category": "christmas",
+      "src": "/images/site/christmas-tree.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "The crib beside the sanctuary",
+        "ml": "മദ്ബഹായ്ക്കരികിലെ പുൽക്കൂട്"
+      }
+    },
+    {
+      "id": "g13",
+      "category": "christmas",
+      "src": "/images/site/christmas-star.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "The star, carried in procession",
+        "ml": "പ്രദക്ഷിണത്തിൽ വഹിക്കുന്ന നക്ഷത്രം"
+      }
+    },
+    {
+      "id": "g14",
+      "category": "christmas",
+      "src": "/images/site/christmas-garland.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Midnight Mass preparations",
+        "ml": "പാതിരാ കുർബാനയുടെ ഒരുക്കങ്ങൾ"
+      }
+    },
+    {
+      "id": "g15",
+      "category": "easter",
+      "src": "/images/site/candle-quiet.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "The Paschal vigil",
+        "ml": "ഉയിർപ്പു ജാഗരണം"
+      }
+    },
+    {
+      "id": "g16",
+      "category": "easter",
+      "src": "/images/site/winter-dawn.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Dawn of the Resurrection",
+        "ml": "ഉയിർപ്പിന്റെ പ്രഭാതം"
+      }
+    },
+    {
+      "id": "g17",
+      "category": "easter",
+      "src": "/images/site/arch-stone.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "The stone rolled away",
+        "ml": "ഉരുട്ടിമാറ്റപ്പെട്ട കല്ല്"
+      }
+    },
+    {
+      "id": "g18",
+      "category": "feast",
+      "src": "/images/site/lantern.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Lamps for the Dukhrana",
+        "ml": "ദുക്റാനയ്ക്കുള്ള വിളക്കുകൾ"
+      }
+    },
+    {
+      "id": "g19",
+      "category": "feast",
+      "src": "/images/site/facade.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "The facade dressed for the feast",
+        "ml": "തിരുനാളിനായി അലങ്കരിച്ച മുഖപ്പ്"
+      }
+    },
+    {
+      "id": "g20",
+      "category": "feast",
+      "src": "/images/site/wooden-church.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Procession route, first station",
+        "ml": "പ്രദക്ഷിണ വഴി, ഒന്നാം സ്ഥലം"
+      }
+    },
+    {
+      "id": "g21",
+      "category": "retreats",
+      "src": "/images/site/prayer-girl.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Lenten retreat, third day",
+        "ml": "നോമ്പുകാല ധ്യാനം, മൂന്നാം ദിവസം"
+      }
+    },
+    {
+      "id": "g22",
+      "category": "retreats",
+      "src": "/images/site/bible-reading.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Morning session, parish hall",
+        "ml": "പ്രഭാത സെഷൻ, ഇടവക ഹാൾ"
+      }
+    },
+    {
+      "id": "g23",
+      "category": "retreats",
+      "src": "/images/site/rustic-candle.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "Night vigil of the youth retreat",
+        "ml": "യുവജന ധ്യാനത്തിലെ രാത്രി ജാഗരണം"
+      }
+    },
+    {
+      "id": "g24",
+      "category": "youth",
+      "src": "/images/site/youth-group.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Friday gathering",
+        "ml": "വെള്ളിയാഴ്ച കൂട്ടായ്മ"
+      }
+    },
+    {
+      "id": "g25",
+      "category": "youth",
+      "src": "/images/site/youth-outing.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Pilgrimage on foot to Malayattoor",
+        "ml": "മലയാറ്റൂരിലേക്കുള്ള കാൽനട തീർത്ഥാടനം"
+      }
+    },
+    {
+      "id": "g26",
+      "category": "youth",
+      "src": "/images/site/choir-strings.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Youth music ministry",
+        "ml": "യുവജന സംഗീത ശുശ്രൂഷ"
+      }
+    },
+    {
+      "id": "g27",
+      "category": "catechism",
+      "src": "/images/site/catechism-children.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Sunday class, grade four",
+        "ml": "ഞായറാഴ്ച ക്ലാസ്, നാലാം ക്ലാസ്"
+      }
+    },
+    {
+      "id": "g28",
+      "category": "catechism",
+      "src": "/images/site/catechism-reading.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "First Communion preparation",
+        "ml": "ആദ്യ കുർബാന സ്വീകരണ ഒരുക്കം"
+      }
+    },
+    {
+      "id": "g29",
+      "category": "catechism",
+      "src": "/images/site/catechism-notes.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Annual scripture examination",
+        "ml": "വാർഷിക വേദപാഠ പരീക്ഷ"
+      }
+    },
+    {
+      "id": "g30",
+      "category": "catechism",
+      "src": "/images/site/children-joy.jpg",
+      "span": "tall",
+      "caption": {
+        "en": "After the children's homily",
+        "ml": "കുട്ടികളുടെ പ്രസംഗത്തിനു ശേഷം"
+      }
+    },
+    {
+      "id": "g31",
+      "category": "charity",
+      "src": "/images/site/charity-hands.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Sunday provision rounds",
+        "ml": "ഞായറാഴ്ചത്തെ ഭക്ഷ്യവിതരണം"
+      }
+    },
+    {
+      "id": "g32",
+      "category": "charity",
+      "src": "/images/site/seniors.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Visiting our elders",
+        "ml": "മുതിർന്നവരെ സന്ദർശിക്കുന്നു"
+      }
+    },
+    {
+      "id": "g33",
+      "category": "charity",
+      "src": "/images/site/bible-study.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Books for the parish school",
+        "ml": "ഇടവക സ്കൂളിനുള്ള പുസ്തകങ്ങൾ"
+      }
+    },
+    {
+      "id": "g34",
+      "category": "community",
+      "src": "/images/site/community-family.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Family unit Sunday",
+        "ml": "കുടുംബക്കൂട്ടായ്മ ഞായർ"
+      }
+    },
+    {
+      "id": "g35",
+      "category": "community",
+      "src": "/images/site/community-women.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Mathruvedi feast kitchen",
+        "ml": "മാതൃവേദി തിരുനാൾ അടുക്കള"
+      }
+    },
+    {
+      "id": "g37",
+      "category": "community",
+      "src": "/images/site/community-street.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "After the last Mass",
+        "ml": "അവസാന കുർബാനയ്ക്കു ശേഷം"
+      }
+    },
+    {
+      "id": "g38",
+      "category": "community",
+      "src": "/images/site/council.jpg",
+      "span": "normal",
+      "caption": {
+        "en": "Parish council, monthly meeting",
+        "ml": "ഇടവക കൗൺസിൽ, പ്രതിമാസ യോഗം"
+      }
+    }
   ]
 }

@@ -151,7 +151,8 @@ await page.goto('http://localhost:3000/obituary', { waitUntil: 'domcontentloaded
 await page.waitForTimeout(2000)
 ok('obituary archive page lists every memorial', (await page.locator('button.card').count()) >= 6,
    `${await page.locator('button.card').count()} cards`)
-ok('obituary page carries a breadcrumb', (await page.locator('nav[aria-label="Breadcrumb"]').count()) === 1)
+ok('the page does not repeat Home under the banner’s own Home link',
+   (await page.locator('main a[href="/"]').count()) === 0)
 ok('obituary page counts the memorials', /\d+\s+memorials/i.test(await page.locator('main').innerText()))
 ok('obituary link is the active one on its own route',
    (await page.locator('header [aria-current="true"]').first().innerText()).trim().toLowerCase() === 'obituary')

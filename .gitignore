@@ -14,3 +14,4 @@ content/donations.json
 next-env.d.ts
 .DS_Store
 content/hall-bookings.json
+/.claude/

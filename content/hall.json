@@ -1,0 +1,255 @@
+{
+  "title": {
+    "en": "St. Thomas Parish Hall",
+    "ml": "സെന്റ് തോമസ് ഇടവക ഹാൾ"
+  },
+  "subtitle": {
+    "en": "Four hundred seats beside the church, for weddings, receptions, betrothals, meetings and parish gatherings.",
+    "ml": "വിവാഹങ്ങൾ, സ്വീകരണങ്ങൾ, വിവാഹനിശ്ചയങ്ങൾ, യോഗങ്ങൾ, ഇടവക സമ്മേളനങ്ങൾ എന്നിവയ്ക്കായി ദേവാലയത്തിനരികിൽ നാനൂറ് ഇരിപ്പിടങ്ങൾ."
+  },
+  "image": "/images/site/wedding.jpg",
+  "gallery": [
+    "/images/site/congregation.jpg",
+    "/images/site/community-family.jpg",
+    "/images/site/community-group.jpg"
+  ],
+  "facts": [
+    {
+      "label": {
+        "en": "Seating",
+        "ml": "ഇരിപ്പിടം"
+      },
+      "value": {
+        "en": "400 seated · 600 standing",
+        "ml": "400 ഇരുന്ന് · 600 നിന്ന്"
+      }
+    },
+    {
+      "label": {
+        "en": "Stage",
+        "ml": "വേദി"
+      },
+      "value": {
+        "en": "30 ft × 16 ft, with green room",
+        "ml": "30 അടി × 16 അടി, ഗ്രീൻ റൂം സഹിതം"
+      }
+    },
+    {
+      "label": {
+        "en": "Kitchen",
+        "ml": "അടുക്കള"
+      },
+      "value": {
+        "en": "Attached, with serving counter",
+        "ml": "സെർവിംഗ് കൗണ്ടറോടു കൂടിയ അടുക്കള"
+      }
+    },
+    {
+      "label": {
+        "en": "Parking",
+        "ml": "പാർക്കിംഗ്"
+      },
+      "value": {
+        "en": "40 cars in the church compound",
+        "ml": "പള്ളി വളപ്പിൽ 40 കാറുകൾ"
+      }
+    }
+  ],
+  "sessions": [
+    {
+      "id": "morning",
+      "label": {
+        "en": "Morning",
+        "ml": "രാവിലെ"
+      },
+      "hours": {
+        "en": "7:00 AM – 2:00 PM",
+        "ml": "രാവിലെ 7:00 – ഉച്ചകഴിഞ്ഞ് 2:00"
+      },
+      "rent": 6000
+    },
+    {
+      "id": "evening",
+      "label": {
+        "en": "Evening",
+        "ml": "വൈകുന്നേരം"
+      },
+      "hours": {
+        "en": "3:00 PM – 10:00 PM",
+        "ml": "ഉച്ചകഴിഞ്ഞ് 3:00 – രാത്രി 10:00"
+      },
+      "rent": 7000
+    },
+    {
+      "id": "full-day",
+      "label": {
+        "en": "Full day",
+        "ml": "മുഴുവൻ ദിവസം"
+      },
+      "hours": {
+        "en": "7:00 AM – 10:00 PM",
+        "ml": "രാവിലെ 7:00 – രാത്രി 10:00"
+      },
+      "rent": 11000
+    }
+  ],
+  "amenities": [
+    {
+      "id": "ac",
+      "label": {
+        "en": "Air conditioning",
+        "ml": "എയർ കണ്ടീഷനിംഗ്"
+      },
+      "note": {
+        "en": "Whole hall, charged per session",
+        "ml": "ഹാൾ മുഴുവൻ, ഓരോ സെഷനും"
+      },
+      "rate": 4000
+    },
+    {
+      "id": "generator",
+      "label": {
+        "en": "Generator backup",
+        "ml": "ജനറേറ്റർ"
+      },
+      "note": {
+        "en": "62.5 kVA, diesel at actuals",
+        "ml": "62.5 kVA, ഡീസൽ വില പ്രകാരം"
+      },
+      "rate": 2500
+    },
+    {
+      "id": "sound",
+      "label": {
+        "en": "Sound system",
+        "ml": "ശബ്ദ സംവിധാനം"
+      },
+      "note": {
+        "en": "Two microphones and speakers",
+        "ml": "രണ്ട് മൈക്രോഫോണും സ്പീക്കറുകളും"
+      },
+      "rate": 1500
+    },
+    {
+      "id": "projector",
+      "label": {
+        "en": "Projector & screen",
+        "ml": "പ്രൊജക്ടറും സ്ക്രീനും"
+      },
+      "note": {
+        "en": "12 ft screen on the stage",
+        "ml": "വേദിയിൽ 12 അടി സ്ക്രീൻ"
+      },
+      "rate": 1200
+    },
+    {
+      "id": "kitchen",
+      "label": {
+        "en": "Kitchen use",
+        "ml": "അടുക്കള ഉപയോഗം"
+      },
+      "note": {
+        "en": "Gas, vessels and serving counter",
+        "ml": "ഗ്യാസ്, പാത്രങ്ങൾ, സെർവിംഗ് കൗണ്ടർ"
+      },
+      "rate": 2000
+    },
+    {
+      "id": "chairs",
+      "label": {
+        "en": "Extra chairs & tables",
+        "ml": "അധിക കസേരകളും മേശകളും"
+      },
+      "note": {
+        "en": "100 chairs, 10 tables",
+        "ml": "100 കസേരകൾ, 10 മേശകൾ"
+      },
+      "rate": 1000
+    },
+    {
+      "id": "decoration",
+      "label": {
+        "en": "Stage decoration",
+        "ml": "വേദി അലങ്കാരം"
+      },
+      "note": {
+        "en": "Arranged through the parish",
+        "ml": "ഇടവക വഴി ക്രമീകരിക്കുന്നു"
+      },
+      "rate": 3500
+    },
+    {
+      "id": "cleaning",
+      "label": {
+        "en": "Cleaning after the event",
+        "ml": "പരിപാടിക്ക് ശേഷമുള്ള വൃത്തിയാക്കൽ"
+      },
+      "note": {
+        "en": "Compulsory for receptions",
+        "ml": "സ്വീകരണങ്ങൾക്ക് നിർബന്ധം"
+      },
+      "rate": 1500
+    }
+  ],
+  "rules": [
+    {
+      "en": "A booking is held for seven days. It is confirmed once the advance of ₹3,000 reaches the parish office.",
+      "ml": "ഒരു ബുക്കിംഗ് ഏഴ് ദിവസത്തേക്ക് മാറ്റിവയ്ക്കും. ₹3,000 അഡ്വാൻസ് ഇടവക ഓഫീസിൽ എത്തുമ്പോൾ അത് ഉറപ്പിക്കും."
+    },
+    {
+      "en": "Parish families are charged the rates shown. Others pay one and a half times the hall rent.",
+      "ml": "ഇടവക കുടുംബങ്ങൾക്ക് കാണിച്ചിരിക്കുന്ന നിരക്ക്. മറ്റുള്ളവർക്ക് ഹാൾ വാടകയുടെ ഒന്നര ഇരട്ടി."
+    },
+    {
+      "en": "The hall is not given on the parish feast days, during Holy Week, or on the mornings of funerals in the parish.",
+      "ml": "ഇടവക തിരുനാൾ ദിവസങ്ങളിലും വിശുദ്ധ വാരത്തിലും ഇടവകയിലെ സംസ്കാര ശുശ്രൂഷകളുടെ പ്രഭാതങ്ങളിലും ഹാൾ നൽകുന്നില്ല."
+    },
+    {
+      "en": "Alcohol is not permitted anywhere in the church compound.",
+      "ml": "പള്ളി വളപ്പിൽ എവിടെയും മദ്യം അനുവദനീയമല്ല."
+    },
+    {
+      "en": "Any damage to furniture or fittings is charged at cost.",
+      "ml": "ഫർണിച്ചറിനോ ഉപകരണങ്ങൾക്കോ ഉണ്ടാകുന്ന കേടുപാടുകൾ വില പ്രകാരം ഈടാക്കും."
+    }
+  ],
+  "booking": {
+    "note": {
+      "en": "Choose a free date below and send the request. The parish office will call to confirm and to collect the advance. Nothing is charged on this website.",
+      "ml": "താഴെ ഒഴിവുള്ള ഒരു ദിവസം തിരഞ്ഞെടുത്ത് അപേക്ഷ അയയ്ക്കുക. ഉറപ്പിക്കാനും അഡ്വാൻസ് സ്വീകരിക്കാനും ഇടവക ഓഫീസ് വിളിക്കും. ഈ വെബ്സൈറ്റിൽ പണം ഈടാക്കുന്നില്ല."
+    },
+    "minNoticeDays": 3,
+    "monthsAhead": 12,
+    "advance": 3000,
+    "contact": {
+      "phone": "+91 487 246 8120",
+      "hours": {
+        "en": "Parish office · Monday to Saturday, 9:00 AM – 1:00 PM",
+        "ml": "ഇടവക ഓഫീസ് · തിങ്കൾ മുതൽ ശനി വരെ, രാവിലെ 9:00 – ഉച്ചയ്ക്ക് 1:00"
+      }
+    }
+  },
+  "blocked": [
+    {
+      "date": "2027-01-18",
+      "reason": {
+        "en": "Thirunal Dinam",
+        "ml": "തിരുനാൾ ദിനം"
+      }
+    },
+    {
+      "date": "2027-07-03",
+      "reason": {
+        "en": "Dukhrana — parish feast",
+        "ml": "ദുക്റാന — ഇടവക തിരുനാൾ"
+      }
+    },
+    {
+      "date": "2026-12-25",
+      "reason": {
+        "en": "Christmas",
+        "ml": "ക്രിസ്മസ്"
+      }
+    }
+  ]
+}

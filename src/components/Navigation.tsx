@@ -1,6 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import { ui, useLang } from '@/lib/i18n'
@@ -21,18 +22,20 @@ type NavLink = {
 }
 
 const LINKS: NavLink[] = [
+
   { id: 'top', label: ui.nav.home },
   { id: 'about', label: ui.nav.about },
-  { id: 'mass-timings', label: ui.nav.mass },
-  { id: 'upcoming', label: ui.nav.upcoming },
-  { id: 'weekly-events', label: ui.nav.events, drawerOnly: true },
   { id: 'priests', label: ui.nav.priests },
   { id: 'committee', label: ui.nav.committee },
-  { id: 'ministries', label: ui.nav.ministries, drawerOnly: true },
-  { id: 'gallery', label: ui.nav.gallery },
+  { id: 'past-priests', label: ui.nav.pastPriests, drawerOnly: true },
+  { id: 'mass-timings', label: ui.nav.mass },
+  { id: 'weekly-events', label: ui.nav.events },
+  { id: 'ministries', label: ui.nav.ministries },
   { id: 'media', label: ui.nav.media, drawerOnly: true },
   { id: 'notices', label: ui.nav.notices },
+  { id: 'gallery', label: ui.nav.gallery },
   { id: 'obituary', label: ui.nav.obituary, href: '/obituary' },
+  { id: 'hall', label: ui.nav.hall, href: '/hall' },
   { id: 'members', label: ui.nav.members, drawerOnly: true },
   { id: 'contact', label: ui.nav.contact },
 ]
@@ -40,12 +43,27 @@ const LINKS: NavLink[] = [
 /** The bar itself, which has to stay inside one line at 1440px. */
 const BAR_LINKS = LINKS.filter((link) => !link.drawerOnly)
 
-export function Navigation({ site }: { site: SiteContent }) {
+export function Navigation({
+  site,
+  overHero = true,
+}: {
+  site: SiteContent
+  /**
+   * False on a page that opens with ordinary light content instead of the
+   * hero photograph. The transparent bar draws its labels in white, which is
+   * unreadable over a pale page, so those pages start solid.
+   */
+  overHero?: boolean
+}) {
   const { t, lang, setLang } = useLang()
   const { theme, toggle } = useTheme()
-  const [solid, setSolid] = useState(false)
+  const [solid, setSolid] = useState(!overHero)
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('top')
+  const pathname = usePathname()
+  // On a page of its own — /obituary — the highlight belongs to that link, not
+  // to Home; there are no homepage sections here for the observer to watch.
+  const routeLink = LINKS.find((link) => link.href && link.href === pathname)
+  const [active, setActive] = useState(routeLink ? routeLink.id : 'top')
 
   // Malayalam labels run roughly half as wide again as their English
   // equivalents, so the horizontal nav needs tighter spacing and more room
@@ -53,14 +71,19 @@ export function Navigation({ site }: { site: SiteContent }) {
   const wide = lang === 'ml'
 
   useEffect(() => {
+    if (!overHero) {
+      setSolid(true)
+      return
+    }
     const onScroll = () => setSolid(window.scrollY > 80)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [overHero])
 
   // Highlight the section currently filling the viewport.
   useEffect(() => {
+    if (routeLink) return
     const targets = LINKS.filter((l) => !l.href)
       .map((l) => document.getElementById(l.id))
       .filter(
@@ -77,7 +100,7 @@ export function Navigation({ site }: { site: SiteContent }) {
     )
     targets.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
-  }, [])
+  }, [routeLink])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -119,11 +142,12 @@ export function Navigation({ site }: { site: SiteContent }) {
         className={cn(
           'no-print fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-sacred',
           solid
-            ? 'border-b border-[rgb(var(--line))] bg-[rgb(var(--page))]/92 py-2.5 shadow-[0_1px_30px_-12px_rgba(11,21,38,0.35)] backdrop-blur-xl'
+            ? 'border-b border-[rgb(var(--line))] bg-[rgb(var(--page))]/90 py-2.5 shadow-[0_1px_30px_-12px_rgba(11,21,38,0.35)] backdrop-blur-xl'
             : 'border-b border-transparent py-5',
         )}
       >
-        <nav className="container flex items-center justify-between gap-6" aria-label="Primary">
+        <div className="container">
+          <nav className="flex items-center justify-between gap-6" aria-label="Primary">
           <button
             type="button"
             onClick={() => onNavigate(LINKS[0])}
@@ -156,36 +180,6 @@ export function Navigation({ site }: { site: SiteContent }) {
             </span>
           </button>
 
-          <ul className={cn('hidden items-center gap-0.5', wide ? 'nav-ml:flex' : 'nav:flex')}>
-            {BAR_LINKS.map((link) => (
-              <li key={link.id}>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(link)}
-                  aria-current={active === link.id ? 'true' : undefined}
-                  className={cn(
-                    'relative whitespace-nowrap rounded-sm py-2 font-sans font-medium uppercase transition-colors duration-300',
-                    wide
-                      ? 'px-2 text-[0.66rem] tracking-[0.08em]'
-                      : 'px-3 text-[0.72rem] tracking-[0.16em]',
-                    solid
-                      ? 'text-[rgb(var(--muted))] hover:text-gold-600 dark:hover:text-gold-300'
-                      : 'text-white/85 hover:text-gold-200',
-                    active === link.id && (solid ? 'text-gold-600 dark:text-gold-300' : 'text-gold-200'),
-                  )}
-                >
-                  {t(link.label)}
-                  {active === link.id ? (
-                    <motion.span
-                      layoutId="nav-underline"
-                      className="absolute inset-x-3 -bottom-0.5 h-px bg-gold-400"
-                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                    />
-                  ) : null}
-                </button>
-              </li>
-            ))}
-          </ul>
 
           {/* never allow the controls to be pushed past the viewport edge */}
           <div className="flex shrink-0 items-center gap-2">
@@ -251,7 +245,6 @@ export function Navigation({ site }: { site: SiteContent }) {
               aria-expanded={open}
               className={cn(
                 'grid h-9 w-9 place-items-center rounded-sm border transition-all duration-300',
-                wide ? 'nav-ml:hidden' : 'nav:hidden',
                 solid
                   ? 'border-[rgb(var(--line))] text-[rgb(var(--ink))] hover:border-gold-400'
                   : 'border-white/25 text-white hover:border-gold-300',
@@ -260,7 +253,47 @@ export function Navigation({ site }: { site: SiteContent }) {
               <Icon name="menu" className="h-4 w-4" />
             </button>
           </div>
-        </nav>
+          </nav>
+
+          <ul
+            className={cn(
+              'hidden flex-wrap items-center justify-center gap-x-0.5 gap-y-1 pt-2',
+              // Malayalam labels are wider, so they need more room before the
+              // full row fits; below that everything lives in the menu.
+              wide ? 'xl:flex' : 'lg:flex',
+              solid ? 'border-t border-[rgb(var(--line))]' : 'border-t border-white/15',
+            )}
+          >
+            {BAR_LINKS.map((link) => (
+              <li key={link.id}>
+                <button
+                  type="button"
+                  onClick={() => onNavigate(link)}
+                  aria-current={active === link.id ? 'true' : undefined}
+                  className={cn(
+                    'relative whitespace-nowrap rounded-sm py-2 font-sans font-medium uppercase transition-colors duration-300',
+                    wide
+                      ? 'px-1.5 text-[0.6rem] tracking-[0.04em] 2xl:px-2.5 2xl:text-[0.66rem] 2xl:tracking-[0.08em]'
+                      : 'px-2 text-[0.64rem] tracking-[0.08em] xl:px-3 xl:text-[0.72rem] xl:tracking-[0.16em]',
+                    solid
+                      ? 'text-[rgb(var(--muted))] hover:text-gold-600 dark:hover:text-gold-300'
+                      : 'text-white/85 hover:text-gold-200',
+                    active === link.id && (solid ? 'text-gold-600 dark:text-gold-300' : 'text-gold-200'),
+                  )}
+                >
+                  {t(link.label)}
+                  {active === link.id ? (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute inset-x-3 -bottom-0.5 h-px bg-gold-400"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  ) : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </header>
 
       <AnimatePresence>
@@ -270,7 +303,7 @@ export function Navigation({ site }: { site: SiteContent }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className={cn('fixed inset-0 z-[70]', wide ? 'nav-ml:hidden' : 'nav:hidden')}
+            className="fixed inset-0 z-[70]"
           >
             <div
               className="absolute inset-0 bg-navy-950/85 backdrop-blur-md"
@@ -325,7 +358,15 @@ export function Navigation({ site }: { site: SiteContent }) {
                 <Icon name="heart" className="h-4 w-4" />
               </button>
 
-              <div className="mt-6 flex items-center gap-2">
+              <a
+                href="/admin"
+                className="mt-6 flex items-center justify-center gap-2 rounded-sm border border-[rgb(var(--line))] py-3 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400 hover:text-gold-500"
+              >
+                <Icon name="lock" className="h-3.5 w-3.5" />
+                {t(ui.footer.admin)}
+              </a>
+
+              <div className="mt-4 flex items-center gap-2">
                 {(['en', 'ml'] as const).map((code) => (
                   <button
                     key={code}

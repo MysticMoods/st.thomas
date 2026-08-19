@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
 import { cn } from '@/lib/utils'
@@ -9,7 +9,18 @@ import { useAutoTranslate } from './AutoTranslate'
 
 type Json = unknown
 
+/**
+ * The whole section being edited. A single field sometimes needs to see the
+ * rest of the document — a notice's category, for instance, is only meaningful
+ * against the list of categories declared at the top of the same file.
+ */
+const DocumentContext = createContext<unknown>(null)
+
 const IMAGE_KEYS = new Set(['image', 'src', 'ogImage', 'file', 'images', 'photo'])
+/** Plain calendar dates. Anything with a time is kept intact around the date. */
+const DATE_KEYS = new Set(['date', 'endDate', 'born', 'died', 'published', 'start', 'end', 'from', 'to'])
+/** Machine references. Real, but nothing the parish should have to think about. */
+const QUIET_KEYS = new Set(['id'])
 const LONG_KEYS = new Set([
   'body', 'message', 'description', 'bio', 'welcome', 'lede', 'note', 'excerpt', 'quote',
   'history', 'tribute', 'survivedBy', 'joinNote', 'subtitle', 'receiptNote',
@@ -49,7 +60,24 @@ function preview(value: unknown): string {
   return ''
 }
 
-export function JsonEditor({
+export function JsonEditor(props: {
+  value: Json
+  onChange: (next: Json) => void
+  path?: string[]
+  depth?: number
+}) {
+  // The outermost editor owns the document; the rest read it from context.
+  if (!props.path || props.path.length === 0) {
+    return (
+      <DocumentContext.Provider value={props.value}>
+        <Field {...props} />
+      </DocumentContext.Provider>
+    )
+  }
+  return <Field {...props} />
+}
+
+function Field({
   value,
   onChange,
   path = [],
@@ -72,9 +100,13 @@ export function JsonEditor({
 
   if (value && typeof value === 'object') {
     const record = value as Record<string, unknown>
+    // Reference ids go last: they matter to the site, not to the person typing.
+    const entries = Object.entries(record).sort(
+      (a, b) => Number(QUIET_KEYS.has(a[0])) - Number(QUIET_KEYS.has(b[0])),
+    )
     return (
       <div className={cn('flex flex-col gap-5', depth > 0 && 'border-l border-stone-300/60 pl-5 dark:border-navy-700')}>
-        {Object.entries(record).map(([childKey, childValue]) => (
+        {entries.map(([childKey, childValue]) => (
           <Row key={childKey} name={childKey} value={childValue}>
             <JsonEditor
               value={childValue}
@@ -119,6 +151,24 @@ export function JsonEditor({
     return <ImageField value={text} onChange={onChange} />
   }
 
+  if (DATE_KEYS.has(key) && /^\d{4}-\d{2}-\d{2}/.test(text)) {
+    return <DateField value={text} onChange={onChange} />
+  }
+
+  if (key === 'category' || key === 'fund') {
+    return <ChoiceField value={text} onChange={onChange} groupKey={key} />
+  }
+
+  if (QUIET_KEYS.has(key)) {
+    return (
+      <input
+        value={text}
+        onChange={(e) => onChange(e.target.value)}
+        className="field max-w-[16rem] font-mono text-xs text-[rgb(var(--muted))]"
+      />
+    )
+  }
+
   if (LONG_KEYS.has(key) || text.length > 110) {
     return (
       <textarea
@@ -131,6 +181,91 @@ export function JsonEditor({
   }
 
   return <input value={text} onChange={(e) => onChange(e.target.value)} className="field" />
+}
+
+/**
+ * A calendar picker for the date part, so nobody has to remember that the site
+ * wants ISO order. A stored time ("2026-08-10T15:30:00+05:30") keeps its tail.
+ */
+function DateField({ value, onChange }: { value: string; onChange: (next: Json) => void }) {
+  const [date, ...rest] = value.split('T')
+  const tail = rest.length ? `T${rest.join('T')}` : ''
+
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => onChange(e.target.value ? `${e.target.value}${tail}` : '')}
+        className="field max-w-[14rem] tabular-nums"
+      />
+      {tail ? (
+        <span className="font-sans text-2xs text-[rgb(var(--muted))]">
+          keeps the time {tail.slice(1, 6)}
+        </span>
+      ) : null}
+    </div>
+  )
+}
+
+/**
+ * Categories and funds are declared once at the top of the file and referred to
+ * by id further down. Typing that id by hand is how a notice ends up filed
+ * under nothing, so offer the declared list instead.
+ */
+function ChoiceField({
+  value,
+  onChange,
+  groupKey,
+}: {
+  value: string
+  onChange: (next: Json) => void
+  groupKey: string
+}) {
+  const doc = useContext(DocumentContext)
+
+  const options = useMemo(() => {
+    const listKey = groupKey === 'fund' ? 'funds' : 'categories'
+    const list = (doc as Record<string, unknown> | null)?.[listKey]
+    if (!Array.isArray(list)) return []
+    return list
+      .map((entry) => {
+        const record = entry as Record<string, unknown>
+        const id = typeof record?.id === 'string' ? record.id : ''
+        const label = record?.label ?? record?.name ?? record?.title
+        const text = isBilingual(label) ? label.en : typeof label === 'string' ? label : id
+        return { id, text }
+      })
+      .filter((option) => option.id)
+  }, [doc, groupKey])
+
+  if (options.length === 0) {
+    return <input value={value} onChange={(e) => onChange(e.target.value)} className="field" />
+  }
+
+  const known = options.some((option) => option.id === value)
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <select
+        value={known ? value : ''}
+        onChange={(e) => onChange(e.target.value)}
+        className="field max-w-[22rem]"
+      >
+        {known ? null : <option value="">Choose one…</option>}
+        {options.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.text}
+          </option>
+        ))}
+      </select>
+      {known ? null : (
+        <span className="font-sans text-2xs text-burgundy-500 dark:text-burgundy-300">
+          {value ? `"${value}" is not one of the categories above.` : 'Nothing chosen yet.'}
+        </span>
+      )}
+    </div>
+  )
 }
 
 function Row({
@@ -358,15 +493,27 @@ function ArrayField({
   }
 
   const remove = (index: number) => {
+    const what = preview(value[index]) || `item ${index + 1}`
+    // Deleting a notice or a memorial is not undoable from here, so ask first.
+    if (!window.confirm(`Delete "${what}"? This cannot be undone from the dashboard.`)) return
     onChange(value.filter((_, i) => i !== index))
     setOpen(null)
   }
 
+  /** New entries go to the top, where the newest notice or photograph belongs. */
   const add = () => {
     const template = value[0]
-    const blank = template === undefined ? '' : blankLike(template)
-    onChange([...value, blank])
-    setOpen(value.length)
+    const blank = template === undefined ? '' : withFreshId(blankLike(template))
+    onChange([blank, ...value])
+    setOpen(0)
+  }
+
+  const duplicate = (index: number) => {
+    const copy = withFreshId(JSON.parse(JSON.stringify(value[index])))
+    const next = [...value]
+    next.splice(index + 1, 0, copy)
+    onChange(next)
+    setOpen(index + 1)
   }
 
   if (primitive) {
@@ -400,6 +547,27 @@ function ArrayField({
 
   return (
     <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="font-sans text-2xs text-[rgb(var(--muted))]">
+          {value.length} {value.length === 1 ? 'entry' : 'entries'}
+        </span>
+        <div className="flex items-center gap-2">
+          {value.length > 1 ? (
+            <button
+              type="button"
+              onClick={() => setOpen(null)}
+              className="font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))] transition-colors hover:text-gold-500"
+            >
+              Collapse all
+            </button>
+          ) : null}
+          <button type="button" onClick={add} className="btn-outline !px-4 !py-2 !text-[0.6rem]">
+            <Icon name="plus" className="h-3.5 w-3.5" />
+            Add new
+          </button>
+        </div>
+      </div>
+
       {value.map((item, i) => {
         const expanded = open === i
         return (
@@ -433,7 +601,8 @@ function ArrayField({
                   className="rotate-180"
                   onClick={() => move(i, i + 1)}
                 />
-                <IconButton label="Remove" icon="close" danger onClick={() => remove(i)} />
+                <IconButton label="Duplicate" icon="plus" onClick={() => duplicate(i)} />
+                <IconButton label="Delete" icon="close" danger onClick={() => remove(i)} />
               </div>
             </div>
             {expanded ? (
@@ -449,10 +618,6 @@ function ArrayField({
           </div>
         )
       })}
-      <button type="button" onClick={add} className="btn-outline self-start !px-4 !py-2 !text-[0.6rem]">
-        <Icon name="plus" className="h-3.5 w-3.5" />
-        Add item
-      </button>
     </div>
   )
 }
@@ -484,6 +649,18 @@ function IconButton({
       <Icon name={icon} className={cn('h-3.5 w-3.5', className)} />
     </button>
   )
+}
+
+/**
+ * Gives a new or duplicated entry its own reference id, so two notices never
+ * collide and nobody has to invent one.
+ */
+function withFreshId(item: unknown): unknown {
+  if (!item || typeof item !== 'object' || Array.isArray(item)) return item
+  const record = item as Record<string, unknown>
+  if (typeof record.id !== 'string') return record
+  const stem = record.id.replace(/[0-9]+$/, '') || 'item'
+  return { ...record, id: `${stem}${Date.now().toString(36).slice(-5)}` }
 }
 
 /** Builds an empty record shaped like an existing sibling. */

@@ -15,17 +15,19 @@ import { ParishEmblem } from './ui/ParishEmblem'
  * as it does on the homepage.
  */
 const QUICK_LINKS = [
+
   { href: '/#about', label: ui.nav.about },
-  { href: '/#mass-timings', label: ui.nav.mass },
-  { href: '/#upcoming', label: ui.nav.upcoming },
-  { href: '/#weekly-events', label: ui.nav.events },
   { href: '/#priests', label: ui.nav.priests },
   { href: '/#committee', label: ui.nav.committee },
+  { href: '/#past-priests', label: ui.nav.pastPriests },
+  { href: '/#mass-timings', label: ui.nav.mass },
+  { href: '/#weekly-events', label: ui.nav.events },
   { href: '/#ministries', label: ui.nav.ministries },
-  { href: '/#gallery', label: ui.nav.gallery },
   { href: '/#media', label: ui.nav.media },
   { href: '/#notices', label: ui.nav.notices },
+  { href: '/#gallery', label: ui.nav.gallery },
   { href: '/obituary', label: ui.nav.obituary },
+  { href: '/hall', label: ui.nav.hall },
   { href: '/#donate', label: ui.nav.donate },
   { href: '/#members', label: ui.nav.members },
   { href: '/#contact', label: ui.nav.contact },

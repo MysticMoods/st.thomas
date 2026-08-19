@@ -1,0 +1,75 @@
+{
+  "title": {
+    "en": "Under Their Care",
+    "ml": "അവരുടെ ശുശ്രൂഷയിൽ"
+  },
+  "subtitle": {
+    "en": "The shepherds of the universal Church, of our Church and of this diocese, in whose communion the parish of Mangalassery stands.",
+    "ml": "ആഗോള സഭയുടെയും നമ്മുടെ സഭയുടെയും ഈ രൂപതയുടെയും ഇടയന്മാർ — അവരുടെ കൂട്ടായ്മയിലാണ് മംഗലശ്ശേരി ഇടവക നിലകൊള്ളുന്നത്."
+  },
+  "people": [
+    {
+      "id": "pope",
+      "image": "",
+      "name": {
+        "en": "Pope Leo XIV",
+        "ml": "ലിയോ പതിനാലാമൻ മാർപ്പാപ്പ"
+      },
+      "role": {
+        "en": "Supreme Pontiff",
+        "ml": "പരമാധ്യക്ഷൻ"
+      },
+      "see": {
+        "en": "Bishop of Rome · Vatican City",
+        "ml": "റോമിലെ മെത്രാൻ · വത്തിക്കാൻ"
+      },
+      "note": {
+        "en": "Successor of Saint Peter and pastor of the universal Church, elected in May 2025.",
+        "ml": "വിശുദ്ധ പത്രോസിന്റെ പിൻഗാമിയും ആഗോള സഭയുടെ ഇടയനും. 2025 മെയ് മാസത്തിൽ തിരഞ്ഞെടുക്കപ്പെട്ടു."
+      },
+      "since": "2025"
+    },
+    {
+      "id": "major-archbishop",
+      "image": "",
+      "name": {
+        "en": "Mar Raphael Thattil",
+        "ml": "മാർ റാഫേൽ തട്ടിൽ"
+      },
+      "role": {
+        "en": "Major Archbishop",
+        "ml": "മേജർ ആർച്ച്ബിഷപ്പ്"
+      },
+      "see": {
+        "en": "Syro-Malabar Church · Mount St. Thomas, Kakkanad",
+        "ml": "സീറോ മലബാർ സഭ · മൗണ്ട് സെന്റ് തോമസ്, കാക്കനാട്"
+      },
+      "note": {
+        "en": "Father and head of the Syro-Malabar Church, elected by the Synod of Bishops in January 2024.",
+        "ml": "സീറോ മലബാർ സഭയുടെ പിതാവും തലവനും. 2024 ജനുവരിയിൽ മെത്രാൻ സിനഡ് തിരഞ്ഞെടുത്തു."
+      },
+      "since": "2024"
+    },
+    {
+      "id": "bishop",
+      "image": "",
+      "name": {
+        "en": "Mar Joseph Kalarickal",
+        "ml": "മാർ ജോസഫ് കളരിക്കൽ"
+      },
+      "role": {
+        "en": "Bishop of the Diocese",
+        "ml": "രൂപതാ മെത്രാൻ"
+      },
+      "see": {
+        "en": "Diocese of Angamaly",
+        "ml": "അങ്കമാലി രൂപത"
+      },
+      "note": {
+        "en": "Shepherd of the diocese to which Mangalassery belongs, through the Koratty Forane.",
+        "ml": "കൊരട്ടി ഫൊറോന വഴി മംഗലശ്ശേരി ഉൾപ്പെടുന്ന രൂപതയുടെ ഇടയൻ."
+      },
+      "since": "2019"
+    }
+  ]
+}

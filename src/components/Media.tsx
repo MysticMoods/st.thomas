@@ -23,7 +23,7 @@ export function Media({ media }: { media: MediaContent }) {
   if (!featured) return null
 
   return (
-    <section id="media" className="section bg-[rgb(var(--page-alt))]">
+    <section id="media" className="section bg-[rgb(var(--page))]">
       <div className="container">
         <SectionHeading
           eyebrow={{ en: 'Parish Media', ml: 'ഇടവക മീഡിയ' }}
@@ -171,6 +171,16 @@ export function Media({ media }: { media: MediaContent }) {
                 <p className="mt-5 border-t border-[rgb(var(--line))] pt-4 font-sans text-2xs leading-relaxed text-[rgb(var(--muted))]">
                   {t(media.channel.note)}
                 </p>
+
+                <a
+                  href={media.channel.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="btn-outline mt-5 w-full !py-2.5 !text-[0.6rem]"
+                >
+                  <Icon name="youtube" className="h-4 w-4" />
+                  {t({ en: 'Visit the parish channel', ml: 'ഇടവക ചാനൽ സന്ദർശിക്കുക' })}
+                </a>
               </div>
             </Reveal>
           </div>

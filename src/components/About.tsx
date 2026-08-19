@@ -4,6 +4,7 @@ import { useLang } from '@/lib/i18n'
 import type { AboutContent, SiteContent } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
+import { Icon } from './ui/Icon'
 import { ParishEmblem } from './ui/ParishEmblem'
 import { Reveal, StaggerGroup, staggerItem } from './ui/Reveal'
 import { SectionHeading } from './ui/SectionHeading'
@@ -76,6 +77,27 @@ export function About({ about, site }: { about: AboutContent; site: SiteContent 
               <span className="mt-6 block gold-rule" aria-hidden="true" />
 
               <dl className="mt-10 divide-y divide-[rgb(var(--line))] border-y border-[rgb(var(--line))]">
+                {/* Read from the contact details, so the address is written once. */}
+                <div className="grid gap-1 py-5 sm:grid-cols-[minmax(0,0.4fr)_minmax(0,1fr)] sm:gap-8">
+                  <dt className="font-sans text-2xs uppercase tracking-[0.22em] text-gold-600 dark:text-gold-400">
+                    {t({ en: 'Address', ml: 'വിലാസം' })}
+                  </dt>
+                  <dd className="font-serif text-lg text-[rgb(var(--ink))]">
+                    {t(site.contact.address)}
+                    {site.contact.mapLink ? (
+                      <a
+                        href={site.contact.mapLink}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="ml-3 inline-flex items-center gap-1 align-middle font-sans text-2xs uppercase tracking-[0.14em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+                      >
+                        {t({ en: 'Map', ml: 'ഭൂപടം' })}
+                        <Icon name="mapPin" className="h-3 w-3" />
+                      </a>
+                    ) : null}
+                  </dd>
+                </div>
+
                 {about.parishInfo.map((row) => (
                   <div
                     key={t(row.label)}

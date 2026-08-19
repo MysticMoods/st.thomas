@@ -9,6 +9,7 @@ import type { ContentKey } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 import { AutoTranslateToggle, useAutoTranslate } from './AutoTranslate'
+import { HallBookings } from './HallBookings'
 import { JsonEditor } from './JsonEditor'
 
 type SectionDef = {
@@ -16,24 +17,27 @@ type SectionDef = {
   name: string
   icon: string
   blurb: string
+  /** Where this section shows up on the site, for the preview link. */
+  anchor: string
 }
 
 const SECTIONS: SectionDef[] = [
-  { key: 'site', name: 'Homepage & Banners', icon: 'home', blurb: 'Hero images, welcome text, contact details, social links' },
-  { key: 'upcoming', name: 'Upcoming Events', icon: 'sparkle', blurb: 'Dated events, and the welcome popup that announces them' },
-  { key: 'notices', name: 'Notice Board', icon: 'bell', blurb: 'Parish news, banns, funeral notices, prayer requests' },
-  { key: 'obituaries', name: 'Obituary Column', icon: 'candle', blurb: 'Deaths, funeral details and the memorial for each' },
-  { key: 'events', name: 'Weekly Events', icon: 'calendar', blurb: 'The seven day parish calendar' },
-  { key: 'mass', name: 'Mass Timings', icon: 'clock', blurb: 'Sunday, weekday, holy day, confession, adoration' },
-  { key: 'clergy', name: 'Parish Priest', icon: 'users', blurb: 'Photo, message, quote and contact details' },
-  { key: 'committee', name: 'Parish Committee', icon: 'shield', blurb: 'Office bearers, ward members and their term' },
-  { key: 'past-priests', name: 'Past Priests', icon: 'scroll', blurb: 'The timeline of former vicars' },
-  { key: 'gallery', name: 'Gallery', icon: 'plus', blurb: 'Upload photographs and set their category' },
-  { key: 'media', name: 'Videos & Bulletins', icon: 'youtube', blurb: 'YouTube videos and downloadable PDF bulletins' },
-  { key: 'stats', name: 'Parish Statistics', icon: 'users', blurb: 'Summary counts shown on the homepage' },
-  { key: 'ministries', name: 'Ministries', icon: 'flame', blurb: 'Each ministry, its leader, team, events and history' },
-  { key: 'donation', name: 'Donations', icon: 'heart', blurb: 'Funds, suggested amounts, bank and UPI details' },
-  { key: 'about', name: 'About the Church', icon: 'book', blurb: 'History, mission, vision, patron, architecture' },
+  { key: 'site', name: 'Homepage & Banners', icon: 'home', blurb: 'Hero images, welcome text, contact details, social links', anchor: '/' },
+  { key: 'notices', name: 'Notice Board', icon: 'bell', blurb: 'Parish news, banns, funeral notices, prayer requests', anchor: '/#notices' },
+  { key: 'obituaries', name: 'Obituary Column', icon: 'candle', blurb: 'Deaths, funeral details and the memorial for each', anchor: '/obituary' },
+  { key: 'events', name: 'Weekly Events', icon: 'calendar', blurb: 'The seven day parish calendar', anchor: '/#weekly-events' },
+  { key: 'mass', name: 'Mass Timings', icon: 'clock', blurb: 'Sunday, weekday, holy day, confession, adoration', anchor: '/#mass-timings' },
+  { key: 'leadership', name: 'Pope, Archbishop & Bishop', icon: 'cross', blurb: 'The three portraits shown above the parish priest', anchor: '/#leadership' },
+  { key: 'clergy', name: 'Parish Priest', icon: 'users', blurb: 'Photo, message, quote and contact details', anchor: '/#priests' },
+  { key: 'committee', name: 'Parish Committee', icon: 'shield', blurb: 'Office bearers, ward members and their term', anchor: '/#committee' },
+  { key: 'past-priests', name: 'Past Priests', icon: 'scroll', blurb: 'The timeline of former vicars', anchor: '/#past-priests' },
+  { key: 'gallery', name: 'Gallery', icon: 'plus', blurb: 'Upload photographs and set their category', anchor: '/#gallery' },
+  { key: 'media', name: 'Videos & Bulletins', icon: 'youtube', blurb: 'YouTube videos and downloadable PDF bulletins', anchor: '/#media' },
+  { key: 'stats', name: 'Parish Statistics', icon: 'users', blurb: 'Summary counts shown on the homepage', anchor: '/#members' },
+  { key: 'ministries', name: 'Ministries', icon: 'flame', blurb: 'Each ministry, its leader, team, events and history', anchor: '/#ministries' },
+  { key: 'hall', name: 'Parish Hall', icon: 'home', blurb: 'Tariff, amenities, rules and the days kept for the parish', anchor: '/hall' },
+  { key: 'donation', name: 'Donations', icon: 'heart', blurb: 'Funds, suggested amounts, bank and UPI details', anchor: '/#donate' },
+  { key: 'about', name: 'About the Church', icon: 'book', blurb: 'History, mission, vision, patron, architecture', anchor: '/#about' },
 ]
 
 type Donation = {
@@ -58,7 +62,7 @@ type Submissions = {
 
 export function AdminApp() {
   const { theme, toggle } = useTheme()
-  const [active, setActive] = useState<ContentKey | 'inbox'>('site')
+  const [active, setActive] = useState<ContentKey | 'inbox' | 'hall-bookings'>('site')
   const [data, setData] = useState<unknown>(null)
   const [original, setOriginal] = useState<string>('')
   // Fingerprint of the file as loaded — sent back on save so a stale editor
@@ -70,12 +74,16 @@ export function AdminApp() {
   const [rawText, setRawText] = useState('')
   const [submissions, setSubmissions] = useState<Submissions | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [search, setSearch] = useState('')
   const { waitForIdle } = useAutoTranslate()
 
   // Always holds the newest editor state, so a save that waited for a
   // translation writes the translated text rather than the older snapshot.
   const dataRef = useRef<unknown>(null)
   dataRef.current = data
+  // Window listeners are bound once; these keep them looking at current state.
+  const dirtyRef = useRef(false)
+  const saveRef = useRef(() => {})
 
   const load = useCallback(async (key: ContentKey) => {
     setStatus('loading')
@@ -96,6 +104,7 @@ export function AdminApp() {
   }, [])
 
   useEffect(() => {
+    if (active === 'hall-bookings') return
     if (active === 'inbox') {
       fetch('/api/admin/submissions', { cache: 'no-store' })
         .then((r) => r.json())
@@ -106,10 +115,42 @@ export function AdminApp() {
     load(active)
   }, [active, load])
 
-  const dirty = active !== 'inbox' && data !== null && JSON.stringify(data) !== original
+  const dirty = active !== 'inbox' && active !== 'hall-bookings' && data !== null && JSON.stringify(data) !== original
+
+  // Ctrl/Cmd+S saves, the way every other editor behaves.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault()
+        if (dirtyRef.current) saveRef.current()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  // Closing the tab mid-edit should not silently throw the work away.
+  useEffect(() => {
+    const onLeave = (event: BeforeUnloadEvent) => {
+      if (!dirtyRef.current) return
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', onLeave)
+    return () => window.removeEventListener('beforeunload', onLeave)
+  }, [])
+
+  /** Switching section throws away unsaved edits, so confirm first. */
+  function open(next: ContentKey | 'inbox' | 'hall-bookings') {
+    if (next === active) return
+    if (dirty && !window.confirm('You have unsaved changes here. Leave them behind?')) return
+    setActive(next)
+    setMenuOpen(false)
+    setRaw(false)
+  }
 
   async function save() {
-    if (active === 'inbox') return
+    if (active === 'inbox' || active === 'hall-bookings') return
     // Clicking Save blurs the field, which may start a translation. Let it finish.
     setStatus('saving')
     await waitForIdle()
@@ -150,7 +191,15 @@ export function AdminApp() {
     window.location.href = '/'
   }
 
+  dirtyRef.current = dirty
+  saveRef.current = save
+
   const current = SECTIONS.find((s) => s.key === active)
+  const visible = SECTIONS.filter((section) => {
+    const needle = search.trim().toLowerCase()
+    if (!needle) return true
+    return `${section.name} ${section.blurb} ${section.key}`.toLowerCase().includes(needle)
+  })
 
   return (
     <div className="min-h-screen bg-[rgb(var(--page-alt))]">
@@ -215,22 +264,37 @@ export function AdminApp() {
       <div className="mx-auto flex max-w-[100rem] gap-8 px-5 py-8 sm:px-8">
         <aside
           className={cn(
-            'w-72 shrink-0 lg:block',
+            'w-72 shrink-0 lg:sticky lg:top-[4.25rem] lg:self-start lg:block lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1',
             menuOpen
               ? 'fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto border-r border-[rgb(var(--line))] bg-[rgb(var(--page))] p-5 lg:static lg:z-auto lg:border-0 lg:bg-transparent lg:p-0'
               : 'hidden',
           )}
         >
           <nav className="flex flex-col gap-1">
-            {SECTIONS.map((section) => (
+            <label className="relative mb-3 block">
+              <Icon
+                name="search"
+                className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-[rgb(var(--muted))]"
+              />
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Find a section…"
+                className="field !py-2.5 !pl-9 !text-sm"
+              />
+            </label>
+
+            {visible.length === 0 ? (
+              <p className="px-4 py-3 font-sans text-2xs text-[rgb(var(--muted))]">
+                Nothing matches “{search}”.
+              </p>
+            ) : null}
+
+            {visible.map((section) => (
               <button
                 key={section.key}
                 type="button"
-                onClick={() => {
-                  setActive(section.key)
-                  setMenuOpen(false)
-                  setRaw(false)
-                }}
+                onClick={() => open(section.key)}
                 className={cn(
                   'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
                   active === section.key
@@ -260,10 +324,28 @@ export function AdminApp() {
 
             <button
               type="button"
-              onClick={() => {
-                setActive('inbox')
-                setMenuOpen(false)
-              }}
+              onClick={() => open('hall-bookings')}
+              className={cn(
+                'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
+                active === 'hall-bookings'
+                  ? 'border-gold-400/60 bg-gold-400/10'
+                  : 'border-transparent hover:border-[rgb(var(--line))] hover:bg-[rgb(var(--card))]',
+              )}
+            >
+              <Icon name="calendar" className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--muted))]" />
+              <span>
+                <span className="block font-sans text-sm font-medium text-[rgb(var(--ink))]">
+                  Hall Bookings
+                </span>
+                <span className="mt-0.5 block font-sans text-2xs leading-snug text-[rgb(var(--muted))]">
+                  Requests to confirm or decline
+                </span>
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => open('inbox')}
               className={cn(
                 'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
                 active === 'inbox'
@@ -292,15 +374,29 @@ export function AdminApp() {
         ) : null}
 
         <main className="min-w-0 flex-1">
-          {active === 'inbox' ? (
+          {active === 'hall-bookings' ? (
+            <HallBookings />
+          ) : active === 'inbox' ? (
             <Inbox submissions={submissions} />
           ) : (
             <div className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[rgb(var(--line))] px-6 py-5">
-                <div>
+              {/* Stays in reach however far down the form you have scrolled. */}
+              <div className="sticky top-[4.25rem] z-20 flex flex-wrap items-center justify-between gap-4 rounded-t-[10px] border-b border-[rgb(var(--line))] bg-[rgb(var(--card))]/95 px-6 py-5 backdrop-blur-xl">
+                <div className="min-w-0">
                   <h1 className="font-display text-2xl text-[rgb(var(--ink))]">{current?.name}</h1>
-                  <p className="mt-1 font-sans text-2xs text-[rgb(var(--muted))]">
-                    content/{active}.json
+                  <p className="mt-1 flex flex-wrap items-center gap-3 font-sans text-2xs text-[rgb(var(--muted))]">
+                    <span>{current?.blurb}</span>
+                    {current ? (
+                      <a
+                        href={current.anchor}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+                      >
+                        See it on the site
+                        <Icon name="arrowRight" className="h-3 w-3" />
+                      </a>
+                    ) : null}
                   </p>
                 </div>
 
@@ -322,7 +418,11 @@ export function AdminApp() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => load(active)}
+                    onClick={() => {
+                      if (dirty && !window.confirm('Discard your unsaved changes and reload this section?')) return
+                      load(active)
+                    }}
+                    title="Reload this section from the site, discarding unsaved edits"
                     className="rounded-sm border border-[rgb(var(--line))] px-4 py-2 font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400"
                   >
                     Revert
@@ -330,10 +430,17 @@ export function AdminApp() {
                   <button
                     type="button"
                     onClick={save}
-                    disabled={status === 'saving'}
+                    disabled={status === 'saving' || (!dirty && status !== 'error')}
+                    title="Ctrl+S"
                     className="rounded-sm bg-gold-400 px-5 py-2 font-sans text-2xs font-semibold uppercase tracking-[0.14em] text-navy-950 transition-colors hover:bg-gold-300 disabled:opacity-60"
                   >
-                    {status === 'saving' ? 'Saving…' : status === 'saved' ? 'Saved ✓' : 'Save changes'}
+                    {status === 'saving'
+                      ? 'Saving…'
+                      : status === 'saved'
+                        ? 'Saved ✓'
+                        : dirty
+                          ? 'Save changes'
+                          : 'Saved'}
                   </button>
                 </div>
               </div>

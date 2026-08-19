@@ -3,10 +3,11 @@ import { Clergy } from '@/components/Clergy'
 import { Committee } from '@/components/Committee'
 import { Contact } from '@/components/Contact'
 import { Donation } from '@/components/Donation'
-import { EventPopup } from '@/components/EventPopup'
 import { Footer } from '@/components/Footer'
 import { Gallery } from '@/components/Gallery'
+import { HallPromo } from '@/components/HallPromo'
 import { Hero } from '@/components/Hero'
+import { Leadership } from '@/components/Leadership'
 import { MassTimings } from '@/components/MassTimings'
 import { Media } from '@/components/Media'
 import { Members } from '@/components/Members'
@@ -17,11 +18,11 @@ import { Notices } from '@/components/Notices'
 import { Obituaries } from '@/components/Obituaries'
 import { PastPriestsTimeline } from '@/components/PastPriestsTimeline'
 import { Stats } from '@/components/Stats'
-import { UpcomingEvents } from '@/components/UpcomingEvents'
 import { WeeklyCalendar } from '@/components/WeeklyCalendar'
 import { BackToTop, ScrollProgress } from '@/components/ui/Chrome'
 import { ParallaxBand } from '@/components/ui/ParallaxBand'
 import { getContent } from '@/lib/content'
+import { withLatestUploads } from '@/lib/youtube'
 import { isConfigured } from '@/lib/razorpay'
 
 /**
@@ -33,6 +34,8 @@ export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
   const content = await getContent()
+  // Newest uploads from the parish YouTube channel, ahead of the written-up ones.
+  const media = await withLatestUploads(content.media)
   // Read on the server so the giving form knows, before it is ever shown,
   // whether the checkout can open at all.
   const gatewayReady = isConfigured()
@@ -41,31 +44,14 @@ export default async function HomePage() {
     <>
       <ScrollProgress />
       <Navigation site={content.site} />
-      <EventPopup upcoming={content.upcoming} />
 
       <main>
         <Hero site={content.site} />
         <About about={content.about} site={content.site} />
-
-        <ParallaxBand
-          image="/images/site/candles-cross.jpg"
-          verse={{
-            en: 'Where two or three are gathered in my name, there am I among them.',
-            ml: 'രണ്ടോ മൂന്നോ പേർ എന്റെ നാമത്തിൽ ഒരുമിച്ചു കൂടുന്നിടത്ത് ഞാൻ അവരുടെ മധ്യേ ഉണ്ട്.',
-          }}
-          attribution={{ en: 'Matthew 18:20', ml: 'മത്തായി 18:20' }}
-        />
-
-        <MassTimings mass={content.mass} />
-        <UpcomingEvents upcoming={content.upcoming} />
-        <WeeklyCalendar events={content.events} />
-
-        <ParallaxBand image="/images/site/hero-vault.jpg" height="sm" strength={0.34} />
+        <Leadership leadership={content.leadership} />
 
         <Clergy clergy={content.clergy} />
         <Committee committee={content.committee} />
-        <Stats stats={content.stats} />
-        <Ministries ministries={content.ministries} />
 
         <ParallaxBand
           image="/images/site/votive.jpg"
@@ -78,8 +64,24 @@ export default async function HomePage() {
         />
 
         <PastPriestsTimeline pastPriests={content.pastPriests} />
-        <Gallery gallery={content.gallery} />
-        <Media media={content.media} />
+        <Stats stats={content.stats} />
+
+        <ParallaxBand
+          image="/images/site/candles-cross.jpg"
+          verse={{
+            en: 'Where two or three are gathered in my name, there am I among them.',
+            ml: 'രണ്ടോ മൂന്നോ പേർ എന്റെ നാമത്തിൽ ഒരുമിച്ചു കൂടുന്നിടത്ത് ഞാൻ അവരുടെ മധ്യേ ഉണ്ട്.',
+          }}
+          attribution={{ en: 'Matthew 18:20', ml: 'മത്തായി 18:20' }}
+        />
+
+        <MassTimings mass={content.mass} />
+        <WeeklyCalendar events={content.events} />
+
+        <ParallaxBand image="/images/site/hero-vault.jpg" height="sm" strength={0.34} />
+
+        <Ministries ministries={content.ministries} />
+        <Media media={media} />
 
         <Donation
           donation={content.donation}
@@ -88,10 +90,12 @@ export default async function HomePage() {
         />
 
         <Notices notices={content.notices} />
+        <Gallery gallery={content.gallery} />
         <Obituaries obituaries={content.obituaries} />
 
         <ParallaxBand image="/images/site/steeple.jpg" height="sm" strength={0.34} />
 
+        <HallPromo hall={content.hall} />
         <Members stats={content.stats} />
         <Newsletter site={content.site} />
         <Contact site={content.site} />

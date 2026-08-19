@@ -1,19 +1,76 @@
 {
-  "title": { "en": "Notice Board", "ml": "അറിയിപ്പു ബോർഡ്" },
+  "title": {
+    "en": "Notice Board",
+    "ml": "അറിയിപ്പു ബോർഡ്"
+  },
   "subtitle": {
     "en": "Announcements read at the Sunday Masses, kept here for the week.",
     "ml": "ഞായറാഴ്ച കുർബാനകളിൽ വായിക്കുന്ന അറിയിപ്പുകൾ, ഒരാഴ്ചത്തേക്ക് ഇവിടെ സൂക്ഷിക്കുന്നു."
   },
   "categories": [
-    { "id": "all", "label": { "en": "All", "ml": "എല്ലാം" } },
-    { "id": "news", "label": { "en": "Parish News", "ml": "ഇടവക വാർത്ത" } },
-    { "id": "feast", "label": { "en": "Upcoming Feast", "ml": "വരുന്ന തിരുനാൾ" } },
-    { "id": "prayer", "label": { "en": "Prayer Requests", "ml": "പ്രാർത്ഥനാ അഭ്യർത്ഥന" } },
-    { "id": "funeral", "label": { "en": "Funeral Notices", "ml": "മരണ അറിയിപ്പുകൾ" } },
-    { "id": "banns", "label": { "en": "Marriage Banns", "ml": "വിവാഹ പരസ്യം" } },
-    { "id": "catechism", "label": { "en": "Catechism", "ml": "മതബോധനം" } },
-    { "id": "youth", "label": { "en": "Youth", "ml": "യുവജനം" } },
-    { "id": "community", "label": { "en": "Community", "ml": "സമൂഹം" } }
+    {
+      "id": "all",
+      "label": {
+        "en": "All",
+        "ml": "എല്ലാം"
+      }
+    },
+    {
+      "id": "news",
+      "label": {
+        "en": "Parish News",
+        "ml": "ഇടവക വാർത്ത"
+      }
+    },
+    {
+      "id": "feast",
+      "label": {
+        "en": "Upcoming Feast",
+        "ml": "വരുന്ന തിരുനാൾ"
+      }
+    },
+    {
+      "id": "prayer",
+      "label": {
+        "en": "Prayer Requests",
+        "ml": "പ്രാർത്ഥനാ അഭ്യർത്ഥന"
+      }
+    },
+    {
+      "id": "funeral",
+      "label": {
+        "en": "Funeral Notices",
+        "ml": "മരണ അറിയിപ്പുകൾ"
+      }
+    },
+    {
+      "id": "banns",
+      "label": {
+        "en": "Marriage Banns",
+        "ml": "വിവാഹ പരസ്യം"
+      }
+    },
+    {
+      "id": "catechism",
+      "label": {
+        "en": "Catechism",
+        "ml": "മതബോധനം"
+      }
+    },
+    {
+      "id": "youth",
+      "label": {
+        "en": "Youth",
+        "ml": "യുവജനം"
+      }
+    },
+    {
+      "id": "community",
+      "label": {
+        "en": "Community",
+        "ml": "സമൂഹം"
+      }
+    }
   ],
   "items": [
     {
@@ -21,7 +78,10 @@
       "category": "feast",
       "date": "2026-08-02",
       "pinned": true,
-      "title": { "en": "Assumption Feast — nine day novena begins Thursday", "ml": "വാങ്ങിപ്പ് തിരുനാൾ — ഒൻപതു ദിവസത്തെ നൊവേന വ്യാഴാഴ്ച ആരംഭിക്കുന്നു" },
+      "title": {
+        "en": "Assumption Feast — nine day novena begins Thursday",
+        "ml": "വാങ്ങിപ്പ് തിരുനാൾ — ഒൻപതു ദിവസത്തെ നൊവേന വ്യാഴാഴ്ച ആരംഭിക്കുന്നു"
+      },
       "excerpt": {
         "en": "The novena to Our Lady begins on 6 August after the 6:30 AM Mass and continues each evening at 6:45 PM until the feast.",
         "ml": "പരിശുദ്ധ അമ്മയുടെ നൊവേന ഓഗസ്റ്റ് 6-ന് രാവിലെ 6:30 കുർബാനയ്ക്കു ശേഷം ആരംഭിച്ച്, തിരുനാൾ വരെ എല്ലാ വൈകുന്നേരവും 6:45-ന് തുടരും."
@@ -29,13 +89,17 @@
       "body": {
         "en": "Family units will lead the novena in turn, beginning with the unit of St. Peter. The flag hoisting is on 13 August at 5:00 PM, followed by the Solemn High Mass on 15 August at 9:00 AM and the procession around the hill. Those wishing to sponsor the feast lamps may register at the parish office before 10 August.",
         "ml": "കുടുംബക്കൂട്ടായ്മകൾ ഊഴമനുസരിച്ച് നൊവേനയ്ക്ക് നേതൃത്വം നൽകും; വിശുദ്ധ പത്രോസിന്റെ കൂട്ടായ്മ ആദ്യം. ഓഗസ്റ്റ് 13-ന് വൈകുന്നേരം 5:00-ന് കൊടിയേറ്റ്, ഓഗസ്റ്റ് 15-ന് രാവിലെ 9:00-ന് ആഘോഷമായ കുർബാന, തുടർന്ന് കുന്നിനു ചുറ്റും പ്രദക്ഷിണം. തിരുനാൾ വിളക്കുകൾ വഴിപാടായി നൽകാൻ ആഗ്രഹിക്കുന്നവർ ഓഗസ്റ്റ് 10-നു മുൻപ് ഇടവക ഓഫീസിൽ രജിസ്റ്റർ ചെയ്യുക."
-      }
+      },
+      "image": "/images/site/interior-feast.jpg"
     },
     {
       "id": "n02",
       "category": "catechism",
       "date": "2026-08-01",
-      "title": { "en": "Catechism reopens on 9 August", "ml": "മതബോധനം ഓഗസ്റ്റ് 9-ന് പുനരാരംഭിക്കുന്നു" },
+      "title": {
+        "en": "Catechism reopens on 9 August",
+        "ml": "മതബോധനം ഓഗസ്റ്റ് 9-ന് പുനരാരംഭിക്കുന്നു"
+      },
       "excerpt": {
         "en": "Classes for all twelve grades resume between the second and third Mass. New admissions close on 8 August.",
         "ml": "പന്ത്രണ്ട് ക്ലാസുകളും രണ്ടാം, മൂന്നാം കുർബാനകൾക്കിടയിൽ പുനരാരംഭിക്കുന്നു. പുതിയ പ്രവേശനം ഓഗസ്റ്റ് 8-ന് അവസാനിക്കും."
@@ -43,13 +107,17 @@
       "body": {
         "en": "Parents of children entering the first grade should bring the baptismal certificate to the parish office. Textbooks will be distributed in the classrooms on the first Sunday. Teachers meet on 8 August at 4:00 PM in the parish hall.",
         "ml": "ഒന്നാം ക്ലാസിൽ ചേരുന്ന കുട്ടികളുടെ രക്ഷിതാക്കൾ മാമ്മോദീസ സർട്ടിഫിക്കറ്റ് ഇടവക ഓഫീസിൽ ഹാജരാക്കണം. ആദ്യ ഞായറാഴ്ച ക്ലാസ് മുറികളിൽ പാഠപുസ്തകങ്ങൾ വിതരണം ചെയ്യും. അധ്യാപകരുടെ യോഗം ഓഗസ്റ്റ് 8-ന് വൈകുന്നേരം 4:00-ന് ഇടവക ഹാളിൽ."
-      }
+      },
+      "image": "/images/site/catechism-children.jpg"
     },
     {
       "id": "n03",
       "category": "banns",
       "date": "2026-07-31",
-      "title": { "en": "Marriage banns — second publication", "ml": "വിവാഹ പരസ്യം — രണ്ടാം പ്രഖ്യാപനം" },
+      "title": {
+        "en": "Marriage banns — second publication",
+        "ml": "വിവാഹ പരസ്യം — രണ്ടാം പ്രഖ്യാപനം"
+      },
       "excerpt": {
         "en": "Rohan Joseph Chirayath, son of Joseph and Annie, and Sneha Maria Kunnel, daughter of Devassy and Lissy.",
         "ml": "ജോസഫ് – ആനി ദമ്പതികളുടെ മകൻ രോഹൻ ജോസഫ് ചിറയത്ത്, ദേവസ്സി – ലിസി ദമ്പതികളുടെ മകൾ സ്നേഹ മരിയ കുന്നേൽ."
@@ -57,13 +125,17 @@
       "body": {
         "en": "Anyone aware of an impediment to this marriage is bound to inform the parish priest. The wedding is fixed for 24 August at 10:30 AM in this church.",
         "ml": "ഈ വിവാഹത്തിന് എന്തെങ്കിലും തടസ്സം അറിയാവുന്നവർ ഇടവക വികാരിയെ അറിയിക്കാൻ കടപ്പെട്ടിരിക്കുന്നു. വിവാഹം ഓഗസ്റ്റ് 24-ന് രാവിലെ 10:30-ന് ഈ ദേവാലയത്തിൽ."
-      }
+      },
+      "image": ""
     },
     {
       "id": "n04",
       "category": "funeral",
       "date": "2026-07-30",
-      "title": { "en": "Funeral of Mrs. Thresiamma Ambooken (84)", "ml": "ശ്രീമതി ത്രേസ്യാമ്മ അമ്പൂക്കന്റെ (84) സംസ്കാരം" },
+      "title": {
+        "en": "Funeral of Mrs. Thresiamma Ambooken (84)",
+        "ml": "ശ്രീമതി ത്രേസ്യാമ്മ അമ്പൂക്കന്റെ (84) സംസ്കാരം"
+      },
       "excerpt": {
         "en": "Funeral Mass on 31 July at 3:00 PM, burial in the parish cemetery. Please remember her family in your prayers.",
         "ml": "ജൂലൈ 31-ന് വൈകുന്നേരം 3:00-ന് സംസ്കാര ശുശ്രൂഷ, ഇടവക സെമിത്തേരിയിൽ സംസ്കാരം. അവരുടെ കുടുംബത്തെ പ്രാർത്ഥനയിൽ ഓർക്കുക."
@@ -71,13 +143,17 @@
       "body": {
         "en": "Thresiamma chechi swept the church veranda every morning for thirty-one years. The seventh day Mass will be offered on 6 August at 6:30 AM.",
         "ml": "മുപ്പത്തിയൊന്ന് വർഷമായി എല്ലാ പ്രഭാതത്തിലും ദേവാലയ വരാന്ത അടിച്ചുവാരിയിരുന്നത് ത്രേസ്യാമ്മ ചേച്ചിയായിരുന്നു. ഏഴാം ദിവസത്തെ കുർബാന ഓഗസ്റ്റ് 6-ന് രാവിലെ 6:30-ന്."
-      }
+      },
+      "image": ""
     },
     {
       "id": "n05",
       "category": "youth",
       "date": "2026-07-28",
-      "title": { "en": "Registration open — Malayattoor pilgrimage", "ml": "രജിസ്ട്രേഷൻ ആരംഭിച്ചു — മലയാറ്റൂർ തീർത്ഥാടനം" },
+      "title": {
+        "en": "Registration open — Malayattoor pilgrimage",
+        "ml": "രജിസ്ട്രേഷൻ ആരംഭിച്ചു — മലയാറ്റൂർ തീർത്ഥാടനം"
+      },
       "excerpt": {
         "en": "The annual walking pilgrimage leaves the church gate at 4:00 AM on 30 August. Forty places remain.",
         "ml": "വാർഷിക കാൽനട തീർത്ഥാടനം ഓഗസ്റ്റ് 30-ന് പുലർച്ചെ 4:00-ന് ദേവാലയ കവാടത്തിൽ നിന്ന് പുറപ്പെടുന്നു. നാൽപ്പത് സ്ഥാനങ്ങൾ ബാക്കി."
@@ -85,13 +161,17 @@
       "body": {
         "en": "Open to those above fifteen years. Contribution of ₹250 covers breakfast and the return bus. Register with Fr. Alex or any youth committee member after the Sunday Masses.",
         "ml": "പതിനഞ്ച് വയസ്സിനു മുകളിലുള്ളവർക്ക്. ₹250 വിഹിതത്തിൽ പ്രഭാതഭക്ഷണവും മടക്ക ബസ് യാത്രയും ഉൾപ്പെടും. ഞായറാഴ്ച കുർബാനകൾക്കു ശേഷം ഫാ. അലക്സിനെയോ യുവജന കമ്മിറ്റി അംഗങ്ങളെയോ സമീപിക്കുക."
-      }
+      },
+      "image": ""
     },
     {
       "id": "n06",
       "category": "prayer",
       "date": "2026-07-27",
-      "title": { "en": "Prayers requested for the sick of the parish", "ml": "ഇടവകയിലെ രോഗികൾക്കായി പ്രാർത്ഥന അഭ്യർത്ഥിക്കുന്നു" },
+      "title": {
+        "en": "Prayers requested for the sick of the parish",
+        "ml": "ഇടവകയിലെ രോഗികൾക്കായി പ്രാർത്ഥന അഭ്യർത്ഥിക്കുന്നു"
+      },
       "excerpt": {
         "en": "Fifteen parishioners are under treatment this month. The Tuesday intercession chain remembers them by name.",
         "ml": "ഈ മാസം പതിനഞ്ച് ഇടവകാംഗങ്ങൾ ചികിത്സയിലാണ്. ചൊവ്വാഴ്ചത്തെ മാധ്യസ്ഥ പ്രാർത്ഥനാ ശൃംഖല അവരെ പേരെടുത്ത് ഓർക്കുന്നു."
@@ -99,13 +179,17 @@
       "body": {
         "en": "Names may be added at the parish office or by WhatsApp to the office number. Anointing of the sick is offered after the morning Mass on the first Saturday of each month.",
         "ml": "പേരുകൾ ഇടവക ഓഫീസിൽ നേരിട്ടോ ഓഫീസ് നമ്പറിലേക്ക് വാട്ട്സ്ആപ്പ് വഴിയോ ചേർക്കാം. എല്ലാ മാസവും ഒന്നാം ശനിയാഴ്ച പ്രഭാത കുർബാനയ്ക്കു ശേഷം രോഗീലേപനം നൽകുന്നു."
-      }
+      },
+      "image": ""
     },
     {
       "id": "n07",
       "category": "news",
       "date": "2026-07-25",
-      "title": { "en": "Roof repairs above the south aisle completed", "ml": "തെക്കേ ഇടനാഴിക്കു മുകളിലെ മേൽക്കൂര അറ്റകുറ്റപ്പണി പൂർത്തിയായി" },
+      "title": {
+        "en": "Roof repairs above the south aisle completed",
+        "ml": "തെക്കേ ഇടനാഴിക്കു മുകളിലെ മേൽക്കൂര അറ്റകുറ്റപ്പണി പൂർത്തിയായി"
+      },
       "excerpt": {
         "en": "Work finished three days before the monsoon returned. The parish thanks the eighty-one families who contributed.",
         "ml": "മഴ തിരികെ വരുന്നതിന് മൂന്നു ദിവസം മുൻപ് പണി പൂർത്തിയായി. സംഭാവന നൽകിയ എൺപത്തിയൊന്ന് കുടുംബങ്ങൾക്ക് ഇടവക നന്ദി അറിയിക്കുന്നു."
@@ -113,13 +197,17 @@
       "body": {
         "en": "The full account has been posted on the notice board in the porch and is available as a PDF in the parish bulletin. The remaining balance will go towards the cemetery chapel roof.",
         "ml": "പൂർണ്ണ കണക്ക് വരാന്തയിലെ അറിയിപ്പു ബോർഡിൽ പതിച്ചിട്ടുണ്ട്; ഇടവക ബുള്ളറ്റിനിൽ പി.ഡി.എഫ് ആയും ലഭ്യമാണ്. ബാക്കി തുക സെമിത്തേരി ചാപ്പലിന്റെ മേൽക്കൂരയ്ക്കായി വിനിയോഗിക്കും."
-      }
+      },
+      "image": ""
     },
     {
       "id": "n08",
       "category": "community",
       "date": "2026-07-24",
-      "title": { "en": "Mathruvedi sewing circle resumes Wednesdays", "ml": "മാതൃവേദി തയ്യൽ കൂട്ടായ്മ ബുധനാഴ്ചകളിൽ പുനരാരംഭിക്കുന്നു" },
+      "title": {
+        "en": "Mathruvedi sewing circle resumes Wednesdays",
+        "ml": "മാതൃവേദി തയ്യൽ കൂട്ടായ്മ ബുധനാഴ്ചകളിൽ പുനരാരംഭിക്കുന്നു"
+      },
       "excerpt": {
         "en": "School uniforms for twenty-two children are being stitched free of charge before the new term.",
         "ml": "പുതിയ അധ്യയന വർഷത്തിനു മുൻപ് ഇരുപത്തിരണ്ട് കുട്ടികളുടെ സ്കൂൾ യൂണിഫോം സൗജന്യമായി തയ്ച്ചു നൽകുന്നു."
@@ -127,13 +215,17 @@
       "body": {
         "en": "Cloth donations are welcome at the parish office. Anyone willing to lend a machine for two months may speak to Mrs. Mary Thomas.",
         "ml": "തുണി സംഭാവനകൾ ഇടവക ഓഫീസിൽ സ്വീകരിക്കുന്നു. രണ്ടു മാസത്തേക്ക് ഒരു മെഷീൻ നൽകാൻ തയ്യാറുള്ളവർ ശ്രീമതി മേരി തോമസുമായി സംസാരിക്കുക."
-      }
+      },
+      "image": ""
     },
     {
       "id": "n09",
       "category": "news",
       "date": "2026-07-20",
-      "title": { "en": "Parish census forms due before the feast", "ml": "ഇടവക കാനേഷുമാരി ഫോമുകൾ തിരുനാളിനു മുൻപ് നൽകണം" },
+      "title": {
+        "en": "Parish census forms due before the feast",
+        "ml": "ഇടവക കാനേഷുമാരി ഫോമുകൾ തിരുനാളിനു മുൻപ് നൽകണം"
+      },
       "excerpt": {
         "en": "Family unit leaders will collect the updated forms during the Monday evening prayers.",
         "ml": "തിങ്കളാഴ്ച വൈകുന്നേര പ്രാർത്ഥനയ്ക്കിടെ കൂട്ടായ്മ നേതാക്കൾ പുതുക്കിയ ഫോമുകൾ ശേഖരിക്കും."
@@ -141,7 +233,8 @@
       "body": {
         "en": "Please note changes of address, phone numbers and the details of members living abroad. The register is used only for parish records and is never shared.",
         "ml": "വിലാസം, ഫോൺ നമ്പർ, വിദേശത്ത് താമസിക്കുന്ന അംഗങ്ങളുടെ വിവരങ്ങൾ എന്നിവയിലെ മാറ്റങ്ങൾ രേഖപ്പെടുത്തുക. ഈ രജിസ്റ്റർ ഇടവക രേഖകൾക്കായി മാത്രമാണ്; ഒരിക്കലും പുറത്തു നൽകുന്നില്ല."
-      }
+      },
+      "image": ""
     }
   ]
 }

@@ -1,78 +1,194 @@
 {
-  "title": { "en": "Latest from the Parish", "ml": "ഇടവകയിൽ നിന്ന് പുതിയത്" },
+  "title": {
+    "en": "Latest from the Parish",
+    "ml": "ഇടവകയിൽ നിന്ന് പുതിയത്"
+  },
   "subtitle": {
     "en": "Sunday homilies and livestreams, for our families who are far from home.",
     "ml": "വീട്ടിൽ നിന്ന് അകലെയുള്ള ഞങ്ങളുടെ കുടുംബങ്ങൾക്കായി ഞായറാഴ്ച പ്രസംഗങ്ങളും തത്സമയ സംപ്രേഷണങ്ങളും."
   },
   "channel": {
     "name": "St. Thomas Church Mangalassery",
-    "url": "https://www.youtube.com/@vatican",
+    "url": "https://www.youtube.com/@st.thomaschurchmangalasser2793",
     "note": {
-      "en": "Connect the parish YouTube channel in the admin dashboard and new uploads will appear here automatically.",
-      "ml": "അഡ്മിൻ ഡാഷ്ബോർഡിൽ ഇടവക യൂട്യൂബ് ചാനൽ ബന്ധിപ്പിച്ചാൽ പുതിയ വീഡിയോകൾ ഇവിടെ സ്വയമേവ ദൃശ്യമാകും."
-    }
+      "en": "New uploads to the parish channel appear here on their own. Anything you add or reword below is kept.",
+      "ml": "ഇടവക ചാനലിൽ പുതിയ വീഡിയോ ഇടുമ്പോൾ അത് ഇവിടെ സ്വയമേവ വരും. താഴെ ചേർക്കുന്നതോ തിരുത്തുന്നതോ അതുപോലെ നിലനിൽക്കും."
+    },
+    "id": "UCRNu1z9KmZjlx_LW1jfy-xw"
   },
   "videos": [
     {
-      "id": "sQNJs89E6x8",
-      "title": { "en": "Sung Vespers — Psalm 91", "ml": "സന്ധ്യാ പ്രാർത്ഥന — സങ്കീർത്തനം 91" },
-      "description": {
-        "en": "The parish choir in the nave on the eve of the Dukhrana. Recorded live, without accompaniment.",
-        "ml": "ദുക്റാനയുടെ തലേന്ന് ദേവാലയത്തിൽ ഇടവക ഗായകസംഘം. ഉപകരണങ്ങളില്ലാതെ തത്സമയം റെക്കോർഡ് ചെയ്തത്."
+      "id": "fBtzCbruf3g",
+      "title": {
+        "en": "Thirunal Dinam — 18 January 2026",
+        "ml": "തിരുനാൾ ദിനം — 2026 ജനുവരി 18"
       },
-      "published": "2026-08-02",
-      "duration": "6:21",
+      "description": {
+        "en": "The full feast day from the parish church, streamed live at 4:00 PM.",
+        "ml": "ഇടവക ദേവാലയത്തിൽ നിന്ന് വൈകുന്നേരം 4:00-ന് തത്സമയം സംപ്രേഷണം ചെയ്ത തിരുനാൾ ദിനം മുഴുവൻ."
+      },
+      "published": "2026-01-18",
+      "duration": "5:45:59",
       "featured": true
     },
     {
-      "id": "meraq5kMlNk",
-      "title": { "en": "Organ Recital — Feast Evening", "ml": "ഓർഗൻ സംഗീതം — തിരുനാൾ സന്ധ്യ" },
-      "description": {
-        "en": "The parish organ, restored in 2024, played after the evening prayer.",
-        "ml": "2024-ൽ പുതുക്കിയ ഇടവക ഓർഗൻ, സന്ധ്യാ പ്രാർത്ഥനയ്ക്കു ശേഷം."
+      "id": "mnHspzaF0dg",
+      "title": {
+        "en": "Metanoia 2023 — Easter stage programme",
+        "ml": "മെറ്റനോയ 2023 — ഈസ്റ്റർ വേദി പരിപാടി"
       },
-      "published": "2026-06-14",
-      "duration": "42:08"
+      "description": {
+        "en": "The Easter stage programme presented by the parish youth.",
+        "ml": "ഇടവക യുവജനങ്ങൾ അവതരിപ്പിച്ച ഈസ്റ്റർ വേദി പരിപാടി."
+      },
+      "published": "2023-04-19",
+      "duration": "16:58"
     },
     {
-      "id": "z96qe75LOF8",
-      "title": { "en": "Chant for the Lenten Vigil", "ml": "നോമ്പുകാല ജാഗരണത്തിനുള്ള കീർത്തനം" },
-      "description": {
-        "en": "From the night vigil of the parish Lenten retreat.",
-        "ml": "ഇടവക നോമ്പുകാല ധ്യാനത്തിലെ രാത്രി ജാഗരണത്തിൽ നിന്ന്."
+      "id": "LnVTX-RDbN8",
+      "title": {
+        "en": "Thirunal Dhinam — 16 January 2022",
+        "ml": "തിരുനാൾ ദിനം — 2022 ജനുവരി 16"
       },
-      "published": "2026-03-20",
-      "duration": "58:40"
+      "description": {
+        "en": "The feast day celebrations of 2022, recorded in full.",
+        "ml": "2022-ലെ തിരുനാൾ ആഘോഷങ്ങൾ പൂർണ്ണമായി."
+      },
+      "published": "2022-01-16",
+      "duration": "4:29:14"
     },
     {
-      "id": "SQadcm_dwEM",
-      "title": { "en": "Carols on the Hill — Christmas", "ml": "കുന്നിൻ മുകളിലെ കരോൾ — ക്രിസ്മസ്" },
-      "description": {
-        "en": "The children's choir on the church steps, Christmas Eve.",
-        "ml": "ക്രിസ്മസ് തലേന്ന് ദേവാലയ പടികളിൽ കുട്ടികളുടെ ഗായകസംഘം."
+      "id": "oyTaYmL1OMI",
+      "title": {
+        "en": "Thirunal Kurbana — Ambu ezhunallipu samapanam",
+        "ml": "തിരുനാൾ കുർബാന — അമ്പ് എഴുന്നള്ളിപ്പ് സമാപനം"
       },
-      "published": "2025-12-24",
-      "duration": "4:56"
+      "description": {
+        "en": "The feast Mass and the close of the arrow procession.",
+        "ml": "തിരുനാൾ കുർബാനയും അമ്പ് എഴുന്നള്ളിപ്പിന്റെ സമാപനവും."
+      },
+      "published": "2022-01-15",
+      "duration": "3:32:19"
+    },
+    {
+      "id": "jOwqA30ZAmg",
+      "title": {
+        "en": "Thirunal Kodiyettam — 14 January 2022",
+        "ml": "തിരുനാൾ കൊടിയേറ്റം — 2022 ജനുവരി 14"
+      },
+      "description": {
+        "en": "The raising of the feast flag that opens the celebration.",
+        "ml": "ആഘോഷത്തിന് തുടക്കം കുറിക്കുന്ന തിരുനാൾ കൊടിയേറ്റം."
+      },
+      "published": "2022-01-14",
+      "duration": "2:00:50"
+    },
+    {
+      "id": "vGgTPDEBNvg",
+      "title": {
+        "en": "Thirunal Kurbana — live Holy Mass",
+        "ml": "തിരുനാൾ കുർബാന — തത്സമയ വിശുദ്ധ കുർബാന"
+      },
+      "description": {
+        "en": "The feast Holy Mass in Malayalam, streamed live at 6:30 PM.",
+        "ml": "വൈകുന്നേരം 6:30-ന് തത്സമയം സംപ്രേഷണം ചെയ്ത തിരുനാൾ വിശുദ്ധ കുർബാന."
+      },
+      "published": "2021-01-16",
+      "duration": "2:04:16"
+    },
+    {
+      "id": "8RpElFyxy8g",
+      "title": {
+        "en": "Samapana asheervadham — closing blessing",
+        "ml": "സമാപന ആശീർവാദം"
+      },
+      "description": {
+        "en": "The blessing that closes the feast.",
+        "ml": "തിരുനാൾ സമാപിക്കുന്ന ആശീർവാദം."
+      },
+      "published": "2021-01-17",
+      "duration": "5:20"
+    },
+    {
+      "id": "DJtRFYZNPZc",
+      "title": {
+        "en": "Thirunal Novena — Holy Mass with Fr. Nicholas Maniparambil",
+        "ml": "തിരുനാൾ നൊവേന — ഫാ. നിക്കോളാസ് മണിപറമ്പിലിനോടൊപ്പം വിശുദ്ധ കുർബാന"
+      },
+      "description": {
+        "en": "One evening of the nine day novena before the feast.",
+        "ml": "തിരുനാളിന് മുൻപുള്ള ഒൻപത് ദിവസത്തെ നൊവേനയിലെ ഒരു സന്ധ്യ."
+      },
+      "published": "2021-01-15",
+      "duration": "1:18:34"
+    },
+    {
+      "id": "ynJ-TEe01sI",
+      "title": {
+        "en": "Thirunal Kodiyettam",
+        "ml": "തിരുനാൾ കൊടിയേറ്റം"
+      },
+      "description": {
+        "en": "The flag hoisting, in short.",
+        "ml": "കൊടിയേറ്റം, ചുരുക്കത്തിൽ."
+      },
+      "published": "2021-01-15",
+      "duration": "3:01"
+    },
+    {
+      "id": "kcJUTZreL2w",
+      "title": {
+        "en": "First prize — Christmas carol dance competition 2020",
+        "ml": "ക്രിസ്മസ് കരോൾ നൃത്ത മത്സരം 2020 — ഒന്നാം സമ്മാനം"
+      },
+      "description": {
+        "en": "The parish entry that took first prize.",
+        "ml": "ഒന്നാം സമ്മാനം നേടിയ ഇടവകയുടെ അവതരണം."
+      },
+      "published": "2021-01-03",
+      "duration": "5:05"
+    },
+    {
+      "id": "7JPUH8tJRMc",
+      "title": {
+        "en": "Christmas message from Fr. Nicholas Maniparambil",
+        "ml": "ഫാ. നിക്കോളാസ് മണിപറമ്പിലിന്റെ ക്രിസ്മസ് സന്ദേശം"
+      },
+      "description": {
+        "en": "The vicar’s message to the parish.",
+        "ml": "ഇടവക ജനങ്ങൾക്ക് വികാരി നൽകുന്ന സന്ദേശം."
+      },
+      "published": "2020-12-30",
+      "duration": "5:22"
     }
   ],
   "bulletins": [
     {
       "id": "b1",
-      "title": { "en": "Parish Bulletin — August 2026", "ml": "ഇടവക ബുള്ളറ്റിൻ — 2026 ഓഗസ്റ്റ്" },
+      "title": {
+        "en": "Parish Bulletin — August 2026",
+        "ml": "ഇടവക ബുള്ളറ്റിൻ — 2026 ഓഗസ്റ്റ്"
+      },
       "date": "2026-08-01",
       "size": "1.2 MB",
       "file": "/bulletins/bulletin-2026-08.pdf"
     },
     {
       "id": "b2",
-      "title": { "en": "Parish Bulletin — July 2026", "ml": "ഇടവക ബുള്ളറ്റിൻ — 2026 ജൂലൈ" },
+      "title": {
+        "en": "Parish Bulletin — July 2026",
+        "ml": "ഇടവക ബുള്ളറ്റിൻ — 2026 ജൂലൈ"
+      },
       "date": "2026-07-01",
       "size": "1.1 MB",
       "file": "/bulletins/bulletin-2026-07.pdf"
     },
     {
       "id": "b3",
-      "title": { "en": "Dukhrana Feast Souvenir 2026", "ml": "ദുക്റാന തിരുനാൾ സുവനീർ 2026" },
+      "title": {
+        "en": "Dukhrana Feast Souvenir 2026",
+        "ml": "ദുക്റാന തിരുനാൾ സുവനീർ 2026"
+      },
       "date": "2026-07-03",
       "size": "4.6 MB",
       "file": "/bulletins/dukhrana-2026.pdf"

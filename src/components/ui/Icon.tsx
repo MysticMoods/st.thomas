@@ -197,6 +197,12 @@ const paths: Record<string, React.ReactNode> = {
       <path d="M4.4 10.2c1.6 2.2 3.6 3.4 6 4.2M12.6 20.6l4-10 4 10M14 17.6h5.2" />
     </>
   ),
+  search: (
+    <>
+      <circle cx="11" cy="11" r="6.2" />
+      <path d="M15.6 15.6 20 20" />
+    </>
+  ),
   lock: (
     <>
       <rect x="4.6" y="10.4" width="14.8" height="10.2" rx="2" />

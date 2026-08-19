@@ -13,3 +13,4 @@ content/donations.json
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+content/hall-bookings.json

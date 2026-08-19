@@ -179,13 +179,59 @@ export type NoticesContent = {
     title: L
     excerpt: L
     body: L
+    /** Optional photograph or poster. Empty string means the notice is text only. */
+    image?: string
   }[]
+}
+
+export type LeadershipContent = {
+  title: L
+  subtitle: L
+  people: {
+    id: string
+    /** Empty until the parish uploads the official portrait. */
+    image: string
+    name: L
+    role: L
+    see: L
+    note: L
+    since?: string
+  }[]
+}
+
+export type HallContent = {
+  title: L
+  subtitle: L
+  image: string
+  gallery: string[]
+  facts: { label: L; value: L }[]
+  /** A booking takes one of these. `full-day` covers the others. */
+  sessions: { id: string; label: L; hours: L; rent: number }[]
+  amenities: { id: string; label: L; note: L; rate: number }[]
+  rules: L[]
+  booking: {
+    note: L
+    /** Days of notice the office needs before an event. */
+    minNoticeDays: number
+    /** How far ahead the calendar runs. */
+    monthsAhead: number
+    advance: number
+    contact: { phone: string; hours: L }
+  }
+  /** Days the parish keeps for itself — feasts, Holy Week, funerals. */
+  blocked: { date: string; reason: L }[]
 }
 
 export type MediaContent = {
   title: L
   subtitle: L
-  channel: { name: string; url: string; note: L }
+  channel: {
+    name: string
+    url: string
+    /** UC… id of the parish channel. Set it and new uploads appear on their own. */
+    id?: string
+    note: L
+  }
   videos: {
     id: string
     title: L
@@ -195,40 +241,6 @@ export type MediaContent = {
     featured?: boolean
   }[]
   bulletins: { id: string; title: L; date: string; size: string; file: string }[]
-}
-
-export type UpcomingEvent = {
-  id: string
-  /** ISO date (or date-time) the event starts. Past events drop out on their own. */
-  date: string
-  /** Optional last day for something that runs over several days. */
-  endDate?: string
-  time: L
-  title: L
-  place: L
-  category: string
-  image: string
-  highlight?: boolean
-  description: L
-  cta?: { label: L; href: string }
-}
-
-export type UpcomingContent = {
-  popup: {
-    enabled: boolean
-    eyebrow: L
-    title: L
-    subtitle: L
-    /** Seconds to wait after the page settles before the card appears. */
-    delaySeconds: number
-    /** How long a dismissal is remembered, in hours. */
-    remindAfterHours: number
-    cta: { label: L; href: string }
-    dismiss: L
-  }
-  title: L
-  subtitle: L
-  events: UpcomingEvent[]
 }
 
 export type Obituary = {
@@ -319,7 +331,8 @@ export type Content = {
   gallery: GalleryContent
   notices: NoticesContent
   media: MediaContent
-  upcoming: UpcomingContent
+  leadership: LeadershipContent
+  hall: HallContent
   obituaries: ObituariesContent
   committee: CommitteeContent
   donation: DonationContent
@@ -338,7 +351,8 @@ export const CONTENT_KEYS = [
   'gallery',
   'notices',
   'media',
-  'upcoming',
+  'leadership',
+  'hall',
   'obituaries',
   'committee',
   'donation',

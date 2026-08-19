@@ -40,7 +40,7 @@ export function Committee({ committee }: { committee: CommitteeContent }) {
   )
 
   return (
-    <section id="committee" className="section bg-[rgb(var(--page))]">
+    <section id="committee" className="section bg-[rgb(var(--page-alt))]">
       <div className="container">
         <SectionHeading
           eyebrow={{ en: 'Those who serve', ml: 'ശുശ്രൂഷ ചെയ്യുന്നവർ' }}

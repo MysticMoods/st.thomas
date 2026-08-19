@@ -86,7 +86,8 @@ export async function getContent(): Promise<Content> {
     gallery,
     notices,
     media,
-    upcoming,
+    leadership,
+    hall,
     obituaries,
     committee,
     donation,
@@ -102,7 +103,8 @@ export async function getContent(): Promise<Content> {
     readContent('gallery'),
     readContent('notices'),
     readContent('media'),
-    readContent('upcoming'),
+    readContent('leadership'),
+    readContent('hall'),
     readContent('obituaries'),
     readContent('committee'),
     readContent('donation'),
@@ -120,7 +122,8 @@ export async function getContent(): Promise<Content> {
     gallery,
     notices,
     media,
-    upcoming,
+    leadership,
+    hall,
     obituaries,
     committee,
     donation,
@@ -128,7 +131,7 @@ export async function getContent(): Promise<Content> {
 }
 
 /** Runtime lists written by the public forms, not by the dashboard editor. */
-export type RecordList = 'subscribers' | 'messages' | 'donations'
+export type RecordList = 'subscribers' | 'messages' | 'donations' | 'hall-bookings'
 
 /** Appends a record to a small JSON list under content/. */
 export async function appendRecord(name: RecordList, record: unknown) {

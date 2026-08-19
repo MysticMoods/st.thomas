@@ -20,7 +20,7 @@ export default async function ObituaryPage() {
   return (
     <>
       <ScrollProgress />
-      <Navigation site={content.site} />
+      <Navigation site={content.site} overHero={false} />
 
       {/* the fixed header sits over the page, so the column starts below it */}
       <main className="pt-24">

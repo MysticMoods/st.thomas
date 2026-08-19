@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
 
-import { useLang } from '@/lib/i18n'
+import { ui, useLang } from '@/lib/i18n'
 import type { Obituary, ObituariesContent } from '@/lib/types'
 import { cn, formatDate, formatNumber } from '@/lib/utils'
 
@@ -235,7 +235,7 @@ export function Obituaries({ obituaries }: { obituaries: ObituariesContent }) {
 
 /** The archive at /obituary — everything, filtered by year. */
 export function ObituaryArchive({ obituaries }: { obituaries: ObituariesContent }) {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const [open, setOpen] = useState<Obituary | null>(null)
   const [filter, setFilter] = useState('all')
 
@@ -249,6 +249,20 @@ export function ObituaryArchive({ obituaries }: { obituaries: ObituariesContent 
   return (
     <section className="section-tight bg-[rgb(var(--page))]">
       <div className="container">
+        <nav aria-label="Breadcrumb" className="mb-10">
+          <ol className="flex items-center gap-2 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))]">
+            <li>
+              <a href="/" className="transition-colors hover:text-gold-600 dark:hover:text-gold-300">
+                {t(ui.nav.home)}
+              </a>
+            </li>
+            <li aria-hidden="true">·</li>
+            <li className="text-gold-600 dark:text-gold-400" aria-current="page">
+              {t(ui.nav.obituary)}
+            </li>
+          </ol>
+        </nav>
+
         <SectionHeading
           eyebrow={{ en: 'Parish Register', ml: 'ഇടവക രജിസ്റ്റർ' }}
           title={obituaries.title}
@@ -278,13 +292,32 @@ export function ObituaryArchive({ obituaries }: { obituaries: ObituariesContent 
           </div>
         ) : null}
 
-        <StaggerGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {shown.map((person) => (
-            <motion.div key={person.id} variants={staggerItem}>
-              <ObituaryCard person={person} onOpen={() => setOpen(person)} />
-            </motion.div>
-          ))}
-        </StaggerGroup>
+        <p className="mt-10 text-center font-sans text-2xs uppercase tracking-[0.18em] tabular-nums text-[rgb(var(--muted))]">
+          {formatNumber(shown.length, lang)}{' '}
+          {t(
+            shown.length === 1
+              ? { en: 'memorial', ml: 'അനുസ്മരണം' }
+              : { en: 'memorials', ml: 'അനുസ്മരണങ്ങൾ' },
+          )}
+          {filter === 'all' ? '' : ` · ${filter}`}
+        </p>
+
+        {shown.length === 0 ? (
+          <p className="mt-10 text-center font-serif text-lg italic text-[rgb(var(--muted))]">
+            {t({
+              en: 'No deaths are recorded for this year.',
+              ml: 'ഈ വർഷത്തേക്ക് മരണങ്ങളൊന്നും രേഖപ്പെടുത്തിയിട്ടില്ല.',
+            })}
+          </p>
+        ) : (
+          <StaggerGroup className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {shown.map((person) => (
+              <motion.div key={person.id} variants={staggerItem}>
+                <ObituaryCard person={person} onOpen={() => setOpen(person)} />
+              </motion.div>
+            ))}
+          </StaggerGroup>
+        )}
 
         <Reveal delay={0.08}>
           <div className="mx-auto mt-14 max-w-2xl rounded-sm border border-gold-400/30 bg-gold-400/[0.05] p-7 text-center sm:p-9">

@@ -9,6 +9,7 @@ import { cn, formatDate } from '@/lib/utils'
 
 import { Icon } from './ui/Icon'
 import { SectionHeading } from './ui/SectionHeading'
+import { SmartImage } from './ui/SmartImage'
 
 const CATEGORY_TONE: Record<string, string> = {
   news: 'border-navy-300/60 text-navy-600 dark:border-navy-500/50 dark:text-navy-200',
@@ -39,7 +40,7 @@ export function Notices({ notices }: { notices: NoticesContent }) {
     notices.categories.find((c) => c.id === id)?.label ?? { en: id, ml: id }
 
   return (
-    <section id="notices" className="section bg-[rgb(var(--page))]">
+    <section id="notices" className="section bg-[rgb(var(--page-alt))]">
       <div className="container">
         <SectionHeading
           eyebrow={{ en: 'Announcements', ml: 'അറിയിപ്പുകൾ' }}
@@ -79,11 +80,25 @@ export function Notices({ notices }: { notices: NoticesContent }) {
                   exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   className={cn(
-                    'card flex flex-col p-7 transition-all duration-500 sm:p-8',
+                    'card group flex flex-col transition-all duration-500',
                     notice.pinned && 'border-gold-400/50 shadow-inner_gold',
                     isOpen ? 'shadow-lift' : 'card-hover',
                   )}
                 >
+                  {notice.image ? (
+                    <SmartImage
+                      src={notice.image}
+                      alt={t(notice.title)}
+                      width={1200}
+                      height={675}
+                      zoom
+                      sizes="(max-width: 1024px) 92vw, 44vw"
+                      wrapperClassName="aspect-[16/9] w-full"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : null}
+
+                  <div className={cn('flex flex-col p-7 sm:p-8', notice.image && 'pt-6 sm:pt-7')}>
                   <div className="flex flex-wrap items-center gap-3">
                     <span
                       className={cn(
@@ -142,6 +157,7 @@ export function Notices({ notices }: { notices: NoticesContent }) {
                       className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1"
                     />
                   </button>
+                  </div>
                 </motion.li>
               )
             })}

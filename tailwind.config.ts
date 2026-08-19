@@ -14,7 +14,7 @@ const config: Config = {
         /* Widths at which the ten-item horizontal nav plus the Donate button
            actually fits. Malayalam labels are wider, so they need their own
            threshold. */
-        nav: '1500px',
+        nav: '1580px',
         'nav-ml': '1680px',
       },
       borderRadius: {

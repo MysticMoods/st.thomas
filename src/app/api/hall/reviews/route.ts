@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 
 import { appendRecord, readContent, readRecords } from '@/lib/content'
 import type { HallReview } from '@/lib/hall'
+import { looksAutomated } from '@/lib/limit'
 import type { HallContent } from '@/lib/types'
 
 export const runtime = 'nodejs'
@@ -70,6 +71,9 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
+
+  // A robot fills the field nobody can see.
+  if (looksAutomated(body)) return NextResponse.json({ ok: true })
 
   const hall = await readContent<HallContent>('hall')
   const hallId = clean(body.hall, 40)

@@ -6,6 +6,7 @@ import { ui, useLang } from '@/lib/i18n'
 import type { SiteContent } from '@/lib/types'
 import { cn, isEmail, telHref } from '@/lib/utils'
 
+import { Honeypot } from './ui/Honeypot'
 import { Icon } from './ui/Icon'
 import { Reveal } from './ui/Reveal'
 import { SectionHeading } from './ui/SectionHeading'
@@ -17,6 +18,8 @@ export function Contact({ site }: { site: SiteContent }) {
   const { t } = useLang()
   const [state, setState] = useState<State>('idle')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
+  // Filled only by something that cannot see the page.
+  const [website, setWebsite] = useState('')
 
   const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((prev) => ({ ...prev, [key]: e.target.value }))
@@ -32,7 +35,7 @@ export function Contact({ site }: { site: SiteContent }) {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, website }),
       })
       if (!res.ok) throw new Error('failed')
       setState('done')
@@ -157,7 +160,8 @@ export function Contact({ site }: { site: SiteContent }) {
               <h3 className="heading-md">{t(ui.contact.heading)}</h3>
               <span className="mt-5 block gold-rule w-14" aria-hidden="true" />
 
-              <form onSubmit={submit} className="mt-8 flex flex-col gap-5">
+              <form onSubmit={submit} className="relative mt-8 flex flex-col gap-5">
+                <Honeypot value={website} onChange={setWebsite} />
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Field label={t(ui.contact.name)} htmlFor="c-name">
                     <input

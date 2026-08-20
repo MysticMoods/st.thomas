@@ -13,8 +13,10 @@
     "restart": "node scripts/restart.mjs"
   },
   "dependencies": {
+    "@types/nodemailer": "^8.0.1",
     "framer-motion": "^11.15.0",
     "next": "^15.1.6",
+    "nodemailer": "^9.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

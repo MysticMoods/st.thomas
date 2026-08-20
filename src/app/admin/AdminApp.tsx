@@ -12,6 +12,48 @@ import { AutoTranslateToggle, useAutoTranslate } from './AutoTranslate'
 import { HallBookings } from './HallBookings'
 import { HallReviews } from './HallReviews'
 import { JsonEditor } from './JsonEditor'
+import { OfficeRequests } from './OfficeRequests'
+import { Activity } from './ops/Activity'
+import { Backups } from './ops/Backups'
+import { Letters } from './ops/Letters'
+import { NewsletterPanel } from './ops/NewsletterPanel'
+import { People } from './ops/People'
+import { Problems } from './ops/Problems'
+import { System } from './ops/System'
+import { Visits } from './ops/Visits'
+
+/** Everything the main pane can show. */
+type PanelKey =
+  | ContentKey
+  | 'inbox'
+  | 'hall-bookings'
+  | 'hall-reviews'
+  | 'office-requests'
+  | 'people'
+  | 'newsletter'
+  | 'letters'
+  | 'activity'
+  | 'backups'
+  | 'visits'
+  | 'problems'
+  | 'system'
+
+/** Running the site rather than writing it — accounts, history, health. */
+const OPERATIONS: { key: PanelKey; name: string; icon: string; blurb: string }[] = [
+  { key: 'people', name: 'People & access', icon: 'users', blurb: 'Staff accounts and what each may do' },
+  { key: 'newsletter', name: 'Newsletter', icon: 'mail', blurb: 'Write to everybody who asked for news' },
+  { key: 'letters', name: 'Letters sent', icon: 'file', blurb: 'What the site posted, and whether it arrived' },
+  { key: 'activity', name: 'Activity log', icon: 'scroll', blurb: 'Who changed what, and when' },
+  { key: 'backups', name: 'Backups & restore', icon: 'copy', blurb: 'Read or put back an earlier copy' },
+  { key: 'visits', name: 'Visits', icon: 'globe', blurb: 'How much the site is being read' },
+  { key: 'problems', name: 'Problems', icon: 'bell', blurb: 'Faults the site has hit' },
+  { key: 'system', name: 'System health', icon: 'shield', blurb: 'Disk, settings and what is stored' },
+]
+
+/** True for the panels that are an editable content file. */
+function isContent(key: PanelKey): key is ContentKey {
+  return SECTIONS.some((section) => section.key === key)
+}
 
 type SectionDef = {
   key: ContentKey
@@ -37,6 +79,7 @@ const SECTIONS: SectionDef[] = [
   { key: 'stats', name: 'Parish Statistics', icon: 'users', blurb: 'Summary counts shown on the homepage', anchor: '/#members' },
   { key: 'ministries', name: 'Ministries', icon: 'flame', blurb: 'Each ministry, its leader, team, events and history', anchor: '/#ministries' },
   { key: 'hall', name: 'Parish Hall', icon: 'home', blurb: 'Tariff, amenities, rules and the days kept for the parish', anchor: '/hall' },
+  { key: 'office', name: 'Parish Office', icon: 'scroll', blurb: 'Mass intentions, certificates and prayer requests', anchor: '/office' },
   { key: 'donation', name: 'Donations', icon: 'heart', blurb: 'Funds, suggested amounts, bank and UPI details', anchor: '/#donate' },
   { key: 'about', name: 'About the Church', icon: 'book', blurb: 'History, mission, vision, patron, architecture', anchor: '/#about' },
 ]
@@ -63,7 +106,9 @@ type Submissions = {
 
 export function AdminApp() {
   const { theme, toggle } = useTheme()
-  const [active, setActive] = useState<ContentKey | 'inbox' | 'hall-bookings' | 'hall-reviews'>('site')
+  const [active, setActive] = useState<PanelKey>('site')
+  /** Who is signed in, so the panels know what to offer them. */
+  const [you, setYou] = useState<{ username: string; role: 'owner' | 'editor' } | null>(null)
   const [data, setData] = useState<unknown>(null)
   const [original, setOriginal] = useState<string>('')
   // Fingerprint of the file as loaded — sent back on save so a stale editor
@@ -105,7 +150,6 @@ export function AdminApp() {
   }, [])
 
   useEffect(() => {
-    if (active === 'hall-bookings' || active === 'hall-reviews') return
     if (active === 'inbox') {
       fetch('/api/admin/submissions', { cache: 'no-store' })
         .then((r) => r.json())
@@ -113,10 +157,19 @@ export function AdminApp() {
         .catch(() => setSubmissions({ subscribers: [], messages: [], donations: [] }))
       return
     }
+    if (!isContent(active)) return
     load(active)
   }, [active, load])
 
-  const dirty = active !== 'inbox' && active !== 'hall-bookings' && active !== 'hall-reviews' && data !== null && JSON.stringify(data) !== original
+  // Which account is signed in decides what the operations panels offer.
+  useEffect(() => {
+    fetch('/api/admin/users', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((json) => setYou(json?.you ?? null))
+      .catch(() => setYou(null))
+  }, [])
+
+  const dirty = isContent(active) && data !== null && JSON.stringify(data) !== original
 
   // Ctrl/Cmd+S saves, the way every other editor behaves.
   useEffect(() => {
@@ -142,7 +195,7 @@ export function AdminApp() {
   }, [])
 
   /** Switching section throws away unsaved edits, so confirm first. */
-  function open(next: ContentKey | 'inbox' | 'hall-bookings' | 'hall-reviews') {
+  function open(next: PanelKey) {
     if (next === active) return
     if (dirty && !window.confirm('You have unsaved changes here. Leave them behind?')) return
     setActive(next)
@@ -151,7 +204,7 @@ export function AdminApp() {
   }
 
   async function save() {
-    if (active === 'inbox' || active === 'hall-bookings' || active === 'hall-reviews') return
+    if (!isContent(active)) return
     // Clicking Save blurs the field, which may start a translation. Let it finish.
     setStatus('saving')
     await waitForIdle()
@@ -198,6 +251,7 @@ export function AdminApp() {
   const current = SECTIONS.find((s) => s.key === active)
   /** Panels that hold submissions rather than editable content. */
   const INBOXES = [
+    { key: 'office-requests' as const, name: 'Office Requests', icon: 'scroll', blurb: 'Mass intentions, certificates and prayers' },
     { key: 'hall-bookings' as const, name: 'Hall Bookings', icon: 'calendar', blurb: 'Requests to confirm or decline' },
     { key: 'hall-reviews' as const, name: 'Hall Reviews', icon: 'quote', blurb: 'Publish or hold what families wrote' },
     { key: 'inbox' as const, name: 'Inbox, Gifts & Subscribers', icon: 'mail', blurb: 'Contact form messages and every donation received' },
@@ -207,6 +261,9 @@ export function AdminApp() {
     return !needle || text.toLowerCase().includes(needle)
   }
   const utilities = INBOXES.filter((entry) => matches(`${entry.name} ${entry.blurb} ${entry.key}`))
+  const operations = OPERATIONS.filter((entry) =>
+    matches(`${entry.name} ${entry.blurb} ${entry.key}`),
+  )
   const visible = SECTIONS.filter((section) =>
     matches(`${section.name} ${section.blurb} ${section.key}`),
   )
@@ -238,6 +295,17 @@ export function AdminApp() {
             <span className="hidden items-center gap-2 font-sans text-2xs text-burgundy-500 sm:flex">
               <span className="h-1.5 w-1.5 rounded-full bg-burgundy-500" />
               Unsaved changes
+            </span>
+          ) : null}
+
+          {you ? (
+            <span className="hidden flex-col items-end leading-tight md:flex">
+              <span className="font-sans text-2xs font-medium text-[rgb(var(--ink))]">
+                {you.username}
+              </span>
+              <span className="font-sans text-[0.6rem] uppercase tracking-[0.14em] text-gold-600 dark:text-gold-400">
+                {you.role}
+              </span>
             </span>
           ) : null}
 
@@ -294,7 +362,7 @@ export function AdminApp() {
               />
             </label>
 
-            {visible.length === 0 && utilities.length === 0 ? (
+            {visible.length === 0 && utilities.length === 0 && operations.length === 0 ? (
               <p className="px-4 py-3 font-sans text-2xs text-[rgb(var(--muted))]">
                 Nothing matches “{search}”.
               </p>
@@ -361,6 +429,45 @@ export function AdminApp() {
                 </span>
               </button>
             ))}
+
+            {operations.length ? (
+              <>
+                <div className="my-3 h-px bg-[rgb(var(--line))]" />
+                <p className="px-4 pb-1 font-sans text-2xs uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
+                  Running the site
+                </p>
+              </>
+            ) : null}
+
+            {operations.map((entry) => (
+              <button
+                key={entry.key}
+                type="button"
+                onClick={() => open(entry.key)}
+                className={cn(
+                  'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
+                  active === entry.key
+                    ? 'border-gold-400/60 bg-gold-400/10'
+                    : 'border-transparent hover:border-[rgb(var(--line))] hover:bg-[rgb(var(--card))]',
+                )}
+              >
+                <Icon
+                  name={entry.icon}
+                  className={cn(
+                    'mt-0.5 h-4 w-4 shrink-0',
+                    active === entry.key ? 'text-gold-500' : 'text-[rgb(var(--muted))]',
+                  )}
+                />
+                <span className="min-w-0">
+                  <span className="block font-sans text-sm font-medium text-[rgb(var(--ink))]">
+                    {entry.name}
+                  </span>
+                  <span className="mt-0.5 block font-sans text-2xs leading-snug text-[rgb(var(--muted))]">
+                    {entry.blurb}
+                  </span>
+                </span>
+              </button>
+            ))}
           </nav>
         </aside>
 
@@ -372,12 +479,30 @@ export function AdminApp() {
         ) : null}
 
         <main className="min-w-0 flex-1">
-          {active === 'hall-bookings' ? (
+          {active === 'office-requests' ? (
+            <OfficeRequests />
+          ) : active === 'hall-bookings' ? (
             <HallBookings />
           ) : active === 'hall-reviews' ? (
             <HallReviews />
           ) : active === 'inbox' ? (
             <Inbox submissions={submissions} />
+          ) : active === 'people' ? (
+            <People />
+          ) : active === 'newsletter' ? (
+            <NewsletterPanel />
+          ) : active === 'letters' ? (
+            <Letters />
+          ) : active === 'activity' ? (
+            <Activity />
+          ) : active === 'backups' ? (
+            <Backups canRestore={you?.role === 'owner'} />
+          ) : active === 'visits' ? (
+            <Visits />
+          ) : active === 'problems' ? (
+            <Problems />
+          ) : active === 'system' ? (
+            <System />
           ) : (
             <div className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
               {/* Stays in reach however far down the form you have scrolled. */}
@@ -420,7 +545,7 @@ export function AdminApp() {
                     type="button"
                     onClick={() => {
                       if (dirty && !window.confirm('Discard your unsaved changes and reload this section?')) return
-                      load(active)
+                      if (isContent(active)) load(active)
                     }}
                     title="Reload this section from the site, discarding unsaved edits"
                     className="rounded-sm border border-[rgb(var(--line))] px-4 py-2 font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400"

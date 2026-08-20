@@ -1,7 +1,8 @@
 import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
+import { audit } from '@/lib/audit'
+import { currentSession, isAuthenticated } from '@/lib/auth'
 import { contentVersion, readContent, writeContent } from '@/lib/content'
 import { CONTENT_KEYS, type ContentKey } from '@/lib/types'
 
@@ -26,7 +27,8 @@ export async function GET(_request: Request, ctx: { params: Promise<{ key: strin
 }
 
 export async function PUT(request: Request, ctx: { params: Promise<{ key: string }> }) {
-  if (!(await isAuthenticated())) {
+  const session = await currentSession()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
   const { key } = await ctx.params
@@ -61,6 +63,14 @@ export async function PUT(request: Request, ctx: { params: Promise<{ key: string
   }
 
   await writeContent(key, data)
+  await audit({
+    request,
+    actor: session.username,
+    role: session.role,
+    action: 'content-save',
+    target: key,
+    detail: `${JSON.stringify(data).length} characters`,
+  })
   // Push the edit to the public site straight away rather than waiting for the
   // homepage's five minute revalidation window.
   revalidatePath('/')

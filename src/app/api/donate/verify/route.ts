@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+import { donationReceipt } from '@/lib/letters'
+import { post } from '@/lib/mail'
+
 import { appendRecord } from '@/lib/content'
 import { fetchPayment, isConfigured, verifyPaymentSignature } from '@/lib/razorpay'
 
@@ -60,7 +63,7 @@ export async function POST(request: Request) {
 
   const captured = payment.status === 'captured' || payment.status === 'authorized'
 
-  await appendRecord('donations', {
+  const record = {
     paymentId: payment.id,
     orderId,
     // Stored in rupees, the way the parish accounts are kept.
@@ -75,7 +78,25 @@ export async function POST(request: Request) {
     email: payment.email ?? clean(body.email, 160),
     phone: payment.contact ?? clean(body.phone, 40),
     at: new Date().toISOString(),
-  })
+  }
+
+  await appendRecord('donations', record)
+
+  // A receipt, because a gift that vanishes into a website with nothing coming
+  // back is the last one that donor sends. The amount is read back from the
+  // payment itself, never from the browser.
+  if (captured && record.email) {
+    post(
+      donationReceipt({
+        name: record.donor,
+        email: record.email,
+        amount: payment.amount,
+        fund: record.fundName || 'the parish',
+        paymentId: payment.id,
+        at: record.at,
+      }),
+    )
+  }
 
   return NextResponse.json({
     ok: captured,

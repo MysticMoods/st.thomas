@@ -220,12 +220,22 @@ export type HallContent = {
   title: L
   subtitle: L
   image: string
+  /** The opening of the hall page: photographs and the strip of facilities. */
+  hero: { eyebrow: L; images: string[]; marquee: L[] }
+  /** The band of figures under the hero — halls, seats, parking, notice. */
+  stats: { id: string; value: number; suffix: string; label: L }[]
   halls: HallRoom[]
+  /** How a day in the hall runs, told in order. */
+  story: { title: L; body: L; image: string }[]
   facts: { label: L; value: L }[]
   /** A booking takes one of these. `full-day` covers the others. */
   sessions: { id: string; label: L; hours: L }[]
   amenities: { id: string; label: L; note: L; rate: number }[]
+  /** What comes with the hall at no extra charge. */
+  included: { label: L; note: L }[]
   rules: L[]
+  /** The questions the office is asked on the telephone every week. */
+  faq: { q: L; a: L }[]
   booking: {
     note: L
     /** Days of notice the office needs before an event. */
@@ -336,6 +346,37 @@ export type DonationContent = {
   receiptNote: L
 }
 
+/**
+ * The three things the parish office is asked for most: a Mass offered for
+ * somebody, a certificate copied out of the registers, and a prayer.
+ */
+export type OfficeContent = {
+  title: L
+  subtitle: L
+  image: string
+  hours: L
+  intentions: {
+    title: L
+    blurb: L
+    /** Days of notice before a Mass can be asked for. */
+    noticeDays: number
+    monthsAhead: number
+    /** The suggested offering, in rupees. Never a condition. */
+    offering: number
+    types: { id: string; label: L; note: L }[]
+    rules: L[]
+  }
+  certificates: {
+    title: L
+    blurb: L
+    /** Working days the office usually takes. */
+    days: number
+    types: { id: string; label: L; needs: L; fee: number }[]
+    rules: L[]
+  }
+  prayers: { title: L; blurb: L; note: L }
+}
+
 export type Content = {
   site: SiteContent
   about: AboutContent
@@ -353,6 +394,7 @@ export type Content = {
   obituaries: ObituariesContent
   committee: CommitteeContent
   donation: DonationContent
+  office: OfficeContent
 }
 
 /** Keys the admin dashboard may read and write. */
@@ -373,6 +415,7 @@ export const CONTENT_KEYS = [
   'obituaries',
   'committee',
   'donation',
+  'office',
 ] as const
 
 export type ContentKey = (typeof CONTENT_KEYS)[number]

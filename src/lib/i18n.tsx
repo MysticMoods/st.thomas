@@ -76,6 +76,8 @@ export const ui = {
     notices: { en: 'Notices', ml: 'അറിയിപ്പുകൾ' },
     obituary: { en: 'Obituary', ml: 'ചരമം' },
     hall: { en: 'Hall', ml: 'ഹാൾ' },
+    office: { en: 'Office', ml: 'ഓഫീസ്' },
+    parishSite: { en: 'The rest of the parish site', ml: 'ഇടവക സൈറ്റിന്റെ ബാക്കി ഭാഗം' },
     donate: { en: 'Donate', ml: 'സംഭാവന' },
     members: { en: 'Members', ml: 'അംഗങ്ങൾ' },
     contact: { en: 'Contact', ml: 'ബന്ധപ്പെടുക' },

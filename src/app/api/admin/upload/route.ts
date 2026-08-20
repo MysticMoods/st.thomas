@@ -3,7 +3,8 @@ import path from 'path'
 
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
+import { audit } from '@/lib/audit'
+import { currentSession } from '@/lib/auth'
 
 export const runtime = 'nodejs'
 
@@ -27,7 +28,8 @@ function slug(name: string) {
 }
 
 export async function POST(request: Request) {
-  if (!(await isAuthenticated())) {
+  const session = await currentSession()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -55,6 +57,15 @@ export async function POST(request: Request) {
     path.join(UPLOADS, filename),
     Buffer.from(await file.arrayBuffer()),
   )
+
+  await audit({
+    request,
+    actor: session.username,
+    role: session.role,
+    action: 'upload',
+    target: filename,
+    detail: `${Math.round(file.size / 1024)} KB ${file.type}`,
+  })
 
   return NextResponse.json({ ok: true, path: `/uploads/${filename}` })
 }

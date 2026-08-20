@@ -153,6 +153,113 @@ The dashboard authenticates with the credentials from `.env.local`.
 
 The app rate-limits login attempts and validates the session server-side. Do not bypass or weaken that logic when modifying auth behavior.
 
+## Operations
+
+Running the site is a first-class part of the app, not an afterthought bolted on
+outside it.
+
+- **Accounts** live in `content/users.json` (git-ignored), one per person, with
+  the password kept only as a scrypt hash. `ADMIN_USERNAME` / `ADMIN_PASSWORD`
+  from `.env.local` are a bootstrap: they work only while no account exists, and
+  stop the moment the first one is made. `src/lib/users.ts` owns all of it.
+- **Roles** are `owner` and `editor`. An owner manages accounts and restores
+  backups; an editor edits the site and may change their own password. The last
+  owner cannot be demoted, suspended or removed — a parish locked out of its own
+  dashboard has no way back in.
+- **Sessions** are re-checked against the accounts file on every request
+  (`currentSession()` in `src/lib/auth.ts`), so suspending somebody ends their
+  session at once rather than in eight hours.
+- **The activity log** (`content/audit.json`) records every content save,
+  upload, hall decision, review decision, account change, backup restore and
+  sign-in — including refused ones. Call `audit()` from any new route that
+  changes something. It never throws.
+- **Backups** are the twenty rolling copies already written before each save;
+  `/api/admin/backups` lists, reads and restores them, and a restore is itself a
+  save, so it can be undone.
+- **Visits** are counted by the site itself in `content/analytics.json`: no
+  third party, no cookie, no address stored, `/admin` never counted, and readers
+  with Do Not Track set are skipped. `src/lib/metrics.ts`.
+- **Faults** from the server and from visitors' browsers land in
+  `content/errors.json` via `src/lib/report.ts`, folded by message so one bad
+  afternoon does not bury everything before it.
+- **`/api/health`** is public and says only whether the content can be read and
+  the disk written. `/api/admin/health` is the fuller picture for the dashboard.
+
+All the runtime files above are git-ignored. Never commit them.
+
+## Letters
+
+Every public form now writes back. `src/lib/mail.ts` posts, `src/lib/letters.ts`
+holds the wording, and `content/outbox.json` records every attempt.
+
+- **A letter never fails a visitor's request.** Use `post()` — fire and forget —
+  on anything a visitor is waiting on; `send()` only where the result is needed.
+  The booking is saved before the letter is tried, never after.
+- **Nothing is lost when mail is unconfigured.** With no `MAIL_HOST` the letters
+  are still written to the outbox marked `not-configured`, and the dashboard
+  says plainly that none of it is being delivered.
+- Letters are bilingual, English first, and never ask for a password or a
+  payment — so nothing in them can be imitated to ask for one.
+- Newsletter subscribers each carry a token; every newsletter carries the
+  unsubscribe link that uses it, and `/unsubscribe` acts on arrival rather than
+  asking anybody to confirm. `src/lib/subscribers.ts`.
+
+## The parish office
+
+`/office` carries the three things people walk in to ask for: a Holy Mass
+offered for somebody, a certificate copied out of the registers, and a prayer.
+One route (`src/app/api/office/route.ts`) serves all three, because they share
+everything that matters — throttle, honeypot, acknowledgement, dashboard queue —
+and differ only in what is asked.
+
+- Only one Mass intention is taken per day; the form greys out the days already
+  spoken for, and the API refuses a clash rather than leaving it to be found at
+  the counter. `GET /api/office` returns only the dates, never who asked.
+- A prayer asks for no telephone number. A certificate and a Mass do, because
+  the office has to reply to those.
+- Marking a certificate **done** writes to the person who asked — that is the
+  whole reason for taking the request online.
+
+## Public forms
+
+
+All four — contact, newsletter, hall booking, hall review — share
+`src/lib/limit.ts`: one throttle per gate per address, plus a honeypot field
+(`website`) that a person never sees. A filled honeypot is answered with a
+cheerful success so whoever sent it learns nothing. Any new public form should
+use both.
+
+`appendRecord()` serialises writes per file. Two letters posted in the same
+moment, or two families booking in the same second, would otherwise read the
+same list and the second write would silently drop the first record.
+
+## Finding things, and being found
+
+- **Search** (`/api/search`) walks the content files on every query — no index
+  to rebuild, so anything the dashboard saves is findable at once. It matches
+  against both languages and returns both, and the page shows the side the
+  reader is reading. Opened from the header, or with Ctrl/Cmd+K or `/`.
+- **`/calendar.ics`** is a live subscribable feed of the mass timetable and the
+  parish week, built from `mass.json` and `events.json`. Times are written as
+  floating local values, because half past six means half past six. A change in
+  the dashboard reaches every phone that subscribed.
+- **`/obituary/[slug]`** gives each person a page of their own, so a family can
+  send a link to their own mother rather than to a column of forty strangers.
+  The slug is `name-id`; only the id is used to find them, so correcting a
+  spelling never breaks a link already sent. Memorial pages are `noindex`.
+
+## Money
+
+Two flows, both with the same two rules, and neither may be relaxed: **the
+signature is verified before anything is believed, and the amount is read back
+from Razorpay rather than taken from the browser.**
+
+- `/api/donate/*` — giving.
+- `/api/hall/advance` — the hall advance, which turns a held request into a
+  confirmed booking. Which booking a payment is for comes from the order's own
+  notes, never from the browser, so nobody can pay for one day and confirm
+  another.
+
 ## Deployment notes
 
 This app writes content files and uploaded media to disk at runtime.
@@ -162,6 +269,10 @@ This app writes content files and uploaded media to disk at runtime.
 - Backups are stored under `content/.backups/`
 
 This means the app is best hosted on a Node environment with a persistent filesystem. Vercel/Netlify-style serverless hosts are not suitable for the current dashboard save flow because the filesystem is read-only there.
+
+`DEPLOY.md` is the operations manual: host choice and why, an Ubuntu walkthrough
+with systemd and nginx, the nightly off-box backup, what to watch, how to deploy
+a change, and the pre-launch checklist. Keep it current when any of this moves.
 
 ## Build and debugging expectations
 

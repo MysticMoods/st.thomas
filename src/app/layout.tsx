@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { AdminBar, AdminModeProvider } from '@/components/admin/AdminMode'
 import { Providers } from '@/components/Providers'
 import { ServiceWorker } from '@/components/ServiceWorker'
+import { SiteMetrics } from '@/components/SiteMetrics'
 import { isAuthenticated } from '@/lib/auth'
 import { readContent } from '@/lib/content'
 import { themeScript } from '@/lib/theme'
@@ -119,6 +120,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </AdminModeProvider>
         </Providers>
         <ServiceWorker />
+        <SiteMetrics />
       </body>
     </html>
   )

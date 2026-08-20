@@ -2,11 +2,14 @@ import path from 'node:path'
 
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
+import { audit } from '@/lib/audit'
+import { currentSession, isAuthenticated } from '@/lib/auth'
 import { appendRecord, readContent, readRecords, writeJson } from '@/lib/content'
 import type { HallBooking } from '@/lib/hall'
 import { isFree } from '@/lib/hall'
 import { readCalendar } from '@/lib/hall-server'
+import { hallDecided } from '@/lib/letters'
+import { post } from '@/lib/mail'
 import type { HallContent } from '@/lib/types'
 
 export const runtime = 'nodejs'
@@ -25,7 +28,8 @@ export async function GET() {
 
 /** Confirm or decline one request. Everything else about it stays as sent. */
 export async function PATCH(request: Request) {
-  if (!(await isAuthenticated())) {
+  const staff = await currentSession()
+  if (!staff) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -53,6 +57,32 @@ export async function PATCH(request: Request) {
   // Same atomic write the content editor uses: a crash never truncates the file.
   await writeJson(FILE, bookings)
 
+  // The family should hear the decision from the parish, not from the calendar
+  // quietly changing colour.
+  if (status === 'confirmed' || status === 'declined') {
+    const hall = await readContent<HallContent>('hall')
+    const room = hall.halls.find((entry) => entry.id === booking.hall)
+    const slot = hall.sessions.find((entry) => entry.id === booking.session)
+    post(
+      hallDecided(
+        booking,
+        room?.name.en ?? booking.hall,
+        slot?.label.en ?? booking.session,
+        status,
+        hall.booking.contact.phone,
+      ),
+    )
+  }
+
+  await audit({
+    request,
+    actor: staff.username,
+    role: staff.role,
+    action: 'hall-decide',
+    target: booking.id,
+    detail: `${booking.hall} ${booking.date} ${booking.session} -> ${status} (${booking.name})`,
+  })
+
   return NextResponse.json({ ok: true, booking })
 }
 
@@ -62,7 +92,8 @@ export async function PATCH(request: Request) {
  * same clash check as a request from the website.
  */
 export async function POST(request: Request) {
-  if (!(await isAuthenticated())) {
+  const staff = await currentSession()
+  if (!staff) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -112,12 +143,21 @@ export async function POST(request: Request) {
   }
 
   await appendRecord('hall-bookings', record)
+  await audit({
+    request,
+    actor: staff.username,
+    role: staff.role,
+    action: 'hall-book',
+    target: record.id,
+    detail: `${record.hall} ${record.date} ${record.session} for ${record.name}`,
+  })
   return NextResponse.json({ ok: true, booking: record })
 }
 
 /** Frees a slot outright — a walk-in who cancelled, or an entry made in error. */
 export async function DELETE(request: Request) {
-  if (!(await isAuthenticated())) {
+  const staff = await currentSession()
+  if (!staff) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -130,12 +170,21 @@ export async function DELETE(request: Request) {
   if (!id) return NextResponse.json({ error: 'Need a booking id' }, { status: 422 })
 
   const bookings = (await readRecords('hall-bookings')) as HallBooking[]
+  const gone = bookings.find((entry) => entry.id === id)
   const left = bookings.filter((entry) => entry.id !== id)
   if (left.length === bookings.length) {
     return NextResponse.json({ error: 'No such booking' }, { status: 404 })
   }
 
   await writeJson(FILE, left)
+  await audit({
+    request,
+    actor: staff.username,
+    role: staff.role,
+    action: 'hall-free',
+    target: id,
+    detail: gone ? `${gone.hall} ${gone.date} ${gone.session} (${gone.name})` : undefined,
+  })
 
   return NextResponse.json({ ok: true })
 }

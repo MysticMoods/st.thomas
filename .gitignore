@@ -16,3 +16,14 @@ next-env.d.ts
 content/hall-bookings.json
 /.claude/
 content/hall-reviews.json
+
+# Runtime operations files: accounts, history, figures and faults.
+# They belong to the running site, not to the repository.
+content/users.json
+content/audit.json
+content/errors.json
+content/analytics.json
+content/outbox.json
+content/intentions.json
+content/certificates.json
+content/prayers.json

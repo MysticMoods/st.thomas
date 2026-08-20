@@ -48,7 +48,7 @@ export function HallDay({
 
   return (
     <div
-      id="day"
+      id="day-panel"
       className="scroll-mt-40 rounded-sm border border-gold-400/50 bg-[rgb(var(--card))] p-5 sm:p-7"
     >
       <div className="flex flex-wrap items-start justify-between gap-4">

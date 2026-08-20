@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server'
 import { appendRecord, readContent } from '@/lib/content'
 import { bookingWindow, isFree } from '@/lib/hall'
 import { readCalendar } from '@/lib/hall-server'
+import { hallRequestToFamily, hallRequestToOffice } from '@/lib/letters'
+import { looksAutomated } from '@/lib/limit'
+import { officeAddress, post } from '@/lib/mail'
 import type { HallContent } from '@/lib/types'
 import { isEmail } from '@/lib/utils'
 
@@ -57,6 +60,9 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
+
+  // A robot fills the field nobody can see.
+  if (looksAutomated(body)) return NextResponse.json({ ok: true, id: 'ignored' })
 
   const hall = await readContent<HallContent>('hall')
 
@@ -121,5 +127,20 @@ export async function POST(request: Request) {
   }
 
   await appendRecord('hall-bookings', record)
+
+  // The office hears at once, and the family leaves with a reference rather
+  // than a promise that somebody will ring.
+  const sessionName = hall.sessions.find((entry) => entry.id === session)?.label.en ?? session
+  if (officeAddress()) post(hallRequestToOffice(record, room.name.en, sessionName))
+  post(
+    hallRequestToFamily(
+      record,
+      room.name.en,
+      sessionName,
+      hall.booking.advance,
+      hall.booking.contact.phone,
+    ),
+  )
+
   return NextResponse.json({ ok: true, id: record.id })
 }

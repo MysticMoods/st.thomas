@@ -117,6 +117,7 @@ export async function getContent(): Promise<Content> {
     obituaries,
     committee,
     donation,
+    office,
   ] = await Promise.all([
     readContent('site'),
     readContent('about'),
@@ -134,6 +135,7 @@ export async function getContent(): Promise<Content> {
     readContent('obituaries'),
     readContent('committee'),
     readContent('donation'),
+    readContent('office'),
   ])
 
   return {
@@ -153,6 +155,7 @@ export async function getContent(): Promise<Content> {
     obituaries,
     committee,
     donation,
+    office,
   } as Content
 }
 
@@ -163,19 +166,80 @@ export type RecordList =
   | 'donations'
   | 'hall-bookings'
   | 'hall-reviews'
+  /** Who did what in the dashboard — see lib/audit.ts. */
+  | 'audit'
+  /** Faults reported by the server and by browsers — see lib/report.ts. */
+  | 'errors'
+  /** Every letter the site has tried to post — see lib/mail.ts. */
+  | 'outbox'
+  /** Asked for at the parish office — see app/api/office. */
+  | 'intentions'
+  | 'certificates'
+  | 'prayers'
+
+/**
+ * One queue per file, so two appends at the same moment cannot lose one.
+ *
+ * Appending is read, change, write. Two requests arriving together — the letter
+ * to the office and the letter to the family, or two families sending a hall
+ * request in the same second — would both read the same list and the second
+ * write would silently drop the first record. Each file's writes are therefore
+ * put in a line.
+ */
+const queues = new Map<string, Promise<void>>()
 
 /** Appends a record to a small JSON list under content/. */
 export async function appendRecord(name: RecordList, record: unknown) {
   const target = path.join(DIR, `${name}.json`)
-  let list: unknown[] = []
+
+  const next = (queues.get(target) ?? Promise.resolve()).then(async () => {
+    let list: unknown[] = []
+    try {
+      list = JSON.parse(await fs.readFile(target, 'utf-8'))
+      if (!Array.isArray(list)) list = []
+    } catch {
+      list = []
+    }
+    list.unshift(record)
+    await writeJson(target, list.slice(0, 2000))
+  })
+
+  // A failed write must not wedge everything queued behind it.
+  queues.set(
+    target,
+    next.catch(() => {}),
+  )
+  return next
+}
+
+/**
+ * The saved copies of one content file, newest first. Backups are named
+ * `<key>.<iso timestamp with punctuation replaced>.json`.
+ */
+export async function listBackups(key: ContentKey) {
+  if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
   try {
-    list = JSON.parse(await fs.readFile(target, 'utf-8'))
-    if (!Array.isArray(list)) list = []
+    const names = (await fs.readdir(BACKUPS)).filter((name) => name.startsWith(`${key}.`))
+    const entries = await Promise.all(
+      names.map(async (name) => {
+        const stat = await fs.stat(path.join(BACKUPS, name))
+        return { name, at: stat.mtime.toISOString(), size: stat.size }
+      }),
+    )
+    return entries.sort((a, b) => b.name.localeCompare(a.name))
   } catch {
-    list = []
+    return []
   }
-  list.unshift(record)
-  await writeJson(target, list.slice(0, 2000))
+}
+
+/** Reads one saved copy back. The name is checked, never trusted. */
+export async function readBackup(name: string) {
+  const key = name.split('.')[0] as ContentKey
+  if (!/^[a-z-]+\.[0-9A-Za-z-]+\.json$/.test(name) || !CONTENT_KEYS.includes(key)) {
+    throw new Error('Not a backup of this site')
+  }
+  const raw = await fs.readFile(path.join(BACKUPS, name), 'utf-8')
+  return { key, data: JSON.parse(raw) as unknown }
 }
 
 export async function readRecords(name: RecordList) {

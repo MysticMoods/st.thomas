@@ -13,6 +13,7 @@ import { Icon } from '../ui/Icon'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
 import { HallCalendar } from './HallCalendar'
+import { HallDay } from './HallDay'
 import { HallSlotManager } from './HallSlotManager'
 
 type Availability = {
@@ -27,13 +28,17 @@ type Availability = {
 export function HallBooking({ hall }: { hall: HallContent }) {
   const { t, lang } = useLang()
   const { isAdmin } = useAdminMode()
-  // The day staff opened from the calendar, to manage rather than to request.
-  const [managing, setManaging] = useState('')
+  // The slot staff opened from the day panel, to manage rather than to request.
+  const [managing, setManaging] = useState<{ date: string; room: string; session: string } | null>(
+    null,
+  )
 
   const [availability, setAvailability] = useState<Availability | null>(null)
   const [roomId, setRoomId] = useState(hall.halls[0]?.id ?? '')
   const [session, setSession] = useState(hall.sessions[0]?.id ?? 'morning')
   const [date, setDate] = useState('')
+  // The day opened below the calendar — every hall, every session, spelled out.
+  const [day, setDay] = useState('')
   const [amenities, setAmenities] = useState<string[]>([])
   const [form, setForm] = useState({ name: '', phone: '', email: '', purpose: '', guests: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
@@ -73,6 +78,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
     setAmenities((current) => current.filter((id) => room?.amenities.includes(id)))
   }, [room])
 
+  const chosenSession = hall.sessions.find((entry) => entry.id === session)
   const rent = rentOf(room, session)
   const extras = useMemo(
     () =>
@@ -86,6 +92,23 @@ export function HallBooking({ hall }: { hall: HallContent }) {
     setAmenities((current) =>
       current.includes(id) ? current.filter((entry) => entry !== id) : [...current, id],
     )
+
+  /** Opening a day fills the panel beside the calendar and moves its highlight. */
+  const openDay = (next: string) => setDay(next)
+
+  /**
+   * A session picked out of the day panel becomes the request: the hall, the
+   * day and the hours are all settled in one tap, and the form comes into view
+   * already saying which of the three halls it is for.
+   */
+  function choose(nextRoom: string, nextSession: string) {
+    setRoomId(nextRoom)
+    setSession(nextSession)
+    setDate(day)
+    setStatus('idle')
+    setError('')
+    document.getElementById('book-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
@@ -148,9 +171,12 @@ export function HallBooking({ hall }: { hall: HallContent }) {
           subtitle={hall.booking.note}
         />
 
-        {/* which hall */}
+        {/* step one — which of the three halls */}
         <Reveal>
-          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <p className="mt-14 text-center font-sans text-2xs uppercase tracking-[0.18em] text-gold-600 dark:text-gold-400">
+            {t({ en: 'Step 1 · Which hall', ml: 'ഘട്ടം 1 · ഏത് ഹാൾ' })}
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {hall.halls.map((entry) => (
               <button
                 key={entry.id}
@@ -178,82 +204,103 @@ export function HallBooking({ hall }: { hall: HallContent }) {
           </div>
         </Reveal>
 
-        {/* which session */}
+        {/* what that hall costs, before any day is opened */}
         <Reveal delay={0.05}>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {hall.sessions.map((entry) => (
-              <button
-                key={entry.id}
-                type="button"
-                onClick={() => setSession(entry.id)}
-                aria-pressed={session === entry.id}
-                className={cn(
-                  'rounded-sm border px-5 py-3 text-left transition-all duration-300',
-                  session === entry.id
-                    ? 'border-gold-400 bg-gold-400/10'
-                    : 'border-[rgb(var(--line))] hover:border-gold-300',
-                )}
-              >
-                <span className="block font-sans text-2xs font-semibold uppercase tracking-[0.16em] text-[rgb(var(--ink))]">
+              <span key={entry.id} className="font-sans text-2xs text-[rgb(var(--muted))]">
+                <span className="font-semibold uppercase tracking-[0.14em] text-[rgb(var(--ink))]">
                   {t(entry.label)}
-                </span>
-                <span className="mt-1 block font-sans text-2xs text-[rgb(var(--muted))]">
-                  {t(entry.hours)} · ₹{formatNumber(rentOf(room, entry.id), lang)}
-                </span>
-              </button>
+                </span>{' '}
+                {t(entry.hours)} · ₹{formatNumber(rentOf(room, entry.id), lang)}
+              </span>
             ))}
           </div>
         </Reveal>
 
         {isAdmin ? (
           <p className="mx-auto mt-8 max-w-2xl rounded-sm border border-gold-400/50 bg-gold-400/10 px-5 py-3 text-center font-sans text-2xs text-[rgb(var(--ink))]">
-            Parish office: click any day to see who has it, to write in a booking taken at the
-            counter, or to free a slot again.
+            Parish office: open a day, then tap the hall and session you want — you can see who
+            has it, write in a booking taken at the counter, or free a slot again.
           </p>
         ) : null}
 
-        <p className="mt-8 text-center font-sans text-2xs uppercase tracking-[0.16em] text-gold-600 dark:text-gold-400">
-          {t({ en: 'Showing', ml: 'കാണിക്കുന്നത്' })} {t(room?.name ?? { en: '', ml: '' })}
-          {room?.combines?.length
-            ? ` · ${t({ en: 'holds both halls', ml: 'രണ്ട് ഹാളുകളും ഒരുമിച്ച്' })}`
-            : ''}
+        <p className="mt-10 text-center font-sans text-2xs uppercase tracking-[0.18em] text-gold-600 dark:text-gold-400">
+          {t({ en: 'Step 2 · Which day', ml: 'ഘട്ടം 2 · ഏത് ദിവസം' })}
         </p>
 
-        <div className="mt-8">
+        <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
           {availability ? (
             <HallCalendar
               hall={hall}
               calendar={availability.calendar}
               window={availability.window}
               room={roomId}
-              session={session}
-              selected={date}
-              onSelect={setDate}
-              onManage={isAdmin ? (day) => setManaging(day) : undefined}
+              selected={day || date}
+              onPick={openDay}
             />
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="skeleton h-64 rounded-sm" />
-              ))}
+            <div className="skeleton h-[28rem] rounded-sm" />
+          )}
+
+          {availability && day ? (
+            <HallDay
+              hall={hall}
+              calendar={availability.calendar}
+              date={day}
+              {...(date === day
+                ? { room: roomId, session }
+                : // nothing is ticked until a session is actually chosen
+                  { room: '', session: '' })}
+              isAdmin={isAdmin}
+              onChoose={choose}
+              onManage={(entry, slot) => setManaging({ date: day, room: entry, session: slot })}
+              onClose={() => setDay('')}
+            />
+          ) : (
+            <div className="flex min-h-[16rem] flex-col items-center justify-center rounded-sm border border-dashed border-[rgb(var(--line))] p-8 text-center">
+              <Icon name="calendar" className="h-7 w-7 text-gold-500" />
+              <p className="mt-4 font-serif text-lg text-[rgb(var(--ink))]">
+                {t({ en: 'Choose a day', ml: 'ഒരു ദിവസം തിരഞ്ഞെടുക്കുക' })}
+              </p>
+              <p className="mt-2 max-w-xs font-sans text-2xs leading-relaxed text-[rgb(var(--muted))]">
+                {t({
+                  en: 'Tap any date in the calendar and every hall shows here — morning, evening or the whole day, with what each one costs.',
+                  ml: 'കലണ്ടറിലെ ഏതെങ്കിലും തീയതിയിൽ ടാപ്പ് ചെയ്യുക — രാവിലെ, വൈകുന്നേരം, ദിവസം മുഴുവൻ എന്നിവയും നിരക്കും സഹിതം എല്ലാ ഹാളുകളും ഇവിടെ കാണാം.',
+                })}
+              </p>
             </div>
           )}
         </div>
 
-        <form onSubmit={submit} className="mx-auto mt-16 max-w-4xl">
+        <form id="book-form" onSubmit={submit} className="mx-auto mt-16 max-w-4xl scroll-mt-40">
           <div className="card p-7 sm:p-10">
             <p className="font-sans text-2xs uppercase tracking-[0.18em] text-gold-600 dark:text-gold-400">
               {t({ en: 'Your request', ml: 'നിങ്ങളുടെ അപേക്ഷ' })}
             </p>
-            <p className="mt-3 font-serif text-xl text-[rgb(var(--ink))]">
-              {t(room?.name ?? { en: '', ml: '' })}
-              {' · '}
-              {date
-                ? `${formatDate(date, lang)} · ${t(
-                    hall.sessions.find((s) => s.id === session)?.label ?? { en: '', ml: '' },
-                  )}`
-                : t({ en: 'no day chosen yet', ml: 'ദിവസം തിരഞ്ഞെടുത്തിട്ടില്ല' })}
-            </p>
+            {date ? (
+              <>
+                <p className="mt-3 font-serif text-xl text-[rgb(var(--ink))]">
+                  {t(room?.name ?? { en: '', ml: '' })}
+                  {room?.combines?.length
+                    ? ` · ${t({ en: 'both halls together', ml: 'രണ്ട് ഹാളും ഒരുമിച്ച്' })}`
+                    : ''}
+                </p>
+                <p className="mt-1 font-sans text-sm text-[rgb(var(--muted))]">
+                  {formatDate(date, lang, { weekday: 'long', day: 'numeric', month: 'long' })}
+                  {' · '}
+                  {t(chosenSession?.label ?? { en: '', ml: '' })}
+                  {chosenSession ? ` · ${t(chosenSession.hours)}` : ''}
+                </p>
+              </>
+            ) : (
+              <p className="mt-3 font-serif text-xl text-[rgb(var(--muted))]">
+                {t({
+                  en: 'No day chosen yet — pick one on the calendar above.',
+                  ml: 'ദിവസം തിരഞ്ഞെടുത്തിട്ടില്ല — മുകളിലെ കലണ്ടറിൽ നിന്ന് ഒന്ന് തിരഞ്ഞെടുക്കുക.',
+                })}
+              </p>
+            )}
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-2">
@@ -413,10 +460,10 @@ export function HallBooking({ hall }: { hall: HallContent }) {
       {managing ? (
         <HallSlotManager
           hall={hall}
-          room={roomId}
-          date={managing}
-          session={session}
-          onClose={() => setManaging('')}
+          room={managing.room}
+          date={managing.date}
+          session={managing.session}
+          onClose={() => setManaging(null)}
           onChanged={load}
         />
       ) : null}

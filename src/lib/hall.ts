@@ -109,6 +109,46 @@ export function dayTone(
   return tone
 }
 
+/** How one room stands on one day: every session, and what the day amounts to. */
+export type SlotState = 'free' | 'held' | 'taken' | 'blocked'
+
+/**
+ * The sessions a hall is actually let for. `full-day` is not a third slot in
+ * the diary — it is the two halves taken together — so it is left out wherever
+ * the question is "what is still open on this day".
+ */
+export function partSessions(hall: HallContent) {
+  return hall.sessions.filter((session) => session.id !== FULL_DAY)
+}
+
+/**
+ * Everything the calendar needs to draw one square: the state of each session,
+ * whether the day is gone entirely, and whether it went as one whole-day
+ * booking rather than a morning and an evening let separately.
+ */
+export function roomDay(hall: HallContent, calendar: HallCalendar, id: string, date: string) {
+  const sessions = hall.sessions.map((session) => ({
+    id: session.id,
+    state: dayTone(hall, calendar, id, date, session.id),
+  }))
+  const parts = sessions.filter((session) => session.id !== FULL_DAY)
+  const busy = parts.filter((session) => session.state !== 'free')
+  const blocked = parts.some((session) => session.state === 'blocked')
+  // A single booking that holds the day writes itself against `full-day`;
+  // a morning and an evening booked apart never do.
+  const wholeDay = rooms(hall, id).some((room) => !!calendar[room]?.[date]?.[FULL_DAY])
+
+  const summary: 'free' | 'part' | 'full' =
+    busy.length === 0 ? 'free' : busy.length === parts.length ? 'full' : 'part'
+
+  return { sessions, parts, summary, wholeDay, blocked }
+}
+
+/** The reason the parish is keeping a day for itself, if it is. */
+export function blockedOn(hall: HallContent, date: string) {
+  return hall.blocked.find((day) => day.date === date)
+}
+
 /** The rent for one room and session, ignoring amenities. */
 export function rentOf(room: HallRoom | undefined, session: string) {
   return room?.rates?.[session] ?? 0

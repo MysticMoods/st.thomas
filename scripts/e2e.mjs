@@ -59,7 +59,7 @@ await page.locator('#gallery button.group').first().click()
 await page.waitForTimeout(700)
 ok('lightbox opens', await page.locator('[role=dialog]').isVisible())
 await page.keyboard.press('ArrowRight'); await page.waitForTimeout(400)
-await page.keyboard.press('Escape'); await page.waitForTimeout(500)
+await page.keyboard.press('Escape'); await page.waitForTimeout(1000)
 ok('lightbox closes on Escape', (await page.locator('[role=dialog]').count()) === 0)
 
 // gallery filter
@@ -116,7 +116,7 @@ ok('ministry panel offers its tabs', (await page.locator('[role=dialog] [role=ta
 await page.locator('[role=dialog] [role=tab]').nth(1).click()
 await page.waitForTimeout(500)
 ok('ministry tab switches', (await page.locator('[role=dialog] [role=tab][aria-selected=true]').count()) === 1)
-await page.keyboard.press('Escape'); await page.waitForTimeout(600)
+await page.keyboard.press('Escape'); await page.waitForTimeout(1000)
 ok('ministry panel closes on Escape', (await page.locator('[role=dialog]').count()) === 0)
 
 // donation
@@ -325,10 +325,25 @@ const largeExtras = await page.locator('#book fieldset label').allInnerTexts()
 ok('the large hall does offer air conditioning',
    largeExtras.some((label) => /air conditioning/i.test(label)), `${largeExtras.length} extras`)
 
-const monthCards = await page.locator('#book .grid > div').count()
-ok('hall calendar covers the year', monthCards >= 12, `${monthCards} months`)
+// one month at a time, not twelve grids down the page
+ok('the calendar shows a single month', (await page.locator('#book #hall-month').count()) === 1)
+const monthChoices = await page.locator('#book #hall-month option').count()
+ok('the whole booking window is still reachable', monthChoices >= 12, `${monthChoices} months`)
 ok('hall calendar marks days that cannot be taken',
    (await page.locator('#book button[disabled]').count()) > 0)
+ok('every square says in words what the day holds',
+   (await page.locator('#book button[aria-label*="free all day"]').count()) > 0)
+
+// one tap on a day and all three halls are spelled out
+await page.locator('#book button[aria-label*="free all day"]').first().click()
+await page.waitForTimeout(600)
+const dayPanel = await page.locator('#day').innerText()
+for (const room of ['Small Hall', 'Medium Hall', 'Large Hall'])
+  ok(`the day panel names the ${room}`, dayPanel.includes(room))
+ok('the day panel gives the hours behind each session',
+   dayPanel.includes('7:00 AM') && dayPanel.includes('3:00 PM'))
+ok('the day panel separates the whole day from the halves',
+   /morning/i.test(dayPanel) && /evening/i.test(dayPanel) && /full day/i.test(dayPanel))
 
 // two halls, one evening: the rooms are independent, the combined room is not
 const hallDate = await page.evaluate(() => {
@@ -362,6 +377,48 @@ const bookBoth = await page.request.post('http://localhost:3000/api/hall/book', 
   data: { hall: 'medium-large', date: hallDate, session: 'morning', name: 'Third', phone: '3', email: 'three@example.com' },
 })
 ok('taking both halls is refused once one is taken', bookBoth.status() === 409)
+
+// what the three complaints were about: which hall, and for how long.
+// Note the URL carries no #book: a hash-only change is a same-document
+// navigation, so the page would keep the availability it fetched before these
+// bookings existed and every square would still read free.
+await page.goto('http://localhost:3000/hall', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2000)
+const bookedMonth = new Date(`${hallDate}T00:00:00`).toLocaleDateString('en-IN', {
+  month: 'long',
+  year: 'numeric',
+})
+await page.selectOption('#hall-month', { label: bookedMonth })
+const bookedDay = Number(hallDate.slice(8))
+
+await page.locator('#book-large').click()
+await page.waitForTimeout(500)
+const largeSquare = await page
+  .locator(`#book button[aria-label^="${bookedDay} "]`)
+  .first()
+  .getAttribute('aria-label')
+ok('a whole-day booking reads as the whole day', /all day/i.test(largeSquare ?? ''), largeSquare)
+
+await page.locator('#book-medium').click()
+await page.waitForTimeout(500)
+const mediumSquare = await page
+  .locator(`#book button[aria-label^="${bookedDay} "]`)
+  .first()
+  .getAttribute('aria-label')
+ok('a half-day booking names the session it took',
+   /morning free/i.test(mediumSquare ?? '') && /evening held/i.test(mediumSquare ?? ''), mediumSquare)
+
+await page.locator(`#book button[aria-label^="${bookedDay} "]`).first().click()
+await page.waitForTimeout(600)
+const largeText = await page.locator('#day [data-hall="large"]').innerText()
+ok('the day panel shows the large hall gone for every session',
+   (largeText.match(/held/gi) ?? []).length === 3)
+const mediumText = await page.locator('#day [data-hall="medium"]').innerText()
+ok('the day panel shows the medium hall free in the morning',
+   /morning[\s\S]*?free/i.test(mediumText) && /evening[\s\S]*?held/i.test(mediumText))
+const smallText = await page.locator('#day [data-hall="small"]').innerText()
+ok('the day panel shows the small hall untouched that day',
+   (smallText.match(/free/gi) ?? []).length === 3)
 
 ok('availability never leaks who booked',
    !JSON.stringify(avail).includes('e2e@example.com') && !JSON.stringify(avail).includes('E2E Family'))
@@ -463,6 +520,16 @@ ok('declining frees the room again', declined.ok() &&
 const published = await page.request.patch('http://localhost:3000/api/admin/hall-reviews', {
   data: { id: reviewId, status: 'published' },
 })
+// leave the diary clean, or the next run finds its own date already taken
+const leftovers = (await (await page.request.get('http://localhost:3000/api/admin/hall')).json())
+  .bookings.filter((entry) => /E2E|Second|Third/.test(entry.name ?? ''))
+for (const entry of leftovers) {
+  await page.request.delete('http://localhost:3000/api/admin/hall', { data: { id: entry.id } })
+}
+ok('the suite clears the bookings it made',
+   !(await (await page.request.get('http://localhost:3000/api/admin/hall')).json())
+     .bookings.some((entry) => /E2E|Second|Third/.test(entry.name ?? '')))
+
 ok('a review can be published', published.ok())
 const afterPublish = await (await page.request.get('http://localhost:3000/api/hall/reviews')).json()
 ok('a published review reaches the hall page',
@@ -503,12 +570,15 @@ await page.waitForTimeout(700)
 await page.goto('http://localhost:3000/hall', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2500)
 ok('staff are told they can manage the calendar',
-   /click any day/i.test(await page.locator('#book').innerText()))
-const freeDay = page.locator('#book button[aria-label*="free"]:not([disabled])').first()
-const freeLabel = (await freeDay.getAttribute('aria-label')) ?? ''
+   /open a day, then tap the hall/i.test(await page.locator('#book').innerText()))
+const freeDay = page.locator('#book button[aria-label*="free all day"]:not([disabled])').first()
+const offlineDate = (await freeDay.getAttribute('data-date')) ?? ''
 await freeDay.click()
-await page.waitForTimeout(1200)
-ok('clicking a day opens the parish office diary',
+await page.waitForTimeout(1000)
+ok('staff open the same day panel a visitor sees', (await page.locator('#day').count()) === 1)
+await page.locator('#day [data-hall="small"] button').first().click()
+await page.waitForTimeout(1400)
+ok('tapping a slot opens the parish office diary',
    /hall diary/i.test(await page.locator('[role=dialog]').innerText()))
 await page.fill('input[placeholder="Family or group"]', 'E2E walk-in')
 await page.click('button:has-text("Book this slot")')
@@ -516,7 +586,6 @@ await page.waitForTimeout(2000)
 ok('an offline booking is written in and confirmed',
    /E2E walk-in/.test(await page.locator('[role=dialog]').innerText()) &&
    /confirmed/i.test(await page.locator('[role=dialog]').innerText()))
-const offlineDate = freeLabel.split(' ')[0]
 const afterOffline = await (await page.request.get('http://localhost:3000/api/hall/availability')).json()
 ok('the offline booking closes that session publicly',
    !!afterOffline.calendar?.small?.[offlineDate], `date ${offlineDate}`)

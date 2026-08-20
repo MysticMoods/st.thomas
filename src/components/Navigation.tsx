@@ -140,7 +140,7 @@ export function Navigation({
 
       <header
         className={cn(
-          'no-print fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-sacred',
+          'site-header no-print fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-sacred',
           solid
             ? 'border-b border-[rgb(var(--line))] bg-[rgb(var(--page))]/90 py-2.5 shadow-[0_1px_30px_-12px_rgba(11,21,38,0.35)] backdrop-blur-xl'
             : 'border-b border-transparent py-5',
@@ -359,7 +359,7 @@ export function Navigation({
               </button>
 
               <a
-                href="/admin"
+                href={`/admin?next=${encodeURIComponent(pathname || "/")}`}
                 className="mt-6 flex items-center justify-center gap-2 rounded-sm border border-[rgb(var(--line))] py-3 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400 hover:text-gold-500"
               >
                 <Icon name="lock" className="h-3.5 w-3.5" />

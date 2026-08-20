@@ -21,6 +21,7 @@ import { Stats } from '@/components/Stats'
 import { WeeklyCalendar } from '@/components/WeeklyCalendar'
 import { BackToTop, ScrollProgress } from '@/components/ui/Chrome'
 import { ParallaxBand } from '@/components/ui/ParallaxBand'
+import { EditableSection } from '@/components/admin/EditableSection'
 import { getContent } from '@/lib/content'
 import { withLatestUploads } from '@/lib/youtube'
 import { isConfigured } from '@/lib/razorpay'
@@ -46,12 +47,22 @@ export default async function HomePage() {
       <Navigation site={content.site} />
 
       <main>
-        <Hero site={content.site} />
-        <About about={content.about} site={content.site} />
-        <Leadership leadership={content.leadership} />
+        <EditableSection section="site" label="Homepage & Banners">
+          <Hero site={content.site} />
+        </EditableSection>
+        <EditableSection section="about" label="About the Church">
+          <About about={content.about} site={content.site} />
+        </EditableSection>
+        <EditableSection section="leadership" label="Pope, Archbishop & Bishop">
+          <Leadership leadership={content.leadership} />
+        </EditableSection>
 
-        <Clergy clergy={content.clergy} />
-        <Committee committee={content.committee} />
+        <EditableSection section="clergy" label="Parish Priest">
+          <Clergy clergy={content.clergy} />
+        </EditableSection>
+        <EditableSection section="committee" label="Parish Committee">
+          <Committee committee={content.committee} />
+        </EditableSection>
 
         <ParallaxBand
           image="/images/site/votive.jpg"
@@ -63,8 +74,12 @@ export default async function HomePage() {
           height="sm"
         />
 
-        <PastPriestsTimeline pastPriests={content.pastPriests} />
-        <Stats stats={content.stats} />
+        <EditableSection section="past-priests" label="Past Priests">
+          <PastPriestsTimeline pastPriests={content.pastPriests} />
+        </EditableSection>
+        <EditableSection section="stats" label="Parish Statistics">
+          <Stats stats={content.stats} />
+        </EditableSection>
 
         <ParallaxBand
           image="/images/site/candles-cross.jpg"
@@ -75,27 +90,45 @@ export default async function HomePage() {
           attribution={{ en: 'Matthew 18:20', ml: 'മത്തായി 18:20' }}
         />
 
-        <MassTimings mass={content.mass} />
-        <WeeklyCalendar events={content.events} />
+        <EditableSection section="mass" label="Mass Timings">
+          <MassTimings mass={content.mass} />
+        </EditableSection>
+        <EditableSection section="events" label="Weekly Events">
+          <WeeklyCalendar events={content.events} />
+        </EditableSection>
 
         <ParallaxBand image="/images/site/hero-vault.jpg" height="sm" strength={0.34} />
 
-        <Ministries ministries={content.ministries} />
-        <Media media={media} />
+        <EditableSection section="ministries" label="Ministries">
+          <Ministries ministries={content.ministries} />
+        </EditableSection>
+        <EditableSection section="media" label="Videos & Bulletins">
+          <Media media={media} />
+        </EditableSection>
 
-        <Donation
-          donation={content.donation}
-          gatewayReady={gatewayReady}
-          parishName={`${content.site.parish.name.en}, ${content.site.parish.place.en}`}
-        />
+        <EditableSection section="donation" label="Donations">
+          <Donation
+            donation={content.donation}
+            gatewayReady={gatewayReady}
+            parishName={`${content.site.parish.name.en}, ${content.site.parish.place.en}`}
+          />
+        </EditableSection>
 
-        <Notices notices={content.notices} />
-        <Gallery gallery={content.gallery} />
-        <Obituaries obituaries={content.obituaries} />
+        <EditableSection section="notices" label="Notice Board">
+          <Notices notices={content.notices} />
+        </EditableSection>
+        <EditableSection section="gallery" label="Gallery">
+          <Gallery gallery={content.gallery} />
+        </EditableSection>
+        <EditableSection section="obituaries" label="Obituary Column">
+          <Obituaries obituaries={content.obituaries} />
+        </EditableSection>
 
         <ParallaxBand image="/images/site/steeple.jpg" height="sm" strength={0.34} />
 
-        <HallPromo hall={content.hall} />
+        <EditableSection section="hall" label="Parish Hall">
+          <HallPromo hall={content.hall} />
+        </EditableSection>
         <Members stats={content.stats} />
         <Newsletter site={content.site} />
         <Contact site={content.site} />

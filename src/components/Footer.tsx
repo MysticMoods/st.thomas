@@ -53,7 +53,7 @@ export function Footer({
       <div className="h-px w-full bg-gold-line opacity-70" aria-hidden="true" />
 
       <div className="container relative py-20">
-        <div className="grid gap-12 lg:grid-cols-4 lg:gap-10">
+        <div className="grid gap-12 lg:grid-cols-[1.15fr_1.2fr_1fr_1.15fr] lg:gap-12">
           {/* identity */}
           <div className="lg:col-span-1">
             <ParishEmblem variant="gold" className="h-16 w-16" />
@@ -69,14 +69,14 @@ export function Footer({
             <div className="mt-6 flex flex-col gap-2 font-sans text-sm">
               <a
                 href={telHref(site.contact.phone)}
-                className="flex items-center gap-2.5 text-stone-300 transition-colors hover:text-gold-300"
+                className="flex min-h-[40px] items-center gap-2.5 text-stone-300 transition-colors hover:text-gold-300"
               >
                 <Icon name="phone" className="h-4 w-4 text-gold-500/80" />
                 {site.contact.phone}
               </a>
               <a
                 href={`mailto:${site.contact.email}`}
-                className="flex items-center gap-2.5 break-all text-stone-300 transition-colors hover:text-gold-300"
+                className="flex min-h-[40px] items-center gap-2.5 break-words text-stone-300 transition-colors hover:text-gold-300"
               >
                 <Icon name="mail" className="h-4 w-4 text-gold-500/80" />
                 {site.contact.email}
@@ -89,12 +89,12 @@ export function Footer({
             <h4 className="font-sans text-2xs uppercase tracking-[0.24em] text-gold-400">
               {t(ui.footer.quickLinks)}
             </h4>
-            <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 lg:grid-cols-1">
+            <ul className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="font-sans text-sm text-stone-400 transition-colors hover:text-gold-200"
+                    className="-my-1 inline-flex min-h-[36px] items-center font-sans text-sm text-stone-400 transition-colors hover:text-gold-200"
                   >
                     {t(link.label)}
                   </a>
@@ -111,14 +111,14 @@ export function Footer({
             <ul className="mt-6 flex flex-col gap-3">
               {sunday?.entries.map((entry) => (
                 <li key={entry.time} className="flex gap-3 font-sans text-sm">
-                  <span className="w-20 shrink-0 tabular-nums text-gold-300">{entry.time}</span>
+                  <span className="w-[4.75rem] shrink-0 tabular-nums text-gold-300">{entry.time}</span>
                   <span className="text-stone-400">{t(entry.label)}</span>
                 </li>
               ))}
             </ul>
             <a
               href="/#mass-timings"
-              className="mt-5 inline-flex items-center gap-2 font-sans text-2xs uppercase tracking-[0.16em] text-gold-400 transition-colors hover:text-gold-200"
+              className="mt-3 inline-flex min-h-[36px] items-center gap-2 font-sans text-2xs uppercase tracking-[0.16em] text-gold-400 transition-colors hover:text-gold-200"
             >
               {t(ui.common.viewAll)}
               <Icon name="arrowRight" className="h-3.5 w-3.5" />
@@ -181,13 +181,16 @@ export function Footer({
             © {year} {t(site.parish.name)}, {t(site.parish.place)}. {t(ui.footer.rights)}
           </p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            <Link href="/privacy" className="transition-colors hover:text-gold-300">
+            <Link href="/privacy" className="inline-flex min-h-[36px] items-center transition-colors hover:text-gold-300">
               {t(ui.footer.privacy)}
             </Link>
-            <Link href="/credits" className="transition-colors hover:text-gold-300">
+            <Link href="/credits" className="inline-flex min-h-[36px] items-center transition-colors hover:text-gold-300">
               {t(ui.footer.credits)}
             </Link>
-            <Link href="/admin" className="transition-colors hover:text-gold-300">
+            <Link
+              href="/admin"
+              className="inline-flex min-h-[36px] items-center transition-colors hover:text-gold-300"
+            >
               {t(ui.footer.admin)}
             </Link>
           </div>

@@ -62,8 +62,11 @@ export async function POST(request: Request) {
 
   const date = clean(body.date, 10)
   const session = clean(body.session, 40)
+  const hallId = clean(body.hall, 40)
+  const room = hall.halls.find((entry) => entry.id === hallId)
   const record = {
     id: `hb${Date.now().toString(36)}`,
+    hall: hallId,
     date,
     session,
     status: 'pending' as const,
@@ -72,10 +75,11 @@ export async function POST(request: Request) {
     phone: clean(body.phone, MAX.phone),
     purpose: clean(body.purpose, MAX.purpose),
     guests: Math.max(0, Math.min(2000, Number(body.guests) || 0)),
+    // Only the extras this particular room can actually offer.
     amenities: Array.isArray(body.amenities)
       ? body.amenities
           .map((id) => clean(id, 40))
-          .filter((id) => hall.amenities.some((amenity) => amenity.id === id))
+          .filter((id) => room?.amenities.includes(id))
       : [],
     message: clean(body.message, MAX.message),
     at: new Date().toISOString(),
@@ -86,6 +90,10 @@ export async function POST(request: Request) {
       { error: 'Name, phone number and a valid email address are needed.' },
       { status: 422 },
     )
+  }
+
+  if (!room) {
+    return NextResponse.json({ error: 'Choose one of the halls.' }, { status: 422 })
   }
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !hall.sessions.some((s) => s.id === session)) {
@@ -105,9 +113,9 @@ export async function POST(request: Request) {
   // Re-read the calendar here rather than trusting what the page believed: two
   // families can be filling the form for the same Saturday at the same moment.
   const calendar = await readCalendar(hall)
-  if (!isFree(calendar[date], session)) {
+  if (!isFree(hall, calendar, hallId, date, session)) {
     return NextResponse.json(
-      { error: 'That session has just been taken. Please choose another date.', taken: true },
+      { error: 'That hall has just been taken for this session. Please choose another date.', taken: true },
       { status: 409 },
     )
   }

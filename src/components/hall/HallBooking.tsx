@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import type { HallCalendar as Calendar } from '@/lib/hall'
+import { isFree, rentOf } from '@/lib/hall'
+import { useAdminMode } from '@/components/admin/AdminMode'
 import { useLang } from '@/lib/i18n'
-import type { DayState } from '@/lib/hall'
-import { isFree } from '@/lib/hall'
 import type { HallContent } from '@/lib/types'
 import { cn, formatDate, formatNumber, isEmail } from '@/lib/utils'
 
@@ -12,20 +13,25 @@ import { Icon } from '../ui/Icon'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
 import { HallCalendar } from './HallCalendar'
+import { HallSlotManager } from './HallSlotManager'
 
 type Availability = {
-  calendar: Record<string, DayState>
+  calendar: Calendar
   window: { first: string; last: string }
 }
 
 /**
- * Pick a day, pick a session, tick what is needed, send. The parish office then
- * rings back — no money changes hands on the site.
+ * Pick a hall, a day and a session, tick what is needed, send. The parish
+ * office then rings back — no money changes hands on the site.
  */
 export function HallBooking({ hall }: { hall: HallContent }) {
   const { t, lang } = useLang()
+  const { isAdmin } = useAdminMode()
+  // The day staff opened from the calendar, to manage rather than to request.
+  const [managing, setManaging] = useState('')
 
   const [availability, setAvailability] = useState<Availability | null>(null)
+  const [roomId, setRoomId] = useState(hall.halls[0]?.id ?? '')
   const [session, setSession] = useState(hall.sessions[0]?.id ?? 'morning')
   const [date, setDate] = useState('')
   const [amenities, setAmenities] = useState<string[]>([])
@@ -46,19 +52,34 @@ export function HallBooking({ hall }: { hall: HallContent }) {
     load()
   }, [load])
 
-  // Changing session can invalidate the chosen day — a hall taken all morning
-  // is still free in the evening, and the other way round.
-  useEffect(() => {
-    if (date && availability && !isFree(availability.calendar[date], session)) setDate('')
-  }, [session, date, availability])
+  const room = hall.halls.find((entry) => entry.id === roomId)
 
-  const rent = hall.sessions.find((entry) => entry.id === session)?.rent ?? 0
+  // Changing room or session can invalidate the chosen day — the large hall may
+  // be taken all morning while the small room stands empty.
+  useEffect(() => {
+    if (date && availability && !isFree(hall, availability.calendar, roomId, date, session)) {
+      setDate('')
+    }
+  }, [hall, roomId, session, date, availability])
+
+  // Only what this room can offer: the small hall has no air conditioning to
+  // charge for, so it must not appear on its form.
+  const offered = useMemo(
+    () => hall.amenities.filter((amenity) => room?.amenities.includes(amenity.id)),
+    [hall.amenities, room],
+  )
+
+  useEffect(() => {
+    setAmenities((current) => current.filter((id) => room?.amenities.includes(id)))
+  }, [room])
+
+  const rent = rentOf(room, session)
   const extras = useMemo(
     () =>
-      hall.amenities
+      offered
         .filter((amenity) => amenities.includes(amenity.id))
         .reduce((sum, amenity) => sum + amenity.rate, 0),
-    [amenities, hall.amenities],
+    [amenities, offered],
   )
 
   const toggle = (id: string) =>
@@ -69,12 +90,22 @@ export function HallBooking({ hall }: { hall: HallContent }) {
   async function submit(event: React.FormEvent) {
     event.preventDefault()
     if (!date) {
-      setError(t({ en: 'Choose a free day on the calendar first.', ml: 'ആദ്യം കലണ്ടറിൽ ഒഴിവുള്ള ഒരു ദിവസം തിരഞ്ഞെടുക്കുക.' }))
+      setError(
+        t({
+          en: 'Choose a free day on the calendar first.',
+          ml: 'ആദ്യം കലണ്ടറിൽ ഒഴിവുള്ള ഒരു ദിവസം തിരഞ്ഞെടുക്കുക.',
+        }),
+      )
       setStatus('error')
       return
     }
     if (!form.name.trim() || !form.phone.trim() || !isEmail(form.email)) {
-      setError(t({ en: 'Name, phone number and a valid email address are needed.', ml: 'പേര്, ഫോൺ നമ്പർ, ശരിയായ ഇമെയിൽ വിലാസം എന്നിവ ആവശ്യമാണ്.' }))
+      setError(
+        t({
+          en: 'Name, phone number and a valid email address are needed.',
+          ml: 'പേര്, ഫോൺ നമ്പർ, ശരിയായ ഇമെയിൽ വിലാസം എന്നിവ ആവശ്യമാണ്.',
+        }),
+      )
       setStatus('error')
       return
     }
@@ -85,7 +116,14 @@ export function HallBooking({ hall }: { hall: HallContent }) {
       const res = await fetch('/api/hall/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, guests: Number(form.guests) || 0, date, session, amenities }),
+        body: JSON.stringify({
+          ...form,
+          guests: Number(form.guests) || 0,
+          hall: roomId,
+          date,
+          session,
+          amenities,
+        }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Could not send the request')
@@ -101,10 +139,8 @@ export function HallBooking({ hall }: { hall: HallContent }) {
     }
   }
 
-  const field = 'field'
-
   return (
-    <section id="book" className="section bg-[rgb(var(--page-alt))]">
+    <section id="book" className="section bg-[rgb(var(--page))]">
       <div className="container">
         <SectionHeading
           eyebrow={{ en: 'Availability', ml: 'ലഭ്യത' }}
@@ -112,8 +148,39 @@ export function HallBooking({ hall }: { hall: HallContent }) {
           subtitle={hall.booking.note}
         />
 
+        {/* which hall */}
         <Reveal>
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {hall.halls.map((entry) => (
+              <button
+                key={entry.id}
+                id={`book-${entry.id}`}
+                type="button"
+                onClick={() => setRoomId(entry.id)}
+                aria-pressed={roomId === entry.id}
+                className={cn(
+                  'scroll-mt-32 rounded-sm border p-5 text-left transition-all duration-300',
+                  roomId === entry.id
+                    ? 'border-gold-400 bg-gold-400/10'
+                    : 'border-[rgb(var(--line))] hover:border-gold-300',
+                )}
+              >
+                <span className="block font-display text-lg text-[rgb(var(--ink))]">
+                  {t(entry.name)}
+                </span>
+                <span className="mt-1 block font-sans text-2xs text-[rgb(var(--muted))]">
+                  {formatNumber(entry.seated, lang)} {t({ en: 'seated', ml: 'ഇരുന്ന്' })}
+                  {entry.features.ac ? ` · ${t({ en: 'AC', ml: 'എസി' })}` : ''}
+                  {entry.features.stage ? ` · ${t({ en: 'stage', ml: 'വേദി' })}` : ''}
+                </span>
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* which session */}
+        <Reveal delay={0.05}>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
             {hall.sessions.map((entry) => (
               <button
                 key={entry.id}
@@ -131,22 +198,38 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                   {t(entry.label)}
                 </span>
                 <span className="mt-1 block font-sans text-2xs text-[rgb(var(--muted))]">
-                  {t(entry.hours)} · ₹{formatNumber(entry.rent, lang)}
+                  {t(entry.hours)} · ₹{formatNumber(rentOf(room, entry.id), lang)}
                 </span>
               </button>
             ))}
           </div>
         </Reveal>
 
-        <div className="mt-12">
+        {isAdmin ? (
+          <p className="mx-auto mt-8 max-w-2xl rounded-sm border border-gold-400/50 bg-gold-400/10 px-5 py-3 text-center font-sans text-2xs text-[rgb(var(--ink))]">
+            Parish office: click any day to see who has it, to write in a booking taken at the
+            counter, or to free a slot again.
+          </p>
+        ) : null}
+
+        <p className="mt-8 text-center font-sans text-2xs uppercase tracking-[0.16em] text-gold-600 dark:text-gold-400">
+          {t({ en: 'Showing', ml: 'കാണിക്കുന്നത്' })} {t(room?.name ?? { en: '', ml: '' })}
+          {room?.combines?.length
+            ? ` · ${t({ en: 'holds both halls', ml: 'രണ്ട് ഹാളുകളും ഒരുമിച്ച്' })}`
+            : ''}
+        </p>
+
+        <div className="mt-8">
           {availability ? (
             <HallCalendar
               hall={hall}
               calendar={availability.calendar}
               window={availability.window}
+              room={roomId}
               session={session}
               selected={date}
               onSelect={setDate}
+              onManage={isAdmin ? (day) => setManaging(day) : undefined}
             />
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -163,9 +246,13 @@ export function HallBooking({ hall }: { hall: HallContent }) {
               {t({ en: 'Your request', ml: 'നിങ്ങളുടെ അപേക്ഷ' })}
             </p>
             <p className="mt-3 font-serif text-xl text-[rgb(var(--ink))]">
+              {t(room?.name ?? { en: '', ml: '' })}
+              {' · '}
               {date
-                ? `${formatDate(date, lang)} · ${t(hall.sessions.find((s) => s.id === session)?.label ?? { en: '', ml: '' })}`
-                : t({ en: 'No day chosen yet', ml: 'ദിവസം തിരഞ്ഞെടുത്തിട്ടില്ല' })}
+                ? `${formatDate(date, lang)} · ${t(
+                    hall.sessions.find((s) => s.id === session)?.label ?? { en: '', ml: '' },
+                  )}`
+                : t({ en: 'no day chosen yet', ml: 'ദിവസം തിരഞ്ഞെടുത്തിട്ടില്ല' })}
             </p>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -174,7 +261,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                 <input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className={field}
+                  className="field"
                   required
                 />
               </label>
@@ -183,7 +270,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                 <input
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className={field}
+                  className="field"
                   required
                 />
               </label>
@@ -193,7 +280,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className={field}
+                  className="field"
                   required
                 />
               </label>
@@ -203,7 +290,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                   value={form.purpose}
                   onChange={(e) => setForm({ ...form, purpose: e.target.value })}
                   placeholder={t({ en: 'Wedding reception, meeting…', ml: 'വിവാഹ സ്വീകരണം, യോഗം…' })}
-                  className={field}
+                  className="field"
                 />
               </label>
               <label className="flex flex-col gap-2">
@@ -214,7 +301,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                   max={2000}
                   value={form.guests}
                   onChange={(e) => setForm({ ...form, guests: e.target.value })}
-                  className={`${field} tabular-nums`}
+                  className="field tabular-nums"
                 />
               </label>
             </div>
@@ -224,14 +311,16 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                 {t({ en: 'What will you need?', ml: 'എന്തൊക്കെ വേണം?' })}
               </legend>
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                {hall.amenities.map((amenity) => {
+                {offered.map((amenity) => {
                   const on = amenities.includes(amenity.id)
                   return (
                     <label
                       key={amenity.id}
                       className={cn(
                         'flex cursor-pointer items-start gap-3 rounded-sm border p-4 transition-colors duration-300',
-                        on ? 'border-gold-400 bg-gold-400/10' : 'border-[rgb(var(--line))] hover:border-gold-300',
+                        on
+                          ? 'border-gold-400 bg-gold-400/10'
+                          : 'border-[rgb(var(--line))] hover:border-gold-300',
                       )}
                     >
                       <input
@@ -252,6 +341,14 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                   )
                 })}
               </div>
+              {room && !room.features.ac ? (
+                <p className="mt-3 font-sans text-2xs text-[rgb(var(--muted))]">
+                  {t({
+                    en: 'This hall has no air conditioning and no stage.',
+                    ml: 'ഈ ഹാളിൽ എയർ കണ്ടീഷനിംഗോ വേദിയോ ഇല്ല.',
+                  })}
+                </p>
+              ) : null}
             </fieldset>
 
             <label className="mt-8 flex flex-col gap-2">
@@ -260,7 +357,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                 rows={4}
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className={`${field} resize-y`}
+                className="field resize-y"
               />
             </label>
 
@@ -269,14 +366,17 @@ export function HallBooking({ hall }: { hall: HallContent }) {
                 <p className="font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))]">
                   {t({ en: 'Indicative total', ml: 'ഏകദേശ തുക' })}
                 </p>
-                <p className="mt-1 font-display text-3xl text-[rgb(var(--ink))] tabular-nums">
+                <p className="mt-1 font-display text-3xl tabular-nums text-[rgb(var(--ink))]">
                   ₹{formatNumber(rent + extras, lang)}
                 </p>
                 <p className="mt-1 font-sans text-2xs text-[rgb(var(--muted))]">
                   {t({ en: 'Hall', ml: 'ഹാൾ' })} ₹{formatNumber(rent, lang)}
-                  {extras ? ` + ${t({ en: 'extras', ml: 'അധികം' })} ₹${formatNumber(extras, lang)}` : ''}
+                  {extras
+                    ? ` + ${t({ en: 'extras', ml: 'അധികം' })} ₹${formatNumber(extras, lang)}`
+                    : ''}
                   {' · '}
-                  {t({ en: 'advance', ml: 'അഡ്വാൻസ്' })} ₹{formatNumber(hall.booking.advance, lang)}
+                  {t({ en: 'advance', ml: 'അഡ്വാൻസ്' })} ₹
+                  {formatNumber(hall.booking.advance, lang)}
                 </p>
               </div>
 
@@ -298,7 +398,9 @@ export function HallBooking({ hall }: { hall: HallContent }) {
             ) : null}
 
             {status === 'error' && error ? (
-              <p className="mt-5 font-sans text-sm text-burgundy-600 dark:text-burgundy-300">{error}</p>
+              <p className="mt-5 font-sans text-sm text-burgundy-600 dark:text-burgundy-300">
+                {error}
+              </p>
             ) : null}
 
             <p className="mt-6 font-sans text-2xs leading-relaxed text-[rgb(var(--muted))]">
@@ -307,6 +409,17 @@ export function HallBooking({ hall }: { hall: HallContent }) {
           </div>
         </form>
       </div>
+
+      {managing ? (
+        <HallSlotManager
+          hall={hall}
+          room={roomId}
+          date={managing}
+          session={session}
+          onClose={() => setManaging('')}
+          onChanged={load}
+        />
+      ) : null}
     </section>
   )
 }

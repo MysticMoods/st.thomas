@@ -30,10 +30,13 @@ export function ObituaryCard({
   person,
   onOpen,
   compact = false,
+  priority = false,
 }: {
   person: Obituary
   onOpen: () => void
   compact?: boolean
+  /** True for the first card on the archive page — it is the largest paint. */
+  priority?: boolean
 }) {
   const { t, lang } = useLang()
 
@@ -53,6 +56,7 @@ export function ObituaryCard({
           wrapperClassName={cn('w-full', compact ? 'aspect-square' : 'aspect-[4/5]')}
           className="h-full w-full object-cover grayscale transition-[filter,transform] duration-[1200ms] ease-sacred group-hover:grayscale-[0.35]"
           zoom
+          priority={priority}
         />
         <span
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/10 to-transparent"
@@ -253,6 +257,7 @@ export function ObituaryArchive({ obituaries }: { obituaries: ObituariesContent 
           eyebrow={{ en: 'Parish Register', ml: 'ഇടവക രജിസ്റ്റർ' }}
           title={obituaries.title}
           subtitle={obituaries.subtitle}
+          level={1}
         />
 
         {years.length > 1 ? (

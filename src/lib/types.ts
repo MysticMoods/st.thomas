@@ -199,14 +199,31 @@ export type LeadershipContent = {
   }[]
 }
 
+export type HallRoom = {
+  id: string
+  name: L
+  blurb: L
+  /** Set on a room that is really two rooms with the partition folded back. */
+  combines?: string[]
+  seated: number
+  standing: number
+  features: { ac: boolean; generator: boolean; stage: boolean }
+  image: string
+  gallery: string[]
+  /** Rent per session id. */
+  rates: Record<string, number>
+  /** Ids from `amenities` that this room can actually offer. */
+  amenities: string[]
+}
+
 export type HallContent = {
   title: L
   subtitle: L
   image: string
-  gallery: string[]
+  halls: HallRoom[]
   facts: { label: L; value: L }[]
   /** A booking takes one of these. `full-day` covers the others. */
-  sessions: { id: string; label: L; hours: L; rent: number }[]
+  sessions: { id: string; label: L; hours: L }[]
   amenities: { id: string; label: L; note: L; rate: number }[]
   rules: L[]
   booking: {

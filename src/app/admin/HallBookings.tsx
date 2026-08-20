@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 
 type Booking = {
   id: string
+  hall: string
   date: string
   session: string
   status: 'pending' | 'confirmed' | 'declined'
@@ -27,6 +28,7 @@ export function HallBookings() {
   const [bookings, setBookings] = useState<Booking[] | null>(null)
   const [busy, setBusy] = useState('')
   const [filter, setFilter] = useState<'pending' | 'confirmed' | 'declined' | 'all'>('pending')
+  const [halls, setHalls] = useState<Record<string, string>>({})
 
   const load = useCallback(async () => {
     try {
@@ -40,6 +42,15 @@ export function HallBookings() {
 
   useEffect(() => {
     load()
+    // Names for the hall ids, so the list reads "Large Hall", not "large".
+    fetch('/api/admin/content/hall', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((json) => {
+        const rooms = json?.data?.halls
+        if (!Array.isArray(rooms)) return
+        setHalls(Object.fromEntries(rooms.map((room) => [room.id, room.name?.en ?? room.id])))
+      })
+      .catch(() => {})
   }, [load])
 
   async function decide(id: string, status: Booking['status']) {
@@ -120,7 +131,7 @@ export function HallBookings() {
                     year: 'numeric',
                   })}
                   <span className="ml-3 font-sans text-2xs uppercase tracking-[0.16em] text-gold-600 dark:text-gold-400">
-                    {booking.session}
+                    {halls[booking.hall] ?? booking.hall} · {booking.session}
                   </span>
                 </span>
                 <span

@@ -43,6 +43,19 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
+  /* Framer measures a scroll target against its positioned ancestor; with a
+     static <main> it warns on every parallax section. */
+  main {
+    position: relative;
+  }
+
+  /* Scroll offsets are measured against the scrolling element itself, which is
+     <html>; a static one makes framer-motion warn on every parallax section. */
+  html,
+  body {
+    position: relative;
+  }
+
 
   /* Malayalam needs a taller line box and its own face. */
   html[data-lang='ml'] body,
@@ -127,6 +140,16 @@
     @apply pt-[4.5rem] lg:pt-[7rem];
   }
 
+  /* With staff signed in, an admin strip sits above everything; the fixed
+     header and the pages that clear it both move down by its height. */
+  body[data-admin='true'] .site-header {
+    top: 2.75rem;
+  }
+
+  body[data-admin='true'] .page-body {
+    @apply pt-[7.25rem] lg:pt-[9.75rem];
+  }
+
   /* The first section on such a page needs far less air above it than a
      section arriving after another section does. */
   .section-first {
@@ -139,7 +162,7 @@
   }
 
   .eyebrow {
-    @apply font-sans text-2xs font-medium uppercase tracking-sacred text-gold-500 dark:text-gold-300 sm:text-xs;
+    @apply font-sans text-2xs font-medium uppercase tracking-sacred text-gold-600 dark:text-gold-300 sm:text-xs;
   }
 
   .heading-xl {
@@ -180,6 +203,7 @@
 
   .btn-primary {
     @apply btn bg-gold-400 text-navy-950 hover:bg-gold-300 hover:shadow-gold;
+    @apply disabled:cursor-not-allowed disabled:bg-gold-400/40 disabled:text-navy-950/60 disabled:shadow-none disabled:hover:bg-gold-400/40 disabled:hover:shadow-none;
   }
 
   .btn-ghost {

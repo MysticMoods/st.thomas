@@ -13,6 +13,7 @@ export function SectionHeading({
   align = 'center',
   tone = 'default',
   className,
+  level = 2,
 }: {
   eyebrow?: L | string
   title: L | string
@@ -20,6 +21,8 @@ export function SectionHeading({
   align?: 'center' | 'left'
   tone?: 'default' | 'invert'
   className?: string
+  /** 1 on a page whose first section is the page itself — /hall, /obituary. */
+  level?: 1 | 2
 }) {
   const { t } = useLang()
 
@@ -38,7 +41,11 @@ export function SectionHeading({
       ) : null}
 
       <Reveal delay={0.06}>
-        <h2 className={cn('heading-lg', tone === 'invert' && 'text-white')}>{t(title)}</h2>
+        {level === 1 ? (
+          <h1 className={cn('heading-lg', tone === 'invert' && 'text-white')}>{t(title)}</h1>
+        ) : (
+          <h2 className={cn('heading-lg', tone === 'invert' && 'text-white')}>{t(title)}</h2>
+        )}
       </Reveal>
 
       <Reveal delay={0.12}>

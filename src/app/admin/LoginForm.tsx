@@ -1,13 +1,11 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
 import { ParishEmblem } from '@/components/ui/ParishEmblem'
 
 export function LoginForm() {
-  const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
@@ -25,7 +23,12 @@ export function LoginForm() {
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Sign in failed')
-      router.refresh()
+
+      // Signing in puts the parish into administrative mode on the site itself.
+      // The dashboard is still one click away, from the strip along the top.
+      window.sessionStorage.setItem('stc-editing', 'on')
+      const next = new URLSearchParams(window.location.search).get('next')
+      window.location.href = next && next.startsWith('/') ? next : '/'
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Sign in failed')
       setBusy(false)

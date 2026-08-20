@@ -49,7 +49,7 @@ export default async function PrivacyPage() {
       <div className="container max-w-3xl py-24 sm:py-32">
         <Link
           href="/"
-          className="font-sans text-2xs uppercase tracking-[0.22em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+          className="inline-flex min-h-[40px] items-center font-sans text-2xs uppercase tracking-[0.22em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
         >
           ← {site.parish.name.en}
         </Link>
@@ -73,7 +73,10 @@ export default async function PrivacyPage() {
             <p className="mt-3 body-text">
               {site.contact.address.en}
               <br />
-              <a href={`mailto:${site.contact.email}`} className="text-gold-600 dark:text-gold-400">
+              <a
+                href={`mailto:${site.contact.email}`}
+                className="inline-flex min-h-[36px] items-center text-gold-600 dark:text-gold-400"
+              >
                 {site.contact.email}
               </a>{' '}
               · {site.contact.phone}

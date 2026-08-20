@@ -2,33 +2,38 @@
 
 import { useMemo } from 'react'
 
+import type { HallCalendar as Calendar } from '@/lib/hall'
+import { dateKey, dayTone } from '@/lib/hall'
+import { useAdminMode } from '@/components/admin/AdminMode'
 import { useLang } from '@/lib/i18n'
-import type { DayState } from '@/lib/hall'
-import { FULL_DAY, clashes, dateKey } from '@/lib/hall'
 import type { HallContent } from '@/lib/types'
 import { cn, formatNumber } from '@/lib/utils'
 
 type Props = {
   hall: HallContent
-  calendar: Record<string, DayState>
+  calendar: Calendar
   window: { first: string; last: string }
+  room: string
   session: string
   selected: string
   onSelect: (date: string) => void
+  /** Staff may click any day, taken or not, to manage it. */
+  onManage?: (date: string, tone: 'free' | 'held' | 'taken' | 'blocked') => void
 }
 
-/** How a day looks once every session that clashes has been counted. */
-function dayTone(state: DayState | undefined, session: string) {
-  if (!state) return 'free'
-  if (state[FULL_DAY] === 'blocked') return 'blocked'
-  const hits = Object.entries(state).filter(([taken]) => clashes(taken, session))
-  if (hits.length === 0) return 'free'
-  return hits.some(([, status]) => status === 'confirmed') ? 'taken' : 'held'
-}
-
-/** Twelve months from this one, drawn as a wall calendar the parish can read. */
-export function HallCalendar({ hall, calendar, window, session, selected, onSelect }: Props) {
+/** Twelve months from this one, drawn as a wall calendar for one room. */
+export function HallCalendar({
+  hall,
+  calendar,
+  window,
+  room,
+  session,
+  selected,
+  onSelect,
+  onManage,
+}: Props) {
   const { t, lang } = useLang()
+  const { isAdmin } = useAdminMode()
 
   const months = useMemo(() => {
     const start = new Date()
@@ -107,16 +112,24 @@ export function HallCalendar({ hall, calendar, window, session, selected, onSele
                   const date = new Date(year, month.getMonth(), i + 1)
                   const key = dateKey(date)
                   const outside = key < window.first || key > window.last
-                  const tone = dayTone(calendar[key], session)
+                  const tone = dayTone(hall, calendar, room, key, session)
                   const free = tone === 'free' && !outside
                   const isSelected = selected === key
+                  // Staff can open any day; a visitor can only take a free one.
+                  const clickable = free || (isAdmin && !!onManage && !outside)
 
                   return (
                     <button
                       key={key}
                       type="button"
-                      disabled={!free}
-                      onClick={() => onSelect(key)}
+                      disabled={!clickable}
+                      onClick={() => {
+                        if (isAdmin && onManage) {
+                          onManage(key, tone)
+                          return
+                        }
+                        onSelect(key)
+                      }}
                       aria-pressed={isSelected}
                       aria-label={`${key} — ${tone}`}
                       title={outside ? 'Outside the booking window' : tone}
@@ -126,9 +139,14 @@ export function HallCalendar({ hall, calendar, window, session, selected, onSele
                         !outside &&
                           tone === 'free' &&
                           'border-[rgb(var(--line))] text-[rgb(var(--ink))] hover:border-gold-400 hover:bg-gold-400/10',
-                        tone === 'held' && 'cursor-not-allowed border-gold-400/60 bg-gold-400/25 text-gold-700 dark:text-gold-200',
-                        tone === 'taken' && 'cursor-not-allowed border-burgundy-400/50 bg-burgundy-400/30 text-burgundy-700 dark:text-burgundy-200',
-                        tone === 'blocked' && 'cursor-not-allowed border-navy-400/50 bg-navy-500/30 text-navy-700 dark:text-stone-300',
+                        tone === 'held' &&
+                          'border-gold-400/60 bg-gold-400/25 text-gold-700 dark:text-gold-200',
+                        tone === 'taken' &&
+                          'border-burgundy-400/50 bg-burgundy-400/30 text-burgundy-700 dark:text-burgundy-200',
+                        tone === 'blocked' &&
+                          'border-navy-400/50 bg-navy-500/30 text-navy-700 dark:text-stone-300',
+                        // a taken day is dead to a visitor but live to staff
+                        tone !== 'free' && (clickable ? 'cursor-pointer' : 'cursor-not-allowed'),
                         isSelected && 'border-gold-400 bg-gold-400 text-navy-950 hover:bg-gold-400',
                       )}
                     >

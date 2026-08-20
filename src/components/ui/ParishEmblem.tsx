@@ -1,3 +1,6 @@
+'use client'
+
+import { useId } from 'react'
 import { cn } from '@/lib/utils'
 
 /**
@@ -14,7 +17,8 @@ export function ParishEmblem({
   className?: string
   variant?: 'line' | 'gold'
 }) {
-  const stroke = variant === 'gold' ? 'url(#emblem-gold)' : 'currentColor'
+  const gradientId = `emblem-gold-${useId().replace(/:/g, '')}`
+  const stroke = variant === 'gold' ? `url(#${gradientId})` : 'currentColor'
 
   return (
     <svg
@@ -25,7 +29,7 @@ export function ParishEmblem({
       fill="none"
     >
       <defs>
-        <linearGradient id="emblem-gold" x1="0" y1="0" x2="1" y2="1">
+        <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#E8D49F" />
           <stop offset="45%" stopColor="#C9A227" />
           <stop offset="100%" stopColor="#8E6F18" />
@@ -40,8 +44,12 @@ export function ParishEmblem({
         {/* pepper vine — twelve berries for the twelve apostles */}
         {Array.from({ length: 12 }).map((_, i) => {
           const angle = (i / 12) * Math.PI * 2 - Math.PI / 2
-          const x = 60 + Math.cos(angle) * 52.7
-          const y = 60 + Math.sin(angle) * 52.7
+          // Rounded, because the last digit of an unrounded float can differ
+          // between the server render and the browser, which React reports as a
+          // hydration mismatch.
+          const round = (value: number) => Math.round(value * 1000) / 1000
+          const x = round(60 + Math.cos(angle) * 52.7)
+          const y = round(60 + Math.sin(angle) * 52.7)
           return <circle key={i} cx={x} cy={y} r="1.7" fill={stroke} stroke="none" />
         })}
 

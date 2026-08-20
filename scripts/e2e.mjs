@@ -14,8 +14,17 @@ const results = []
 const ok = (n, c, extra = '') => results.push(`${c ? 'PASS' : 'FAIL'}  ${n}${extra ? ' — ' + extra : ''}`)
 
 const browser = await chromium.launch()
+// Booking and review endpoints are rate limited per address. Each run presents
+// a fresh one so the suite can be run repeatedly without tripping the limit that
+// protects the real site.
+const runAddress = `10.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}`
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+/** Headers for the rate-limited endpoints, so repeated runs never trip them. */
+const fromRunAddress = { 'x-forwarded-for': runAddress }
 const page = await ctx.newPage()
+// Confirmations ("free this slot?", "delete this entry?") are part of the flows
+// under test, so accept them rather than letting Playwright dismiss them.
+page.on('dialog', (dialog) => dialog.accept())
 const errors = []
 page.on('pageerror', (e) => errors.push(String(e)))
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()) })
@@ -188,7 +197,72 @@ ok('login rejects wrong user id', badUser.status() === 401)
 const noUser = await page.request.post('http://localhost:3000/api/admin/login', { data: { password: 'mangalassery1893' } })
 ok('login rejects missing user id', noUser.status() === 401)
 
+// the theme: what the toggle promises is what the page does
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(1800)
+const themeState = async () => page.evaluate(() => ({
+  dark: document.documentElement.classList.contains('dark'),
+  label: [...document.querySelectorAll('header button')]
+    .find((b) => /mode/i.test(b.getAttribute('aria-label') || ''))
+    ?.getAttribute('aria-label'),
+  page: getComputedStyle(document.body).getPropertyValue('--page').trim(),
+}))
+const themeBefore = await themeState()
+ok('the toggle offers the theme you are not in',
+   themeBefore.dark ? themeBefore.label === 'Light mode' : themeBefore.label === 'Dark mode',
+   `${themeBefore.dark ? 'dark' : 'light'} / "${themeBefore.label}"`)
+await page.evaluate(() => [...document.querySelectorAll('header button')]
+  .find((b) => /mode/i.test(b.getAttribute('aria-label') || '')).click())
+await page.waitForTimeout(800)
+const themeAfter = await themeState()
+ok('the toggle actually switches the theme', themeAfter.dark !== themeBefore.dark)
+ok('the palette follows the theme', themeAfter.page !== themeBefore.page,
+   `${themeBefore.page} -> ${themeAfter.page}`)
+// and the sections that should follow it, do
+const stuck = await page.evaluate((wantDark) => {
+  const lum = (c) => {
+    const [r, g, b] = (c.match(/[\d.]+/g) || []).slice(0, 3).map(Number)
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+  }
+  // sections painted from the palette, as opposed to the navy ones by design
+  return ['#notices', '#gallery', '#contact', '#members']
+    .map((id) => document.querySelector(id))
+    .filter(Boolean)
+    .filter((el) => (lum(getComputedStyle(el).backgroundColor) < 0.35) !== wantDark)
+    .map((el) => el.id)
+}, themeAfter.dark)
+ok('every palette section follows the theme', stuck.length === 0, stuck.join(', ') || 'all follow')
+// the stylesheet itself must be served — a stale server is what makes the page
+// look as though the theme broke
+const cssHref = await page.evaluate(() =>
+  [...document.querySelectorAll('link[rel=stylesheet]')].map((l) => l.getAttribute('href')).find((h) => h?.includes('/_next/')))
+ok('the stylesheet the page asks for is served',
+   cssHref ? (await page.request.get('http://localhost:3000' + cssHref)).ok() : false, String(cssHref))
+
+// the footer columns should end at roughly the same depth, not one long ribbon
+await page.setViewportSize({ width: 1400, height: 950 })
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2000)
+await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+await page.waitForTimeout(900)
+const footerCols = await page.$$eval('footer > div > div:first-child > *', (els) =>
+  els.map((el) => Math.round(el.getBoundingClientRect().height)),
+)
+const tallest = Math.max(...footerCols)
+const shortest = Math.min(...footerCols)
+ok('footer columns are balanced', tallest - shortest < 120,
+   `heights ${footerCols.join(', ')}`)
+ok('the footer address does not break mid-word', await page.evaluate(() => {
+  const mail = [...document.querySelectorAll('footer a')].find((a) => a.href.startsWith('mailto:'))
+  return !!mail && !/break-all/.test(mail.className)
+}))
+
 // the everyday sections sit on the banner, not behind the menu
+ok('a visitor never sees the admin strip',
+   (await page.locator('text=Signed in as parish staff').count()) === 0)
+ok('a visitor never sees an edit button',
+   (await page.locator('button:has-text("Edit ")').count()) === 0)
+
 await page.setViewportSize({ width: 1440, height: 950 })
 await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2200)
@@ -213,7 +287,8 @@ await page.locator('header button[aria-expanded]').click()
 await page.waitForTimeout(900)
 const drawer = await page.locator('[role=dialog]').innerText()
 ok('the menu opens at desktop width too', /hall/i.test(drawer))
-ok('the drawer offers the staff login', (await page.locator('[role=dialog] a[href="/admin"]').count()) > 0)
+ok('the drawer offers the staff login',
+   (await page.locator('[role=dialog] a[href^="/admin"]').count()) > 0)
 await page.keyboard.press('Escape')
 await page.waitForTimeout(600)
 
@@ -221,41 +296,105 @@ await page.waitForTimeout(600)
 await page.goto('http://localhost:3000/hall', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2500)
 ok('hall page opens', (await page.locator('h1, h2').first().count()) > 0)
-ok('hall lists what can be arranged', /air conditioning/i.test(await page.locator('main').innerText()))
-ok('hall shows a generator', /generator/i.test(await page.locator('main').innerText()))
+const hallText = await page.locator('main').innerText()
+for (const room of ['Small Hall', 'Medium Hall', 'Large Hall']) {
+  ok(`hall page describes the ${room}`, hallText.includes(room))
+}
+ok('the two large halls can be taken together', /together/i.test(hallText))
+ok('each hall has its own gallery', (await page.locator('#halls article button img').count()) >= 12,
+   `${await page.locator('#halls article button img').count()} thumbnails`)
+
+// the gallery opens and closes
+await page.locator('#halls article button').first().click()
+await page.waitForTimeout(900)
+ok('a hall gallery opens full screen', (await page.locator('[role=dialog]').count()) === 1)
+await page.keyboard.press('Escape')
+await page.waitForTimeout(700)
+ok('the gallery closes on Escape', (await page.locator('[role=dialog]').count()) === 0)
+
+// picking a hall changes what can be asked for: the small hall has no AC
+await page.locator('button:has-text("Small Hall")').last().click()
+await page.waitForTimeout(700)
+const smallExtras = await page.locator('#book fieldset label').allInnerTexts()
+ok('the small hall offers no air conditioning to tick',
+   !smallExtras.some((label) => /air conditioning/i.test(label)), `${smallExtras.length} extras`)
+ok('the small hall says why', /no air conditioning and no stage/i.test(await page.locator('#book').innerText()))
+await page.locator('button:has-text("Large Hall")').last().click()
+await page.waitForTimeout(700)
+const largeExtras = await page.locator('#book fieldset label').allInnerTexts()
+ok('the large hall does offer air conditioning',
+   largeExtras.some((label) => /air conditioning/i.test(label)), `${largeExtras.length} extras`)
+
 const monthCards = await page.locator('#book .grid > div').count()
 ok('hall calendar covers the year', monthCards >= 12, `${monthCards} months`)
 ok('hall calendar marks days that cannot be taken',
    (await page.locator('#book button[disabled]').count()) > 0)
 
-// a free day, one session, two amenities, sent through the real API
+// two halls, one evening: the rooms are independent, the combined room is not
 const hallDate = await page.evaluate(() => {
   const day = new Date()
   day.setDate(day.getDate() + 45)
   return day.toISOString().slice(0, 10)
 })
-const booked = await page.request.post('http://localhost:3000/api/hall/book', {
+const bookLarge = await page.request.post('http://localhost:3000/api/hall/book', {
+  headers: fromRunAddress,
   data: {
-    date: hallDate, session: 'full-day', name: 'E2E Family', phone: '+91 90000 00000',
+    hall: 'large', date: hallDate, session: 'full-day', name: 'E2E Family', phone: '+91 90000 00000',
     email: 'e2e@example.com', purpose: 'Test booking', guests: 120,
     amenities: ['ac', 'generator'], message: 'Sent by the e2e suite.',
   },
 })
-ok('hall booking request is accepted', booked.ok(), `status=${booked.status()}`)
-const bookedId = booked.ok() ? (await booked.json()).id : ''
+ok('a hall booking request is accepted', bookLarge.ok(), `status=${bookLarge.status()}`)
 
 const avail = await (await page.request.get('http://localhost:3000/api/hall/availability')).json()
-ok('the booked day shows as held on the public calendar', avail.calendar?.[hallDate]?.['full-day'] === 'pending')
+ok('the booked room shows as held on the public calendar',
+   avail.calendar?.large?.[hallDate]?.['full-day'] === 'pending')
+ok('the other halls stay free that day', !avail.calendar?.small?.[hallDate])
 
-const clash = await page.request.post('http://localhost:3000/api/hall/book', {
-  data: { date: hallDate, session: 'morning', name: 'Second', phone: '1', email: 'two@example.com' },
+const bookMedium = await page.request.post('http://localhost:3000/api/hall/book', {
+  headers: fromRunAddress,
+  data: { hall: 'medium', date: hallDate, session: 'evening', name: 'Second', phone: '2', email: 'two@example.com' },
 })
-ok('a clashing session is refused', clash.status() === 409)
+ok('a different hall the same day is allowed', bookMedium.ok(), `status=${bookMedium.status()}`)
+
+const bookBoth = await page.request.post('http://localhost:3000/api/hall/book', {
+  headers: fromRunAddress,
+  data: { hall: 'medium-large', date: hallDate, session: 'morning', name: 'Third', phone: '3', email: 'three@example.com' },
+})
+ok('taking both halls is refused once one is taken', bookBoth.status() === 409)
 
 ok('availability never leaks who booked',
    !JSON.stringify(avail).includes('e2e@example.com') && !JSON.stringify(avail).includes('E2E Family'))
 ok('hall bookings are not readable when signed out',
    (await page.request.get('http://localhost:3000/api/admin/hall')).status() === 401)
+
+// reviews — written by anyone, published by the parish
+ok('the hall page invites a review',
+   (await page.locator('#reviews button:has-text("Write a review")').count()) === 1)
+const sentReview = await page.request.post('http://localhost:3000/api/hall/reviews', {
+  headers: fromRunAddress,
+  data: {
+    hall: 'large', rating: 5, name: 'E2E Reviewer', occasion: 'Test event',
+    message: 'The suite wrote this review to check the moderation queue.',
+  },
+})
+ok('a review can be sent', sentReview.ok(), `status=${sentReview.status()}`)
+const reviewId = sentReview.ok() ? (await sentReview.json()).id : ''
+const beforePublish = await (await page.request.get('http://localhost:3000/api/hall/reviews')).json()
+ok('an unpublished review is not shown to visitors',
+   !JSON.stringify(beforePublish).includes('E2E Reviewer'))
+ok('a rating outside one to five is refused',
+   (await page.request.post('http://localhost:3000/api/hall/reviews', {
+     headers: fromRunAddress,
+     data: { hall: 'large', rating: 9, name: 'X', message: 'Nine stars for this hall.' },
+   })).status() === 422)
+ok('a review for a hall that does not exist is refused',
+   (await page.request.post('http://localhost:3000/api/hall/reviews', {
+     headers: fromRunAddress,
+     data: { hall: 'ballroom', rating: 5, name: 'X', message: 'A hall that is not ours.' },
+   })).status() === 422)
+ok('reviews are not moderatable when signed out',
+   (await page.request.get('http://localhost:3000/api/admin/hall-reviews')).status() === 401)
 
 // ---- admin round trip
 await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
@@ -264,7 +403,18 @@ await page.fill('#admin-username', 'Vicar')
 await page.fill('#admin-password', 'mangalassery1893')
 await page.click('button[type=submit]')
 await page.waitForTimeout(3500)
-ok('admin signs in (user id case-insensitive)', (await page.locator('text=Parish Dashboard').count()) > 0 && (await page.locator('#admin-password').count()) === 0)
+// Signing in now returns staff to the site in administrative mode, not to the
+// dashboard, so that is what the redirect should show.
+ok('signing in returns to the site in admin mode',
+   new URL(page.url()).pathname === '/' &&
+   (await page.evaluate(() => document.body.dataset.admin)) === 'true',
+   page.url())
+
+await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2600)
+ok('the dashboard is still there for bulk work',
+   (await page.locator('text=Parish Dashboard').count()) > 0 &&
+   (await page.locator('#admin-password').count()) === 0)
 
 await page.click('button:has-text("Inbox, Gifts & Subscribers")')
 await page.waitForTimeout(1600)
@@ -294,19 +444,92 @@ ok('admin restores original value', String(restored.data.items[0].value) === ori
 const hallList = await (await page.request.get('http://localhost:3000/api/admin/hall')).json()
 ok('the dashboard lists hall requests', Array.isArray(hallList.bookings) && hallList.bookings.length > 0)
 const mine = hallList.bookings.find((entry) => entry.email === 'e2e@example.com')
-ok('the request carries the amenities that were ticked',
-   !!mine && mine.amenities.includes('ac') && mine.amenities.includes('generator'))
+ok('the request carries the hall and the amenities that were ticked',
+   !!mine && mine.hall === 'large' && mine.amenities.includes('ac') && mine.amenities.includes('generator'))
 const confirmed = await page.request.patch('http://localhost:3000/api/admin/hall', {
   data: { id: mine?.id, status: 'confirmed' },
 })
 ok('a request can be confirmed', confirmed.ok())
 const afterConfirm = await (await page.request.get('http://localhost:3000/api/hall/availability')).json()
-ok('confirming blocks the day publicly', afterConfirm.calendar?.[mine?.date]?.['full-day'] === 'confirmed')
+ok('confirming blocks that room publicly', afterConfirm.calendar?.large?.[mine?.date]?.['full-day'] === 'confirmed')
 const declined = await page.request.patch('http://localhost:3000/api/admin/hall', {
   data: { id: mine?.id, status: 'declined' },
 })
-ok('declining frees the day again', declined.ok() &&
-   !(await (await page.request.get('http://localhost:3000/api/hall/availability')).json()).calendar?.[mine?.date])
+ok('declining frees the room again', declined.ok() &&
+   !(await (await page.request.get('http://localhost:3000/api/hall/availability')).json())
+     .calendar?.large?.[mine?.date])
+
+// the office publishes the review the suite wrote, then removes it again
+const published = await page.request.patch('http://localhost:3000/api/admin/hall-reviews', {
+  data: { id: reviewId, status: 'published' },
+})
+ok('a review can be published', published.ok())
+const afterPublish = await (await page.request.get('http://localhost:3000/api/hall/reviews')).json()
+ok('a published review reaches the hall page',
+   JSON.stringify(afterPublish).includes('E2E Reviewer'))
+const removed = await page.request.delete('http://localhost:3000/api/admin/hall-reviews', {
+  data: { id: reviewId },
+})
+ok('a review can be deleted', removed.ok())
+ok('the deleted review is gone from the page',
+   !JSON.stringify(await (await page.request.get('http://localhost:3000/api/hall/reviews')).json())
+     .includes('E2E Reviewer'))
+
+// admin mode — the site itself becomes the editor once staff are signed in
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2200)
+ok('the site shows an admin strip to signed-in staff',
+   (await page.evaluate(() => document.body.dataset.admin)) === 'true')
+// signing in leaves editing switched on, and the strip can turn it off again
+const editButtons = await page.locator('button').filter({ hasText: /^Edit / }).count()
+ok('every section carries an edit button', editButtons >= 15, `${editButtons} buttons`)
+await page.click('button:has-text("Done editing")')
+await page.waitForTimeout(800)
+ok('turning editing off clears the buttons',
+   (await page.locator('button:has-text("Edit Notice Board")').count()) === 0)
+await page.click('button:has-text("Edit this page")')
+await page.waitForTimeout(800)
+ok('turning it back on restores them',
+   (await page.locator('button:has-text("Edit Notice Board")').count()) === 1)
+await page.click('button:has-text("Edit Notice Board")')
+await page.waitForTimeout(1800)
+ok('a section opens for editing in place', (await page.locator('[role=dialog]').count()) === 1)
+ok('the editor names the file it writes',
+   /content\/notices\.json/.test(await page.locator('[role=dialog]').innerText()))
+await page.click('[role=dialog] button:has-text("Close")')
+await page.waitForTimeout(700)
+
+// the hall diary: a booking taken at the counter, written straight into the calendar
+await page.goto('http://localhost:3000/hall', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2500)
+ok('staff are told they can manage the calendar',
+   /click any day/i.test(await page.locator('#book').innerText()))
+const freeDay = page.locator('#book button[aria-label*="free"]:not([disabled])').first()
+const freeLabel = (await freeDay.getAttribute('aria-label')) ?? ''
+await freeDay.click()
+await page.waitForTimeout(1200)
+ok('clicking a day opens the parish office diary',
+   /hall diary/i.test(await page.locator('[role=dialog]').innerText()))
+await page.fill('input[placeholder="Family or group"]', 'E2E walk-in')
+await page.click('button:has-text("Book this slot")')
+await page.waitForTimeout(2000)
+ok('an offline booking is written in and confirmed',
+   /E2E walk-in/.test(await page.locator('[role=dialog]').innerText()) &&
+   /confirmed/i.test(await page.locator('[role=dialog]').innerText()))
+const offlineDate = freeLabel.split(' ')[0]
+const afterOffline = await (await page.request.get('http://localhost:3000/api/hall/availability')).json()
+ok('the offline booking closes that session publicly',
+   !!afterOffline.calendar?.small?.[offlineDate], `date ${offlineDate}`)
+await page.click('button:has-text("Free this slot")')
+await page.waitForTimeout(1800)
+const afterFree = await (await page.request.get('http://localhost:3000/api/hall/availability')).json()
+ok('freeing the slot opens the day again', !afterFree.calendar?.small?.[offlineDate])
+await page.keyboard.press('Escape')
+await page.waitForTimeout(600)
+
+// back to the dashboard for the rest of the admin checks
+await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2600)
 
 // dashboard ergonomics — the parish should not be typing raw ids or ISO dates
 await page.click('button:has-text("Notice Board")')

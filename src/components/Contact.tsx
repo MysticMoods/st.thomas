@@ -100,7 +100,7 @@ export function Contact({ site }: { site: SiteContent }) {
                     <dd className="mt-1.5">
                       <a
                         href={`mailto:${site.contact.email}`}
-                        className="break-all font-serif text-lg text-[rgb(var(--ink))] transition-colors hover:text-gold-600"
+                        className="break-words font-serif text-base text-[rgb(var(--ink))] transition-colors hover:text-gold-600"
                       >
                         {site.contact.email}
                       </a>

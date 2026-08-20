@@ -9,7 +9,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test:e2e": "node scripts/e2e.mjs",
-    "images": "python scripts/curate-images.py"
+    "images": "python scripts/curate-images.py",
+    "restart": "node scripts/restart.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",

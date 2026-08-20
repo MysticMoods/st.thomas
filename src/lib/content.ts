@@ -61,15 +61,41 @@ async function backup(key: ContentKey) {
  * is written to a temporary file and renamed into place — a crash mid-write can
  * never leave a half-written, unparseable content file behind.
  */
+/**
+ * Writes JSON where a half-written file would be worse than a slow one.
+ *
+ * The write goes to a temporary file and is renamed into place, which is atomic
+ * on a normal filesystem. On Windows the rename can fail with EPERM while
+ * something else holds the file open for a moment — OneDrive syncing this
+ * folder, a virus scanner, a concurrent reader — so it is retried, and only
+ * then does it fall back to writing in place.
+ */
+export async function writeJson(target: string, data: unknown): Promise<void> {
+  const body = `${JSON.stringify(data, null, 2)}
+`
+  const temp = `${target}.${process.pid}.${Math.random().toString(36).slice(2, 8)}.tmp`
+  await fs.writeFile(temp, body, 'utf-8')
+
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    try {
+      await fs.rename(temp, target)
+      return
+    } catch {
+      await new Promise((resolve) => setTimeout(resolve, 40 * (attempt + 1)))
+    }
+  }
+
+  // The rename never got through. Write straight to the file — the rolling
+  // backup taken beforehand is the safety net if this one is interrupted.
+  await fs.writeFile(target, body, 'utf-8')
+  await fs.rm(temp, { force: true })
+}
+
 export async function writeContent(key: ContentKey, data: unknown): Promise<void> {
   if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
 
   await backup(key)
-
-  const target = file(key)
-  const temp = `${target}.${process.pid}.tmp`
-  await fs.writeFile(temp, JSON.stringify(data, null, 2) + '\n', 'utf-8')
-  await fs.rename(temp, target)
+  await writeJson(file(key), data)
 }
 
 /** Loads every content file for the public site. */
@@ -131,7 +157,12 @@ export async function getContent(): Promise<Content> {
 }
 
 /** Runtime lists written by the public forms, not by the dashboard editor. */
-export type RecordList = 'subscribers' | 'messages' | 'donations' | 'hall-bookings'
+export type RecordList =
+  | 'subscribers'
+  | 'messages'
+  | 'donations'
+  | 'hall-bookings'
+  | 'hall-reviews'
 
 /** Appends a record to a small JSON list under content/. */
 export async function appendRecord(name: RecordList, record: unknown) {
@@ -144,7 +175,7 @@ export async function appendRecord(name: RecordList, record: unknown) {
     list = []
   }
   list.unshift(record)
-  await fs.writeFile(target, JSON.stringify(list.slice(0, 2000), null, 2) + '\n', 'utf-8')
+  await writeJson(target, list.slice(0, 2000))
 }
 
 export async function readRecords(name: RecordList) {

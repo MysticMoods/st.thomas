@@ -89,7 +89,7 @@ export function About({ about, site }: { about: AboutContent; site: SiteContent 
                         href={site.contact.mapLink}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="ml-3 inline-flex items-center gap-1 align-middle font-sans text-2xs uppercase tracking-[0.14em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+                        className="ml-3 inline-flex min-h-[36px] items-center gap-1 align-middle font-sans text-2xs uppercase tracking-[0.14em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
                       >
                         {t({ en: 'Map', ml: 'ഭൂപടം' })}
                         <Icon name="mapPin" className="h-3 w-3" />

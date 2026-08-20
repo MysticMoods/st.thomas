@@ -31,7 +31,7 @@ export default async function CreditsPage() {
       <div className="container max-w-4xl py-24 sm:py-32">
         <Link
           href="/"
-          className="font-sans text-2xs uppercase tracking-[0.22em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+          className="inline-flex min-h-[40px] items-center font-sans text-2xs uppercase tracking-[0.22em] text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
         >
           ← St. Thomas Church
         </Link>
@@ -76,7 +76,7 @@ export default async function CreditsPage() {
                       href={credit.origin}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="text-gold-600 hover:underline dark:text-gold-400"
+                      className="inline-flex min-h-[36px] items-center text-gold-600 hover:underline dark:text-gold-400"
                     >
                       {credit.source}
                     </a>

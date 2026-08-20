@@ -5,6 +5,9 @@ const nextConfig = {
   compress: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    /* The qualities the site actually asks for. Next 16 requires them to be
+       declared; without this every image logs a warning. */
+    qualities: [75, 80, 85, 88],
     deviceSizes: [360, 480, 640, 828, 1080, 1280, 1600, 1920, 2560, 3840],
     imageSizes: [96, 160, 240, 320, 420, 560],
     remotePatterns: [

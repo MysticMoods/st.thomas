@@ -1,13 +1,11 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 import { useLang } from '@/lib/i18n'
 import type { HallContent } from '@/lib/types'
 import { formatNumber } from '@/lib/utils'
 
 import { Icon } from '../ui/Icon'
-import { Reveal, StaggerGroup, staggerItem } from '../ui/Reveal'
+import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
 import { SmartImage } from '../ui/SmartImage'
 
@@ -21,6 +19,7 @@ export function HallIntro({ hall }: { hall: HallContent }) {
           eyebrow={{ en: 'For your gathering', ml: 'നിങ്ങളുടെ ഒത്തുചേരലിന്' }}
           title={hall.title}
           subtitle={hall.subtitle}
+          level={1}
         />
 
         <Reveal>
@@ -30,6 +29,7 @@ export function HallIntro({ hall }: { hall: HallContent }) {
               alt={t(hall.title)}
               width={1440}
               height={810}
+              priority
               sizes="100vw"
               wrapperClassName="aspect-[16/9] w-full"
               className="h-full w-full object-cover"
@@ -37,20 +37,7 @@ export function HallIntro({ hall }: { hall: HallContent }) {
           </div>
         </Reveal>
 
-        <StaggerGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {hall.facts.map((fact) => (
-            <motion.div
-              key={t(fact.label)}
-              variants={staggerItem}
-              className="card p-6"
-            >
-              <p className="eyebrow">{t(fact.label)}</p>
-              <p className="mt-3 font-serif text-lg text-[rgb(var(--ink))]">{t(fact.value)}</p>
-            </motion.div>
-          ))}
-        </StaggerGroup>
-
-        <div className="mt-16 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+        <div className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
           <div>
             <h2 className="heading-md">{t({ en: 'What can be arranged', ml: 'എന്തൊക്കെ ക്രമീകരിക്കാം' })}</h2>
             <span className="mt-5 block gold-rule" aria-hidden="true" />
@@ -87,8 +74,8 @@ export function HallIntro({ hall }: { hall: HallContent }) {
               ))}
             </ul>
 
-            <a href="#book" className="btn-primary mt-9">
-              {t({ en: 'See free days', ml: 'ഒഴിവുള്ള ദിവസങ്ങൾ കാണുക' })}
+            <a href="#halls" className="btn-primary mt-9">
+              {t({ en: 'See the three halls', ml: 'മൂന്ന് ഹാളുകൾ കാണുക' })}
               <Icon name="arrowRight" className="h-4 w-4" />
             </a>
           </div>

@@ -45,6 +45,22 @@ npm start
 
 Same two URLs. Faster, images optimised, service worker active.
 
+### Changing code while the site is running
+
+Use one command:
+
+```bash
+npm run restart
+```
+
+It stops the server, clears `.next`, rebuilds and starts again.
+
+Running `npm run build` **while `npm start` is still running** is the one way to
+break the site without touching the code: the fresh HTML asks for a stylesheet
+the running process no longer has, the browser gets a 400, and the page paints
+with no styles at all — dark blocks, oversized images, the light/dark theme
+apparently stuck. If you ever see that, `npm run restart` puts it right.
+
 ---
 
 ## Other commands

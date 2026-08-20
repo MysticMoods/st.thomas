@@ -17,9 +17,6 @@ export async function GET() {
   const calendar = await readCalendar(hall)
   const window = bookingWindow(hall)
 
-  const reasons: Record<string, string> = {}
-  for (const day of hall.blocked) reasons[day.date] = day.reason.en
-
   return NextResponse.json({ calendar, window, blocked: hall.blocked }, {
     headers: { 'Cache-Control': 'no-store' },
   })

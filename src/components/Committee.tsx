@@ -144,7 +144,7 @@ function OfficerCard({ member }: { member: CommitteeMember }) {
           {member.phone ? (
             <a
               href={telHref(member.phone)}
-              className="flex items-center gap-1.5 font-sans text-2xs text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+              className="-my-2 flex min-h-[40px] items-center gap-1.5 font-sans text-2xs text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
             >
               <Icon name="phone" className="h-3.5 w-3.5" />
               {t(ui.common.call)}

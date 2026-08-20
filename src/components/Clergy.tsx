@@ -70,7 +70,12 @@ export function Clergy({ clergy }: { clergy: ClergyContent }) {
                 {t(priest.message)}
               </p>
 
-              <p className="mt-7 font-display text-xl text-gold-200">— {t(priest.signature)}</p>
+              {/* an empty signature would print a lone em dash under the message */}
+              {t(priest.signature).trim() ? (
+                <p className="mt-7 font-display text-xl text-gold-200">— {t(priest.signature)}</p>
+              ) : (
+                <p className="mt-7 font-display text-xl text-gold-200">— {t(priest.name)}</p>
+              )}
 
               <div className="mt-10 flex flex-wrap gap-3">
                 <a href={telHref(priest.phone)} className="btn-ghost">

@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 
 import { AutoTranslateToggle, useAutoTranslate } from './AutoTranslate'
 import { HallBookings } from './HallBookings'
+import { HallReviews } from './HallReviews'
 import { JsonEditor } from './JsonEditor'
 
 type SectionDef = {
@@ -62,7 +63,7 @@ type Submissions = {
 
 export function AdminApp() {
   const { theme, toggle } = useTheme()
-  const [active, setActive] = useState<ContentKey | 'inbox' | 'hall-bookings'>('site')
+  const [active, setActive] = useState<ContentKey | 'inbox' | 'hall-bookings' | 'hall-reviews'>('site')
   const [data, setData] = useState<unknown>(null)
   const [original, setOriginal] = useState<string>('')
   // Fingerprint of the file as loaded — sent back on save so a stale editor
@@ -104,7 +105,7 @@ export function AdminApp() {
   }, [])
 
   useEffect(() => {
-    if (active === 'hall-bookings') return
+    if (active === 'hall-bookings' || active === 'hall-reviews') return
     if (active === 'inbox') {
       fetch('/api/admin/submissions', { cache: 'no-store' })
         .then((r) => r.json())
@@ -115,7 +116,7 @@ export function AdminApp() {
     load(active)
   }, [active, load])
 
-  const dirty = active !== 'inbox' && active !== 'hall-bookings' && data !== null && JSON.stringify(data) !== original
+  const dirty = active !== 'inbox' && active !== 'hall-bookings' && active !== 'hall-reviews' && data !== null && JSON.stringify(data) !== original
 
   // Ctrl/Cmd+S saves, the way every other editor behaves.
   useEffect(() => {
@@ -141,7 +142,7 @@ export function AdminApp() {
   }, [])
 
   /** Switching section throws away unsaved edits, so confirm first. */
-  function open(next: ContentKey | 'inbox' | 'hall-bookings') {
+  function open(next: ContentKey | 'inbox' | 'hall-bookings' | 'hall-reviews') {
     if (next === active) return
     if (dirty && !window.confirm('You have unsaved changes here. Leave them behind?')) return
     setActive(next)
@@ -150,7 +151,7 @@ export function AdminApp() {
   }
 
   async function save() {
-    if (active === 'inbox' || active === 'hall-bookings') return
+    if (active === 'inbox' || active === 'hall-bookings' || active === 'hall-reviews') return
     // Clicking Save blurs the field, which may start a translation. Let it finish.
     setStatus('saving')
     await waitForIdle()
@@ -195,11 +196,20 @@ export function AdminApp() {
   saveRef.current = save
 
   const current = SECTIONS.find((s) => s.key === active)
-  const visible = SECTIONS.filter((section) => {
+  /** Panels that hold submissions rather than editable content. */
+  const INBOXES = [
+    { key: 'hall-bookings' as const, name: 'Hall Bookings', icon: 'calendar', blurb: 'Requests to confirm or decline' },
+    { key: 'hall-reviews' as const, name: 'Hall Reviews', icon: 'quote', blurb: 'Publish or hold what families wrote' },
+    { key: 'inbox' as const, name: 'Inbox, Gifts & Subscribers', icon: 'mail', blurb: 'Contact form messages and every donation received' },
+  ]
+  const matches = (text: string) => {
     const needle = search.trim().toLowerCase()
-    if (!needle) return true
-    return `${section.name} ${section.blurb} ${section.key}`.toLowerCase().includes(needle)
-  })
+    return !needle || text.toLowerCase().includes(needle)
+  }
+  const utilities = INBOXES.filter((entry) => matches(`${entry.name} ${entry.blurb} ${entry.key}`))
+  const visible = SECTIONS.filter((section) =>
+    matches(`${section.name} ${section.blurb} ${section.key}`),
+  )
 
   return (
     <div className="min-h-screen bg-[rgb(var(--page-alt))]">
@@ -284,7 +294,7 @@ export function AdminApp() {
               />
             </label>
 
-            {visible.length === 0 ? (
+            {visible.length === 0 && utilities.length === 0 ? (
               <p className="px-4 py-3 font-sans text-2xs text-[rgb(var(--muted))]">
                 Nothing matches “{search}”.
               </p>
@@ -320,49 +330,37 @@ export function AdminApp() {
               </button>
             ))}
 
-            <div className="my-3 h-px bg-[rgb(var(--line))]" />
+            {utilities.length ? <div className="my-3 h-px bg-[rgb(var(--line))]" /> : null}
 
-            <button
-              type="button"
-              onClick={() => open('hall-bookings')}
-              className={cn(
-                'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
-                active === 'hall-bookings'
-                  ? 'border-gold-400/60 bg-gold-400/10'
-                  : 'border-transparent hover:border-[rgb(var(--line))] hover:bg-[rgb(var(--card))]',
-              )}
-            >
-              <Icon name="calendar" className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--muted))]" />
-              <span>
-                <span className="block font-sans text-sm font-medium text-[rgb(var(--ink))]">
-                  Hall Bookings
+            {utilities.map((entry) => (
+              <button
+                key={entry.key}
+                type="button"
+                onClick={() => open(entry.key)}
+                className={cn(
+                  'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
+                  active === entry.key
+                    ? 'border-gold-400/60 bg-gold-400/10'
+                    : 'border-transparent hover:border-[rgb(var(--line))] hover:bg-[rgb(var(--card))]',
+                )}
+              >
+                <Icon
+                  name={entry.icon}
+                  className={cn(
+                    'mt-0.5 h-4 w-4 shrink-0',
+                    active === entry.key ? 'text-gold-500' : 'text-[rgb(var(--muted))]',
+                  )}
+                />
+                <span className="min-w-0">
+                  <span className="block font-sans text-sm font-medium text-[rgb(var(--ink))]">
+                    {entry.name}
+                  </span>
+                  <span className="mt-0.5 block font-sans text-2xs leading-snug text-[rgb(var(--muted))]">
+                    {entry.blurb}
+                  </span>
                 </span>
-                <span className="mt-0.5 block font-sans text-2xs leading-snug text-[rgb(var(--muted))]">
-                  Requests to confirm or decline
-                </span>
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => open('inbox')}
-              className={cn(
-                'flex items-start gap-3 rounded-sm border px-4 py-3 text-left transition-all duration-300',
-                active === 'inbox'
-                  ? 'border-gold-400/60 bg-gold-400/10'
-                  : 'border-transparent hover:border-[rgb(var(--line))] hover:bg-[rgb(var(--card))]',
-              )}
-            >
-              <Icon name="mail" className="mt-0.5 h-4 w-4 shrink-0 text-[rgb(var(--muted))]" />
-              <span>
-                <span className="block font-sans text-sm font-medium text-[rgb(var(--ink))]">
-                  Inbox, Gifts & Subscribers
-                </span>
-                <span className="mt-0.5 block font-sans text-2xs leading-snug text-[rgb(var(--muted))]">
-                  Contact form messages and every donation received
-                </span>
-              </span>
-            </button>
+              </button>
+            ))}
           </nav>
         </aside>
 
@@ -376,6 +374,8 @@ export function AdminApp() {
         <main className="min-w-0 flex-1">
           {active === 'hall-bookings' ? (
             <HallBookings />
+          ) : active === 'hall-reviews' ? (
+            <HallReviews />
           ) : active === 'inbox' ? (
             <Inbox submissions={submissions} />
           ) : (

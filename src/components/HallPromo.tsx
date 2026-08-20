@@ -14,7 +14,9 @@ import { SmartImage } from './ui/SmartImage'
  */
 export function HallPromo({ hall }: { hall: HallContent }) {
   const { t, lang } = useLang()
-  const from = Math.min(...hall.sessions.map((session) => session.rent))
+  // The cheapest way into any of the halls, for the headline price.
+  const from = Math.min(...hall.halls.flatMap((room) => Object.values(room.rates)))
+  const rooms = hall.halls.filter((room) => !room.combines?.length)
 
   return (
     <section id="hall" className="section-tight bg-[rgb(var(--page))]">
@@ -37,11 +39,14 @@ export function HallPromo({ hall }: { hall: HallContent }) {
             <span className="gold-rule w-14 opacity-70" aria-hidden="true" />
             <p className="body-text">{t(hall.subtitle)}</p>
 
-            <ul className="flex flex-wrap gap-x-6 gap-y-2">
-              {hall.facts.slice(0, 3).map((fact) => (
-                <li key={t(fact.label)} className="font-sans text-2xs text-[rgb(var(--muted))]">
-                  <span className="text-gold-600 dark:text-gold-400">{t(fact.label)}:</span>{' '}
-                  {t(fact.value)}
+            <ul className="flex flex-col gap-1.5">
+              {rooms.map((room) => (
+                <li key={room.id} className="font-sans text-2xs text-[rgb(var(--muted))]">
+                  <span className="text-gold-600 dark:text-gold-400">{t(room.name)}:</span>{' '}
+                  {room.seated} {t({ en: 'seated', ml: 'ഇരുന്ന്' })}
+                  {room.features.ac ? ` · ${t({ en: 'AC', ml: 'എസി' })}` : ''}
+                  {room.features.generator ? ` · ${t({ en: 'generator', ml: 'ജനറേറ്റർ' })}` : ''}
+                  {room.features.stage ? ` · ${t({ en: 'stage', ml: 'വേദി' })}` : ''}
                 </li>
               ))}
             </ul>
@@ -51,12 +56,12 @@ export function HallPromo({ hall }: { hall: HallContent }) {
               <span className="font-display text-2xl text-[rgb(var(--ink))] tabular-nums">
                 ₹{formatNumber(from, lang)}
               </span>{' '}
-              {t({ en: 'a session · air conditioning and generator available', ml: 'ഒരു സെഷന് · എയർ കണ്ടീഷനിംഗും ജനറേറ്ററും ലഭ്യം' })}
+              {t({ en: 'a session · the two large halls can be taken together', ml: 'ഒരു സെഷന് · രണ്ട് വലിയ ഹാളുകൾ ഒരുമിച്ച് എടുക്കാം' })}
             </p>
 
             <div className="mt-2 flex flex-wrap gap-3">
               <a href="/hall" className="btn-primary">
-                {t({ en: 'See free days', ml: 'ഒഴിവുള്ള ദിവസങ്ങൾ' })}
+                {t({ en: 'See the halls', ml: 'ഹാളുകൾ കാണുക' })}
                 <Icon name="arrowRight" className="h-4 w-4" />
               </a>
               <a href="/hall#book" className="btn-outline">

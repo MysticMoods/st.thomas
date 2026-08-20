@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 
+import { AdminBar, AdminModeProvider } from '@/components/admin/AdminMode'
 import { Providers } from '@/components/Providers'
 import { ServiceWorker } from '@/components/ServiceWorker'
+import { isAuthenticated } from '@/lib/auth'
 import { readContent } from '@/lib/content'
 import { themeScript } from '@/lib/theme'
 import type { SiteContent } from '@/lib/types'
@@ -65,6 +67,9 @@ export const viewport: Viewport = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // The session cookie is read here, so the whole site knows whether a member
+  // of staff is looking at it.
+  const isAdmin = await isAuthenticated()
   const site = await readContent<SiteContent>('site')
 
   const jsonLd = {
@@ -107,7 +112,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <AdminModeProvider isAdmin={isAdmin}>
+            <AdminBar />
+            {children}
+          </AdminModeProvider>
+        </Providers>
         <ServiceWorker />
       </body>
     </html>

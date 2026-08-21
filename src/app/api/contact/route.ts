@@ -43,6 +43,7 @@ export async function POST(request: Request) {
   if (looksAutomated(body)) return NextResponse.json({ ok: true })
 
   const record = {
+    id: `m${Date.now().toString(36)}`,
     name: clean(body.name, MAX.name),
     email: clean(body.email, MAX.email),
     phone: clean(body.phone, MAX.phone),

@@ -213,6 +213,35 @@ export async function appendRecord(name: RecordList, record: unknown) {
 }
 
 /**
+ * Changes records already written, through the same queue as appendRecord.
+ *
+ * Marking a message answered while a second message is arriving would otherwise
+ * be two reads of one file and two writes of it, and whichever finished second
+ * would quietly undo the other. The updater is handed the list and returns the
+ * list to keep.
+ */
+export async function updateRecords<T>(name: RecordList, update: (list: T[]) => T[]) {
+  const target = path.join(DIR, `${name}.json`)
+
+  const next = (queues.get(target) ?? Promise.resolve()).then(async () => {
+    let list: T[] = []
+    try {
+      const parsed = JSON.parse(await fs.readFile(target, 'utf-8'))
+      if (Array.isArray(parsed)) list = parsed as T[]
+    } catch {
+      list = []
+    }
+    await writeJson(target, update(list))
+  })
+
+  queues.set(
+    target,
+    next.catch(() => {}),
+  )
+  return next
+}
+
+/**
  * The saved copies of one content file, newest first. Backups are named
  * `<key>.<iso timestamp with punctuation replaced>.json`.
  */

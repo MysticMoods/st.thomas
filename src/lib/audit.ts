@@ -31,6 +31,7 @@ export type AuditAction =
   | 'office-decide'
   | 'office-delete'
   | 'hall-advance'
+  | 'reply'
 
 export type AuditEntry = {
   id: string

@@ -33,7 +33,7 @@ Then edit `.env.local` before going live. Required values:
 
 ```bash
 ADMIN_USERNAME=vicar
-ADMIN_PASSWORD=mangalassery1893
+ADMIN_PASSWORD=<set your own>
 ADMIN_SESSION_SECRET=change-me-to-a-long-random-string
 ```
 
@@ -151,7 +151,15 @@ The dashboard authenticates with the credentials from `.env.local`.
 - password: `ADMIN_PASSWORD`
 - session secret: `ADMIN_SESSION_SECRET`
 
-The app rate-limits login attempts and validates the session server-side. Do not bypass or weaken that logic when modifying auth behavior.
+The app rate-limits login attempts (five per address per fifteen minutes) and
+validates the session server-side. Do not bypass or weaken that logic when
+modifying auth behavior.
+
+In production neither the bootstrap password nor the cookie secret has a
+default: an unset `ADMIN_PASSWORD` means no bootstrap login, and an unset
+`ADMIN_SESSION_SECRET` means a random one made at boot. Development keeps the
+demo values so a fresh clone runs. Do not reintroduce a shipped default for
+either — a password printed in the repository is not a password.
 
 ## Operations
 
@@ -203,6 +211,24 @@ holds the wording, and `content/outbox.json` records every attempt.
 - Newsletter subscribers each carry a token; every newsletter carries the
   unsubscribe link that uses it, and `/unsubscribe` acts on arrival rather than
   asking anybody to confirm. `src/lib/subscribers.ts`.
+
+## Answering people
+
+Every message, hall request and office request can be answered from the
+dashboard it is read in — `src/lib/reply.ts`, `ReplyBox.tsx`,
+`/api/admin/reply`. The answer is kept beside the message it answers, with who
+wrote it and what became of it, so a second person does not write back twice.
+
+- **Email** goes through the same outbox as every other letter, and its outcome
+  is recorded honestly — including `not-configured`, which means the words were
+  kept but nothing was delivered.
+- **WhatsApp** opens `wa.me` on the parish's own number with the answer already
+  typed; the office presses send there. It is recorded as `handed-over`, never
+  as sent, because the site cannot know. This needs no business account and
+  costs nothing. Sending WhatsApp from the server would need the Meta Cloud API,
+  a verified business and approved templates — a different undertaking.
+- Messages carry an `id` from now on. Older ones are found by the moment they
+  arrived, so nothing already written has to be rewritten to be answerable.
 
 ## The parish office
 

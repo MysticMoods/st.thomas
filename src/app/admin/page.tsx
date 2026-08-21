@@ -16,7 +16,10 @@ export const dynamic = 'force-dynamic'
 export default async function AdminPage() {
   // The session cookie is HMAC signed and verified here on the server, so the
   // dashboard never renders for an unauthenticated visitor.
-  if (!(await isAuthenticated())) return <LoginForm />
+  if (!(await isAuthenticated())) {
+    const password = process.env.ADMIN_PASSWORD
+    return <LoginForm demo={!password || password === 'mangalassery1893'} />
+  }
   return (
     <AutoTranslateProvider>
       <AdminApp />

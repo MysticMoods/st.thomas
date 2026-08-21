@@ -6,6 +6,7 @@ import { Icon } from '@/components/ui/Icon'
 import { ParishEmblem } from '@/components/ui/ParishEmblem'
 import { useTheme } from '@/lib/theme'
 import type { ContentKey } from '@/lib/types'
+import type { Reply } from '@/lib/reply'
 import { cn } from '@/lib/utils'
 
 import { AutoTranslateToggle, useAutoTranslate } from './AutoTranslate'
@@ -14,6 +15,7 @@ import { HallReviews } from './HallReviews'
 import { JsonEditor } from './JsonEditor'
 import { OfficeRequests } from './OfficeRequests'
 import { Activity } from './ops/Activity'
+import { ReplyBox } from './ops/ReplyBox'
 import { Backups } from './ops/Backups'
 import { Letters } from './ops/Letters'
 import { NewsletterPanel } from './ops/NewsletterPanel'
@@ -100,7 +102,16 @@ type Donation = {
 
 type Submissions = {
   subscribers: { email: string; at: string }[]
-  messages: { name: string; email: string; phone?: string; subject?: string; message: string; at: string }[]
+  messages: {
+    id?: string
+    name: string
+    email: string
+    phone?: string
+    subject?: string
+    message: string
+    at: string
+    replies?: Reply[]
+  }[]
   donations: Donation[]
 }
 
@@ -149,17 +160,22 @@ export function AdminApp() {
     }
   }, [])
 
+  /** Read again after an answer is written, so it appears under the message. */
+  const loadSubmissions = useCallback(() => {
+    fetch('/api/admin/submissions', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then(setSubmissions)
+      .catch(() => setSubmissions({ subscribers: [], messages: [], donations: [] }))
+  }, [])
+
   useEffect(() => {
     if (active === 'inbox') {
-      fetch('/api/admin/submissions', { cache: 'no-store' })
-        .then((r) => r.json())
-        .then(setSubmissions)
-        .catch(() => setSubmissions({ subscribers: [], messages: [], donations: [] }))
+      loadSubmissions()
       return
     }
     if (!isContent(active)) return
     load(active)
-  }, [active, load])
+  }, [active, load, loadSubmissions])
 
   // Which account is signed in decides what the operations panels offer.
   useEffect(() => {
@@ -486,7 +502,7 @@ export function AdminApp() {
           ) : active === 'hall-reviews' ? (
             <HallReviews />
           ) : active === 'inbox' ? (
-            <Inbox submissions={submissions} />
+            <Inbox submissions={submissions} onChanged={loadSubmissions} />
           ) : active === 'people' ? (
             <People />
           ) : active === 'newsletter' ? (
@@ -602,7 +618,13 @@ export function AdminApp() {
   )
 }
 
-function Inbox({ submissions }: { submissions: Submissions | null }) {
+function Inbox({
+  submissions,
+  onChanged,
+}: {
+  submissions: Submissions | null
+  onChanged?: () => void
+}) {
   if (!submissions) {
     return (
       <div className="flex flex-col gap-3">
@@ -648,6 +670,7 @@ function Inbox({ submissions }: { submissions: Submissions | null }) {
                 <p className="mt-2 whitespace-pre-wrap font-sans text-sm leading-relaxed text-[rgb(var(--muted))]">
                   {m.message}
                 </p>
+                <ReplyBox list="messages" target={m} onDone={onChanged} />
               </li>
             ))
           )}

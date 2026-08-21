@@ -85,6 +85,11 @@ export async function GET() {
   if (process.env.ADMIN_PASSWORD === 'mangalassery1893') {
     warnings.push('The demo password from .env.example is still in use.')
   }
+  if (users.length === 0 && !process.env.ADMIN_PASSWORD && process.env.NODE_ENV === 'production') {
+    warnings.push(
+      'No accounts and no ADMIN_PASSWORD — nobody can sign in. Set one in .env.local and restart.',
+    )
+  }
   if (process.env.NODE_ENV === 'production' && !process.env.RAZORPAY_KEY_ID) {
     warnings.push('Razorpay is not configured — online giving falls back to bank and UPI details.')
   }

@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Icon } from '@/components/ui/Icon'
 import { ParishEmblem } from '@/components/ui/ParishEmblem'
 
-export function LoginForm() {
+export function LoginForm({ demo }: { demo?: boolean }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
@@ -104,14 +104,21 @@ export function LoginForm() {
             <Icon name="arrowRight" className="h-4 w-4" />
           </button>
 
-          <p className="mt-6 border-t border-white/10 pt-5 font-sans text-2xs leading-relaxed text-stone-500">
-            Demo account: <code className="text-gold-400">vicar</code> /{' '}
-            <code className="text-gold-400">mangalassery1893</code>. Change it by setting{' '}
-            <code className="text-gold-400">ADMIN_USERNAME</code>,{' '}
-            <code className="text-gold-400">ADMIN_PASSWORD</code> and{' '}
-            <code className="text-gold-400">ADMIN_SESSION_SECRET</code> in{' '}
-            <code>.env.local</code>.
-          </p>
+          {demo ? (
+            <p className="mt-6 border-t border-white/10 pt-5 font-sans text-2xs leading-relaxed text-stone-500">
+              Demo account: <code className="text-gold-400">vicar</code> /{' '}
+              <code className="text-gold-400">mangalassery1893</code>. Set{' '}
+              <code className="text-gold-400">ADMIN_USERNAME</code>,{' '}
+              <code className="text-gold-400">ADMIN_PASSWORD</code> and{' '}
+              <code className="text-gold-400">ADMIN_SESSION_SECRET</code> in{' '}
+              <code>.env.local</code> before anybody else can reach this page.
+            </p>
+          ) : (
+            <p className="mt-6 border-t border-white/10 pt-5 font-sans text-2xs leading-relaxed text-stone-500">
+              The parish office keeps the sign-in details. A forgotten password is
+              reset by an owner under People &amp; access.
+            </p>
+          )}
         </form>
 
         <a

@@ -14,9 +14,21 @@ export type Session = { username: string; role: Role }
 /**
  * Sessions are signed with a secret from the environment; `.env.local` is not
  * committed and `.env.example` documents every variable.
+ *
+ * In development a fixed default keeps sign-ins alive across restarts. In
+ * production there is no default worth having: a secret written down in the
+ * repository is one anybody can sign an owner cookie with. So a live site with
+ * none set gets a random one made at boot — real sessions still work, forged
+ * ones never do, sign-ins last only until the next restart, and the health
+ * panel says the secret is missing.
  */
+const FALLBACK_SECRET =
+  process.env.NODE_ENV === 'production'
+    ? crypto.randomBytes(32).toString('base64url')
+    : 'dev-only-secret-change-me'
+
 function secret() {
-  return process.env.ADMIN_SESSION_SECRET || 'dev-only-secret-change-me'
+  return process.env.ADMIN_SESSION_SECRET || FALLBACK_SECRET
 }
 
 function sign(payload: string) {

@@ -28,7 +28,7 @@ The dashboard lives at **`/admin`**. One host account signs in with a user ID an
 | Field | Demo value | Environment variable |
 | --- | --- | --- |
 | User ID | `vicar` | `ADMIN_USERNAME` |
-| Password | `mangalassery1893` | `ADMIN_PASSWORD` |
+| Password | set in `.env.local` | `ADMIN_PASSWORD` |
 
 Both are read from `.env.local` at runtime; there is no user database and no sign-up route, so
 those credentials are the only ones that work. The user ID is matched case-insensitively, the

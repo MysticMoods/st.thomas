@@ -18,9 +18,26 @@ const SIGN_OFF = {
 /** A typed newline, written without an escape so it survives every editor. */
 const BREAK = String.fromCharCode(10)
 
-/** What somebody typed, as HTML: their line breaks kept, nothing else changed. */
+/**
+ * Angle brackets and ampersands written by a visitor are characters they typed,
+ * not markup they may add to a letter the parish office opens. Written with
+ * split and join rather than a regular expression so no escape can be mangled.
+ */
+function esc(value: string) {
+  return String(value ?? '')
+    .split('&')
+    .join('&amp;')
+    .split('<')
+    .join('&lt;')
+    .split('>')
+    .join('&gt;')
+    .split('"')
+    .join('&quot;')
+}
+
+/** What somebody typed, as HTML: their line breaks kept, nothing else added. */
 function nl2br(value: string) {
-  return value.split(BREAK).join('<br>')
+  return esc(value).split(BREAK).join('<br>')
 }
 
 /** One plain wrapper, so every letter looks like it came from the same place. */
@@ -398,5 +415,44 @@ export function subscribeWelcome(to: string, token: string): Letter {
       lines,
       `${SIGN_OFF.en}<br><a href="${stop}" style="color:#8a6d1c">Stop receiving these</a>`,
     ),
+  }
+}
+
+/* -------------------------------------------------------------------- reply */
+
+/**
+ * The parish office answering somebody who wrote in.
+ *
+ * The office writes the words; this only puts them in the same envelope as
+ * every other letter and quotes the original underneath, so the reader knows
+ * which of their messages is being answered without having to guess.
+ */
+export function replyToPerson(input: {
+  to: string
+  name: string
+  subject: string
+  reply: string
+  original: string
+}): Letter {
+  const greeting = input.name ? `Dear ${esc(input.name)},` : 'Dear friend,'
+  const quoted = input.original.slice(0, 600)
+
+  return {
+    kind: 'reply',
+    to: input.to,
+    replyTo: officeAddress() || undefined,
+    subject: input.subject,
+    text: plain([
+      input.name ? `Dear ${input.name},` : 'Dear friend,',
+      input.reply,
+      quoted ? `You wrote to us:${BREAK}${quoted}` : '',
+    ]),
+    html: dress('A word from the parish office', [
+      greeting,
+      nl2br(input.reply),
+      quoted
+        ? `<span style="color:#6c7382">You wrote to us:<br>${nl2br(quoted)}</span>`
+        : '',
+    ]),
   }
 }

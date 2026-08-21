@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+import type { Reply } from '@/lib/reply'
 import { cn } from '@/lib/utils'
+
+import { ReplyBox } from './ops/ReplyBox'
 
 type Ask = {
   id: string
@@ -18,6 +21,7 @@ type Ask = {
   mayPublish?: boolean
   at: string
   note?: string
+  replies?: Reply[]
 }
 
 const TABS = [
@@ -206,6 +210,12 @@ export function OfficeRequests() {
                     {ask.detail}
                   </p>
                 ) : null}
+
+                <ReplyBox
+                  list={ask.kind}
+                  target={{ ...ask, subject: ask.subject || 'your request' }}
+                  onDone={load}
+                />
 
                 {ask.kind === 'prayers' ? (
                   <p className="mt-3 font-sans text-2xs text-[rgb(var(--muted))]">

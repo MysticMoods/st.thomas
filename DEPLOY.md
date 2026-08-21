@@ -45,7 +45,7 @@ Then set, at minimum:
 
 ```bash
 ADMIN_USERNAME=vicar
-ADMIN_PASSWORD=<something long, not the one in .env.example>
+ADMIN_PASSWORD=<something long>
 ADMIN_SESSION_SECRET=<32+ random characters>
 ```
 
@@ -57,6 +57,14 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
 
 `.env.local` is git-ignored. **Never commit it.** If it ever reaches a
 repository, change every value in it.
+
+Neither of the first two has a usable default in production, on purpose. A
+default password shipped in the repository is one the whole world knows, so a
+live site with no `ADMIN_PASSWORD` set has no bootstrap login at all, and one
+with no `ADMIN_SESSION_SECRET` signs its cookies with a random secret made at
+boot — nobody can forge a session, and sign-ins last only until the next
+restart. The dashboard's **System health** panel says so in both cases. In
+development both still fall back to the demo values, so a fresh clone runs.
 
 The dashboard's **System health** panel checks all of this and says so plainly
 when something is still on its demo value.
@@ -258,6 +266,7 @@ Nothing in the response identifies the parish, so it is safe to leave open.
 | **Letters sent** | Every letter posted, whether it arrived, and a connection test |
 | **Newsletter** | Write to the list; every letter carries an unsubscribe link |
 | **Office Requests** | Mass intentions, certificates and prayer requests |
+| **Replying** | Answer any of them by email or WhatsApp, from where you read it |
 | **Problems** | Faults hit on the server and in visitors' browsers, newest first |
 | **Activity log** | Who changed what, and when — including refused sign-ins |
 | **Visits** | Page views and visits, counted by this site alone |

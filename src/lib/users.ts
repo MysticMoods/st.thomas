@@ -43,6 +43,18 @@ const KEY_LENGTH = 64
 
 export const MIN_PASSWORD = 10
 
+/**
+ * The demo password is printed in `.env.example` and in every copy of this
+ * repository, which makes it a convenience in development and a hole in
+ * production. A live site that never set ADMIN_PASSWORD has no bootstrap login
+ * at all, rather than one the whole world can read.
+ */
+function bootstrapPassword() {
+  const set = process.env.ADMIN_PASSWORD
+  if (set) return set
+  return process.env.NODE_ENV === 'production' ? '' : 'mangalassery1893'
+}
+
 export function hashPassword(password: string) {
   const salt = crypto.randomBytes(16).toString('hex')
   const hash = crypto.scryptSync(password, salt, KEY_LENGTH, SCRYPT).toString('hex')
@@ -113,7 +125,8 @@ export async function verifyLogin(username: string, password: string): Promise<U
   if (users.length === 0) {
     // Bootstrap: the environment pair is the only way in until accounts exist.
     const owner = envOwner()
-    const expected = process.env.ADMIN_PASSWORD || 'mangalassery1893'
+    const expected = bootstrapPassword()
+    if (!expected) return null
     const userOk = sameSecret(wanted, owner.username)
     const passOk = sameSecret(password || '', expected)
     return userOk && passOk ? owner : null

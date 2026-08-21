@@ -12,6 +12,24 @@ import { existsSync, readFileSync, writeFileSync, rmSync } from 'node:fs'
 
 import { chromium } from 'playwright'
 
+/**
+ * The dashboard password lives in .env.local, which plain node does not read.
+ * The suite signs in as the bootstrap account, so it reads the file itself and
+ * falls back to the demo pair when there is none.
+ */
+function fromEnvFile(key, fallback) {
+  try {
+    const row = readFileSync('.env.local', 'utf-8')
+      .split(String.fromCharCode(10))
+      .find((line) => line.startsWith(key + '='))
+    return (row ? row.slice(key.length + 1).trim() : '') || fallback
+  } catch {
+    return fallback
+  }
+}
+const ADMIN_USER = fromEnvFile('ADMIN_USERNAME', 'vicar')
+const ADMIN_PASS = fromEnvFile('ADMIN_PASSWORD', 'mangalassery1893')
+
 const results = []
 const ok = (n, c, extra = '') => results.push(`${c ? 'PASS' : 'FAIL'}  ${n}${extra ? ' — ' + extra : ''}`)
 
@@ -178,10 +196,10 @@ await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(1800)
 
 // newsletter + contact
-const nl = await page.request.post('http://localhost:3000/api/newsletter', { data: { email: 'test.parishioner@example.com' } })
-ok('newsletter API accepts valid email', nl.ok())
-const nlBad = await page.request.post('http://localhost:3000/api/newsletter', { data: { email: 'nope' } })
-ok('newsletter API rejects bad email', nlBad.status() === 422)
+const nl = await page.request.post('http://localhost:3000/api/newsletter', { headers: fromRunAddress, data: { email: 'test.parishioner@example.com' } })
+ok('newsletter API accepts valid email', nl.ok(), `status=${nl.status()}`)
+const nlBad = await page.request.post('http://localhost:3000/api/newsletter', { headers: fromRunAddress, data: { email: 'nope' } })
+ok('newsletter API rejects bad email', nlBad.status() === 422, `status=${nlBad.status()}`)
 // forms are protected, and nothing they take is left un-acknowledged
 const formAddress = { 'x-forwarded-for': `10.31.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` }
 const runEmail = `e2e-${Date.now().toString(36)}@example.com`
@@ -235,11 +253,11 @@ const locked = await page.request.get('http://localhost:3000/api/admin/content/n
 ok('content API rejects anonymous read', locked.status() === 401)
 const lockedW = await page.request.put('http://localhost:3000/api/admin/content/notices', { data: { data: {} } })
 ok('content API rejects anonymous write', lockedW.status() === 401)
-const badPass = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { username: 'vicar', password: 'wrong' } })
+const badPass = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { username: ADMIN_USER, password: 'wrong' } })
 ok('login rejects wrong password', badPass.status() === 401)
-const badUser = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { username: 'nobody', password: 'mangalassery1893' } })
+const badUser = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { username: 'nobody', password: ADMIN_PASS } })
 ok('login rejects wrong user id', badUser.status() === 401)
-const noUser = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { password: 'mangalassery1893' } })
+const noUser = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { password: ADMIN_PASS } })
 ok('login rejects missing user id', noUser.status() === 401)
 
 // the theme: what the toggle promises is what the page does
@@ -698,8 +716,9 @@ ok('reviews are not moderatable when signed out',
 // ---- admin round trip
 await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
 ok('admin shows login when signed out', (await page.locator('#admin-password').count()) === 1 && (await page.locator('#admin-username').count()) === 1)
-await page.fill('#admin-username', 'Vicar')
-await page.fill('#admin-password', 'mangalassery1893')
+// Upper case on purpose: the user ID is case-insensitive.
+await page.fill('#admin-username', ADMIN_USER.toUpperCase())
+await page.fill('#admin-password', ADMIN_PASS)
 await page.click('button[type=submit]')
 await page.waitForTimeout(3500)
 // Signing in now returns staff to the site in administrative mode, not to the
@@ -979,8 +998,14 @@ ok('health lists no missing content files', (health.missing ?? []).length === 0,
 ok('health counts what is stored', typeof health.counts?.audit === 'number')
 ok('health warns that no mail server is set up',
    (health.warnings ?? []).some((w) => /mail server/i.test(w)))
-ok('health warns while the demo settings are in use',
-   (health.warnings ?? []).some((w) => /demo password|SESSION_SECRET/i.test(w)))
+// The demo warnings are right only while the demo settings are in use. Once a
+// parish sets its own password and secret there is nothing to warn about, and
+// warning anyway would teach them to ignore the panel that matters.
+const demoSettings =
+  ADMIN_PASS === 'mangalassery1893' || fromEnvFile('ADMIN_SESSION_SECRET', '').length < 32
+ok('health warns about the demo settings exactly while they are in use',
+   (health.warnings ?? []).some((w) => /demo password|SESSION_SECRET/i.test(w)) === demoSettings,
+   demoSettings ? 'demo settings still in use' : 'own password and secret are set')
 
 // --- visits, counted by the site itself
 for (const path of ['/', '/', '/hall']) {
@@ -1053,6 +1078,69 @@ for (const kind of ['intentions', 'certificates', 'prayers']) {
 ok('the suite clears the office requests it made',
    ((await (await page.request.get('http://localhost:3000/api/admin/office')).json()).intentions ?? [])
      .every((row) => !/E2E/.test(row.name ?? '')))
+
+// --- answering somebody from the dashboard
+const replyAddress = { 'x-forwarded-for': `10.53.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` }
+const askerEmail = `asker-${Date.now().toString(36)}@example.com`
+await page.request.post('http://localhost:3000/api/contact', {
+  headers: replyAddress,
+  data: {
+    name: 'E2E Asker', email: askerEmail, phone: '98470 12345',
+    subject: 'A question', message: 'Is the large hall free in December?',
+  },
+})
+await page.waitForTimeout(500)
+
+const inbox = await (await page.request.get('http://localhost:3000/api/admin/submissions')).json()
+const asked = (inbox.messages ?? []).find((m) => m.email === askerEmail)
+ok('a message now carries an id of its own', !!asked?.id, asked?.id ?? 'none')
+
+const answered = await page.request.post('http://localhost:3000/api/admin/reply', {
+  data: {
+    list: 'messages', key: asked?.id, channel: 'email',
+    text: 'Yes, the large hall is free on the 14th. Ring the office to hold it.',
+  },
+})
+const answerJson = await answered.json()
+ok('the office can answer from the dashboard', answered.ok(), `status=${answered.status()}`)
+ok('an answer says honestly that no mail server is set up',
+   answerJson.reply?.status === 'not-configured', answerJson.reply?.status)
+
+const afterReply = await (await page.request.get('http://localhost:3000/api/admin/submissions')).json()
+const repliedTo = (afterReply.messages ?? []).find((m) => m.email === askerEmail)
+ok('the answer is kept beside the message', (repliedTo?.replies ?? []).length === 1)
+ok('the answer records who wrote it', repliedTo?.replies?.[0]?.by === ADMIN_USER)
+
+ok('the answer reaches the outbox',
+   ((await (await page.request.get('http://localhost:3000/api/admin/outbox')).json()).letters ?? [])
+     .some((l) => l.kind === 'reply' && l.to === askerEmail))
+
+const whatsapped = await page.request.post('http://localhost:3000/api/admin/reply', {
+  data: { list: 'messages', key: asked?.id, channel: 'whatsapp', text: 'Ringing you now.' },
+})
+ok('a WhatsApp answer is noted without claiming it was delivered',
+   (await whatsapped.json()).reply?.status === 'handed-over')
+
+ok('a Malayalam answer is stored exactly as written',
+   (await (await page.request.post('http://localhost:3000/api/admin/reply', {
+     data: { list: 'messages', key: asked?.id, channel: 'whatsapp', text: 'ഹാൾ ഒഴിവുണ്ട്.' },
+   })).json()).reply?.text === 'ഹാൾ ഒഴിവുണ്ട്.')
+
+ok('an empty answer is refused',
+   (await page.request.post('http://localhost:3000/api/admin/reply', {
+     data: { list: 'messages', key: asked?.id, text: '  ' },
+   })).status() === 422)
+ok('an answer to a message that does not exist is refused',
+   (await page.request.post('http://localhost:3000/api/admin/reply', {
+     data: { list: 'messages', key: 'no-such-message', text: 'hello' },
+   })).status() === 404)
+ok('only the lists that hold people can be answered',
+   (await page.request.post('http://localhost:3000/api/admin/reply', {
+     data: { list: 'users', key: 'x', text: 'hello' },
+   })).status() === 422)
+ok('answering is recorded in the activity log',
+   ((await (await page.request.get('http://localhost:3000/api/admin/audit?action=reply')).json())
+     .entries ?? []).length > 0)
 
 // --- letters. No mail server is set up in development, so every letter is
 // recorded as never posted — which is exactly what the parish must be able to
@@ -1168,7 +1256,7 @@ try {
   // the shared login is finished the moment a real account exists
   const sharedAgain = await page.request.post('http://localhost:3000/api/admin/login', {
     headers: { 'x-forwarded-for': `10.66.${Math.floor(Math.random() * 250)}.4` },
-    data: { username: 'vicar', password: 'mangalassery1893' },
+    data: { username: ADMIN_USER, password: ADMIN_PASS },
   })
   ok('the shared login stops working once an account exists', sharedAgain.status() === 401,
      `status=${sharedAgain.status()}`)

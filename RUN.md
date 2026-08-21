@@ -8,7 +8,7 @@ the dashboard are two routes on the same port.
 | Public parish site | http://localhost:3000 |
 | Parish dashboard | http://localhost:3000/admin |
 
-Dashboard sign-in — user ID `vicar`, password `mangalassery1893`.
+Dashboard sign-in — the user ID and password in `.env.local`.
 
 ---
 
@@ -138,6 +138,20 @@ other language by hand. Nothing blocks the save.
 | `/obituary` | The obituary column, and a page for each person |
 | `/calendar.ics` | The mass timetable and parish week, for a phone to subscribe to |
 | `/admin` | The dashboard |
+
+## Answering somebody
+
+Every message in **Inbox**, every request in **Hall Bookings** and everything in
+**Office Requests** has a **Reply** button under it.
+
+- **Send email** posts it through the site. It needs the mail settings in
+  `.env.local`; without them the words are kept and the panel says plainly that
+  nothing was delivered.
+- **WhatsApp** opens WhatsApp on your own phone or desktop with the answer
+  already typed. You press send there, so it comes from the parish's number and
+  the family can reply to it.
+
+Either way the answer stays under the message, with your name against it.
 
 ## Running the site day to day
 

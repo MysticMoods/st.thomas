@@ -115,15 +115,7 @@ export async function GET(request: Request) {
   }
 
   for (const chapel of content.chapels?.items ?? []) {
-    add(
-      'Chapel',
-      chapel.name,
-      join(chapel.patron, chapel.place, chapel.feast),
-      '/#chapels',
-    )
-    for (const entry of chapel.entries ?? []) {
-      add('Chapel Mass', entry.label, join(chapel.name, entry.time, entry.note), '/#chapels')
-    }
+    add('Chapel', chapel.name, join(chapel.place, chapel.time), '/#chapels')
   }
 
   for (const day of content.events.days ?? []) {

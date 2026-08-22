@@ -409,24 +409,14 @@ export type OfficeContent = {
 export type ChapelsContent = {
   title: L
   subtitle: L
-  /** Said once, under all of them — that timings move for feasts and rain. */
-  note?: L
   items: {
     id: string
     name: L
-    /** Who it is dedicated to. */
-    patron?: L
-    /** The feast day, written the way it would be said. */
-    feast?: L
     /** Where it stands, in words somebody could follow. */
     place?: L
-    /** A link to it on a map, for anybody who would rather be shown. */
-    mapUrl?: string
+    /** When people gather there — free text, so "First Friday, 6:30 PM" fits. */
+    time?: L
     image?: string
-    entries?: { time: string; label: L; note?: L }[]
-    /** Who to ring about this one, if not the parish office. */
-    contact?: { name?: L; phone?: string }
-    note?: L
   }[]
 }
 

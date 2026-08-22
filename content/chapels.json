@@ -4,12 +4,8 @@
     "ml": "ഇടവകയിലെ കുരിശുപള്ളികൾ"
   },
   "subtitle": {
-    "en": "Where Mass is said away from the parish church",
-    "ml": "ഇടവക ദേവാലയത്തിന് പുറത്ത് വിശുദ്ധ കുർബാന അർപ്പിക്കുന്ന ഇടങ്ങൾ"
-  },
-  "note": {
-    "en": "Timings change for feasts and in the rainy season. The parish office will confirm.",
-    "ml": "തിരുനാളുകൾക്കും മഴക്കാലത്തും സമയം മാറാം. ഇടവക ഓഫീസിൽ നിന്ന് ഉറപ്പുവരുത്തുക."
+    "en": "Where the parish gathers to pray",
+    "ml": "ഇടവക പ്രാർത്ഥനയ്ക്കായി ഒന്നിക്കുന്ന ഇടങ്ങൾ"
   },
   "items": [
     {
@@ -18,44 +14,15 @@
         "en": "St. Jude's Chapel",
         "ml": "വി. യൂദാ ശ്ലീഹാ കുരിശുപള്ളി"
       },
-      "patron": {
-        "en": "St. Jude Thaddeus",
-        "ml": "വി. യൂദാ തദേവൂസ്"
-      },
-      "feast": {
-        "en": "28 October",
-        "ml": "ഒക്ടോബർ 28"
-      },
       "place": {
-        "en": "Rename this one and add the rest — it is here so the office has a card to copy.",
-        "ml": "ഇത് തിരുത്തി ബാക്കിയുള്ളവ ചേർക്കുക — പകർത്താൻ ഒരു മാതൃകയായി ഇവിടെ നൽകിയിരിക്കുന്നു."
+        "en": "Rename this one and add the rest — it is here so there is a card to copy.",
+        "ml": "ഇത് തിരുത്തി ബാക്കിയുള്ളവ ചേർക്കുക — പകർത്താൻ ഒരു മാതൃകയായി നൽകിയിരിക്കുന്നു."
       },
-      "mapUrl": "",
-      "image": "",
-      "entries": [
-        {
-          "time": "6:30 AM",
-          "label": {
-            "en": "Holy Mass",
-            "ml": "വിശുദ്ധ കുർബാന"
-          },
-          "note": {
-            "en": "First Friday",
-            "ml": "ആദ്യ വെള്ളിയാഴ്ച"
-          }
-        }
-      ],
-      "contact": {
-        "name": {
-          "en": "",
-          "ml": ""
-        },
-        "phone": ""
+      "time": {
+        "en": "First Friday, 6:30 PM",
+        "ml": "ആദ്യ വെള്ളിയാഴ്ച, വൈകിട്ട് 6:30"
       },
-      "note": {
-        "en": "",
-        "ml": ""
-      }
+      "image": ""
     }
   ]
 }

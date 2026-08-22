@@ -219,6 +219,27 @@ holds the wording, and `content/outbox.json` records every attempt.
   unsubscribe link that uses it, and `/unsubscribe` acts on arrival rather than
   asking anybody to confirm. `src/lib/subscribers.ts`.
 
+## Units and classes
+
+A ministry may be divided into groups: the family units, the Sunday school
+classes. They are one shape, `groups` on a ministry in `ministries.json`,
+because they are one question asked twice — which one am I in, and who do I
+ring?
+
+```json
+{ "name": {"en": "Class 5", "ml": "..."}, "division": "A",
+  "people": [{ "name": {...}, "role": {...}, "phone": "+91 ..." }] }
+```
+
+- `division` is kept apart from the name so "Class 5 A" and "Class 5 B" sort
+  together. Leave it out where there is no division.
+- `groupsLabel` names the tab — Units, Classes, Wards — per ministry.
+- A person whose name is still blank is **not shown**. An empty row is the
+  office's unfinished work, and the page says "Names to follow" instead of
+  printing a line with nothing on it.
+- Telephone numbers render as `tel:` links, so a number is dialled rather than
+  copied out by hand.
+
 ## Answering people
 
 Every message, hall request and office request can be answered from the

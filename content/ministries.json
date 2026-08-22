@@ -23,6 +23,10 @@
     "history": {
       "en": "History",
       "ml": "ചരിത്രം"
+    },
+    "groups": {
+      "en": "Groups",
+      "ml": "ഗ്രൂപ്പുകൾ"
     }
   },
   "items": [
@@ -294,7 +298,241 @@
       "joinNote": {
         "en": "Registration for the new academic year opens in the last week of May at the parish office.",
         "ml": "പുതിയ അധ്യയന വർഷത്തേക്കുള്ള രജിസ്ട്രേഷൻ മെയ് അവസാന ആഴ്ച ഇടവക ഓഫീസിൽ ആരംഭിക്കുന്നു."
-      }
+      },
+      "groupsLabel": {
+        "en": "Classes",
+        "ml": "ക്ലാസുകൾ"
+      },
+      "groups": [
+        {
+          "name": {
+            "en": "Class 1",
+            "ml": "ഒന്നാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 2",
+            "ml": "രണ്ടാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 3",
+            "ml": "മൂന്നാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 4",
+            "ml": "നാലാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 5",
+            "ml": "അഞ്ചാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 6",
+            "ml": "ആറാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 7",
+            "ml": "ഏഴാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 8",
+            "ml": "എട്ടാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 9",
+            "ml": "ഒൻപതാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 10",
+            "ml": "പത്താം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 11",
+            "ml": "പതിനൊന്നാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 12",
+            "ml": "പന്ത്രണ്ടാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "choir",
@@ -463,48 +701,6 @@
           "ml": "വർഷത്തിലൊരിക്കൽ സഹഭോജനത്തോടെ കൂട്ടായ്മ ദിനം"
         }
       ],
-      "team": [
-        {
-          "name": {
-            "en": "Joy Manakkattu",
-            "ml": "ജോയ് മണക്കാട്ട്"
-          },
-          "role": {
-            "en": "St. Peter's Unit",
-            "ml": "വി. പത്രോസ് കൂട്ടായ്മ"
-          }
-        },
-        {
-          "name": {
-            "en": "Sheeja Vadakkan",
-            "ml": "ഷീജ വടക്കൻ"
-          },
-          "role": {
-            "en": "St. Joseph's Unit",
-            "ml": "വി. യൗസേപ്പ് കൂട്ടായ്മ"
-          }
-        },
-        {
-          "name": {
-            "en": "Bijoy Ouseph",
-            "ml": "ബിജോയ് ഔസേപ്പ്"
-          },
-          "role": {
-            "en": "St. Sebastian's Unit",
-            "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
-          }
-        },
-        {
-          "name": {
-            "en": "Rosily Kalathil",
-            "ml": "റോസിലി കളത്തിൽ"
-          },
-          "role": {
-            "en": "St. Thomas Unit",
-            "ml": "വി. തോമാശ്ലീഹാ കൂട്ടായ്മ"
-          }
-        }
-      ],
       "events": [
         {
           "date": "2026-09-20",
@@ -532,7 +728,373 @@
       "joinNote": {
         "en": "Every household in the parish register already belongs to a unit. The office will tell you which.",
         "ml": "ഇടവക രജിസ്റ്ററിലെ എല്ലാ കുടുംബവും ഇതിനകം ഒരു കൂട്ടായ്മയിൽ ഉൾപ്പെട്ടിട്ടുണ്ട്. ഏതെന്ന് ഓഫീസ് അറിയിക്കും."
-      }
+      },
+      "groupsLabel": {
+        "en": "Units",
+        "ml": "കൂട്ടായ്മകൾ"
+      },
+      "groups": [
+        {
+          "name": {
+            "en": "St. Peter's Unit",
+            "ml": "വി. പത്രോസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Joy Manakkattu",
+                "ml": "ജോയ് മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Joseph's Unit",
+            "ml": "വി. യൗസേപ്പ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Sheeja Vadakkan",
+                "ml": "ഷീജ വടക്കൻ"
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Sebastian's Unit",
+            "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Bijoy Ouseph",
+                "ml": "ബിജോയ് ഔസേപ്പ്"
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Thomas Unit",
+            "ml": "വി. തോമാശ്ലീഹാ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Rosily Kalathil",
+                "ml": "റോസിലി കളത്തിൽ"
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Mary's Unit",
+            "ml": "വി. മറിയം കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. George's Unit",
+            "ml": "വി. ഗീവർഗീസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Antony's Unit",
+            "ml": "വി. അന്തോണീസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Alphonsa Unit",
+            "ml": "വി. അൽഫോൻസാമ്മ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Chavara Unit",
+            "ml": "വി. ചാവറയച്ചൻ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Sacred Heart Unit",
+            "ml": "തിരുഹൃദയ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Little Flower Unit",
+            "ml": "വി. കൊച്ചുത്രേസ്യാ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Holy Family Unit",
+            "ml": "തിരുക്കുടുംബ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Leader",
+                "ml": "ഭാരവാഹി"
+              },
+              "phone": ""
+            },
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Co-leader",
+                "ml": "സഹ ഭാരവാഹി"
+              },
+              "phone": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "mathruvedi",

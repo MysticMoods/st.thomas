@@ -14,10 +14,11 @@ import { SectionHeading } from './ui/SectionHeading'
 import { SmartImage } from './ui/SmartImage'
 
 type Ministry = MinistriesContent['items'][number]
-type TabId = 'about' | 'team' | 'events' | 'history'
+type TabId = 'about' | 'groups' | 'team' | 'events' | 'history'
 
 const FALLBACK_LABELS: Record<TabId, L> = {
   about: { en: 'About', ml: 'വിവരണം' },
+  groups: { en: 'Groups', ml: 'ഗ്രൂപ്പുകൾ' },
   team: { en: 'Members', ml: 'അംഗങ്ങൾ' },
   events: { en: 'Events', ml: 'പരിപാടികൾ' },
   history: { en: 'History', ml: 'ചരിത്രം' },
@@ -98,7 +99,12 @@ function MinistryDialog({
   const titleId = useDialogId('ministry')
   const [tab, setTab] = useState<TabId>('about')
 
-  const label = (id: TabId) => t(labels?.[id] ?? FALLBACK_LABELS[id])
+  // A ministry may name its own groups — Units for the family units, Classes
+  // for the Sunday school — rather than take the general word for them.
+  const label = (id: TabId) =>
+    id === 'groups' && ministry?.groupsLabel
+      ? t(ministry.groupsLabel)
+      : t(labels?.[id] ?? FALLBACK_LABELS[id])
 
   const close = () => {
     onClose()
@@ -109,6 +115,7 @@ function MinistryDialog({
   const tabs: TabId[] = ministry
     ? ([
         'about',
+        ministry.groups?.length ? 'groups' : null,
         ministry.team?.length ? 'team' : null,
         ministry.events?.length ? 'events' : null,
         ministry.history ? 'history' : null,
@@ -225,6 +232,7 @@ function MinistryDialog({
                 transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               >
                 {active === 'about' ? <AboutTab ministry={ministry} onClose={close} /> : null}
+                {active === 'groups' ? <GroupsTab ministry={ministry} /> : null}
                 {active === 'team' ? <TeamTab ministry={ministry} /> : null}
                 {active === 'events' ? <EventsTab ministry={ministry} /> : null}
                 {active === 'history' ? (
@@ -413,5 +421,92 @@ function EventsTab({ ministry }: { ministry: Ministry }) {
         </li>
       ))}
     </ol>
+  )
+}
+
+/**
+ * The units of the family-unit ministry, or the classes of the Sunday school.
+ *
+ * Both are the same question asked twice — which one am I in, and who do I
+ * ring? — so both are answered the same way: the group, anything worth knowing
+ * under the name, and the people, with their numbers as links a phone can dial
+ * rather than digits to copy out by hand.
+ */
+/**
+ * The people whose names have actually been filled in. A row with an empty name
+ * and an empty telephone number is not a person: it is the office's half of the
+ * work, and the page should say so plainly rather than print a blank line.
+ */
+function named(group: { people?: { name: L; role?: L; phone?: string }[] }) {
+  return (group.people ?? []).filter((person) => person.name?.en?.trim() || person.name?.ml?.trim())
+}
+
+function GroupsTab({ ministry }: { ministry: Ministry }) {
+  const { t } = useLang()
+  const groups = ministry.groups ?? []
+
+  return (
+    <div>
+      <p className="font-sans text-sm text-[rgb(var(--muted))]">
+        {t(ministry.groupsLabel ?? { en: 'Groups', ml: 'ഗ്രൂപ്പുകൾ' })} —{' '}
+        <span className="tabular-nums">{groups.length}</span>{' '}
+        {t({ en: 'in all', ml: 'ആകെ' })}
+      </p>
+
+      <ul className="mt-6 grid gap-3 md:grid-cols-2">
+        {groups.map((group, index) => (
+          <li
+            key={`${group.name.en}-${group.division ?? index}`}
+            className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))] p-4"
+          >
+            <p className="flex flex-wrap items-baseline gap-2">
+              <span className="font-serif text-base text-[rgb(var(--ink))]">
+                {t(group.name)}
+              </span>
+              {group.division ? (
+                <span className="rounded-sm border border-gold-400/40 px-1.5 py-0.5 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.14em] text-gold-600 dark:text-gold-400">
+                  {group.division}
+                </span>
+              ) : null}
+            </p>
+
+            {group.note ? (
+              <p className="mt-1 font-sans text-2xs leading-relaxed text-[rgb(var(--muted))]">
+                {t(group.note)}
+              </p>
+            ) : null}
+
+            {named(group).length ? (
+              <ul className="mt-3 flex flex-col gap-2 border-t border-dashed border-[rgb(var(--line))] pt-3">
+                {named(group).map((person, i) => (
+                  <li key={`${person.name.en}-${i}`} className="flex flex-wrap items-baseline gap-x-2">
+                    <span className="font-sans text-sm text-[rgb(var(--ink))]">
+                      {t(person.name)}
+                    </span>
+                    {person.role ? (
+                      <span className="font-sans text-2xs uppercase tracking-[0.12em] text-[rgb(var(--muted))]">
+                        {t(person.role)}
+                      </span>
+                    ) : null}
+                    {person.phone ? (
+                      <a
+                        href={`tel:${person.phone.replace(/[^+0-9]/g, '')}`}
+                        className="ml-auto font-sans text-2xs tabular-nums text-gold-600 transition-colors hover:text-gold-500 dark:text-gold-400"
+                      >
+                        {person.phone}
+                      </a>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 font-sans text-2xs text-[rgb(var(--muted))]">
+                {t({ en: 'Names to follow.', ml: 'പേരുകൾ ഉടൻ ചേർക്കും.' })}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }

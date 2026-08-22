@@ -110,6 +110,17 @@ export type StatsContent = {
   items: { id: string; value: number; suffix: string; label: L }[]
 }
 
+export type MinistryGroup = {
+  /** The unit or the class: "St. Peter's Unit", "Class 5". */
+  name: L
+  /** Kept apart from the name so "Class 5 A" and "Class 5 B" sit together. */
+  division?: string
+  /** Where it meets, when — anything worth saying under the name. */
+  note?: L
+  /** Leader and co-leader, or the teacher. A phone number is the point. */
+  people?: { name: L; role?: L; phone?: string }[]
+}
+
 export type MinistryMember = {
   name: L
   role: L
@@ -127,6 +138,8 @@ export type MinistriesContent = {
   /** Shown on the detail panel above the tabs. */
   labels?: {
     about: L
+    /** Only used when a ministry has no groupsLabel of its own. */
+    groups?: L
     team: L
     events: L
     history: L
@@ -149,6 +162,14 @@ export type MinistriesContent = {
     history?: L
     activities?: L[]
     team?: MinistryMember[]
+    /**
+     * The units a family-unit ministry is divided into, or the classes of the
+     * Sunday school — a named group and the people to ring about it. One shape
+     * for both, because they differ only in what they are called.
+     */
+    groups?: MinistryGroup[]
+    /** What to call them on the tab: Units, Classes, Wards. */
+    groupsLabel?: L
     events?: MinistryEvent[]
     joinNote?: L
   }[]

@@ -428,6 +428,38 @@ ok('the memorial page carries the parish prayer', memorial.length > 200)
 ok('a memorial that does not exist is a proper 404',
    (await page.request.get('http://localhost:3000/obituary/nobody-here-xx99')).status() === 404)
 
+// ------------------------------------------- family units and Sunday school
+await page.goto('http://localhost:3000/#ministries', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2400)
+await page.locator('#ministries').getByText('Family Units', { exact: false }).first().click()
+await page.waitForTimeout(1500)
+ok('a ministry with units offers them as their own tab',
+   (await page.locator('[role=dialog] button:has-text("Units")').count()) > 0)
+await page.locator('[role=dialog] button:has-text("Units")').first().click()
+await page.waitForTimeout(900)
+const unitPanel = await page.locator('[role=dialog]').innerText()
+ok('every family unit is listed', /12\s+in all/i.test(unitPanel))
+// Only the leaders already written down appear; the roles nobody has filled in
+// are left out rather than printed as empty lines.
+ok('a unit names who leads it', /Leader/i.test(unitPanel) && unitPanel.includes('Joy Manakkattu'))
+ok('a unit still waiting for its names says so', /Names to follow/i.test(unitPanel))
+await page.keyboard.press('Escape')
+await page.waitForTimeout(700)
+
+await page.locator('#ministries').getByText('Sunday School', { exact: false }).first().click()
+await page.waitForTimeout(1500)
+await page.locator('[role=dialog] button:has-text("Classes")').first().click()
+await page.waitForTimeout(900)
+const classPanel = await page.locator('[role=dialog]').innerText()
+ok('every Sunday school class is listed', /12\s+in all/i.test(classPanel))
+ok('the classes are named by standard',
+   classPanel.includes('Class 1') && classPanel.includes('Class 12'))
+ok('a class waiting for its teacher says so, rather than showing a blank',
+   /Names to follow/i.test(classPanel))
+await page.keyboard.press('Escape')
+await page.waitForTimeout(700)
+ok('and the panel still closes', (await page.locator('[role=dialog]').count()) === 0)
+
 // ---------------------------------------------------------------- parish hall
 await page.goto('http://localhost:3000/hall', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2500)

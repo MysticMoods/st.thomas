@@ -30,6 +30,7 @@ const LINKS: NavLink[] = [
   { id: 'committee', label: ui.nav.committee },
   { id: 'past-priests', label: ui.nav.pastPriests, drawerOnly: true },
   { id: 'mass-timings', label: ui.nav.mass },
+  { id: 'chapels', label: ui.nav.chapels, drawerOnly: true },
   { id: 'weekly-events', label: ui.nav.events },
   { id: 'ministries', label: ui.nav.ministries },
   { id: 'media', label: ui.nav.media, drawerOnly: true },

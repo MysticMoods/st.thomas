@@ -147,6 +147,7 @@ Sections added on top of the original demo:
 | `obituaries.json` | The obituary column (homepage strip and the `/obituary` archive) |
 | `committee.json` | The parish committee, directly under the parish priest |
 | `donation.json` | Giving — funds, amounts, limits, bank and UPI details |
+| `chapels.json` | The kurishupallis and filial chapels, and when Mass is said there |
 
 When changing content, preserve the existing schema and bilingual key structure.
 

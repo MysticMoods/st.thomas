@@ -8,6 +8,7 @@ import { Gallery } from '@/components/Gallery'
 import { HallPromo } from '@/components/HallPromo'
 import { Hero } from '@/components/Hero'
 import { Leadership } from '@/components/Leadership'
+import { Chapels } from '@/components/Chapels'
 import { MassTimings } from '@/components/MassTimings'
 import { Media } from '@/components/Media'
 import { Members } from '@/components/Members'
@@ -92,6 +93,9 @@ export default async function HomePage() {
 
         <EditableSection section="mass" label="Mass Timings">
           <MassTimings mass={content.mass} />
+        </EditableSection>
+        <EditableSection section="chapels" label="Chapels">
+          <Chapels chapels={content.chapels} />
         </EditableSection>
         <EditableSection section="events" label="Weekly Events">
           <WeeklyCalendar events={content.events} />

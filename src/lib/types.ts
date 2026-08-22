@@ -398,6 +398,38 @@ export type OfficeContent = {
   prayers: { title: L; blurb: L; note: L }
 }
 
+/**
+ * The chapels of the parish — the kurishupallis and filial chapels where Mass
+ * is said away from the parish church.
+ *
+ * Their timings are shaped like the parish church's own, because they answer
+ * the same question and there is no reason for a reader, or an editor, to meet
+ * two different arrangements of it.
+ */
+export type ChapelsContent = {
+  title: L
+  subtitle: L
+  /** Said once, under all of them — that timings move for feasts and rain. */
+  note?: L
+  items: {
+    id: string
+    name: L
+    /** Who it is dedicated to. */
+    patron?: L
+    /** The feast day, written the way it would be said. */
+    feast?: L
+    /** Where it stands, in words somebody could follow. */
+    place?: L
+    /** A link to it on a map, for anybody who would rather be shown. */
+    mapUrl?: string
+    image?: string
+    entries?: { time: string; label: L; note?: L }[]
+    /** Who to ring about this one, if not the parish office. */
+    contact?: { name?: L; phone?: string }
+    note?: L
+  }[]
+}
+
 export type Content = {
   site: SiteContent
   about: AboutContent
@@ -416,11 +448,13 @@ export type Content = {
   committee: CommitteeContent
   donation: DonationContent
   office: OfficeContent
+  chapels: ChapelsContent
 }
 
 /** Keys the admin dashboard may read and write. */
 export const CONTENT_KEYS = [
   'site',
+  'chapels',
   'about',
   'mass',
   'events',

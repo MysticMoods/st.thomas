@@ -66,6 +66,7 @@ export const ui = {
     home: { en: 'Home', ml: 'ഹോം' },
     about: { en: 'About', ml: 'ഞങ്ങളെക്കുറിച്ച്' },
     mass: { en: 'Mass Timings', ml: 'കുർബാന സമയം' },
+    chapels: { en: 'Chapels', ml: 'കുരിശുപള്ളികൾ' },
     events: { en: 'Weekly Events', ml: 'പ്രതിവാര പരിപാടികൾ' },
     priests: { en: 'Priests', ml: 'വൈദികർ' },
     committee: { en: 'Committee', ml: 'കമ്മിറ്റി' },

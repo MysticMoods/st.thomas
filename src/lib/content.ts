@@ -54,6 +54,7 @@ export async function getContent(): Promise<Content> {
     committee,
     donation,
     office,
+    chapels,
   ] = await Promise.all([
     readContent('site'),
     readContent('about'),
@@ -72,6 +73,7 @@ export async function getContent(): Promise<Content> {
     readContent('committee'),
     readContent('donation'),
     readContent('office'),
+    readContent('chapels'),
   ])
 
   return {
@@ -92,6 +94,7 @@ export async function getContent(): Promise<Content> {
     committee,
     donation,
     office,
+    chapels,
   } as Content
 }
 

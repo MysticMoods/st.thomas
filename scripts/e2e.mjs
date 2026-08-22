@@ -428,6 +428,18 @@ ok('the memorial page carries the parish prayer', memorial.length > 200)
 ok('a memorial that does not exist is a proper 404',
    (await page.request.get('http://localhost:3000/obituary/nobody-here-xx99')).status() === 404)
 
+// ----------------------------------------------------------------- chapels
+await page.goto('http://localhost:3000/#chapels', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2400)
+ok('the chapels have a section of their own', (await page.locator('#chapels').count()) === 1)
+const chapelText = await page.locator('#chapels').innerText()
+ok('a chapel is named', /chapel/i.test(chapelText))
+ok('it says when Mass is said there', /\d{1,2}:\d{2}\s*(AM|PM)/i.test(chapelText))
+ok('and warns that timings move', /feast|rain/i.test(chapelText))
+ok('a chapel can be searched for',
+   ((await (await page.request.get('http://localhost:3000/api/search?q=chapel')).json()).results ?? [])
+     .some((r) => String(r.href).includes('#chapels')))
+
 // ------------------------------------------- family units and Sunday school
 await page.goto('http://localhost:3000/#ministries', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2400)

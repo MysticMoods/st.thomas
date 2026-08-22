@@ -48,15 +48,14 @@ export function Chapels({ chapels }: { chapels: ChapelsContent }) {
               className="overflow-hidden rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]"
             >
               {chapel.image ? (
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <SmartImage
-                    src={chapel.image}
-                    alt={t(chapel.name)}
-                    fill
-                    sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
+                <SmartImage
+                  src={chapel.image}
+                  alt={t(chapel.name)}
+                  fill
+                  sizes="(min-width: 1280px) 30vw, (min-width: 768px) 45vw, 100vw"
+                  wrapperClassName="aspect-[4/3] w-full"
+                  className="object-cover"
+                />
               ) : null}
 
               <div className="p-6">

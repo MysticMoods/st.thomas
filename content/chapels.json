@@ -15,14 +15,14 @@
         "ml": "വി. യൂദാ ശ്ലീഹാ കുരിശുപള്ളി"
       },
       "place": {
-        "en": "Rename this one and add the rest — it is here so there is a card to copy.",
-        "ml": "ഇത് തിരുത്തി ബാക്കിയുള്ളവ ചേർക്കുക — പകർത്താൻ ഒരു മാതൃകയായി നൽകിയിരിക്കുന്നു."
+        "en": "Replace this card with a real chapel — its photograph, name, where it stands, and when people gather there.",
+        "ml": "ഈ കാർഡ് യഥാർത്ഥ കുരിശുപള്ളിയുടേതാക്കി മാറ്റുക — ഫോട്ടോ, പേര്, സ്ഥലം, പ്രാർത്ഥനാ സമയം."
       },
       "time": {
         "en": "First Friday, 6:30 PM",
         "ml": "ആദ്യ വെള്ളിയാഴ്ച, വൈകിട്ട് 6:30"
       },
-      "image": ""
+      "image": "/images/site/candles-cross.jpg"
     }
   ]
 }

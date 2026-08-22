@@ -1,14 +1,11 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-
 import { NextResponse } from 'next/server'
 
 import { audit } from '@/lib/audit'
 import { currentSession } from '@/lib/auth'
+import { store } from '@/lib/store'
 
 export const runtime = 'nodejs'
 
-const UPLOADS = path.join(process.cwd(), 'public', 'uploads')
 const MAX_BYTES = 8 * 1024 * 1024
 const ALLOWED: Record<string, string> = {
   'image/jpeg': 'jpg',
@@ -51,11 +48,13 @@ export async function POST(request: Request) {
     )
   }
 
-  await fs.mkdir(UPLOADS, { recursive: true })
+  // Where this lands depends on the store: the parish's own public/uploads
+  // folder, or the bucket. Either way it comes back as a path the page can use.
   const filename = `${slug(file.name)}-${Date.now().toString(36)}.${extension}`
-  await fs.writeFile(
-    path.join(UPLOADS, filename),
+  const stored = await store.putFile(
+    filename,
     Buffer.from(await file.arrayBuffer()),
+    file.type,
   )
 
   await audit({
@@ -67,5 +66,5 @@ export async function POST(request: Request) {
     detail: `${Math.round(file.size / 1024)} KB ${file.type}`,
   })
 
-  return NextResponse.json({ ok: true, path: `/uploads/${filename}` })
+  return NextResponse.json({ ok: true, path: stored.url })
 }

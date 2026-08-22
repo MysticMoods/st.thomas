@@ -17,6 +17,24 @@ const nextConfig = {
       { protocol: 'https', hostname: 'i.ytimg.com' },
     ],
   },
+  /**
+   * Photographs are referred to as /uploads/whatever.jpg wherever they are
+   * actually kept. On a machine with its own disk that is a real folder. On a
+   * host without one they live in the bucket, and this quietly fetches them
+   * from there — so seventeen content files never have to learn which.
+   */
+  async rewrites() {
+    const bucket = process.env.SUPABASE_URL?.trim().replace(/\/$/, '')
+    const onDisk = process.env.STORAGE?.trim().toLowerCase() === 'disk'
+    if (!bucket || onDisk) return []
+    return [
+      {
+        source: '/uploads/:file*',
+        destination: `${bucket}/storage/v1/object/public/uploads/:file*`,
+      },
+    ]
+  },
+
   async headers() {
     return [
       {

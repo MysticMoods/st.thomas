@@ -1,8 +1,6 @@
 import crypto from 'node:crypto'
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
 
-import { writeJson } from './content'
+import { store } from './store'
 
 /**
  * Staff accounts for the dashboard.
@@ -35,8 +33,6 @@ export type User = {
 
 /** What may safely be sent to the browser — never the hash. */
 export type PublicUser = Omit<User, 'salt' | 'hash'>
-
-const FILE = path.join(process.cwd(), 'content', 'users.json')
 
 const SCRYPT = { N: 16384, r: 8, p: 1 } as const
 const KEY_LENGTH = 64
@@ -74,16 +70,12 @@ function passwordMatches(password: string, salt: string, hash: string) {
 }
 
 export async function readUsers(): Promise<User[]> {
-  try {
-    const list = JSON.parse(await fs.readFile(FILE, 'utf-8'))
-    return Array.isArray(list) ? (list as User[]) : []
-  } catch {
-    return []
-  }
+  const list = await store.readState<User[]>('users', [])
+  return Array.isArray(list) ? list : []
 }
 
 export async function writeUsers(users: User[]) {
-  await writeJson(FILE, users)
+  await store.writeState('users', users)
 }
 
 export function publicUser(user: User): PublicUser {

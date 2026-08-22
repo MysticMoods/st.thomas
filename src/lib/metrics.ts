@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 
-import { writeJson } from './content'
+import { store } from './store'
 
 /**
  * How much the site is being read.
@@ -13,7 +13,6 @@ import { writeJson } from './content'
  * the parish owns its own figures.
  */
 
-const FILE = path.join(process.cwd(), 'content', 'analytics.json')
 const KEEP_DAYS = 180
 
 export type Day = {
@@ -29,7 +28,7 @@ const EMPTY: Analytics = { days: {} }
 
 export async function readAnalytics(): Promise<Analytics> {
   try {
-    const parsed = JSON.parse(await fs.readFile(FILE, 'utf-8'))
+    const parsed = await store.readState<Analytics>('analytics', { days: {} })
     return parsed && typeof parsed === 'object' && parsed.days ? (parsed as Analytics) : EMPTY
   } catch {
     return EMPTY
@@ -107,7 +106,7 @@ export async function flush(): Promise<void> {
         delete data.days[old]
       }
 
-      await writeJson(FILE, data)
+      await store.writeState('analytics', data)
     } catch {
       /* counting readers must never break serving them */
     }

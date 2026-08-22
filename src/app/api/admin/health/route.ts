@@ -4,6 +4,8 @@ import path from 'node:path'
 
 import { NextResponse } from 'next/server'
 
+import { store } from '@/lib/store'
+
 import { isAuthenticated } from '@/lib/auth'
 import { readRecords } from '@/lib/content'
 import { mailConfigured, readOutbox } from '@/lib/mail'
@@ -49,15 +51,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
-  const probe = path.join(CONTENT, `.health.${process.pid}.tmp`)
-  let writable = false
-  try {
-    await fs.writeFile(probe, 'ok', 'utf-8')
-    await fs.rm(probe, { force: true })
-    writable = true
-  } catch {
-    writable = false
-  }
+  const writable = await store.writable()
 
   const missing: string[] = []
   for (const key of CONTENT_KEYS) {
@@ -74,7 +68,13 @@ export async function GET() {
 
   // Settings that are wrong rather than merely unset get said plainly.
   const warnings: string[] = []
-  if (!writable) warnings.push('The content folder cannot be written to — no edit will save.')
+  if (!writable) {
+    warnings.push(
+      store.name === 'disk'
+        ? 'The content folder cannot be written to — no edit will save.'
+        : 'The database cannot be written to — no edit will save. Check the storage settings.',
+    )
+  }
   if (missing.length) warnings.push(`Missing content files: ${missing.join(', ')}`)
   if (secret.length < 32) {
     warnings.push('ADMIN_SESSION_SECRET is short or unset. Use a long random string.')

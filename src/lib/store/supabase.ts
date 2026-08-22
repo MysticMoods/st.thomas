@@ -63,9 +63,51 @@ export function makeSupabaseStore(url: string, serviceKey: string): Store {
     })
   }
 
+  /**
+   * What has been read already, and how to know whether it is still true.
+   *
+   * Every page the site renders reads all seventeen content sections — the
+   * homepage alone is six hundred kilobytes of them. Fetching that on every
+   * visit would spend a free month's bandwidth in a few thousand page views,
+   * which a parish reaches the first time a funeral notice goes round.
+   *
+   * So the sections are kept in memory, and what gets fetched on each render is
+   * the list of version strings — a page or so — which says whether anything
+   * has actually changed. In the ordinary case, where nobody has edited
+   * anything since the last visitor, nothing else is asked for at all. The
+   * version list itself is held for a few seconds so a burst of visitors in the
+   * same moment asks once.
+   */
+  const documents = new Map<string, { version: string; data: unknown }>()
+  const VERSIONS_HELD_FOR = 5000
+  let versions: { at: number; map: Map<string, string> } | null = null
+
+  async function currentVersions(): Promise<Map<string, string>> {
+    if (versions && Date.now() - versions.at < VERSIONS_HELD_FOR) return versions.map
+    const rows = await call('documents?select=key,version')
+    const map = new Map<string, string>()
+    for (const row of rows) map.set(String(row.key), String(row.version ?? ''))
+    versions = { at: Date.now(), map }
+    return map
+  }
+
+  /** Forgets what was read, so the next read sees a change this copy just made. */
+  function forget(key: string) {
+    documents.delete(key)
+    versions = null
+  }
+
   async function readDocument<T>(key: string): Promise<T | undefined> {
+    const version = (await currentVersions()).get(key)
+    if (version === undefined) return undefined
+
+    const held = documents.get(key)
+    if (held && held.version === version) return held.data as T
+
     const rows = await call(`documents?key=eq.${encodeURIComponent(key)}&select=data&limit=1`)
-    return rows.length ? (rows[0].data as T) : undefined
+    if (!rows.length) return undefined
+    documents.set(key, { version, data: rows[0].data })
+    return rows[0].data as T
   }
 
   /** Opaque, and changes on every write — which is all the dashboard needs. */
@@ -125,10 +167,14 @@ export function makeSupabaseStore(url: string, serviceKey: string): Store {
         version: newVersion(),
         updated_at: new Date().toISOString(),
       })
+      forget(key)
     },
 
     async contentVersion(key: ContentKey) {
       if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
+      // Asked straight, never from memory: this is what a save is checked
+      // against, and a stale answer here would let one member of staff quietly
+      // overwrite another.
       const rows = await call(
         `documents?key=eq.${encodeURIComponent(key)}&select=version&limit=1`,
       )
@@ -148,6 +194,7 @@ export function makeSupabaseStore(url: string, serviceKey: string): Store {
         version: newVersion(),
         updated_at: new Date().toISOString(),
       })
+      forget(`state:${key}`)
     },
 
     // -------------------------------------------------------- record lists
@@ -233,10 +280,11 @@ export function makeSupabaseStore(url: string, serviceKey: string): Store {
         const detail = await res.text().catch(() => '')
         throw new Error(`Supabase storage ${res.status}: ${detail.slice(0, 300)}`)
       }
-      return {
-        url: `${base}/storage/v1/object/public/uploads/${encodeURIComponent(name)}`,
-        bytes: body.byteLength,
-      }
+      // The same path the disk store gives back. next.config.mjs sends
+      // /uploads/... on to the bucket, so a photograph is referred to the same
+      // way wherever it happens to be kept — and moving between the two means
+      // copying files, not rewriting seventeen content files.
+      return { url: `/uploads/${name}`, bytes: body.byteLength }
     },
 
     async writable() {

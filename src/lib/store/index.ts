@@ -20,7 +20,24 @@ function chooseStore(): Store {
   const url = process.env.SUPABASE_URL?.trim()
   const key = process.env.SUPABASE_SERVICE_KEY?.trim()
 
-  if (!url && !key) return diskStore
+  // STORAGE=disk keeps the settings in place but ignores them, which is what
+  // you want while working on the site: the test suite writes hundreds of
+  // messages and bookings, and none of that belongs in the parish's real
+  // database, or on its bandwidth. STORAGE=supabase insists on the opposite,
+  // so a deployment that has lost its settings fails loudly instead of quietly
+  // writing to a disk that will not be there next time.
+  const forced = process.env.STORAGE?.trim().toLowerCase()
+  if (forced === 'disk') return diskStore
+  if (forced && forced !== 'supabase' && forced !== 'auto') {
+    throw new Error(`Unknown STORAGE setting: ${forced}. Use disk, supabase, or leave it unset.`)
+  }
+
+  if (!url && !key) {
+    if (forced === 'supabase') {
+      throw new Error('STORAGE=supabase, but SUPABASE_URL and SUPABASE_SERVICE_KEY are not set.')
+    }
+    return diskStore
+  }
 
   if (!url || !key) {
     throw new Error(

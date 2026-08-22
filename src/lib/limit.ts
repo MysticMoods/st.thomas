@@ -1,5 +1,4 @@
-import { promises as fs, readFileSync } from 'node:fs'
-import path from 'node:path'
+import { store } from './store'
 
 /**
  * One throttle, used by every gate on the site.
@@ -8,50 +7,77 @@ import path from 'node:path'
  * fifteen lines, and the contact form and newsletter had none at all. They all
  * come here now, so raising a limit or reading what is held means one place.
  *
- * Counts are kept in memory and written to disk behind them. In memory because
- * a parish site runs as one process and a limiter that needed a database would
- * be a worse thing to depend on than the one it guards; on disk because a
- * limiter that forgets everything when the site restarts is one that anybody
- * patient enough to wait for a deploy can walk straight past — and the sign-in
- * gate is one of them.
+ * Counts are kept in memory and written behind them, because a limiter that
+ * forgets everything when the site restarts is one that anybody patient enough
+ * to wait for a deploy can walk straight past — and the sign-in gate is one of
+ * them. On a host that starts a fresh copy of the site whenever it feels like
+ * it, that is not a nicety: without this, five wrong passwords and a cold start
+ * gives an attacker five more.
+ *
+ * Copies of the site that run side by side keep their own counts and merge them
+ * when they save, taking whichever count is higher. That is not perfect — two
+ * copies can each let a few attempts through before they see one another — but
+ * the alternative is a database write on every request to every form, and this
+ * is a parish website. Merging on the high count means the error is always in
+ * the direction of stopping somebody, never of letting them run.
  */
 
 type Bucket = { count: number; until: number }
 
 const buckets = new Map<string, Bucket>()
 
-const FILE = path.join(process.cwd(), 'content', 'limits.json')
 const SAVE_AFTER = 2000
 
 let saving: ReturnType<typeof setTimeout> | null = null
 
-/** What was still running when the site last stopped. Expired counts are dropped. */
-function restore() {
-  try {
-    const rows = JSON.parse(readFileSync(FILE, 'utf-8')) as [string, Bucket][]
+/**
+ * What was still running when this copy of the site started. Read once, in the
+ * background: until it arrives the counts are simply empty, which is the same
+ * position the site was in before any of this was written down at all.
+ */
+void store
+  .readState<[string, Bucket][]>('limits', [])
+  .then((rows) => {
     const now = Date.now()
-    for (const [key, bucket] of rows) {
-      if (bucket && bucket.until > now) buckets.set(key, bucket)
+    for (const [key, bucket] of Array.isArray(rows) ? rows : []) {
+      if (!bucket || bucket.until <= now) continue
+      const held = buckets.get(key)
+      if (!held || bucket.count > held.count) buckets.set(key, bucket)
     }
-  } catch {
-    /* no file, or nothing readable in it: start with a clean slate */
-  }
-}
-
-restore()
+  })
+  .catch(() => {
+    /* nothing kept, or nothing readable: start with a clean slate */
+  })
 
 /**
  * Written a moment after the last change rather than on every request, and
- * never waited for. A throttle that cannot write to disk is still a throttle,
- * so nothing here is allowed to fail a request.
+ * never waited for. A throttle that cannot write is still a throttle, so
+ * nothing here is allowed to fail a request.
  */
 function keep() {
   if (saving) return
-  saving = setTimeout(() => {
+  saving = setTimeout(async () => {
     saving = null
-    const now = Date.now()
-    const rows = [...buckets].filter(([, bucket]) => bucket.until > now)
-    fs.writeFile(FILE, JSON.stringify(rows)).catch(() => {})
+    try {
+      const now = Date.now()
+      const stored = await store.readState<[string, Bucket][]>('limits', [])
+      const merged = new Map<string, Bucket>()
+
+      for (const [key, bucket] of Array.isArray(stored) ? stored : []) {
+        if (bucket && bucket.until > now) merged.set(key, bucket)
+      }
+      for (const [key, bucket] of buckets) {
+        if (bucket.until <= now) continue
+        const held = merged.get(key)
+        // The higher count wins, so a second copy of the site cannot hand
+        // somebody a fresh set of attempts by saving after it.
+        if (!held || bucket.count > held.count) merged.set(key, bucket)
+      }
+
+      await store.writeState('limits', [...merged])
+    } catch {
+      /* a counter that cannot be written down is still worth having in memory */
+    }
   }, SAVE_AFTER)
   // Never hold the process open for the sake of a counter.
   saving.unref?.()

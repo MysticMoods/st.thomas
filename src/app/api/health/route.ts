@@ -3,6 +3,8 @@ import path from 'node:path'
 
 import { NextResponse } from 'next/server'
 
+import { store } from '@/lib/store'
+
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
@@ -20,24 +22,19 @@ const STARTED = Date.now()
  * for a monitor to poll.
  */
 export async function GET() {
-  const content = path.join(process.cwd(), 'content')
   const checks: Record<string, boolean> = { content: false, writable: false }
 
+  // Whether the parish's words can still be read, and whether an edit made now
+  // would save. Both go through the store, so this says something true whether
+  // the site keeps its content in a folder or in a database.
   try {
-    await fs.access(path.join(content, 'site.json'))
+    await store.readContent('site')
     checks.content = true
   } catch {
     checks.content = false
   }
 
-  const probe = path.join(content, `.health.${process.pid}.tmp`)
-  try {
-    await fs.writeFile(probe, 'ok', 'utf-8')
-    await fs.rm(probe, { force: true })
-    checks.writable = true
-  } catch {
-    checks.writable = false
-  }
+  checks.writable = await store.writable()
 
   const ok = checks.content && checks.writable
 
@@ -45,6 +42,7 @@ export async function GET() {
     {
       ok,
       checks,
+      storage: store.name,
       uptimeSeconds: Math.round((Date.now() - STARTED) / 1000),
       at: new Date().toISOString(),
     },

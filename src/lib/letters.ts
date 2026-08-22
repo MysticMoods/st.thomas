@@ -35,9 +35,44 @@ function esc(value: string) {
     .join('&quot;')
 }
 
-/** What somebody typed, as HTML: their line breaks kept, nothing else added. */
+/**
+ * Line breaks kept. Expects text that has already been through esc(): every
+ * letter escapes what a person wrote once, at the top, and the helpers below
+ * assume that was done.
+ */
 function nl2br(value: string) {
-  return esc(value).split(BREAK).join('<br>')
+  return value.split(BREAK).join('<br>')
+}
+
+/**
+ * A copy of a record with its text escaped and everything else left alone —
+ * numbers stay numbers, so `guests ? ... : ''` still means what it says, and an
+ * empty string is still empty. The HTML half of each letter is built from this
+ * copy; the plain half is built from the original.
+ */
+function safe<T extends Record<string, unknown>>(record: T): T {
+  const out: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(record)) {
+    out[key] = typeof value === 'string' ? esc(value) : value
+  }
+  return out as T
+}
+
+/**
+ * Undoes esc(). Several letters write their plain-text half by stripping the
+ * tags out of the HTML half, and a reader of that copy should see an ampersand
+ * rather than the word for one.
+ */
+function unesc(value: string) {
+  return value
+    .split('&quot;')
+    .join('"')
+    .split('&gt;')
+    .join('>')
+    .split('&lt;')
+    .join('<')
+    .split('&amp;')
+    .join('&')
 }
 
 /** One plain wrapper, so every letter looks like it came from the same place. */
@@ -78,11 +113,12 @@ export function contactToOffice(m: {
   subject: string
   message: string
 }): Letter {
+  const E = safe(m)
   const lines = [
-    `<strong>${m.name}</strong> has written through the website.`,
-    m.subject ? `Subject: ${m.subject}` : '',
-    nl2br(m.message),
-    `Reply to: ${m.email}${m.phone ? ` · ${m.phone}` : ''}`,
+    `<strong>${E.name}</strong> has written through the website.`,
+    E.subject ? `Subject: ${E.subject}` : '',
+    nl2br(E.message),
+    `Reply to: ${E.email}${E.phone ? ` · ${E.phone}` : ''}`,
   ]
   return {
     kind: 'contact-office',
@@ -101,11 +137,11 @@ export function contactToOffice(m: {
 
 export function contactToSender(m: { name: string; email: string; message: string }): Letter {
   const lines = [
-    `Dear ${m.name},`,
+    `Dear ${esc(m.name)},`,
     'Your message has reached the parish office. Somebody will read it and reply — usually within a couple of working days.',
     'If it is urgent, please telephone the office rather than wait for this.',
     '<em>നിങ്ങളുടെ സന്ദേശം ഇടവക ഓഫീസിൽ എത്തി. ആരെങ്കിലും അത് വായിച്ച് മറുപടി നൽകും. അടിയന്തിരമാണെങ്കിൽ ദയവായി ഓഫീസിലേക്ക് വിളിക്കുക.</em>',
-    `<span style="color:#6c7382">What you wrote: “${m.message.slice(0, 300)}${m.message.length > 300 ? '…' : ''}”</span>`,
+    `<span style="color:#6c7382">What you wrote: “${esc(m.message.slice(0, 300))}${m.message.length > 300 ? '…' : ''}”</span>`,
   ]
   return {
     kind: 'contact-ack',
@@ -148,13 +184,14 @@ function niceDate(iso: string) {
 }
 
 export function hallRequestToOffice(b: Booking, hallName: string, sessionName: string): Letter {
+  const E = safe(b)
   const lines = [
-    `<strong>${b.name}</strong> has asked for the ${hallName}.`,
-    `${niceDate(b.date)} · ${sessionName}`,
-    b.purpose ? `Occasion: ${b.purpose}` : '',
-    b.guests ? `People expected: ${b.guests}` : '',
-    `Reply to: ${b.email}${b.phone ? ` · ${b.phone}` : ''}`,
-    `Reference <strong>${b.id}</strong> — confirm or decline it in the dashboard under Hall Bookings.`,
+    `<strong>${E.name}</strong> has asked for the ${esc(hallName)}.`,
+    `${niceDate(E.date)} · ${esc(sessionName)}`,
+    E.purpose ? `Occasion: ${E.purpose}` : '',
+    E.guests ? `People expected: ${E.guests}` : '',
+    `Reply to: ${E.email}${E.phone ? ` · ${E.phone}` : ''}`,
+    `Reference <strong>${E.id}</strong> — confirm or decline it in the dashboard under Hall Bookings.`,
   ]
   return {
     kind: 'hall-office',
@@ -180,13 +217,14 @@ export function hallRequestToFamily(
   advance: number,
   phone: string,
 ): Letter {
+  const E = safe(b)
   const lines = [
-    `Dear ${b.name},`,
-    `Your request for the <strong>${hallName}</strong> on <strong>${niceDate(b.date)}</strong> (${sessionName}) has reached the parish office.`,
-    `Your reference is <strong>${b.id}</strong>. Please quote it if you telephone.`,
+    `Dear ${E.name},`,
+    `Your request for the <strong>${esc(hallName)}</strong> on <strong>${niceDate(E.date)}</strong> (${esc(sessionName)}) has reached the parish office.`,
+    `Your reference is <strong>${E.id}</strong>. Please quote it if you telephone.`,
     `The day is held for seven days. It becomes a booking once the advance of ₹${advance.toLocaleString('en-IN')} reaches the office. Nothing has been charged.`,
-    `Somebody will ring you to confirm. If you need to reach us first: ${phone}`,
-    `<em>നിങ്ങളുടെ അപേക്ഷ ഇടവക ഓഫീസിൽ എത്തി. റഫറൻസ്: ${b.id}. ഏഴ് ദിവസത്തേക്ക് ദിവസം മാറ്റിവച്ചിരിക്കുന്നു; അഡ്വാൻസ് ലഭിക്കുമ്പോൾ ബുക്കിംഗ് ഉറപ്പിക്കും.</em>`,
+    `Somebody will ring you to confirm. If you need to reach us first: ${esc(phone)}`,
+    `<em>നിങ്ങളുടെ അപേക്ഷ ഇടവക ഓഫീസിൽ എത്തി. റഫറൻസ്: ${E.id}. ഏഴ് ദിവസത്തേക്ക് ദിവസം മാറ്റിവച്ചിരിക്കുന്നു; അഡ്വാൻസ് ലഭിക്കുമ്പോൾ ബുക്കിംഗ് ഉറപ്പിക്കും.</em>`,
   ]
   return {
     kind: 'hall-ack',
@@ -211,18 +249,19 @@ export function hallDecided(
   phone: string,
 ): Letter {
   const confirmed = status === 'confirmed'
+  const E = safe(b)
   const lines = confirmed
     ? [
-        `Dear ${b.name},`,
-        `The <strong>${hallName}</strong> is yours for <strong>${niceDate(b.date)}</strong> (${sessionName}).`,
-        `Reference ${b.id}. Collect the keys at the parish office on the working day before.`,
-        `Anything to change? Telephone the office: ${phone}`,
+        `Dear ${E.name},`,
+        `The <strong>${esc(hallName)}</strong> is yours for <strong>${niceDate(E.date)}</strong> (${esc(sessionName)}).`,
+        `Reference ${E.id}. Collect the keys at the parish office on the working day before.`,
+        `Anything to change? Telephone the office: ${esc(phone)}`,
         '<em>ഹാൾ ഉറപ്പിച്ചു. തലേ പ്രവൃത്തിദിവസം ഓഫീസിൽ നിന്ന് താക്കോൽ വാങ്ങുക.</em>',
       ]
     : [
-        `Dear ${b.name},`,
-        `We are sorry — the <strong>${hallName}</strong> is not free on <strong>${niceDate(b.date)}</strong> after all, so your request has been set aside.`,
-        `Nothing is owed. If another day would suit, the calendar on the website shows what is open, or telephone the office: ${phone}`,
+        `Dear ${E.name},`,
+        `We are sorry — the <strong>${esc(hallName)}</strong> is not free on <strong>${niceDate(E.date)}</strong> after all, so your request has been set aside.`,
+        `Nothing is owed. If another day would suit, the calendar on the website shows what is open, or telephone the office: ${esc(phone)}`,
         '<em>ക്ഷമിക്കണം, ആ ദിവസം ഹാൾ ലഭ്യമല്ല. മറ്റൊരു ദിവസം നോക്കാൻ വെബ്സൈറ്റിലെ കലണ്ടർ കാണുക.</em>',
       ]
 
@@ -232,7 +271,7 @@ export function hallDecided(
     subject: confirmed
       ? `Confirmed — ${hallName}, ${niceDate(b.date)}`
       : `About your hall request — ${niceDate(b.date)}`,
-    text: plain(lines.map((line) => line.replace(/<[^>]+>/g, ''))),
+    text: plain(lines.map((line) => unesc(line.replace(/<[^>]+>/g, '')))),
     html: dress(confirmed ? 'Your booking is confirmed' : 'Your hall request', lines),
   }
 }
@@ -260,18 +299,19 @@ export function officeRequestToOffice(ask: OfficeAsk, label: string): Letter {
         ? label
         : 'A prayer request'
 
+  const E = safe(ask)
   const lines = [
-    `<strong>${ask.name}</strong> has asked through the website.`,
-    what,
-    ask.subject ? `For: ${ask.subject}` : '',
-    ask.detail ? nl2br(ask.detail) : '',
+    `<strong>${E.name}</strong> has asked through the website.`,
+    esc(what),
+    E.subject ? `For: ${E.subject}` : '',
+    E.detail ? nl2br(E.detail) : '',
     ask.kind === 'prayers'
       ? ask.mayPublish
         ? 'They are content for this to appear in the notices.'
         : '<strong>Not to be published.</strong>'
       : '',
-    `Reply to: ${ask.email || '—'}${ask.phone ? ` · ${ask.phone}` : ''}`,
-    `Reference <strong>${ask.id}</strong> — it is waiting in the dashboard.`,
+    `Reply to: ${E.email || '—'}${E.phone ? ` · ${E.phone}` : ''}`,
+    `Reference <strong>${E.id}</strong> — it is waiting in the dashboard.`,
   ]
 
   return {
@@ -279,7 +319,7 @@ export function officeRequestToOffice(ask: OfficeAsk, label: string): Letter {
     to: officeAddress(),
     replyTo: ask.email || undefined,
     subject: `${what} — ${ask.name}`,
-    text: plain(lines.map((line) => line.replace(/<[^>]+>/g, ''))),
+    text: plain(lines.map((line) => unesc(line.replace(/<[^>]+>/g, '')))),
     html: dress('Asked for at the office', lines),
   }
 }
@@ -288,13 +328,13 @@ export function officeRequestToSender(ask: OfficeAsk, label: string, days: numbe
   const opening =
     ask.kind === 'intentions'
       ? [
-          `Your request for a Holy Mass on <strong>${niceDate(ask.date ?? '')}</strong> — ${label.toLowerCase()}, for ${ask.subject} — has reached the parish office.`,
+          `Your request for a Holy Mass on <strong>${niceDate(ask.date ?? '')}</strong> — ${esc(label.toLowerCase())}, for ${esc(ask.subject)} — has reached the parish office.`,
           'The office will telephone to say which Mass it has been written into.',
           '<em>നിങ്ങളുടെ കുർബാന നിയോഗം ഇടവക ഓഫീസിൽ എത്തി. ഏത് കുർബാനയിലാണെന്ന് ഓഫീസ് വിളിച്ചറിയിക്കും.</em>',
         ]
       : ask.kind === 'certificates'
         ? [
-            `Your request for a <strong>${label.toLowerCase()}</strong> in the name of ${ask.subject} has reached the parish office.`,
+            `Your request for a <strong>${esc(label.toLowerCase())}</strong> in the name of ${esc(ask.subject)} has reached the parish office.`,
             `It is usually ready within ${days} working days. Bring proof of who you are when you come to collect it.`,
             '<em>നിങ്ങളുടെ അപേക്ഷ ഓഫീസിൽ എത്തി. വാങ്ങാൻ വരുമ്പോൾ തിരിച്ചറിയൽ രേഖ കൊണ്ടുവരിക.</em>',
           ]
@@ -304,7 +344,11 @@ export function officeRequestToSender(ask: OfficeAsk, label: string, days: numbe
             '<em>നിങ്ങളുടെ അപേക്ഷ ഇടവകയിൽ എത്തി. കുർബാനയിലും പ്രാർത്ഥനാ സംഘത്തിലും ഇതിനുവേണ്ടി പ്രാർത്ഥിക്കും.</em>',
           ]
 
-  const lines = [`Dear ${ask.name},`, ...opening, `Your reference is <strong>${ask.id}</strong>.`]
+  const lines = [
+    `Dear ${esc(ask.name)},`,
+    ...opening,
+    `Your reference is <strong>${esc(ask.id)}</strong>.`,
+  ]
 
   return {
     kind: `office-${ask.kind}-ack`,
@@ -313,7 +357,7 @@ export function officeRequestToSender(ask: OfficeAsk, label: string, days: numbe
       ask.kind === 'prayers'
         ? 'The parish will pray for this'
         : `We have your request (ref ${ask.id})`,
-    text: plain(lines.map((line) => line.replace(/<[^>]+>/g, ''))),
+    text: plain(lines.map((line) => unesc(line.replace(/<[^>]+>/g, '')))),
     html: dress(
       ask.kind === 'prayers' ? 'The parish will pray for this' : 'We have your request',
       lines,
@@ -323,13 +367,13 @@ export function officeRequestToSender(ask: OfficeAsk, label: string, days: numbe
 
 export function officeDecided(ask: OfficeAsk, label: string, note: string): Letter {
   const lines = [
-    `Dear ${ask.name},`,
+    `Dear ${esc(ask.name)},`,
     ask.kind === 'intentions'
       ? `The Holy Mass you asked for on <strong>${niceDate(ask.date ?? '')}</strong> has been written into the register.`
       : ask.kind === 'certificates'
-        ? `Your <strong>${label.toLowerCase()}</strong> is ready. Collect it at the parish office, and bring proof of who you are.`
+        ? `Your <strong>${esc(label.toLowerCase())}</strong> is ready. Collect it at the parish office, and bring proof of who you are.`
         : 'Your request has been prayed for, and remains in the parish prayers.',
-    note ? `<span style="color:#6c7382">${note}</span>` : '',
+    note ? `<span style="color:#6c7382">${nl2br(esc(note))}</span>` : '',
   ]
 
   return {
@@ -337,7 +381,7 @@ export function officeDecided(ask: OfficeAsk, label: string, note: string): Lett
     to: ask.email,
     subject:
       ask.kind === 'certificates' ? 'Your certificate is ready' : 'About your request to the parish',
-    text: plain(lines.map((line) => line.replace(/<[^>]+>/g, ''))),
+    text: plain(lines.map((line) => unesc(line.replace(/<[^>]+>/g, '')))),
     html: dress(
       ask.kind === 'certificates' ? 'Ready to collect' : 'About your request',
       lines,
@@ -357,9 +401,9 @@ export function donationReceipt(d: {
 }): Letter {
   const rupees = (d.amount / 100).toLocaleString('en-IN')
   const lines = [
-    `Dear ${d.name || 'friend'},`,
-    `The parish has received your gift of <strong>₹${rupees}</strong> towards ${d.fund}.`,
-    `Payment reference ${d.paymentId}, ${new Date(d.at).toLocaleString('en-IN')}.`,
+    `Dear ${esc(d.name) || 'friend'},`,
+    `The parish has received your gift of <strong>₹${rupees}</strong> towards ${esc(d.fund)}.`,
+    `Payment reference ${esc(d.paymentId)}, ${new Date(d.at).toLocaleString('en-IN')}.`,
     'Thank you. It is written into the parish account and will be used for what you gave it for.',
     '<em>നിങ്ങളുടെ സംഭാവനയ്ക്ക് നന്ദി. ഇത് ഇടവക കണക്കിൽ രേഖപ്പെടുത്തിയിട്ടുണ്ട്.</em>',
   ]
@@ -367,7 +411,7 @@ export function donationReceipt(d: {
     kind: 'donation-receipt',
     to: d.email,
     subject: `Thank you — ₹${rupees} received`,
-    text: plain(lines.map((line) => line.replace(/<[^>]+>/g, ''))),
+    text: plain(lines.map((line) => unesc(line.replace(/<[^>]+>/g, '')))),
     html: dress('Your gift has been received', lines),
   }
 }
@@ -379,7 +423,7 @@ export function newsletter(to: string, subject: string, body: string, token: str
     .split(/\n{2,}/)
     .map((block) => block.trim())
     .filter(Boolean)
-    .map((block) => block.replace(/\n/g, '<br>'))
+    .map((block) => nl2br(esc(block)))
 
   const stop = `${siteUrl()}/unsubscribe?token=${encodeURIComponent(token)}`
   const footer = `${SIGN_OFF.en} · ${SIGN_OFF.ml}<br>
@@ -390,7 +434,7 @@ You are receiving this because you asked for parish news at ${siteUrl().replace(
     kind: 'newsletter',
     to,
     subject,
-    text: plain(paragraphs.map((block) => block.replace(/<br>/g, '\n')), `${SIGN_OFF.en}\nStop receiving these: ${stop}`),
+    text: plain(paragraphs.map((block) => unesc(block.replace(/<br>/g, '\n'))), `${SIGN_OFF.en}\nStop receiving these: ${stop}`),
     html: dress(subject, paragraphs, footer),
   }
 }
@@ -407,7 +451,7 @@ export function subscribeWelcome(to: string, token: string): Letter {
     to,
     subject: 'You are on the parish newsletter',
     text: plain(
-      lines.map((line) => line.replace(/<[^>]+>/g, '')),
+      lines.map((line) => unesc(line.replace(/<[^>]+>/g, ''))),
       `${SIGN_OFF.en}\nStop receiving these: ${stop}`,
     ),
     html: dress(
@@ -436,6 +480,8 @@ export function replyToPerson(input: {
 }): Letter {
   const greeting = input.name ? `Dear ${esc(input.name)},` : 'Dear friend,'
   const quoted = input.original.slice(0, 600)
+  const safeReply = esc(input.reply)
+  const safeQuoted = esc(quoted)
 
   return {
     kind: 'reply',
@@ -449,9 +495,9 @@ export function replyToPerson(input: {
     ]),
     html: dress('A word from the parish office', [
       greeting,
-      nl2br(input.reply),
+      nl2br(safeReply),
       quoted
-        ? `<span style="color:#6c7382">You wrote to us:<br>${nl2br(quoted)}</span>`
+        ? `<span style="color:#6c7382">You wrote to us:<br>${nl2br(safeQuoted)}</span>`
         : '',
     ]),
   }

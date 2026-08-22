@@ -140,7 +140,7 @@ function MinistryDialog({
                   className="h-full w-full object-cover"
                 />
                 <div
-                  className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/20"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-navy-950/20"
                   aria-hidden="true"
                 />
               </>

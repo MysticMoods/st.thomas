@@ -148,11 +148,13 @@ ok('donation amount button selects', (await page.locator('#donate button[aria-pr
 
 // the order route refuses anything outside the limits in content/donation.json
 const tooSmall = await page.request.post('http://localhost:3000/api/donate/order', {
+  headers: fromRunAddress,
   data: { fund: 'general', amount: 1 },
 })
 ok('donation order rejects an amount below the minimum', [422, 503].includes(tooSmall.status()),
    `status=${tooSmall.status()}`)
 const badFund = await page.request.post('http://localhost:3000/api/donate/order', {
+  headers: fromRunAddress,
   data: { fund: 'not-a-fund', amount: 500 },
 })
 ok('donation order rejects an unknown fund', [422, 503].includes(badFund.status()),
@@ -244,6 +246,7 @@ const joinedTwice = await page.request.post('http://localhost:3000/api/newslette
 ok('joining twice is not an error', joinedTwice.ok())
 
 const cf = await page.request.post('http://localhost:3000/api/contact', {
+  headers: fromRunAddress,
   data: { name: 'Test Parishioner', email: 'test@example.com', subject: 'Baptism', message: 'Hello from the e2e test.' },
 })
 ok('contact API accepts message', cf.ok())
@@ -259,6 +262,18 @@ const badUser = await page.request.post('http://localhost:3000/api/admin/login',
 ok('login rejects wrong user id', badUser.status() === 401)
 const noUser = await page.request.post('http://localhost:3000/api/admin/login', { headers: fromRunAddress, data: { password: ADMIN_PASS } })
 ok('login rejects missing user id', noUser.status() === 401)
+
+// The counts are written down, so somebody who has used up their attempts
+// cannot get more of them by waiting for the next deploy.
+await new Promise((resolve) => setTimeout(resolve, 2600))
+const limitFile = 'content/limits.json'
+ok('the throttle keeps its counts on disk', existsSync(limitFile))
+const heldGates = existsSync(limitFile) ? JSON.parse(readFileSync(limitFile, 'utf-8')) : []
+ok('the refused attempts were counted against this run',
+   heldGates.some(([key]) => key.startsWith('login:') && key.endsWith(runAddress)),
+   `${heldGates.length} gates held`)
+ok('every gate keeps its own count',
+   heldGates.every(([key]) => key.includes(':')))
 
 // the theme: what the toggle promises is what the page does
 await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
@@ -613,11 +628,17 @@ for (const id of ['intentions', 'certificates', 'prayers']) {
 }
 
 const officeAddress = { 'x-forwarded-for': `10.51.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` }
-const massDay = await page.evaluate(() => {
+// A day nobody has spoken for yet. A run that stopped half way leaves its
+// intention behind, and the next run should not fail over a date it never
+// chose — only one intention is taken per day, and that is the point.
+const alreadyTaken = ((await (await page.request.get('http://localhost:3000/api/office')).json()).taken ?? [])
+const massDay = await page.evaluate((taken) => {
   const day = new Date()
   day.setDate(day.getDate() + 30)
-  return day.toISOString().slice(0, 10)
-})
+  const key = (d) => `${d.getFullYear()}-${`${d.getMonth() + 1}`.padStart(2, '0')}-${`${d.getDate()}`.padStart(2, '0')}`
+  while (taken.includes(key(day))) day.setDate(day.getDate() + 1)
+  return key(day)
+}, alreadyTaken)
 
 const askedMass = await page.request.post('http://localhost:3000/api/office', {
   headers: officeAddress,
@@ -699,7 +720,7 @@ ok('a review can be sent', sentReview.ok(), `status=${sentReview.status()}`)
 const reviewId = sentReview.ok() ? (await sentReview.json()).id : ''
 const beforePublish = await (await page.request.get('http://localhost:3000/api/hall/reviews')).json()
 ok('an unpublished review is not shown to visitors',
-   !JSON.stringify(beforePublish).includes('E2E Reviewer'))
+   !(beforePublish.reviews ?? []).some((r) => r.id === reviewId))
 ok('a rating outside one to five is refused',
    (await page.request.post('http://localhost:3000/api/hall/reviews', {
      headers: fromRunAddress,
@@ -734,29 +755,29 @@ ok('the dashboard is still there for bulk work',
    (await page.locator('text=Parish Dashboard').count()) > 0 &&
    (await page.locator('#admin-password').count()) === 0)
 
-await page.click('button:has-text("Inbox, Gifts & Subscribers")')
+await page.click('button:has-text("Messages & Subscribers")')
 await page.waitForTimeout(1600)
-ok('dashboard shows the donations panel', (await page.locator('text=Donations (').count()) > 0)
+ok('the inbox shows what people wrote in',
+   (await page.locator('text=Messages (').count()) > 0)
 
-await page.click('button:has-text("Parish Statistics")')
-await page.waitForTimeout(1500)
-await page.locator('button[aria-expanded]').first().click()
-await page.waitForTimeout(900)
-const numberInput = page.locator('input[type=number]').first()
-const original = await numberInput.inputValue()
-await numberInput.fill('999')
-await page.click('button:has-text("Save changes")')
-await page.waitForTimeout(2000)
-const verify = await page.request.get('http://localhost:3000/api/admin/content/stats')
-const json = await verify.json()
-ok('admin save persists to content/stats.json', json.data.items[0].value === 999, `value=${json.data.items[0].value}`)
-
-// restore
-await numberInput.fill(original)
-await page.click('button:has-text("Save changes")')
+// giving has a page of its own rather than sitting under the letters
+await page.click('aside button:has-text("Donations")')
 await page.waitForTimeout(1800)
-const restored = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
-ok('admin restores original value', String(restored.data.items[0].value) === original)
+const givingText = await page.locator('main').innerText()
+ok('donations open on their own', /Donations \(/.test(givingText))
+ok('the totals are shown', /received|this month/i.test(givingText))
+ok('the accounts can be taken away as a file',
+   (await page.locator('main button:has-text("CSV"), main button:has-text("Export")').count()) > 0)
+
+// Writing the site happens on the site. The dashboard keeps only what has
+// nowhere else to live, and says where the editing went.
+ok('the dashboard no longer offers a second editor',
+   (await page.locator('aside button:has-text("Parish Statistics")').count()) === 0)
+ok('it points at the pages instead',
+   (await page.locator('aside a:has-text("Edit the pages")').count()) === 1)
+ok('the queues are still here',
+   (await page.locator('aside button:has-text("Hall Bookings")').count()) === 1 &&
+   (await page.locator('aside button:has-text("People & access")').count()) === 1)
 
 // the office decides on the request the suite just sent
 const hallList = await (await page.request.get('http://localhost:3000/api/admin/hall')).json()
@@ -794,14 +815,14 @@ ok('the suite clears the bookings it made',
 ok('a review can be published', published.ok())
 const afterPublish = await (await page.request.get('http://localhost:3000/api/hall/reviews')).json()
 ok('a published review reaches the hall page',
-   JSON.stringify(afterPublish).includes('E2E Reviewer'))
+   (afterPublish.reviews ?? []).some((r) => r.id === reviewId))
 const removed = await page.request.delete('http://localhost:3000/api/admin/hall-reviews', {
   data: { id: reviewId },
 })
 ok('a review can be deleted', removed.ok())
 ok('the deleted review is gone from the page',
-   !JSON.stringify(await (await page.request.get('http://localhost:3000/api/hall/reviews')).json())
-     .includes('E2E Reviewer'))
+   !((await (await page.request.get('http://localhost:3000/api/hall/reviews')).json()).reviews ?? [])
+     .some((r) => r.id === reviewId))
 
 // admin mode — the site itself becomes the editor once staff are signed in
 await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
@@ -826,6 +847,40 @@ ok('the editor names the file it writes',
    /content\/notices\.json/.test(await page.locator('[role=dialog]').innerText()))
 await page.click('[role=dialog] button:has-text("Close")')
 await page.waitForTimeout(700)
+
+// the whole round trip, in place: open a section, change a number, save it
+await page.click('button:has-text("Edit Parish Statistics")')
+await page.waitForTimeout(1800)
+const groupToggle = page.locator('[role=dialog] button[aria-expanded]').first()
+if (await groupToggle.count()) {
+  await groupToggle.click()
+  await page.waitForTimeout(800)
+}
+const statInput = page.locator('[role=dialog] input[type=number]').first()
+const originalStat = await statInput.inputValue()
+await statInput.fill('999')
+await page.waitForTimeout(400)
+await page.click('[role=dialog] button:has-text("Save")')
+// saving reloads the page, so that the saved words appear where they belong
+await page.waitForTimeout(3200)
+const savedStats = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
+ok('editing in place writes to content/stats.json',
+   savedStats.data.items[0].value === 999, `value=${savedStats.data.items[0].value}`)
+
+await page.click('button:has-text("Edit Parish Statistics")')
+await page.waitForTimeout(1800)
+const undoToggle = page.locator('[role=dialog] button[aria-expanded]').first()
+if (await undoToggle.count()) {
+  await undoToggle.click()
+  await page.waitForTimeout(800)
+}
+await page.locator('[role=dialog] input[type=number]').first().fill(originalStat)
+await page.waitForTimeout(400)
+await page.click('[role=dialog] button:has-text("Save")')
+await page.waitForTimeout(3200)
+const statsAgain = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
+ok('and the suite puts the number back',
+   String(statsAgain.data.items[0].value) === originalStat)
 
 // the hall diary: a booking taken at the counter, written straight into the calendar
 await page.goto('http://localhost:3000/hall', { waitUntil: 'domcontentloaded' })
@@ -861,26 +916,44 @@ await page.waitForTimeout(600)
 await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2600)
 
-// dashboard ergonomics — the parish should not be typing raw ids or ISO dates
-await page.click('button:has-text("Notice Board")')
-await page.waitForTimeout(1500)
-await page.locator('button[aria-expanded]', { hasText: 'Assumption Feast' }).first().click()
-await page.waitForTimeout(900)
-ok('notice date uses a calendar picker', (await page.locator('input[type=date]').count()) > 0)
-ok('notice category is a dropdown of declared categories',
-   (await page.locator('select').count()) > 0 && (await page.locator('select').first().inputValue()) === 'feast')
-ok('an array says how many entries it holds', /\d+ entr(y|ies)/.test(await page.locator('main').innerText()))
-await page.evaluate(() => window.scrollTo(0, 1800))
-await page.waitForTimeout(600)
-const saveBox = await page.locator('button:has-text("Save"), button:has-text("Saved")').first().boundingBox()
-ok('the save bar follows you down the form', !!saveBox && saveBox.y > 0 && saveBox.y < 600,
-   `y=${saveBox && Math.round(saveBox.y)}`)
-await page.evaluate(() => window.scrollTo(0, 0))
-await page.fill('input[placeholder="Find a section…"]', 'obit')
+// the sidebar is now only what has nowhere else to live
+await page.fill('input[placeholder="Find a section…"]', 'hall')
 await page.waitForTimeout(500)
-ok('sidebar search narrows the section list', (await page.locator('aside nav button').count()) < 4)
+const narrowed = await page.locator('aside nav button').count()
+ok('sidebar search narrows what is left', narrowed > 0 && narrowed <= 3, `${narrowed} shown`)
 await page.fill('input[placeholder="Find a section…"]', '')
 await page.waitForTimeout(400)
+
+// editor ergonomics — the parish should not be typing raw ids or ISO dates.
+// The editor lives on the page now, so that is where it is checked.
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2400)
+if ((await page.locator('button:has-text("Edit this page")').count()) > 0) {
+  await page.click('button:has-text("Edit this page")')
+  await page.waitForTimeout(700)
+}
+await page.click('button:has-text("Edit Notice Board")')
+await page.waitForTimeout(2000)
+await page.locator('[role=dialog] button[aria-expanded]', { hasText: 'Assumption Feast' }).first().click()
+await page.waitForTimeout(900)
+ok('notice date uses a calendar picker',
+   (await page.locator('[role=dialog] input[type=date]').count()) > 0)
+ok('notice category is a dropdown of declared categories',
+   (await page.locator('[role=dialog] select').count()) > 0 &&
+   (await page.locator('[role=dialog] select').first().inputValue()) === 'feast')
+ok('an array says how many entries it holds',
+   /\d+ entr(y|ies)/.test(await page.locator('[role=dialog]').innerText()))
+const dialogBody = page.locator('[role=dialog] .overflow-y-auto').first()
+await dialogBody.evaluate((el) => el.scrollTo(0, 1200))
+await page.waitForTimeout(600)
+const saveBox = await page.locator('[role=dialog] button:has-text("Save")').first().boundingBox()
+ok('the save button stays in reach down a long form',
+   !!saveBox && saveBox.y > 0 && saveBox.y < 700, `y=${saveBox && Math.round(saveBox.y)}`)
+await page.click('[role=dialog] button:has-text("Close")')
+await page.waitForTimeout(700)
+
+await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2400)
 
 // concurrency guard — a save built on a stale copy must be refused
 const cur = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
@@ -906,11 +979,20 @@ const trBack = await page.request.post('http://localhost:3000/api/admin/translat
 const trBackJson = trBack.ok() ? await trBack.json() : { text: '' }
 ok('translate ml -> en returns English', trBack.ok() && /[A-Za-z]/.test(trBackJson.text || ''), trBackJson.text)
 
-// editing one language rewrites the other in place, not only when it is blank
-await page.click('button:has-text("Homepage & Banners")')
-await page.waitForTimeout(1500)
-const enBox = page.locator('label:has(span:text-is("English"))').first().locator('input.field, textarea.field').first()
-const mlBox = page.locator('label:has(span:text-is("മലയാളം"))').first().locator('input.field, textarea.field').first()
+// editing one language rewrites the other in place, not only when it is blank.
+// The editor is on the page now, and so is the switch that stops it.
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2400)
+if ((await page.locator('button:has-text("Edit this page")').count()) > 0) {
+  await page.click('button:has-text("Edit this page")')
+  await page.waitForTimeout(700)
+}
+await page.click('button:has-text("Edit Homepage & Banners")')
+await page.waitForTimeout(2200)
+ok('the editor carries the auto-translate switch',
+   (await page.locator('[role=dialog] button[aria-pressed]').count()) > 0)
+const enBox = page.locator('[role=dialog] label:has(span:text-is("English"))').first().locator('input.field, textarea.field').first()
+const mlBox = page.locator('[role=dialog] label:has(span:text-is("മലയാളം"))').first().locator('input.field, textarea.field').first()
 const mlBefore = await mlBox.inputValue()
 ok('bilingual field starts with both languages filled', mlBefore.trim().length > 0)
 await enBox.fill('The parish office will stay open on Saturday evening')
@@ -940,7 +1022,7 @@ await page.waitForFunction(
 ).catch(() => {})
 ok('editing Malayalam rewrites the filled English', (await enBox.inputValue()) !== enBefore, await enBox.inputValue())
 // the toggle stops it, and nothing here is saved
-const autoToggle = page.locator('button[aria-pressed]').first()
+const autoToggle = page.locator('[role=dialog] button[aria-pressed]').first()
 await autoToggle.click()
 const heldMl = await mlBox.inputValue()
 await enBox.fill('Nothing should be translated now')
@@ -948,8 +1030,15 @@ await page.keyboard.press('Tab')
 await page.waitForTimeout(4000)
 ok('auto translate off leaves the other language alone', (await mlBox.inputValue()) === heldMl)
 await autoToggle.click()
-await page.click('button:has-text("Revert")')
-await page.waitForTimeout(1500)
+// Closing without saving throws all of it away, which is the point. The
+// confirmation is accepted by the handler set up at the top of this file.
+await page.click('[role=dialog] button:has-text("Close")')
+await page.waitForTimeout(1200)
+ok('closing without saving leaves the site as it was',
+   !/Nothing should be translated now/.test(await page.locator('body').innerText()))
+
+await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(2400)
 
 // ------------------------------------------------------------- operations
 // Everything under "Running the site": accounts, history, backups, figures,

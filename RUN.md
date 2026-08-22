@@ -139,6 +139,15 @@ other language by hand. Nothing blocks the save.
 | `/calendar.ics` | The mass timetable and parish week, for a phone to subscribe to |
 | `/admin` | The dashboard |
 
+## Changing what the site says
+
+Sign in at `/admin`, and you are put back on the site with a strip along the
+top. Press **Edit this page** and every section grows an **Edit** button: press
+one, change the words, press **Save**. The page reloads showing what you wrote.
+
+You are always looking at the thing you are changing, which is why there is no
+separate editor in the dashboard.
+
 ## Answering somebody
 
 Every message in **Inbox**, every request in **Hall Bookings** and everything in

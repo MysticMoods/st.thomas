@@ -73,10 +73,10 @@ export function ParallaxBand({
       </motion.div>
 
       <div
-        className="absolute inset-0 bg-gradient-to-b from-navy-950/75 via-navy-950/45 to-navy-950/80"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-navy-950/75 via-navy-950/45 to-navy-950/80"
         aria-hidden="true"
       />
-      <div className="grain absolute inset-0" aria-hidden="true" />
+      <div className="pointer-events-none grain absolute inset-0" aria-hidden="true" />
 
       {verse ? (
         <motion.div

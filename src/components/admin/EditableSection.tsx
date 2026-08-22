@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { AutoTranslateProvider, useAutoTranslate } from '@/app/admin/AutoTranslate'
+import { AutoTranslateProvider, AutoTranslateToggle, useAutoTranslate } from '@/app/admin/AutoTranslate'
 import { JsonEditor } from '@/app/admin/JsonEditor'
 import { Icon } from '@/components/ui/Icon'
 import { Modal, useDialogId } from '@/components/ui/Modal'
@@ -136,6 +136,8 @@ function SectionDialog({
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {/* The switch that turns auto-translation off, beside the words it acts on. */}
+            <AutoTranslateToggle />
             <button
               type="button"
               onClick={close}

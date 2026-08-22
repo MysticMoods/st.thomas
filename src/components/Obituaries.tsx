@@ -119,7 +119,7 @@ export function ObituaryDialog({
               className="h-full w-full object-cover grayscale-[0.7]"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-transparent"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-transparent"
               aria-hidden="true"
             />
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">

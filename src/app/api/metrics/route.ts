@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+import { throttled } from '@/lib/limit'
+
 import { countView, tidyPath, tidyReferrer } from '@/lib/metrics'
 
 export const runtime = 'nodejs'
@@ -11,30 +13,13 @@ export const dynamic = 'force-dynamic'
  * here can be traced back to a reader.
  */
 
-const seen = new Map<string, { count: number; until: number }>()
 const WINDOW = 60 * 60 * 1000
 const LIMIT = 300
 
-function throttled(ip: string) {
-  const now = Date.now()
-  const entry = seen.get(ip)
-  if (!entry || entry.until < now) {
-    seen.set(ip, { count: 1, until: now + WINDOW })
-    return false
-  }
-  entry.count += 1
-  return entry.count > LIMIT
-}
-
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'local'
-
   // Answer the same way either way: a counter is not worth telling a flooder
   // anything about, and the browser has nothing useful to do with the reply.
-  if (throttled(ip)) return new NextResponse(null, { status: 204 })
+  if (throttled(request, 'metrics', LIMIT, WINDOW)) return new NextResponse(null, { status: 204 })
 
   let body: Record<string, unknown>
   try {

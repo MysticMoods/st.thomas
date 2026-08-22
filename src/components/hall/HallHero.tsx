@@ -47,17 +47,17 @@ export function HallHero({ hall }: { hall: HallContent }) {
             priority={index === 0}
             quality={85}
             sizes="100vw"
-            className="object-cover object-center"
+            className="pointer-events-none object-cover object-center"
           />
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute inset-0 bg-sacred-veil" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-sacred-veil" aria-hidden="true" />
       <div
-        className="absolute inset-0 bg-[linear-gradient(to_top,rgba(7,14,26,0.94)_0%,rgba(7,14,26,0.55)_45%,rgba(7,14,26,0.35)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(7,14,26,0.94)_0%,rgba(7,14,26,0.55)_45%,rgba(7,14,26,0.35)_100%)]"
         aria-hidden="true"
       />
-      <div className="grain absolute inset-0" aria-hidden="true" />
+      <div className="pointer-events-none grain absolute inset-0" aria-hidden="true" />
 
       <div className="container relative z-10 pb-16 pt-36 sm:pb-20 sm:pt-40">
         <motion.span

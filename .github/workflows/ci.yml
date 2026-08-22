@@ -1,0 +1,63 @@
+# Every push is type-checked, built and run through the smoke tests.
+#
+# The suite drives a real browser against a real build, so it needs the site to
+# be running: this builds it, starts it, waits for /api/health to answer, and
+# only then runs the tests. The settings written below are throwaway ones for
+# the runner — the real values live in .env.local on the server and are never
+# committed.
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Settings for the run
+        run: |
+          {
+            echo "ADMIN_USERNAME=vicar"
+            echo "ADMIN_PASSWORD=ci-only-password-not-a-real-one"
+            echo "ADMIN_SESSION_SECRET=$(openssl rand -base64 32 | tr -d '\n')"
+            echo "SITE_URL=http://localhost:3000"
+          } > .env.local
+
+      - name: Build
+        run: npm run build
+
+      - name: Start the site
+        run: |
+          npm start &
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:3000/api/health > /dev/null; then
+              echo "up after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "the site never came up"
+          exit 1
+
+      - name: Install the browser the tests drive
+        run: npx playwright install --with-deps chromium
+
+      - name: Smoke tests
+        run: npm run test:e2e

@@ -10,7 +10,7 @@
   "people": [
     {
       "id": "pope",
-      "image": "",
+      "image": "/uploads/download-mt2xnvk4.jpg",
       "name": {
         "en": "Pope Leo XIV",
         "ml": "ലിയോ പതിനാലാമൻ മാർപ്പാപ്പ"
@@ -31,7 +31,7 @@
     },
     {
       "id": "major-archbishop",
-      "image": "",
+      "image": "/uploads/images-mt2xplcf.jpg",
       "name": {
         "en": "Mar Raphael Thattil",
         "ml": "മാർ റാഫേൽ തട്ടിൽ"

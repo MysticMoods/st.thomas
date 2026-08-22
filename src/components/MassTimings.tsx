@@ -75,7 +75,7 @@ export function MassTimings({ mass }: { mass: MassContent }) {
                     className="h-full w-full object-cover"
                   />
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/25 to-transparent"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/25 to-transparent"
                     aria-hidden="true"
                   />
                   <div className="absolute inset-x-0 bottom-0 flex items-end gap-4 p-6">

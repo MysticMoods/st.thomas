@@ -4,7 +4,7 @@ import { appendRecord, readContent } from '@/lib/content'
 import { bookingWindow, isFree } from '@/lib/hall'
 import { readCalendar } from '@/lib/hall-server'
 import { hallRequestToFamily, hallRequestToOffice } from '@/lib/letters'
-import { looksAutomated } from '@/lib/limit'
+import { looksAutomated, throttled } from '@/lib/limit'
 import { officeAddress, post } from '@/lib/mail'
 import type { HallContent } from '@/lib/types'
 import { isEmail } from '@/lib/utils'
@@ -19,20 +19,8 @@ const CONTROL_CHARS = new RegExp('[\\u0000-\\u001F\\u007F]+', 'g')
  * mischief needs many. Raise HALL_BOOKING_LIMIT if a shared office connection
  * ever trips over it.
  */
-const attempts = new Map<string, { count: number; until: number }>()
 const WINDOW = 60 * 60 * 1000
 const LIMIT = Number(process.env.HALL_BOOKING_LIMIT) || 6
-
-function throttled(ip: string) {
-  const now = Date.now()
-  const entry = attempts.get(ip)
-  if (!entry || entry.until < now) {
-    attempts.set(ip, { count: 1, until: now + WINDOW })
-    return false
-  }
-  entry.count += 1
-  return entry.count > LIMIT
-}
 
 function clean(value: unknown, limit: number) {
   return String(value ?? '')
@@ -42,12 +30,7 @@ function clean(value: unknown, limit: number) {
 }
 
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'local'
-
-  if (throttled(ip)) {
+  if (throttled(request, 'hall-book', LIMIT, WINDOW)) {
     return NextResponse.json(
       { error: 'Several requests have come from here already. Please ring the parish office.' },
       { status: 429 },

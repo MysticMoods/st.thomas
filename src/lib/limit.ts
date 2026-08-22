@@ -1,17 +1,61 @@
+import { promises as fs, readFileSync } from 'node:fs'
+import path from 'node:path'
+
 /**
- * One throttle, used by every public form.
+ * One throttle, used by every gate on the site.
  *
- * The hall, review and donation endpoints each grew their own copy of this. The
- * contact form and the newsletter never got one at all, which meant anybody
- * could fill `content/messages.json` at whatever speed their connection allowed.
+ * Every endpoint that needed limiting had grown its own copy of the same
+ * fifteen lines, and the contact form and newsletter had none at all. They all
+ * come here now, so raising a limit or reading what is held means one place.
  *
- * In memory on purpose: a parish site runs as one process, and a limiter that
- * needed a database would be a worse thing to depend on than the one it guards.
+ * Counts are kept in memory and written to disk behind them. In memory because
+ * a parish site runs as one process and a limiter that needed a database would
+ * be a worse thing to depend on than the one it guards; on disk because a
+ * limiter that forgets everything when the site restarts is one that anybody
+ * patient enough to wait for a deploy can walk straight past — and the sign-in
+ * gate is one of them.
  */
 
 type Bucket = { count: number; until: number }
 
 const buckets = new Map<string, Bucket>()
+
+const FILE = path.join(process.cwd(), 'content', 'limits.json')
+const SAVE_AFTER = 2000
+
+let saving: ReturnType<typeof setTimeout> | null = null
+
+/** What was still running when the site last stopped. Expired counts are dropped. */
+function restore() {
+  try {
+    const rows = JSON.parse(readFileSync(FILE, 'utf-8')) as [string, Bucket][]
+    const now = Date.now()
+    for (const [key, bucket] of rows) {
+      if (bucket && bucket.until > now) buckets.set(key, bucket)
+    }
+  } catch {
+    /* no file, or nothing readable in it: start with a clean slate */
+  }
+}
+
+restore()
+
+/**
+ * Written a moment after the last change rather than on every request, and
+ * never waited for. A throttle that cannot write to disk is still a throttle,
+ * so nothing here is allowed to fail a request.
+ */
+function keep() {
+  if (saving) return
+  saving = setTimeout(() => {
+    saving = null
+    const now = Date.now()
+    const rows = [...buckets].filter(([, bucket]) => bucket.until > now)
+    fs.writeFile(FILE, JSON.stringify(rows)).catch(() => {})
+  }, SAVE_AFTER)
+  // Never hold the process open for the sake of a counter.
+  saving.unref?.()
+}
 
 /** The address a request came from, as far as the proxy in front of us says. */
 export function callerIp(request: Request) {
@@ -44,16 +88,25 @@ export function throttled(
     if (buckets.size > 5000) {
       for (const [entry, held] of buckets) if (held.until < now) buckets.delete(entry)
     }
+    keep()
     return false
   }
 
   bucket.count += 1
+  keep()
   return bucket.count > limit
 }
 
 /** Clears one caller's count — used after a successful sign-in. */
 export function forgive(request: Request, name: string) {
   buckets.delete(`${name}:${callerIp(request)}`)
+  keep()
+}
+
+/** What is being held back at the moment, for the dashboard's health panel. */
+export function heldBack() {
+  const now = Date.now()
+  return [...buckets].filter(([, bucket]) => bucket.until > now).length
 }
 
 /**

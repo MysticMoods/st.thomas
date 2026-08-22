@@ -108,7 +108,7 @@ export function Gallery({ gallery }: { gallery: GalleryContent }) {
                     className="h-full w-full object-cover"
                   />
                   <span
-                    className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                     aria-hidden="true"
                   />
                   <span className="absolute inset-x-0 bottom-0 translate-y-3 p-5 opacity-0 transition-all duration-500 ease-sacred group-hover:translate-y-0 group-hover:opacity-100">

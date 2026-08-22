@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+import { throttled } from '@/lib/limit'
+
 import { recordFault } from '@/lib/report'
 
 export const runtime = 'nodejs'
@@ -11,28 +13,11 @@ export const dynamic = 'force-dynamic'
  * parish office, not a crash reporting service.
  */
 
-const seen = new Map<string, { count: number; until: number }>()
 const WINDOW = 60 * 60 * 1000
 const LIMIT = 20
 
-function throttled(ip: string) {
-  const now = Date.now()
-  const entry = seen.get(ip)
-  if (!entry || entry.until < now) {
-    seen.set(ip, { count: 1, until: now + WINDOW })
-    return false
-  }
-  entry.count += 1
-  return entry.count > LIMIT
-}
-
 export async function POST(request: Request) {
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'local'
-
-  if (throttled(ip)) return new NextResponse(null, { status: 204 })
+  if (throttled(request, 'report', LIMIT, WINDOW)) return new NextResponse(null, { status: 204 })
 
   let body: Record<string, unknown>
   try {

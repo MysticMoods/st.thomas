@@ -9,6 +9,7 @@ import { useTheme } from '@/lib/theme'
 import type { L, SiteContent } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
+import { SiteSearch } from './SiteSearch'
 import { Icon } from './ui/Icon'
 import { ParishEmblem } from './ui/ParishEmblem'
 
@@ -29,6 +30,7 @@ const LINKS: NavLink[] = [
   { id: 'committee', label: ui.nav.committee },
   { id: 'past-priests', label: ui.nav.pastPriests, drawerOnly: true },
   { id: 'mass-timings', label: ui.nav.mass },
+  { id: 'chapels', label: ui.nav.chapels, drawerOnly: true },
   { id: 'weekly-events', label: ui.nav.events },
   { id: 'ministries', label: ui.nav.ministries },
   { id: 'media', label: ui.nav.media, drawerOnly: true },
@@ -36,16 +38,31 @@ const LINKS: NavLink[] = [
   { id: 'gallery', label: ui.nav.gallery },
   { id: 'obituary', label: ui.nav.obituary, href: '/obituary' },
   { id: 'hall', label: ui.nav.hall, href: '/hall' },
+  { id: 'office', label: ui.nav.office, href: '/office' },
   { id: 'members', label: ui.nav.members, drawerOnly: true },
   { id: 'contact', label: ui.nav.contact },
 ]
 
-/** The bar itself, which has to stay inside one line at 1440px. */
-const BAR_LINKS = LINKS.filter((link) => !link.drawerOnly)
+/**
+ * The hall is a site of its own. Its header keeps the way home and then lists
+ * that page's sections instead — the parish menu is a drawer away, and nobody
+ * booking a hall is looking for the catechism timetable.
+ */
+const HALL_LINKS: NavLink[] = [
+  { id: 'top', label: ui.nav.home, href: '/' },
+  { id: 'venue', label: { en: 'The venue', ml: 'വേദി' } },
+  { id: 'halls', label: { en: 'The halls', ml: 'ഹാളുകൾ' } },
+  { id: 'day', label: { en: 'The day', ml: 'ദിവസം' } },
+  { id: 'facilities', label: { en: 'What is included', ml: 'ഉൾപ്പെടുന്നത്' } },
+  { id: 'book', label: { en: 'Availability', ml: 'ലഭ്യത' } },
+  { id: 'reviews', label: { en: 'Reviews', ml: 'അഭിപ്രായങ്ങൾ' } },
+  { id: 'faq', label: { en: 'Good to know', ml: 'അറിഞ്ഞിരിക്കാൻ' } },
+]
 
 export function Navigation({
   site,
   overHero = true,
+  variant = 'site',
 }: {
   site: SiteContent
   /**
@@ -54,15 +71,21 @@ export function Navigation({
    * unreadable over a pale page, so those pages start solid.
    */
   overHero?: boolean
+  /** 'hall' swaps the parish sections for the hall page's own. */
+  variant?: 'site' | 'hall'
 }) {
+  const links = variant === 'hall' ? HALL_LINKS : LINKS
+  /** The bar itself, which has to stay inside one line at 1440px. */
+  const barLinks = links.filter((link) => !link.drawerOnly)
   const { t, lang, setLang } = useLang()
   const { theme, toggle } = useTheme()
   const [solid, setSolid] = useState(!overHero)
   const [open, setOpen] = useState(false)
+  const [searching, setSearching] = useState(false)
   const pathname = usePathname()
   // On a page of its own — /obituary — the highlight belongs to that link, not
   // to Home; there are no homepage sections here for the observer to watch.
-  const routeLink = LINKS.find((link) => link.href && link.href === pathname)
+  const routeLink = links.find((link) => link.href && link.href === pathname)
   const [active, setActive] = useState(routeLink ? routeLink.id : 'top')
 
   // Malayalam labels run roughly half as wide again as their English
@@ -81,26 +104,125 @@ export function Navigation({
     return () => window.removeEventListener('scroll', onScroll)
   }, [overHero])
 
-  // Highlight the section currently filling the viewport.
+  /**
+   * Which link the gold rule sits under.
+   *
+   * This was an IntersectionObserver sorting the entries it was handed by how
+   * much of each section was showing, and it was wrong three ways.
+   *
+   * The observer only reports sections whose visibility *changed*, so a scroll
+   * that moved one section out of the band and nothing into it arrived as a
+   * callback with nothing intersecting — and the rule stayed under whichever
+   * link it was already under, a section or two behind the reading.
+   *
+   * `intersectionRatio` is a fraction of the section, not of the screen, so a
+   * short section showing entirely scored 1 while the long one actually filling
+   * the window scored 0.02. The rule jumped to the wrong link and stayed there.
+   *
+   * And four sections — the past priests, the chapels, the media wall, the
+   * family units — are in the drawer but not on the bar. Reading one of those
+   * set the highlight to a link the bar does not have, so the rule vanished
+   * until the next section arrived.
+   *
+   * So: measure where the sections are, ask which one the reading line is in,
+   * and if it is one of the four, keep the rule under the bar link that stretch
+   * of the page belongs to. Nothing is left to what changed since last time.
+   */
   useEffect(() => {
     if (routeLink) return
-    const targets = LINKS.filter((l) => !l.href)
-      .map((l) => document.getElementById(l.id))
-      .filter(
-      (el): el is HTMLElement => Boolean(el),
-    )
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (visible) setActive(visible.target.id)
-      },
-      { rootMargin: '-45% 0px -50% 0px', threshold: [0, 0.25, 0.5] },
-    )
-    targets.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [routeLink])
+
+    const sections = links.filter((link) => !link.href)
+
+    let frame = 0
+    const measure = () => {
+      frame = 0
+
+      const header = document.querySelector('.site-header')
+      // The line the reader is actually reading at: just below the bar.
+      const line =
+        window.scrollY + (header instanceof HTMLElement ? header.offsetHeight : 78) + 24
+
+      const placed = sections
+        .map((link) => {
+          const el = document.getElementById(link.id)
+          return el ? { link, top: el.getBoundingClientRect().top + window.scrollY } : null
+        })
+        .filter((entry): entry is { link: NavLink; top: number } => entry !== null)
+        .sort((a, b) => a.top - b.top)
+
+      if (placed.length === 0) return
+
+      // The last section that has started by the time the reader gets here.
+      // At the very top nothing has, and Home is the answer.
+      let index = -1
+      for (let i = 0; i < placed.length; i += 1) {
+        if (placed[i].top <= line) index = i
+      }
+
+      // The final section is often shorter than the window, so its top never
+      // reaches the line and it could never be current. At the foot of the page
+      // it is what is being read, whatever the arithmetic says.
+      const atFoot =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+      if (atFoot) index = placed.length - 1
+
+      if (index < 0) {
+        setActive(placed[0].link.id)
+        return
+      }
+
+      // A drawer-only section keeps the rule under the bar link whose stretch of
+      // the page it falls in, rather than taking it off the bar altogether.
+      let owner = placed[index].link
+      for (let i = index; i >= 0; i -= 1) {
+        if (!placed[i].link.drawerOnly) {
+          owner = placed[i].link
+          break
+        }
+      }
+
+      setActive(owner.id)
+    }
+
+    // One measurement a frame at most, and one now so the rule is right before
+    // the reader has scrolled at all.
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(measure)
+    }
+    measure()
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    // Photographs finishing loading move every section below them.
+    const sizes = new ResizeObserver(onScroll)
+    sizes.observe(document.body)
+
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      sizes.disconnect()
+    }
+  }, [routeLink, links])
+
+  // The two keys people already press without being told.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      const typing =
+        event.target instanceof HTMLElement &&
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName)
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setSearching(true)
+      }
+      if (event.key === '/' && !typing && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault()
+        setSearching(true)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -125,7 +247,11 @@ export function Navigation({
       return
     }
 
-    const top = link.id === 'top' ? 0 : el.getBoundingClientRect().top + window.scrollY - 78
+    // Land the section below the header rather than behind it — the bar is
+    // one row on a phone and two on a laptop, so measure it rather than guess.
+    const header = document.querySelector('.site-header')
+    const clearance = (header instanceof HTMLElement ? header.offsetHeight : 78) + 12
+    const top = link.id === 'top' ? 0 : el.getBoundingClientRect().top + window.scrollY - clearance
     window.scrollTo({ top, behavior: 'smooth' })
   }
 
@@ -150,7 +276,7 @@ export function Navigation({
           <nav className="flex items-center justify-between gap-6" aria-label="Primary">
           <button
             type="button"
-            onClick={() => onNavigate(LINKS[0])}
+            onClick={() => onNavigate(links[0])}
             className="group flex shrink-0 items-center gap-3 text-left"
           >
             <ParishEmblem
@@ -226,6 +352,20 @@ export function Navigation({
 
             <button
               type="button"
+              onClick={() => setSearching(true)}
+              aria-label={t({ en: 'Search this site', ml: 'ഈ സൈറ്റിൽ തിരയുക' })}
+              className={cn(
+                'grid h-9 w-9 place-items-center rounded-sm border transition-all duration-300',
+                solid
+                  ? 'border-[rgb(var(--line))] text-[rgb(var(--muted))] hover:border-gold-400 hover:text-gold-500'
+                  : 'border-white/25 text-white/85 hover:border-gold-300 hover:text-gold-200',
+              )}
+            >
+              <Icon name="search" className="h-4 w-4" />
+            </button>
+
+            <button
+              type="button"
               onClick={toggle}
               aria-label={t(theme === 'dark' ? ui.common.lightMode : ui.common.darkMode)}
               className={cn(
@@ -260,11 +400,12 @@ export function Navigation({
               'hidden flex-wrap items-center justify-center gap-x-0.5 gap-y-1 pt-2',
               // Malayalam labels are wider, so they need more room before the
               // full row fits; below that everything lives in the menu.
-              wide ? 'xl:flex' : 'lg:flex',
+              // A short list fits far sooner than the full parish menu does.
+              barLinks.length <= 8 ? (wide ? 'lg:flex' : 'md:flex') : wide ? 'xl:flex' : 'lg:flex',
               solid ? 'border-t border-[rgb(var(--line))]' : 'border-t border-white/15',
             )}
           >
-            {BAR_LINKS.map((link) => (
+            {barLinks.map((link) => (
               <li key={link.id}>
                 <button
                   type="button"
@@ -295,6 +436,8 @@ export function Navigation({
           </ul>
         </div>
       </header>
+
+      <SiteSearch open={searching} onClose={() => setSearching(false)} />
 
       <AnimatePresence>
         {open ? (
@@ -330,24 +473,47 @@ export function Navigation({
                 </button>
               </div>
 
-              <ul className="mt-10 flex flex-1 flex-col gap-1 overflow-y-auto">
-                {LINKS.map((link, i) => (
-                  <motion.li
-                    key={link.id}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + i * 0.045, duration: 0.5 }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => onNavigate(link)}
-                      className="w-full border-b border-[rgb(var(--line))] py-4 text-left font-display text-xl text-[rgb(var(--ink))] transition-colors hover:text-gold-500"
+              <div className="mt-10 flex-1 overflow-y-auto">
+                <ul className="flex flex-col gap-1">
+                  {links.map((link, i) => (
+                    <motion.li
+                      key={link.id}
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.045, duration: 0.5 }}
                     >
-                      {t(link.label)}
-                    </button>
-                  </motion.li>
-                ))}
-              </ul>
+                      <button
+                        type="button"
+                        onClick={() => onNavigate(link)}
+                        className="w-full border-b border-[rgb(var(--line))] py-4 text-left font-display text-xl text-[rgb(var(--ink))] transition-colors hover:text-gold-500"
+                      >
+                        {t(link.label)}
+                      </button>
+                    </motion.li>
+                  ))}
+                </ul>
+
+                {/* The hall bar carries only the hall. The rest of the parish
+                    is still one tap away, here, rather than lost. */}
+                {variant === 'hall' ? (
+                  <>
+                    <p className="eyebrow mt-8">{t(ui.nav.parishSite)}</p>
+                    <ul className="mt-3 flex flex-col gap-1">
+                      {LINKS.filter((link) => link.id !== 'hall' && link.id !== 'top').map((link) => (
+                        <li key={link.id}>
+                          <button
+                            type="button"
+                            onClick={() => onNavigate(link)}
+                            className="w-full border-b border-[rgb(var(--line))] py-3 text-left font-sans text-sm text-[rgb(var(--muted))] transition-colors hover:text-gold-500"
+                          >
+                            {t(link.label)}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : null}
+              </div>
 
               <button
                 type="button"

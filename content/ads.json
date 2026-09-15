@@ -1,0 +1,144 @@
+{
+  "title": {
+    "en": "Our Supporters",
+    "ml": "ഞങ്ങളുടെ പിന്തുണക്കാർ"
+  },
+  "subtitle": {
+    "en": "The shops and businesses of Mangalassery who help keep this website and the parish bulletin running.",
+    "ml": "ഈ വെബ്‌സൈറ്റും ഇടവക ബുള്ളറ്റിനും നിലനിർത്താൻ സഹായിക്കുന്ന മംഗലശ്ശേരിയിലെ സ്ഥാപനങ്ങൾ."
+  },
+  "note": {
+    "en": "To advertise here, speak to the parish office after any Sunday Mass, or write to us.",
+    "ml": "ഇവിടെ പരസ്യം നൽകാൻ, ഏതെങ്കിലും ഞായറാഴ്ച കുർബാനയ്ക്കു ശേഷം ഇടവക ഓഫീസുമായി ബന്ധപ്പെടുക, അല്ലെങ്കിൽ എഴുതുക."
+  },
+  "contactHref": "#contact",
+  "hall": {
+    "title": {
+      "en": "For Your Day",
+      "ml": "നിങ്ങളുടെ ദിനത്തിനായി"
+    },
+    "subtitle": {
+      "en": "Caterers, decorators and photographers the parish halls have worked with. The parish takes no commission — ring them yourself.",
+      "ml": "ഇടവക ഹാളുകളിൽ പ്രവർത്തിച്ചിട്ടുള്ള കാറ്ററിംഗ്, അലങ്കാരം, ഫോട്ടോഗ്രാഫി സ്ഥാപനങ്ങൾ. ഇടവക കമ്മീഷൻ വാങ്ങുന്നില്ല — നേരിട്ട് ബന്ധപ്പെടുക."
+    },
+    "note": {
+      "en": "To be listed here, speak to the parish office. A listing is not a recommendation, and booking a hall does not oblige you to use anybody on this page.",
+      "ml": "ഇവിടെ ഉൾപ്പെടുത്താൻ ഇടവക ഓഫീസുമായി ബന്ധപ്പെടുക. ഇത് ഒരു ശുപാർശയല്ല; ഹാൾ ബുക്ക് ചെയ്യുന്നത് ഈ പേജിലുള്ളവരെ ഉപയോഗിക്കാൻ നിങ്ങളെ ബാധ്യസ്ഥരാക്കുന്നില്ല."
+    },
+    "contactHref": "#book"
+  },
+  "items": [
+    {
+      "id": "ad01",
+      "kind": "image",
+      "title": {
+        "en": "Mangalassery Bakery & Sweets",
+        "ml": "മംഗലശ്ശേരി ബേക്കറി & സ്വീറ്റ്സ്"
+      },
+      "caption": {
+        "en": "Fresh every morning, opposite the church gate.",
+        "ml": "എല്ലാ പ്രഭാതത്തിലും പുതുതായി, പള്ളി ഗേറ്റിന് എതിർവശം."
+      },
+      "image": "/images/site/community-street.jpg",
+      "href": "",
+      "active": true,
+      "until": ""
+    },
+    {
+      "id": "ad02",
+      "kind": "video",
+      "title": {
+        "en": "Koratty Jewellery",
+        "ml": "കൊരട്ടി ജ്വല്ലറി"
+      },
+      "caption": {
+        "en": "Wedding collections — a short film.",
+        "ml": "വിവാഹ ശേഖരങ്ങൾ — ഒരു ഹ്രസ്വചിത്രം."
+      },
+      "video": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "href": "",
+      "active": true,
+      "until": "",
+      "places": [
+        "home",
+        "hall"
+      ]
+    },
+    {
+      "id": "ad03",
+      "kind": "image",
+      "title": {
+        "en": "St. Thomas Printers",
+        "ml": "സെന്റ് തോമസ് പ്രിന്റേഴ്സ്"
+      },
+      "caption": {
+        "en": "Bulletins, cards and parish stationery.",
+        "ml": "ബുള്ളറ്റിനുകൾ, കാർഡുകൾ, ഇടവക സ്റ്റേഷനറി."
+      },
+      "image": "/images/site/bible-reading.jpg",
+      "href": "",
+      "active": true,
+      "until": "",
+      "places": [
+        "home"
+      ]
+    },
+    {
+      "id": "ad04",
+      "kind": "video",
+      "title": {
+        "en": "Nirmala Caterers",
+        "ml": "നിർമ്മല കാറ്റേഴ്സ്"
+      },
+      "caption": {
+        "en": "Sadya and wedding meals, up to 800 plates.",
+        "ml": "സദ്യയും വിവാഹ ഭക്ഷണവും, 800 പ്ലേറ്റ് വരെ."
+      },
+      "video": "https://youtu.be/aqz-KE-bpKQ",
+      "href": "",
+      "active": true,
+      "until": "",
+      "places": [
+        "hall"
+      ]
+    },
+    {
+      "id": "ad05",
+      "kind": "image",
+      "title": {
+        "en": "Alfa Decorators",
+        "ml": "ആൽഫ ഡെക്കറേറ്റേഴ്സ്"
+      },
+      "caption": {
+        "en": "Stage, floral work and lighting for the parish halls.",
+        "ml": "ഇടവക ഹാളുകളിൽ സ്റ്റേജ്, പുഷ്പാലങ്കാരം, ലൈറ്റിംഗ്."
+      },
+      "image": "/images/site/christmas-garland.jpg",
+      "href": "",
+      "active": true,
+      "until": "",
+      "places": [
+        "hall"
+      ]
+    },
+    {
+      "id": "ad06",
+      "kind": "image",
+      "title": {
+        "en": "Mangalassery Studio",
+        "ml": "മംഗലശ്ശേരി സ്റ്റുഡിയോ"
+      },
+      "caption": {
+        "en": "Wedding photography and video, three generations here.",
+        "ml": "വിവാഹ ഫോട്ടോഗ്രാഫിയും വീഡിയോയും, മൂന്ന് തലമുറകളായി."
+      },
+      "image": "/images/site/wedding.jpg",
+      "href": "",
+      "active": true,
+      "until": "",
+      "places": [
+        "hall"
+      ]
+    }
+  ]
+}

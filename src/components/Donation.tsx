@@ -174,13 +174,13 @@ export function Donation({
         alt=""
         fill
         sizes="100vw"
-        className="object-cover opacity-[0.18]"
+        className="pointer-events-none object-cover opacity-[0.18]"
       />
       <div
-        className="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-950/95 to-burgundy-900/70"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-950/95 to-burgundy-900/70"
         aria-hidden="true"
       />
-      <div className="grain absolute inset-0" aria-hidden="true" />
+      <div className="pointer-events-none grain absolute inset-0" aria-hidden="true" />
 
       <div className="container relative">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">

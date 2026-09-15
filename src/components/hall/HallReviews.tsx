@@ -8,6 +8,7 @@ import { useLang } from '@/lib/i18n'
 import type { HallContent } from '@/lib/types'
 import { cn, formatDate, formatNumber } from '@/lib/utils'
 
+import { Honeypot } from '../ui/Honeypot'
 import { Icon } from '../ui/Icon'
 import { Reveal, StaggerGroup, staggerItem } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
@@ -77,6 +78,8 @@ export function HallReviews({ hall }: { hall: HallContent }) {
   const [open, setOpen] = useState(false)
   const [form, setForm] = useState({ hall: hall.halls[0]?.id ?? '', name: '', occasion: '', message: '' })
   const [rating, setRating] = useState(0)
+  // Filled only by something that cannot see the page.
+  const [website, setWebsite] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [error, setError] = useState('')
 
@@ -104,7 +107,7 @@ export function HallReviews({ hall }: { hall: HallContent }) {
       const res = await fetch('/api/hall/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, rating }),
+        body: JSON.stringify({ ...form, rating, website }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Could not send the review')
@@ -120,10 +123,10 @@ export function HallReviews({ hall }: { hall: HallContent }) {
   const average = averageRating(reviews ?? [])
 
   return (
-    <section id="reviews" className="section-tight bg-[rgb(var(--page-alt))]">
+    <section id="reviews" className="hall-anchor section-tight bg-[rgb(var(--page))]">
       <div className="container">
         <SectionHeading
-          eyebrow={{ en: 'After the event', ml: 'പരിപാടിക്ക് ശേഷം' }}
+          eyebrow={{ en: '06 · After the event', ml: '06 · പരിപാടിക്ക് ശേഷം' }}
           title={{ en: 'What families say', ml: 'കുടുംബങ്ങൾ പറയുന്നത്' }}
           subtitle={{
             en: 'Reviews from parishioners who have used the halls. Each one is read at the parish office before it appears here.',
@@ -194,7 +197,8 @@ export function HallReviews({ hall }: { hall: HallContent }) {
                 </button>
               </div>
             ) : (
-              <form onSubmit={submit} className="card p-7 sm:p-9">
+              <form onSubmit={submit} className="card relative p-7 sm:p-9">
+                <Honeypot value={website} onChange={setWebsite} />
                 <p className="eyebrow">{t({ en: 'Your review', ml: 'നിങ്ങളുടെ അഭിപ്രായം' })}</p>
 
                 <div className="mt-6 flex flex-wrap items-center gap-6">

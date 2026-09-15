@@ -156,6 +156,12 @@ const paths: Record<string, React.ReactNode> = {
   chevronLeft: <path d="m14.6 5.6-6 6.4 6 6.4" />,
   chevronRight: <path d="m9.4 5.6 6 6.4-6 6.4" />,
   play: <path d="M7.4 4.6 19 12 7.4 19.4Z" />,
+  megaphone: (
+    <>
+      <path d="M4 10.4v3.2a1.6 1.6 0 0 0 1.6 1.6h2L14 19.6V4.4L7.6 8.8h-2A1.6 1.6 0 0 0 4 10.4Z" />
+      <path d="M17.4 9.2a4 4 0 0 1 0 5.6M7.6 15.2v3.2a1.2 1.2 0 0 0 1.2 1.2h1" />
+    </>
+  ),
   close: <path d="M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4" />,
   menu: <path d="M3.6 7h16.8M3.6 12h16.8M3.6 17h16.8" />,
   plus: <path d="M12 5v14M5 12h14" />,

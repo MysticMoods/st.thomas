@@ -1,22 +1,23 @@
-import path from 'node:path'
-
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
-import { appendRecord, readContent, readRecords, writeJson } from '@/lib/content'
+import { audit } from '@/lib/audit'
+import { requireArea } from '@/lib/auth'
+import { appendRecord, readContent, readRecords, updateRecords } from '@/lib/content'
 import type { HallBooking } from '@/lib/hall'
 import { isFree } from '@/lib/hall'
 import { readCalendar } from '@/lib/hall-server'
+import { recordId } from '@/lib/ids'
+import { hallDecided } from '@/lib/letters'
+import { post } from '@/lib/mail'
 import type { HallContent } from '@/lib/types'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const FILE = path.join(process.cwd(), 'content', 'hall-bookings.json')
 const STATUSES = new Set(['pending', 'confirmed', 'declined'])
 
 export async function GET() {
-  if (!(await isAuthenticated())) {
+  if (!(await requireArea('hall'))) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
   const bookings = (await readRecords('hall-bookings')) as HallBooking[]
@@ -25,7 +26,8 @@ export async function GET() {
 
 /** Confirm or decline one request. Everything else about it stays as sent. */
 export async function PATCH(request: Request) {
-  if (!(await isAuthenticated())) {
+  const staff = await requireArea('hall')
+  if (!staff) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -43,17 +45,48 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: 'Need a booking id and a status' }, { status: 422 })
   }
 
-  const bookings = (await readRecords('hall-bookings')) as HallBooking[]
-  const booking = bookings.find((entry) => entry.id === id)
+  // Read, change and write as one operation. Reading the list here and writing
+  // it back separately would drop any booking that arrived in between, and
+  // would write to the disk even on a deployment that keeps its records
+  // elsewhere.
+  let booking: HallBooking | undefined
+  await updateRecords<HallBooking>('hall-bookings', (all) => {
+    booking = all.find((entry) => entry.id === id)
+    if (!booking) return all
+    booking.status = status as HallBooking['status']
+    booking.decidedAt = new Date().toISOString()
+    return all
+  })
   if (!booking) return NextResponse.json({ error: 'No such booking' }, { status: 404 })
+  const decided = booking
 
-  booking.status = status as HallBooking['status']
-  booking.decidedAt = new Date().toISOString()
+  // The family should hear the decision from the parish, not from the calendar
+  // quietly changing colour.
+  if (status === 'confirmed' || status === 'declined') {
+    const hall = await readContent<HallContent>('hall')
+    const room = hall.halls.find((entry) => entry.id === decided.hall)
+    const slot = hall.sessions.find((entry) => entry.id === decided.session)
+    post(
+      hallDecided(
+        decided,
+        room?.name.en ?? booking.hall,
+        slot?.label.en ?? booking.session,
+        status,
+        hall.booking.contact.phone,
+      ),
+    )
+  }
 
-  // Same atomic write the content editor uses: a crash never truncates the file.
-  await writeJson(FILE, bookings)
+  await audit({
+    request,
+    actor: staff.username,
+    role: staff.role,
+    action: 'hall-decide',
+    target: decided.id,
+    detail: `${decided.hall} ${decided.date} ${decided.session} -> ${status} (${decided.name})`,
+  })
 
-  return NextResponse.json({ ok: true, booking })
+  return NextResponse.json({ ok: true, booking: decided })
 }
 
 /**
@@ -62,7 +95,8 @@ export async function PATCH(request: Request) {
  * same clash check as a request from the website.
  */
 export async function POST(request: Request) {
-  if (!(await isAuthenticated())) {
+  const staff = await requireArea('hall')
+  if (!staff) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -91,7 +125,7 @@ export async function POST(request: Request) {
   }
 
   const record: HallBooking = {
-    id: `hb${Date.now().toString(36)}`,
+    id: recordId('hb'),
     hall: hallId,
     date,
     session,
@@ -112,12 +146,21 @@ export async function POST(request: Request) {
   }
 
   await appendRecord('hall-bookings', record)
+  await audit({
+    request,
+    actor: staff.username,
+    role: staff.role,
+    action: 'hall-book',
+    target: record.id,
+    detail: `${record.hall} ${record.date} ${record.session} for ${record.name}`,
+  })
   return NextResponse.json({ ok: true, booking: record })
 }
 
 /** Frees a slot outright — a walk-in who cancelled, or an entry made in error. */
 export async function DELETE(request: Request) {
-  if (!(await isAuthenticated())) {
+  const staff = await requireArea('hall')
+  if (!staff) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -129,13 +172,20 @@ export async function DELETE(request: Request) {
   }
   if (!id) return NextResponse.json({ error: 'Need a booking id' }, { status: 422 })
 
-  const bookings = (await readRecords('hall-bookings')) as HallBooking[]
-  const left = bookings.filter((entry) => entry.id !== id)
-  if (left.length === bookings.length) {
-    return NextResponse.json({ error: 'No such booking' }, { status: 404 })
-  }
-
-  await writeJson(FILE, left)
+  let gone: HallBooking | undefined
+  await updateRecords<HallBooking>('hall-bookings', (all) => {
+    gone = all.find((entry) => entry.id === id)
+    return gone ? all.filter((entry) => entry.id !== id) : all
+  })
+  if (!gone) return NextResponse.json({ error: 'No such booking' }, { status: 404 })
+  await audit({
+    request,
+    actor: staff.username,
+    role: staff.role,
+    action: 'hall-free',
+    target: id,
+    detail: gone ? `${gone.hall} ${gone.date} ${gone.session} (${gone.name})` : undefined,
+  })
 
   return NextResponse.json({ ok: true })
 }

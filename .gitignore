@@ -16,3 +16,15 @@ next-env.d.ts
 content/hall-bookings.json
 /.claude/
 content/hall-reviews.json
+
+# runtime-generated: accounts, activity log, visit counts, faults, queues
+content/users.json
+content/audit.json
+content/analytics.json
+content/errors.json
+content/outbox.json
+content/limits.json
+content/intentions.json
+content/certificates.json
+content/prayers.json
+content/.image-originals

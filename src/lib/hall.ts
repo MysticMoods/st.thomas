@@ -20,6 +20,12 @@ export type HallBooking = {
   message: string
   at: string
   decidedAt?: string
+  /**
+   * The Razorpay payment that paid the advance, once one has. Kept so that the
+   * same payment confirming twice — a refresh, a retry, the webhook arriving
+   * beside the browser — changes nothing the second time.
+   */
+  advancePaymentId?: string
 }
 
 /**

@@ -1,7 +1,7 @@
 {
   "title": {
-    "en": "Parish Committee",
-    "ml": "ഇടവക കമ്മിറ്റി"
+    "en": "Parish Council",
+    "ml": "ഇടവക കൗൺസിൽ"
   },
   "subtitle": {
     "en": "Elected by the general body and serving alongside the Vicar — eighteen parishioners who carry the ordinary work of this church.",
@@ -12,9 +12,94 @@
     "ml": "കാലാവധി 2025 – 2027"
   },
   "note": {
-    "en": "The committee meets on the first Sunday of every month after the second Mass. Any parishioner may bring a matter to it through the secretary or their own ward member.",
-    "ml": "എല്ലാ മാസവും ആദ്യ ഞായറാഴ്ച രണ്ടാം കുർബാനയ്ക്കു ശേഷം കമ്മിറ്റി യോഗം ചേരുന്നു. ഏതൊരു ഇടവകാംഗത്തിനും സെക്രട്ടറി മുഖേനയോ സ്വന്തം വാർഡ് അംഗം മുഖേനയോ വിഷയങ്ങൾ അവതരിപ്പിക്കാം."
+    "en": "The council meets on the first Sunday of every month after the second Mass. Any parishioner may bring a matter to it through the secretary or their own ward member.",
+    "ml": "എല്ലാ മാസവും ആദ്യ ഞായറാഴ്ച രണ്ടാം കുർബാനയ്ക്കു ശേഷം കൗൺസിൽ യോഗം ചേരുന്നു. ഏതൊരു ഇടവകാംഗത്തിനും സെക്രട്ടറി മുഖേനയോ സ്വന്തം വാർഡ് അംഗം മുഖേനയോ വിഷയങ്ങൾ അവതരിപ്പിക്കാം."
   },
+  "tiers": [
+    {
+      "id": "sacristan",
+      "title": {
+        "en": "Sacristan",
+        "ml": "കപ്പിയാർ"
+      },
+      "subtitle": {
+        "en": "Keeper of the sacristy — the vessels, the vestments and the bell.",
+        "ml": "സങ്കീർത്തിയുടെ ചുമതലക്കാരൻ — തിരുപ്പാത്രങ്ങളും തിരുവസ്ത്രങ്ങളും മണിയും."
+      },
+      "people": [
+        {
+          "id": "s01",
+          "name": {
+            "en": "Ouseph Thundathil",
+            "ml": "ഔസേപ്പ് തുണ്ടത്തിൽ"
+          },
+          "role": {
+            "en": "Sacristan",
+            "ml": "കപ്പിയാർ"
+          },
+          "unit": {
+            "en": "St. Thomas Unit",
+            "ml": "വി. തോമസ് കൂട്ടായ്മ"
+          },
+          "image": "",
+          "phone": "+91 94470 20130",
+          "since": "2016",
+          "office": true
+        }
+      ]
+    },
+    {
+      "id": "administrators",
+      "title": {
+        "en": "Parish Administrators",
+        "ml": "ഇടവക അഡ്മിനിസ്ട്രേറ്റർമാർ"
+      },
+      "subtitle": {
+        "en": "The parish office day to day — the register, the accounts and the certificates.",
+        "ml": "ഇടവക ഓഫീസിന്റെ ദൈനംദിന നടത്തിപ്പ് — രജിസ്റ്റർ, കണക്കുകൾ, സർട്ടിഫിക്കറ്റുകൾ."
+      },
+      "people": [
+        {
+          "id": "a01",
+          "name": {
+            "en": "Jacob Puthenpurayil",
+            "ml": "ജേക്കബ് പുത്തൻപുരയിൽ"
+          },
+          "role": {
+            "en": "Parish Administrator",
+            "ml": "ഇടവക അഡ്മിനിസ്ട്രേറ്റർ"
+          },
+          "unit": {
+            "en": "St. Mary's Unit",
+            "ml": "വി. മറിയം കൂട്ടായ്മ"
+          },
+          "image": "",
+          "phone": "+91 94470 20131",
+          "since": "2021",
+          "office": true
+        },
+        {
+          "id": "a02",
+          "name": {
+            "en": "Alice Chirayath",
+            "ml": "ആലീസ് ചിറയത്ത്"
+          },
+          "role": {
+            "en": "Parish Administrator",
+            "ml": "ഇടവക അഡ്മിനിസ്ട്രേറ്റർ"
+          },
+          "unit": {
+            "en": "Sacred Heart Unit",
+            "ml": "തിരുഹൃദയ കൂട്ടായ്മ"
+          },
+          "image": "",
+          "phone": "+91 94470 20132",
+          "since": "2023",
+          "office": true
+        }
+      ]
+    }
+  ],
   "members": [
     {
       "id": "c01",

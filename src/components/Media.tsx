@@ -59,7 +59,7 @@ export function Media({ media }: { media: MediaContent }) {
                       className="object-cover transition-transform duration-[1200ms] ease-sacred group-hover:scale-105"
                     />
                     <span
-                      className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-navy-950/30"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/20 to-navy-950/30"
                       aria-hidden="true"
                     />
                     <span className="absolute left-1/2 top-1/2 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-gold-300/60 bg-navy-950/50 text-gold-200 backdrop-blur-sm transition-all duration-500 ease-sacred group-hover:scale-110 group-hover:border-gold-300 group-hover:bg-gold-400 group-hover:text-navy-950">

@@ -7,63 +7,192 @@
     "en": "Three halls beside the church — a small room for meetings, and two larger halls that open into one another for weddings and receptions.",
     "ml": "ദേവാലയത്തിനരികിൽ മൂന്ന് ഹാളുകൾ — യോഗങ്ങൾക്ക് ഒരു ചെറിയ മുറി, വിവാഹങ്ങൾക്കും സ്വീകരണങ്ങൾക്കുമായി പരസ്പരം തുറക്കാവുന്ന രണ്ട് വലിയ ഹാളുകൾ."
   },
-  "image": "/images/site/congregation.jpg",
+  "image": "/images/site/interior-feast.jpg",
+  "hero": {
+    "eyebrow": {
+      "en": "Parish halls · Mangalassery",
+      "ml": "ഇടവക ഹാളുകൾ · മംഗലശ്ശേരി"
+    },
+    "images": [
+      "/images/site/interior-feast.jpg",
+      "/images/site/community-group.jpg",
+      "/images/site/church-exterior.jpg"
+    ],
+    "marquee": [
+      {
+        "en": "Air conditioning",
+        "ml": "എയർ കണ്ടീഷനിംഗ്"
+      },
+      {
+        "en": "Generator backup",
+        "ml": "ജനറേറ്റർ"
+      },
+      {
+        "en": "Thirty foot stage",
+        "ml": "മുപ്പത് അടി വേദി"
+      },
+      {
+        "en": "Kitchen and serving counter",
+        "ml": "അടുക്കളയും സെർവിംഗ് കൗണ്ടറും"
+      },
+      {
+        "en": "Parking in the compound",
+        "ml": "വളപ്പിൽ പാർക്കിംഗ്"
+      },
+      {
+        "en": "Sound system",
+        "ml": "ശബ്ദ സംവിധാനം"
+      },
+      {
+        "en": "Projector and screen",
+        "ml": "പ്രൊജക്ടറും സ്ക്രീനും"
+      },
+      {
+        "en": "Six hundred at table",
+        "ml": "അറുനൂറ് പേർക്ക് ഇരിപ്പിടം"
+      }
+    ]
+  },
+  "stats": [
+    {
+      "id": "halls",
+      "value": 3,
+      "suffix": "",
+      "label": {
+        "en": "Halls beside the church",
+        "ml": "ദേവാലയത്തിനരികിൽ ഹാളുകൾ"
+      }
+    },
+    {
+      "id": "seated",
+      "value": 600,
+      "suffix": "",
+      "label": {
+        "en": "Seated when both open into one",
+        "ml": "രണ്ടും ഒന്നാകുമ്പോൾ ഇരിപ്പിടം"
+      }
+    },
+    {
+      "id": "parking",
+      "value": 40,
+      "suffix": "",
+      "label": {
+        "en": "Cars in the compound",
+        "ml": "വളപ്പിൽ കാറുകൾ"
+      }
+    },
+    {
+      "id": "ahead",
+      "value": 12,
+      "suffix": "",
+      "label": {
+        "en": "Months you may book ahead",
+        "ml": "മുൻകൂട്ടി ബുക്ക് ചെയ്യാവുന്ന മാസങ്ങൾ"
+      }
+    }
+  ],
   "halls": [
     {
       "id": "small",
-      "name": { "en": "Small Hall", "ml": "ചെറിയ ഹാൾ" },
+      "name": {
+        "en": "Small Hall",
+        "ml": "ചെറിയ ഹാൾ"
+      },
       "blurb": {
         "en": "The room beside the parish office, for family unit meetings, catechism classes and small prayer gatherings. No air conditioning and no stage.",
         "ml": "ഇടവക ഓഫീസിനരികിലുള്ള മുറി — കുടുംബക്കൂട്ടായ്മ യോഗങ്ങൾ, മതബോധന ക്ലാസുകൾ, ചെറിയ പ്രാർത്ഥനാ കൂട്ടായ്മകൾ. എയർ കണ്ടീഷനിംഗോ വേദിയോ ഇല്ല."
       },
       "seated": 80,
       "standing": 120,
-      "features": { "ac": false, "generator": false, "stage": false },
-      "image": "/images/site/community-family.jpg",
+      "features": {
+        "ac": false,
+        "generator": false,
+        "stage": false
+      },
+      "image": "/images/site/council.jpg",
       "gallery": [
-        "/images/site/bible-study.jpg",
-        "/images/site/catechism-reading.jpg",
-        "/images/site/community-women.jpg"
+        "/images/site/community-group.jpg",
+        "/images/site/catechism-children.jpg",
+        "/images/site/family-units.jpg"
       ],
-      "rates": { "morning": 1500, "evening": 2000, "full-day": 3000 },
-      "amenities": ["sound", "projector", "chairs", "cleaning"]
+      "rates": {
+        "morning": 1500,
+        "evening": 2000,
+        "full-day": 3000
+      },
+      "amenities": [
+        "sound",
+        "projector",
+        "chairs",
+        "cleaning"
+      ]
     },
     {
       "id": "medium",
-      "name": { "en": "Medium Hall", "ml": "ഇടത്തരം ഹാൾ" },
+      "name": {
+        "en": "Medium Hall",
+        "ml": "ഇടത്തരം ഹാൾ"
+      },
       "blurb": {
         "en": "Air conditioned, with generator backup and its own entrance, but no stage. Betrothals, birthdays and parish meetings sit comfortably here.",
         "ml": "എയർ കണ്ടീഷൻ ചെയ്തതും ജനറേറ്റർ സൗകര്യവും സ്വന്തം പ്രവേശന കവാടവുമുള്ള ഹാൾ, വേദിയില്ല. വിവാഹനിശ്ചയങ്ങൾ, പിറന്നാളുകൾ, ഇടവക യോഗങ്ങൾ."
       },
       "seated": 200,
       "standing": 300,
-      "features": { "ac": true, "generator": true, "stage": false },
+      "features": {
+        "ac": true,
+        "generator": true,
+        "stage": false
+      },
       "image": "/images/site/community-group.jpg",
       "gallery": [
         "/images/site/community-family.jpg",
         "/images/site/seniors.jpg",
         "/images/site/youth-group.jpg"
       ],
-      "rates": { "morning": 4000, "evening": 5000, "full-day": 8000 },
-      "amenities": ["ac", "generator", "sound", "projector", "kitchen", "chairs", "cleaning"]
+      "rates": {
+        "morning": 4000,
+        "evening": 5000,
+        "full-day": 8000
+      },
+      "amenities": [
+        "ac",
+        "generator",
+        "sound",
+        "projector",
+        "kitchen",
+        "chairs",
+        "cleaning"
+      ]
     },
     {
       "id": "large",
-      "name": { "en": "Large Hall", "ml": "വലിയ ഹാൾ" },
+      "name": {
+        "en": "Large Hall",
+        "ml": "വലിയ ഹാൾ"
+      },
       "blurb": {
         "en": "The main hall — air conditioned, generator backup, and a thirty foot stage with a green room. Weddings, receptions and parish festivals.",
         "ml": "പ്രധാന ഹാൾ — എയർ കണ്ടീഷനിംഗ്, ജനറേറ്റർ, ഗ്രീൻ റൂമോടു കൂടിയ മുപ്പത് അടി വേദി. വിവാഹങ്ങൾ, സ്വീകരണങ്ങൾ, ഇടവക ഉത്സവങ്ങൾ."
       },
       "seated": 400,
       "standing": 600,
-      "features": { "ac": true, "generator": true, "stage": true },
-      "image": "/images/site/congregation.jpg",
+      "features": {
+        "ac": true,
+        "generator": true,
+        "stage": true
+      },
+      "image": "/images/site/interior-feast.jpg",
       "gallery": [
-        "/images/site/interior-feast.jpg",
         "/images/site/choir-strings.jpg",
-        "/images/site/community-group.jpg"
+        "/images/site/choir-piano.jpg",
+        "/images/site/congregation.jpg"
       ],
-      "rates": { "morning": 6000, "evening": 7000, "full-day": 11000 },
+      "rates": {
+        "morning": 6000,
+        "evening": 7000,
+        "full-day": 11000
+      },
       "amenities": [
         "ac",
         "generator",
@@ -77,22 +206,36 @@
     },
     {
       "id": "medium-large",
-      "name": { "en": "Medium + Large together", "ml": "ഇടത്തരവും വലിയതും ഒരുമിച്ച്" },
+      "name": {
+        "en": "Medium + Large together",
+        "ml": "ഇടത്തരവും വലിയതും ഒരുമിച്ച്"
+      },
       "blurb": {
         "en": "The partition between the two halls folds back to make one room the length of the building — the largest space the parish has.",
         "ml": "രണ്ട് ഹാളുകൾക്കിടയിലുള്ള മറ നീക്കി കെട്ടിടത്തിന്റെ നീളമുള്ള ഒറ്റ ഹാളാക്കി മാറ്റുന്നു — ഇടവകയിലെ ഏറ്റവും വലിയ ഇടം."
       },
-      "combines": ["medium", "large"],
+      "combines": [
+        "medium",
+        "large"
+      ],
       "seated": 600,
       "standing": 900,
-      "features": { "ac": true, "generator": true, "stage": true },
-      "image": "/images/site/interior-feast.jpg",
+      "features": {
+        "ac": true,
+        "generator": true,
+        "stage": true
+      },
+      "image": "/images/site/congregation.jpg",
       "gallery": [
-        "/images/site/congregation.jpg",
+        "/images/site/interior-feast.jpg",
         "/images/site/community-group.jpg",
         "/images/site/choir-piano.jpg"
       ],
-      "rates": { "morning": 9000, "evening": 11000, "full-day": 17000 },
+      "rates": {
+        "morning": 9000,
+        "evening": 11000,
+        "full-day": 17000
+      },
       "amenities": [
         "ac",
         "generator",
@@ -105,89 +248,329 @@
       ]
     }
   ],
+  "story": [
+    {
+      "title": {
+        "en": "Asking for the day",
+        "ml": "ദിവസം ചോദിക്കുന്നു"
+      },
+      "body": {
+        "en": "Find the day on the calendar below and send the request, or walk into the parish office between nine and one. The office rings back the same week, and the day is held for seven days while the advance is brought in.",
+        "ml": "താഴെയുള്ള കലണ്ടറിൽ ദിവസം കണ്ടെത്തി അപേക്ഷ അയയ്ക്കുക, അല്ലെങ്കിൽ രാവിലെ ഒൻപതിനും ഉച്ചയ്ക്ക് ഒന്നിനും ഇടയിൽ ഇടവക ഓഫീസിൽ വരുക. അതേ ആഴ്ചയിൽ ഓഫീസ് തിരികെ വിളിക്കും; അഡ്വാൻസ് എത്തുന്നതുവരെ ഏഴ് ദിവസത്തേക്ക് ദിവസം മാറ്റിവയ്ക്കും."
+      },
+      "image": "/images/site/council.jpg"
+    },
+    {
+      "title": {
+        "en": "Arriving",
+        "ml": "എത്തിച്ചേരൽ"
+      },
+      "body": {
+        "en": "The compound gate opens onto forty parking spaces and a level entrance with a ramp, so the eldest of the family and anyone in a wheelchair come in the same way as everybody else.",
+        "ml": "വളപ്പിന്റെ ഗേറ്റ് നാൽപ്പത് പാർക്കിംഗ് ഇടങ്ങളിലേക്കും റാമ്പോടു കൂടിയ നിരപ്പായ പ്രവേശന കവാടത്തിലേക്കും തുറക്കുന്നു — പ്രായമായവരും വീൽചെയറിലുള്ളവരും മറ്റെല്ലാവരെയും പോലെ അകത്തേക്ക് വരുന്നു."
+      },
+      "image": "/images/site/church-exterior.jpg"
+    },
+    {
+      "title": {
+        "en": "The hall itself",
+        "ml": "ഹാൾ"
+      },
+      "body": {
+        "en": "Chairs and tables are laid out before you arrive. The medium and large halls are air conditioned and carry generator backup, so neither the heat nor a power cut interrupts the day.",
+        "ml": "നിങ്ങൾ എത്തുന്നതിനു മുൻപേ കസേരകളും മേശകളും ഒരുക്കിയിരിക്കും. ഇടത്തരം, വലിയ ഹാളുകൾ എയർ കണ്ടീഷൻ ചെയ്തതും ജനറേറ്റർ സൗകര്യമുള്ളതുമാണ് — ചൂടോ വൈദ്യുതി മുടക്കമോ ദിവസത്തെ തടസ്സപ്പെടുത്തില്ല."
+      },
+      "image": "/images/site/community-group.jpg"
+    },
+    {
+      "title": {
+        "en": "The stage and the sound",
+        "ml": "വേദിയും ശബ്ദവും"
+      },
+      "body": {
+        "en": "The large hall carries a thirty foot stage with a green room behind it. Microphones, speakers and a twelve foot projector screen are all arranged through the parish rather than hired outside.",
+        "ml": "വലിയ ഹാളിൽ പിന്നിൽ ഗ്രീൻ റൂമോടു കൂടിയ മുപ്പത് അടി വേദിയുണ്ട്. മൈക്രോഫോണുകൾ, സ്പീക്കറുകൾ, പന്ത്രണ്ട് അടി പ്രൊജക്ടർ സ്ക്രീൻ എന്നിവ പുറത്തുനിന്ന് വാടകയ്കെടുക്കാതെ ഇടവക വഴി ക്രമീകരിക്കുന്നു."
+      },
+      "image": "/images/site/choir-strings.jpg"
+    },
+    {
+      "title": {
+        "en": "Feeding the guests",
+        "ml": "അതിഥികൾക്ക് ഭക്ഷണം"
+      },
+      "body": {
+        "en": "A shared kitchen with gas, vessels and a serving counter opens onto both large halls. Bring your own cook or caterer — the parish only asks to be told who is coming in.",
+        "ml": "ഗ്യാസ്, പാത്രങ്ങൾ, സെർവിംഗ് കൗണ്ടർ എന്നിവയുള്ള പൊതു അടുക്കള രണ്ട് വലിയ ഹാളുകളിലേക്കും തുറക്കുന്നു. സ്വന്തം പാചകക്കാരെയോ കാറ്ററിംഗ് സംഘത്തെയോ കൊണ്ടുവരാം — ആരാണ് വരുന്നതെന്ന് ഇടവകയെ അറിയിച്ചാൽ മതി."
+      },
+      "image": "/images/site/wheat-hands.jpg"
+    },
+    {
+      "title": {
+        "en": "Afterwards",
+        "ml": "ശേഷം"
+      },
+      "body": {
+        "en": "Cleaning can be left to the parish team for a fixed charge, and it is compulsory after a reception. Hand the keys back at the office the next working morning.",
+        "ml": "നിശ്ചിത നിരക്കിൽ വൃത്തിയാക്കൽ ഇടവക സംഘത്തെ ഏൽപ്പിക്കാം; സ്വീകരണങ്ങൾക്ക് ശേഷം അത് നിർബന്ധമാണ്. അടുത്ത പ്രവൃത്തിദിവസം രാവിലെ ഓഫീസിൽ താക്കോൽ തിരികെ ഏൽപ്പിക്കുക."
+      },
+      "image": "/images/site/doorway-light.jpg"
+    }
+  ],
   "facts": [
     {
-      "label": { "en": "Kitchen", "ml": "അടുക്കള" },
-      "value": { "en": "Shared, with serving counter", "ml": "സെർവിംഗ് കൗണ്ടറോടു കൂടിയ പൊതു അടുക്കള" }
+      "label": {
+        "en": "Kitchen",
+        "ml": "അടുക്കള"
+      },
+      "value": {
+        "en": "Shared, with serving counter",
+        "ml": "സെർവിംഗ് കൗണ്ടറോടു കൂടിയ പൊതു അടുക്കള"
+      }
     },
     {
-      "label": { "en": "Parking", "ml": "പാർക്കിംഗ്" },
-      "value": { "en": "40 cars in the church compound", "ml": "പള്ളി വളപ്പിൽ 40 കാറുകൾ" }
+      "label": {
+        "en": "Parking",
+        "ml": "പാർക്കിംഗ്"
+      },
+      "value": {
+        "en": "40 cars in the church compound",
+        "ml": "പള്ളി വളപ്പിൽ 40 കാറുകൾ"
+      }
     },
     {
-      "label": { "en": "Stage", "ml": "വേദി" },
-      "value": { "en": "30 ft × 16 ft, in the large hall", "ml": "വലിയ ഹാളിൽ 30 അടി × 16 അടി" }
+      "label": {
+        "en": "Stage",
+        "ml": "വേദി"
+      },
+      "value": {
+        "en": "30 ft × 16 ft, in the large hall",
+        "ml": "വലിയ ഹാളിൽ 30 അടി × 16 അടി"
+      }
     },
     {
-      "label": { "en": "Generator", "ml": "ജനറേറ്റർ" },
-      "value": { "en": "62.5 kVA, medium and large halls", "ml": "62.5 kVA, ഇടത്തരം, വലിയ ഹാളുകൾ" }
+      "label": {
+        "en": "Generator",
+        "ml": "ജനറേറ്റർ"
+      },
+      "value": {
+        "en": "62.5 kVA, medium and large halls",
+        "ml": "62.5 kVA, ഇടത്തരം, വലിയ ഹാളുകൾ"
+      }
     }
   ],
   "sessions": [
     {
       "id": "morning",
-      "label": { "en": "Morning", "ml": "രാവിലെ" },
-      "hours": { "en": "7:00 AM – 2:00 PM", "ml": "രാവിലെ 7:00 – ഉച്ചകഴിഞ്ഞ് 2:00" }
+      "label": {
+        "en": "Morning",
+        "ml": "രാവിലെ"
+      },
+      "hours": {
+        "en": "7:00 AM – 2:00 PM",
+        "ml": "രാവിലെ 7:00 – ഉച്ചകഴിഞ്ഞ് 2:00"
+      }
     },
     {
       "id": "evening",
-      "label": { "en": "Evening", "ml": "വൈകുന്നേരം" },
-      "hours": { "en": "3:00 PM – 10:00 PM", "ml": "ഉച്ചകഴിഞ്ഞ് 3:00 – രാത്രി 10:00" }
+      "label": {
+        "en": "Evening",
+        "ml": "വൈകുന്നേരം"
+      },
+      "hours": {
+        "en": "3:00 PM – 10:00 PM",
+        "ml": "ഉച്ചകഴിഞ്ഞ് 3:00 – രാത്രി 10:00"
+      }
     },
     {
       "id": "full-day",
-      "label": { "en": "Full day", "ml": "മുഴുവൻ ദിവസം" },
-      "hours": { "en": "7:00 AM – 10:00 PM", "ml": "രാവിലെ 7:00 – രാത്രി 10:00" }
+      "label": {
+        "en": "Full day",
+        "ml": "മുഴുവൻ ദിവസം"
+      },
+      "hours": {
+        "en": "7:00 AM – 10:00 PM",
+        "ml": "രാവിലെ 7:00 – രാത്രി 10:00"
+      }
     }
   ],
   "amenities": [
     {
       "id": "ac",
-      "label": { "en": "Air conditioning", "ml": "എയർ കണ്ടീഷനിംഗ്" },
-      "note": { "en": "Charged per session", "ml": "ഓരോ സെഷനും" },
+      "label": {
+        "en": "Air conditioning",
+        "ml": "എയർ കണ്ടീഷനിംഗ്"
+      },
+      "note": {
+        "en": "Charged per session",
+        "ml": "ഓരോ സെഷനും"
+      },
       "rate": 4000
     },
     {
       "id": "generator",
-      "label": { "en": "Generator backup", "ml": "ജനറേറ്റർ" },
-      "note": { "en": "62.5 kVA, diesel at actuals", "ml": "62.5 kVA, ഡീസൽ വില പ്രകാരം" },
+      "label": {
+        "en": "Generator backup",
+        "ml": "ജനറേറ്റർ"
+      },
+      "note": {
+        "en": "62.5 kVA, diesel at actuals",
+        "ml": "62.5 kVA, ഡീസൽ വില പ്രകാരം"
+      },
       "rate": 2500
     },
     {
       "id": "sound",
-      "label": { "en": "Sound system", "ml": "ശബ്ദ സംവിധാനം" },
-      "note": { "en": "Two microphones and speakers", "ml": "രണ്ട് മൈക്രോഫോണും സ്പീക്കറുകളും" },
+      "label": {
+        "en": "Sound system",
+        "ml": "ശബ്ദ സംവിധാനം"
+      },
+      "note": {
+        "en": "Two microphones and speakers",
+        "ml": "രണ്ട് മൈക്രോഫോണും സ്പീക്കറുകളും"
+      },
       "rate": 1500
     },
     {
       "id": "projector",
-      "label": { "en": "Projector & screen", "ml": "പ്രൊജക്ടറും സ്ക്രീനും" },
-      "note": { "en": "12 ft screen", "ml": "12 അടി സ്ക്രീൻ" },
+      "label": {
+        "en": "Projector & screen",
+        "ml": "പ്രൊജക്ടറും സ്ക്രീനും"
+      },
+      "note": {
+        "en": "12 ft screen",
+        "ml": "12 അടി സ്ക്രീൻ"
+      },
       "rate": 1200
     },
     {
       "id": "kitchen",
-      "label": { "en": "Kitchen use", "ml": "അടുക്കള ഉപയോഗം" },
-      "note": { "en": "Gas, vessels and serving counter", "ml": "ഗ്യാസ്, പാത്രങ്ങൾ, സെർവിംഗ് കൗണ്ടർ" },
+      "label": {
+        "en": "Kitchen use",
+        "ml": "അടുക്കള ഉപയോഗം"
+      },
+      "note": {
+        "en": "Gas, vessels and serving counter",
+        "ml": "ഗ്യാസ്, പാത്രങ്ങൾ, സെർവിംഗ് കൗണ്ടർ"
+      },
       "rate": 2000
     },
     {
       "id": "chairs",
-      "label": { "en": "Extra chairs & tables", "ml": "അധിക കസേരകളും മേശകളും" },
-      "note": { "en": "100 chairs, 10 tables", "ml": "100 കസേരകൾ, 10 മേശകൾ" },
+      "label": {
+        "en": "Extra chairs & tables",
+        "ml": "അധിക കസേരകളും മേശകളും"
+      },
+      "note": {
+        "en": "100 chairs, 10 tables",
+        "ml": "100 കസേരകൾ, 10 മേശകൾ"
+      },
       "rate": 1000
     },
     {
       "id": "decoration",
-      "label": { "en": "Stage decoration", "ml": "വേദി അലങ്കാരം" },
-      "note": { "en": "Arranged through the parish", "ml": "ഇടവക വഴി ക്രമീകരിക്കുന്നു" },
+      "label": {
+        "en": "Stage decoration",
+        "ml": "വേദി അലങ്കാരം"
+      },
+      "note": {
+        "en": "Arranged through the parish",
+        "ml": "ഇടവക വഴി ക്രമീകരിക്കുന്നു"
+      },
       "rate": 3500
     },
     {
       "id": "cleaning",
-      "label": { "en": "Cleaning after the event", "ml": "പരിപാടിക്ക് ശേഷമുള്ള വൃത്തിയാക്കൽ" },
-      "note": { "en": "Compulsory for receptions", "ml": "സ്വീകരണങ്ങൾക്ക് നിർബന്ധം" },
+      "label": {
+        "en": "Cleaning after the event",
+        "ml": "പരിപാടിക്ക് ശേഷമുള്ള വൃത്തിയാക്കൽ"
+      },
+      "note": {
+        "en": "Compulsory for receptions",
+        "ml": "സ്വീകരണങ്ങൾക്ക് നിർബന്ധം"
+      },
       "rate": 1500
+    }
+  ],
+  "included": [
+    {
+      "label": {
+        "en": "Chairs and tables in the hall",
+        "ml": "ഹാളിലെ കസേരകളും മേശകളും"
+      },
+      "note": {
+        "en": "Laid out to your seating plan",
+        "ml": "നിങ്ങളുടെ ക്രമീകരണം അനുസരിച്ച്"
+      }
+    },
+    {
+      "label": {
+        "en": "Fans and lighting",
+        "ml": "ഫാനുകളും വിളക്കുകളും"
+      },
+      "note": {
+        "en": "In every hall",
+        "ml": "എല്ലാ ഹാളിലും"
+      }
+    },
+    {
+      "label": {
+        "en": "Parking in the compound",
+        "ml": "വളപ്പിൽ പാർക്കിംഗ്"
+      },
+      "note": {
+        "en": "Forty cars, no charge",
+        "ml": "നാൽപ്പത് കാറുകൾ, നിരക്കില്ല"
+      }
+    },
+    {
+      "label": {
+        "en": "Level entrance and ramp",
+        "ml": "നിരപ്പായ പ്രവേശനവും റാമ്പും"
+      },
+      "note": {
+        "en": "Step free from the gate",
+        "ml": "ഗേറ്റ് മുതൽ പടികളില്ലാതെ"
+      }
+    },
+    {
+      "label": {
+        "en": "Toilets and wash area",
+        "ml": "ശൗചാലയങ്ങളും കഴുകാനുള്ള ഇടവും"
+      },
+      "note": {
+        "en": "Separate, beside each hall",
+        "ml": "ഓരോ ഹാളിനും അരികിൽ വെവ്വേറെ"
+      }
+    },
+    {
+      "label": {
+        "en": "Drinking water",
+        "ml": "കുടിവെള്ളം"
+      },
+      "note": {
+        "en": "Filtered, at the serving counter",
+        "ml": "ശുദ്ധീകരിച്ചത്, സെർവിംഗ് കൗണ്ടറിൽ"
+      }
+    },
+    {
+      "label": {
+        "en": "Electricity for the day",
+        "ml": "ദിവസത്തെ വൈദ്യുതി"
+      },
+      "note": {
+        "en": "Ordinary use, no meter reading",
+        "ml": "സാധാരണ ഉപയോഗം, മീറ്റർ കണക്കില്ല"
+      }
+    },
+    {
+      "label": {
+        "en": "A room for the family",
+        "ml": "കുടുംബത്തിന് ഒരു മുറി"
+      },
+      "note": {
+        "en": "To leave bags and change",
+        "ml": "ബാഗുകൾ വയ്ക്കാനും വസ്ത്രം മാറാനും"
+      }
     }
   ],
   "rules": [
@@ -216,6 +599,78 @@
       "ml": "ഫർണിച്ചറിനോ ഉപകരണങ്ങൾക്കോ ഉണ്ടാകുന്ന കേടുപാടുകൾ വില പ്രകാരം ഈടാക്കും."
     }
   ],
+  "faq": [
+    {
+      "q": {
+        "en": "How many people can the halls hold?",
+        "ml": "ഹാളുകളിൽ എത്ര പേർക്ക് ഇരിക്കാം?"
+      },
+      "a": {
+        "en": "Eighty in the small hall, two hundred in the medium and four hundred in the large. With the partition folded back the medium and large together seat six hundred, or nine hundred standing.",
+        "ml": "ചെറിയ ഹാളിൽ എൺപത്, ഇടത്തരത്തിൽ ഇരുനൂറ്, വലിയതിൽ നാനൂറ്. മറ നീക്കിയാൽ ഇടത്തരവും വലിയതും ചേർന്ന് അറുനൂറ് പേർക്ക് ഇരിക്കാം, നിന്നാൽ തൊള്ളായിരം."
+      }
+    },
+    {
+      "q": {
+        "en": "Is there parking?",
+        "ml": "പാർക്കിംഗ് ഉണ്ടോ?"
+      },
+      "a": {
+        "en": "Forty cars stand inside the church compound at no charge. On a Sunday or a feast day the compound is busy with Mass, which is one reason the halls are not let on those mornings.",
+        "ml": "പള്ളി വളപ്പിൽ നാൽപ്പത് കാറുകൾ നിരക്കില്ലാതെ നിർത്താം. ഞായറാഴ്ചകളിലും തിരുനാൾ ദിവസങ്ങളിലും വളപ്പിൽ കുർബാനയുടെ തിരക്കുണ്ടാകും — ആ പ്രഭാതങ്ങളിൽ ഹാളുകൾ നൽകാതതിന്റെ ഒരു കാരണം അതാണ്."
+      }
+    },
+    {
+      "q": {
+        "en": "Can we bring our own caterer?",
+        "ml": "സ്വന്തം കാറ്ററിംഗ് സംഘത്തെ കൊണ്ടുവരാമോ?"
+      },
+      "a": {
+        "en": "Yes. The kitchen, its gas and its vessels come with the hall. Tell the office who is cooking so the kitchen is opened for them in good time.",
+        "ml": "ആകാം. അടുക്കളയും ഗ്യാസും പാത്രങ്ങളും ഹാളിനൊപ്പം ലഭിക്കും. ആരാണ് പാചകം ചെയ്യുന്നതെന്ന് ഓഫീസിനെ അറിയിക്കുക, യഥാസമയം അടുക്കള തുറന്നു കൊടുക്കാൻ."
+      }
+    },
+    {
+      "q": {
+        "en": "Is alcohol allowed?",
+        "ml": "മദ്യം അനുവദനീയമാണോ?"
+      },
+      "a": {
+        "en": "No. Nothing alcoholic is permitted anywhere in the church compound, including the car park. A booking is ended on the spot if it is.",
+        "ml": "ഇല്ല. കാർ പാർക്കിംഗ് ഉൾപ്പെടെ പള്ളി വളപ്പിൽ എവിടെയും മദ്യം അനുവദനീയമല്ല. കണ്ടെത്തിയാൽ ബുക്കിംഗ് അപ്പോൾത്തന്നെ അവസാനിപ്പിക്കും."
+      }
+    },
+    {
+      "q": {
+        "en": "How is a booking confirmed?",
+        "ml": "ബുക്കിംഗ് എങ്ങനെ ഉറപ്പിക്കും?"
+      },
+      "a": {
+        "en": "A request holds the day for seven days. It becomes a booking when the advance of ₹3,000 reaches the parish office, in cash or by transfer. Nothing is charged on this website.",
+        "ml": "ഒരു അപേക്ഷ ഏഴ് ദിവസത്തേക്ക് ദിവസം മാറ്റിവയ്ക്കും. ₹3,000 അഡ്വാൻസ് പണമായോ കൈമാറ്റമായോ ഇടവക ഓഫീസിൽ എത്തുമ്പോൾ അത് ബുക്കിംഗ് ആകും. ഈ വെബ്സൈറ്റിൽ പണം ഈടാക്കുന്നില്ല."
+      }
+    },
+    {
+      "q": {
+        "en": "What if we have to cancel?",
+        "ml": "റദ്ദാക്കേണ്ടി വന്നാൽ?"
+      },
+      "a": {
+        "en": "Tell the office as early as you can. Cancel more than thirty days ahead and the advance is returned in full; nearer the day it is held against the loss, and a bereavement is never charged.",
+        "ml": "കഴിയുന്നത്ര നേരത്തെ ഓഫീസിനെ അറിയിക്കുക. മുപ്പത് ദിവസത്തിലധികം മുൻപ് റദ്ദാക്കിയാൽ അഡ്വാൻസ് പൂർണമായി തിരികെ നൽകും; ദിവസത്തോട് അടുത്താൽ നഷ്ടത്തിനായി അത് വകയിരുത്തും. മരണം സംഭവിച്ചാൽ ഒരിക്കലും ഈടാക്കില്ല."
+      }
+    },
+    {
+      "q": {
+        "en": "Are the halls only for parish families?",
+        "ml": "ഹാളുകൾ ഇടവക കുടുംബങ്ങൾക്ക് മാത്രമാണോ?"
+      },
+      "a": {
+        "en": "No. Anyone may book. Parish families pay the rates shown here; others pay one and a half times the hall rent, and the extras stay the same.",
+        "ml": "അല്ല. ആർക്കും ബുക്ക് ചെയ്യാം. ഇടവക കുടുംബങ്ങൾക്ക് ഇവിടെ കാണിച്ചിരിക്കുന്ന നിരക്ക്; മറ്റുള്ളവർക്ക് ഹാൾ വാടകയുടെ ഒന്നര ഇരട്ടി. അധിക സൗകര്യങ്ങളുടെ നിരക്ക് ഒന്നുതന്നെ."
+      }
+    }
+  ],
   "booking": {
     "note": {
       "en": "Choose a hall, then a free date, and send the request. The parish office will call to confirm and to collect the advance. Nothing is charged on this website.",
@@ -235,15 +690,24 @@
   "blocked": [
     {
       "date": "2027-01-18",
-      "reason": { "en": "Thirunal Dinam", "ml": "തിരുനാൾ ദിനം" }
+      "reason": {
+        "en": "Thirunal Dinam",
+        "ml": "തിരുനാൾ ദിനം"
+      }
     },
     {
       "date": "2027-07-03",
-      "reason": { "en": "Dukhrana — parish feast", "ml": "ദുക്റാന — ഇടവക തിരുനാൾ" }
+      "reason": {
+        "en": "Dukhrana — parish feast",
+        "ml": "ദുക്റാന — ഇടവക തിരുനാൾ"
+      }
     },
     {
       "date": "2026-12-25",
-      "reason": { "en": "Christmas", "ml": "ക്രിസ്മസ്" }
+      "reason": {
+        "en": "Christmas",
+        "ml": "ക്രിസ്മസ്"
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
+import { requireArea } from '@/lib/auth'
 
 export const runtime = 'nodejs'
 
@@ -37,7 +37,7 @@ async function translate(text: string, from: string, to: string) {
 }
 
 export async function POST(request: Request) {
-  if (!(await isAuthenticated())) {
+  if (!(await requireArea('pages'))) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 

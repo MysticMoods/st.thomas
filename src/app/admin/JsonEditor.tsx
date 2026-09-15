@@ -3,6 +3,14 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
+import {
+  MACHINE_KEYS,
+  countFields,
+  hasMatch,
+  isBilingual,
+  label,
+  selfMatch,
+} from '@/lib/editor-search'
 import { cn } from '@/lib/utils'
 
 import { useAutoTranslate } from './AutoTranslate'
@@ -26,24 +34,19 @@ const LONG_KEYS = new Set([
   'history', 'tribute', 'survivedBy', 'joinNote', 'subtitle', 'receiptNote',
 ])
 
-function isBilingual(value: unknown): value is { en: string; ml: string } {
-  return (
-    !!value &&
-    typeof value === 'object' &&
-    !Array.isArray(value) &&
-    'en' in (value as object) &&
-    'ml' in (value as object) &&
-    Object.keys(value as object).length === 2
-  )
-}
+/**
+ * What is being looked for, shared with every field below.
+ *
+ * The largest section on this site — the ministries, with the family units
+ * inside it — is a thousand fields deep in seven levels. Correcting one group
+ * leader's telephone number meant opening all of it and hunting. Typing their
+ * name now puts that one field on the screen and nothing else.
+ */
+const SearchContext = createContext('')
 
-function label(key: string) {
-  return key
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/[-_]/g, ' ')
-    .replace(/^./, (c) => c.toUpperCase())
-    .trim()
-}
+
+
+
 
 /** Short human summary shown on a collapsed array item. */
 function preview(value: unknown): string {
@@ -70,11 +73,66 @@ export function JsonEditor(props: {
   if (!props.path || props.path.length === 0) {
     return (
       <DocumentContext.Provider value={props.value}>
-        <Field {...props} />
+        <SearchableDocument {...props} />
       </DocumentContext.Provider>
     )
   }
   return <Field {...props} />
+}
+
+
+function SearchableDocument(props: {
+  value: Json
+  onChange: (next: Json) => void
+  path?: string[]
+  depth?: number
+}) {
+  const [query, setQuery] = useState('')
+  const total = useMemo(() => countFields(props.value), [props.value])
+  const found = query.trim() ? hasMatch(props.value, '', query.trim()) : true
+
+  return (
+    <SearchContext.Provider value={query.trim()}>
+      {/* Worth the space once a section runs past a screenful; below that the
+          whole thing is already in front of the person and a search box is one
+          more thing to read past. */}
+      {total > 25 ? (
+        <div className="sticky top-0 z-10 -mx-1 mb-5 bg-[rgb(var(--card))] px-1 pb-3 pt-1">
+          <div className="relative">
+            <Icon
+              name="search"
+              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgb(var(--muted))]"
+            />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={`Find among ${total} fields — a name, a number, a word`}
+              className="field !pl-10 !pr-10"
+            />
+            {query ? (
+              <button
+                type="button"
+                onClick={() => setQuery('')}
+                aria-label="Clear the search"
+                className="absolute right-2 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-sm text-[rgb(var(--muted))] transition-colors hover:text-gold-500"
+              >
+                <Icon name="close" className="h-3.5 w-3.5" />
+              </button>
+            ) : null}
+          </div>
+          {query.trim() ? (
+            <p className="mt-2 font-sans text-2xs text-[rgb(var(--muted))]">
+              {found
+                ? 'Showing only what matches. Clear the box to see the whole section again.'
+                : 'Nothing here says that.'}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
+
+      <Field {...props} />
+    </SearchContext.Provider>
+  )
 }
 
 function Field({
@@ -99,25 +157,7 @@ function Field({
   }
 
   if (value && typeof value === 'object') {
-    const record = value as Record<string, unknown>
-    // Reference ids go last: they matter to the site, not to the person typing.
-    const entries = Object.entries(record).sort(
-      (a, b) => Number(QUIET_KEYS.has(a[0])) - Number(QUIET_KEYS.has(b[0])),
-    )
-    return (
-      <div className={cn('flex flex-col gap-5', depth > 0 && 'border-l border-stone-300/60 pl-5 dark:border-navy-700')}>
-        {entries.map(([childKey, childValue]) => (
-          <Row key={childKey} name={childKey} value={childValue}>
-            <JsonEditor
-              value={childValue}
-              onChange={(next) => onChange({ ...record, [childKey]: next })}
-              path={[...path, childKey]}
-              depth={depth + 1}
-            />
-          </Row>
-        ))}
-      </div>
-    )
+    return <ObjectField value={value as Record<string, unknown>} onChange={onChange} path={path} depth={depth} />
   }
 
   if (typeof value === 'boolean') {
@@ -181,6 +221,92 @@ function Field({
   }
 
   return <input value={text} onChange={(e) => onChange(e.target.value)} className="field" />
+}
+
+/**
+ * One object's fields.
+ *
+ * Two things happen here that did not before. A search narrows it to the
+ * branches that answer, so a thousand-field section can be reduced to the one
+ * row somebody came for. And the fields that exist for the site rather than for
+ * the parish — ids, the flags that decide how a list is drawn — are folded
+ * behind a line, where they can still be reached but are not in the way.
+ */
+function ObjectField({
+  value,
+  onChange,
+  path,
+  depth,
+}: {
+  value: Record<string, unknown>
+  onChange: (next: Json) => void
+  path: string[]
+  depth: number
+}) {
+  const query = useContext(SearchContext)
+  const [showMachine, setShowMachine] = useState(false)
+
+  const all = Object.entries(value)
+  const plain = all.filter(([key]) => !MACHINE_KEYS.has(key))
+  const machine = all.filter(([key]) => MACHINE_KEYS.has(key))
+
+  const visible = query ? plain.filter(([key, child]) => hasMatch(child, key, query)) : plain
+  // A search reaches the technical fields too, rather than pretending they are
+  // not there — somebody looking for an id should find it.
+  const machineHit = query ? machine.filter(([key, child]) => hasMatch(child, key, query)) : machine
+
+  const field = ([childKey, childValue]: [string, unknown]) => {
+    const editor = (
+      <JsonEditor
+        value={childValue}
+        onChange={(next) => onChange({ ...value, [childKey]: next })}
+        path={[...path, childKey]}
+        depth={depth + 1}
+      />
+    )
+    return (
+      <Row key={childKey} name={childKey} value={childValue}>
+        {selfMatch(childValue, childKey, query) ? (
+          // This is the thing that was asked for. Stop narrowing and show it.
+          <SearchContext.Provider value="">{editor}</SearchContext.Provider>
+        ) : (
+          editor
+        )}
+      </Row>
+    )
+  }
+
+  return (
+    <div
+      className={cn(
+        'flex flex-col gap-5',
+        depth > 0 && 'border-l border-stone-300/60 pl-5 dark:border-navy-700',
+      )}
+    >
+      {visible.map(field)}
+
+      {machine.length === 0 ? null : query ? (
+        machineHit.map(field)
+      ) : (
+        <div>
+          <button
+            type="button"
+            onClick={() => setShowMachine((was) => !was)}
+            className="inline-flex items-center gap-1.5 font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))] transition-colors hover:text-gold-500"
+          >
+            <Icon
+              name="chevronDown"
+              className={cn('h-3 w-3 transition-transform duration-300', showMachine && 'rotate-180')}
+            />
+            {showMachine ? 'Hide' : 'Show'} technical {machine.length === 1 ? 'field' : 'fields'}
+          </button>
+          {showMachine ? (
+            <div className="mt-4 flex flex-col gap-5">{machine.map(field)}</div>
+          ) : null}
+        </div>
+      )}
+    </div>
+  )
 }
 
 /**
@@ -480,8 +606,16 @@ function ArrayField({
   depth: number
 }) {
   const [open, setOpen] = useState<number | null>(value.length === 1 ? 0 : null)
+  const query = useContext(SearchContext)
 
   const primitive = value.every((item) => typeof item !== 'object' || item === null)
+
+  // Entries kept on screen for a search, each with the place it really holds in
+  // the list — deleting or reordering must act on the list, never on what the
+  // search happens to be showing.
+  const shown = value
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) => !query || hasMatch(item, '', query))
 
   const move = (from: number, to: number) => {
     if (to < 0 || to >= value.length) return
@@ -519,7 +653,7 @@ function ArrayField({
   if (primitive) {
     return (
       <div className="flex flex-col gap-2">
-        {value.map((item, i) => (
+        {shown.map(({ item, index: i }) => (
           <div key={i} className="flex gap-2">
             <JsonEditor
               value={item}
@@ -549,7 +683,15 @@ function ArrayField({
     <div className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <span className="font-sans text-2xs text-[rgb(var(--muted))]">
-          {value.length} {value.length === 1 ? 'entry' : 'entries'}
+          {query ? (
+            <>
+              {shown.length} of {value.length} {value.length === 1 ? 'entry' : 'entries'} match
+            </>
+          ) : (
+            <>
+              {value.length} {value.length === 1 ? 'entry' : 'entries'}
+            </>
+          )}
         </span>
         <div className="flex items-center gap-2">
           {value.length > 1 ? (
@@ -568,8 +710,16 @@ function ArrayField({
         </div>
       </div>
 
-      {value.map((item, i) => {
-        const expanded = open === i
+      {shown.length === 0 ? (
+        <p className="rounded-sm border border-dashed border-[rgb(var(--line))] px-3 py-4 text-center font-sans text-2xs text-[rgb(var(--muted))]">
+          None of these say that.
+        </p>
+      ) : null}
+
+      {shown.map(({ item, index: i }) => {
+        // While searching, what is left is what was asked for: open it rather
+        // than making somebody click through the answers one at a time.
+        const expanded = query ? true : open === i
         return (
           <div
             key={i}
@@ -607,12 +757,14 @@ function ArrayField({
             </div>
             {expanded ? (
               <div className="border-t border-[rgb(var(--line))] p-4">
-                <JsonEditor
-                  value={item}
-                  path={path}
-                  depth={depth + 1}
-                  onChange={(next) => onChange(value.map((v, j) => (j === i ? next : v)))}
-                />
+                <SearchContext.Provider value={selfMatch(item, '', query) ? '' : query}>
+                  <JsonEditor
+                    value={item}
+                    path={path}
+                    depth={depth + 1}
+                    onChange={(next) => onChange(value.map((v, j) => (j === i ? next : v)))}
+                  />
+                </SearchContext.Provider>
               </div>
             ) : null}
           </div>

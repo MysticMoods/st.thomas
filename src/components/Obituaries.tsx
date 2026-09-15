@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useMemo, useState } from 'react'
 
 import { ui, useLang } from '@/lib/i18n'
+import { memorialSlug } from '@/lib/slug'
 import type { Obituary, ObituariesContent } from '@/lib/types'
 import { cn, formatDate, formatNumber } from '@/lib/utils'
 
@@ -118,7 +119,7 @@ export function ObituaryDialog({
               className="h-full w-full object-cover grayscale-[0.7]"
             />
             <div
-              className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-transparent"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-transparent"
               aria-hidden="true"
             />
             <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
@@ -162,6 +163,16 @@ export function ObituaryDialog({
                 {t(prayer)}
               </p>
             </div>
+
+            {/* Each person has a page of their own, so a family can send a link
+                to their mother rather than to a column of forty strangers. */}
+            <a
+              href={`/obituary/${memorialSlug(person)}`}
+              className="mt-6 flex items-center justify-center gap-2 rounded-sm border border-[rgb(var(--line))] py-3 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400 hover:text-gold-500"
+            >
+              {t({ en: 'Open this memorial to share it', ml: 'പങ്കിടാൻ ഈ സ്മരണ തുറക്കുക' })}
+              <Icon name="arrowRight" className="h-3.5 w-3.5" />
+            </a>
           </div>
         </div>
       ) : null}

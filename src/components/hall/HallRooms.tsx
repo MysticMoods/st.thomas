@@ -52,10 +52,10 @@ export function HallRooms({ hall }: { hall: HallContent }) {
   const [viewing, setViewing] = useState<{ images: string[]; index: number; title: string } | null>(null)
 
   return (
-    <section id="halls" className="section-tight bg-[rgb(var(--page-alt))]">
+    <section id="halls" className="hall-anchor section-tight bg-[rgb(var(--page-alt))]">
       <div className="container">
         <SectionHeading
-          eyebrow={{ en: 'The three halls', ml: 'മൂന്ന് ഹാളുകൾ' }}
+          eyebrow={{ en: '02 · The three halls', ml: '02 · മൂന്ന് ഹാളുകൾ' }}
           title={{ en: 'Which one do you need?', ml: 'ഏതാണ് വേണ്ടത്?' }}
           subtitle={{
             en: 'Every hall is let by the session. The medium and large halls can be taken together when the whole building is needed.',

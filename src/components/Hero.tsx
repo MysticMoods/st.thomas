@@ -55,19 +55,19 @@ export function Hero({ site }: { site: SiteContent }) {
               priority={index === 0}
               quality={88}
               sizes="100vw"
-              className="object-cover object-center"
+              className="pointer-events-none object-cover object-center"
             />
           </motion.div>
         </AnimatePresence>
       </motion.div>
 
       {/* veils: keeps text at AAA contrast over any photograph */}
-      <div className="absolute inset-0 bg-sacred-veil" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-sacred-veil" aria-hidden="true" />
       <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_15%,rgba(7,14,26,0.72)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_15%,rgba(7,14,26,0.72)_100%)]"
         aria-hidden="true"
       />
-      <div className="grain absolute inset-0" aria-hidden="true" />
+      <div className="pointer-events-none grain absolute inset-0" aria-hidden="true" />
 
       <motion.div
         style={reduce ? undefined : { y: contentY, opacity: fade }}

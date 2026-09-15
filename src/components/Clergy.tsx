@@ -15,7 +15,7 @@ export function Clergy({ clergy }: { clergy: ClergyContent }) {
 
   return (
     <section id="priests" className="section relative overflow-hidden bg-navy-950 text-stone-100">
-      <div className="grain absolute inset-0 opacity-60" aria-hidden="true" />
+      <div className="pointer-events-none grain absolute inset-0 opacity-60" aria-hidden="true" />
       <div
         className="pointer-events-none absolute -left-40 top-1/3 h-[30rem] w-[30rem] rounded-full bg-gold-500/10 blur-[120px]"
         aria-hidden="true"

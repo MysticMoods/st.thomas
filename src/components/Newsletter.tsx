@@ -6,6 +6,7 @@ import { ui, useLang } from '@/lib/i18n'
 import type { SiteContent } from '@/lib/types'
 import { cn, isEmail } from '@/lib/utils'
 
+import { Honeypot } from './ui/Honeypot'
 import { Icon } from './ui/Icon'
 import { Reveal } from './ui/Reveal'
 import { SmartImage } from './ui/SmartImage'
@@ -15,6 +16,8 @@ type State = 'idle' | 'sending' | 'done' | 'error'
 export function Newsletter({ site }: { site: SiteContent }) {
   const { t } = useLang()
   const [email, setEmail] = useState('')
+  // Filled only by something that cannot see the page.
+  const [website, setWebsite] = useState('')
   const [state, setState] = useState<State>('idle')
 
   async function submit(event: React.FormEvent) {
@@ -28,7 +31,7 @@ export function Newsletter({ site }: { site: SiteContent }) {
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website }),
       })
       setState(res.ok ? 'done' : 'error')
       if (res.ok) setEmail('')
@@ -58,7 +61,8 @@ export function Newsletter({ site }: { site: SiteContent }) {
               <span className="gold-rule w-14" aria-hidden="true" />
               <p className="body-text">{t(site.newsletter.description)}</p>
 
-              <form onSubmit={submit} className="mt-1 flex flex-col gap-3 sm:flex-row">
+              <form onSubmit={submit} className="relative mt-1 flex flex-col gap-3 sm:flex-row">
+                <Honeypot value={website} onChange={setWebsite} />
                 <label className="sr-only" htmlFor="newsletter-email">
                   {t(ui.contact.email)}
                 </label>

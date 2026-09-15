@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 
 import { ui, useLang } from '@/lib/i18n'
-import type { CommitteeContent, CommitteeMember } from '@/lib/types'
+import type { CommitteeContent, CommitteeMember, CommitteeTier } from '@/lib/types'
 import { cn, telHref } from '@/lib/utils'
 
 import { Icon } from './ui/Icon'
@@ -24,9 +24,15 @@ function initials(name: string) {
 }
 
 /**
- * The elected committee, directly under the parish priest. Office bearers are
- * given the larger cards; the rest of the members follow in a tighter grid so
- * that a body of eighteen people still reads at a glance.
+ * The parish council, directly under the parish priest.
+ *
+ * Above it come the people who are not elected onto it but are rung first all
+ * the same — the sacristan, the administrators. They are read from `tiers` in
+ * file order, so their number and their order are a content edit.
+ *
+ * Within the council, office bearers are given the larger cards and the rest of
+ * the members follow in a tighter grid, so that a body of eighteen people still
+ * reads at a glance.
  */
 export function Committee({ committee }: { committee: CommitteeContent }) {
   const { t } = useLang()
@@ -48,8 +54,14 @@ export function Committee({ committee }: { committee: CommitteeContent }) {
           subtitle={committee.subtitle}
         />
 
+        {(committee.tiers ?? []).map((tier, index) => (
+          <TierBlock key={tier.id} tier={tier} first={index === 0} />
+        ))}
+
+        {/* The term belongs to the elected council, not to the people above it,
+            so it sits directly over their cards rather than under the heading. */}
         <Reveal delay={0.08}>
-          <p className="mx-auto mt-8 w-fit rounded-full border border-gold-400/40 px-5 py-2 font-sans text-2xs uppercase tracking-[0.2em] text-gold-600 dark:text-gold-300">
+          <p className="mx-auto mt-16 w-fit rounded-full border border-gold-400/40 px-5 py-2 font-sans text-2xs uppercase tracking-[0.2em] text-gold-600 dark:text-gold-300">
             {t(committee.term)}
           </p>
         </Reveal>
@@ -90,6 +102,52 @@ export function Committee({ committee }: { committee: CommitteeContent }) {
         </Reveal>
       </div>
     </section>
+  )
+}
+
+/**
+ * One block above the council: its name, a line about it, and the people.
+ *
+ * The same card the council's office bearers get, because these are the same
+ * kind of entry — a face, a post and a number to ring. One person centres
+ * rather than stretching across four columns and looking like a mistake.
+ */
+function TierBlock({ tier, first }: { tier: CommitteeTier; first: boolean }) {
+  const { t } = useLang()
+  if (tier.people.length === 0) return null
+
+  return (
+    <div className={first ? 'mt-16' : 'mt-14'}>
+      <Reveal>
+        <div className="text-center">
+          <h3 className="font-display text-2xl text-[rgb(var(--ink))] sm:text-3xl">
+            {t(tier.title)}
+          </h3>
+          {tier.subtitle ? (
+            <p className="mx-auto mt-3 max-w-xl font-sans text-sm leading-relaxed text-[rgb(var(--muted))]">
+              {t(tier.subtitle)}
+            </p>
+          ) : null}
+        </div>
+      </Reveal>
+
+      <StaggerGroup
+        className={cn(
+          'mx-auto mt-8 grid gap-5',
+          tier.people.length === 1
+            ? 'max-w-xs'
+            : tier.people.length === 2
+              ? 'max-w-2xl sm:grid-cols-2'
+              : 'sm:grid-cols-2 lg:grid-cols-4',
+        )}
+      >
+        {tier.people.map((person) => (
+          <motion.div key={person.id} variants={staggerItem}>
+            <OfficerCard member={person} />
+          </motion.div>
+        ))}
+      </StaggerGroup>
+    </div>
   )
 }
 

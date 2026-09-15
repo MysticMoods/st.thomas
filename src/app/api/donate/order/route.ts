@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+import { throttled } from '@/lib/limit'
+
 import { readContent } from '@/lib/content'
 import { createOrder, isConfigured, keyId } from '@/lib/razorpay'
 import type { DonationContent } from '@/lib/types'
@@ -7,21 +9,9 @@ import { isEmail } from '@/lib/utils'
 
 export const runtime = 'nodejs'
 
-/** Ten orders per IP per ten minutes — enough for a family, not for a script. */
-const attempts = new Map<string, { count: number; until: number }>()
+/** Ten orders per address per ten minutes — a family, not a script. */
 const WINDOW = 10 * 60 * 1000
 const LIMIT = 10
-
-function throttled(ip: string) {
-  const now = Date.now()
-  const entry = attempts.get(ip)
-  if (!entry || entry.until < now) {
-    attempts.set(ip, { count: 1, until: now + WINDOW })
-    return false
-  }
-  entry.count += 1
-  return entry.count > LIMIT
-}
 
 const CONTROL_CHARS = new RegExp('[\\u0000-\\u001F\\u007F]+', 'g')
 
@@ -43,12 +33,7 @@ export async function POST(request: Request) {
     )
   }
 
-  const ip =
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'local'
-
-  if (throttled(ip)) {
+  if (throttled(request, 'donate-order', LIMIT, WINDOW)) {
     return NextResponse.json(
       { error: 'Too many attempts. Please wait a few minutes and try again.' },
       { status: 429 },

@@ -156,6 +156,17 @@
     @apply relative pb-20 pt-10 md:pb-24 md:pt-12;
   }
 
+  /* Anything the header can jump to must clear the header when it lands. */
+  .hall-anchor {
+    scroll-margin-top: 7.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .hall-anchor {
+      scroll-margin-top: 10.5rem;
+    }
+  }
+
   /* A hairline rule that fades into the page, used under section headings. */
   .gold-rule {
     @apply block h-px w-24 bg-gold-line;

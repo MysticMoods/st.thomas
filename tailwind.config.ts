@@ -129,6 +129,12 @@ const config: Config = {
           '0%, 100%': { opacity: '0.55' },
           '50%': { opacity: '0.9' },
         },
+        /* The facilities strip under the hall hero: one copy of the list
+           travels a full width while a second follows, so it never breaks. */
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         'fade-up': 'fade-up 0.9s cubic-bezier(0.16,1,0.3,1) both',
@@ -136,6 +142,7 @@ const config: Config = {
         shimmer: 'shimmer 1.8s infinite',
         'slow-zoom': 'slow-zoom 22s ease-out forwards',
         'candle-glow': 'candle-glow 4s ease-in-out infinite',
+        marquee: 'marquee 42s linear infinite',
       },
     },
   },

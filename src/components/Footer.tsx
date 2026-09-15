@@ -49,7 +49,7 @@ export function Footer({
 
   return (
     <footer className="no-print relative overflow-hidden bg-navy-950 text-stone-300">
-      <div className="grain absolute inset-0 opacity-50" aria-hidden="true" />
+      <div className="pointer-events-none grain absolute inset-0 opacity-50" aria-hidden="true" />
       <div className="h-px w-full bg-gold-line opacity-70" aria-hidden="true" />
 
       <div className="container relative py-20">

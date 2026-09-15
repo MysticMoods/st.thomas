@@ -23,6 +23,10 @@
     "history": {
       "en": "History",
       "ml": "ചരിത്രം"
+    },
+    "groups": {
+      "en": "Groups",
+      "ml": "ഗ്രൂപ്പുകൾ"
     }
   },
   "items": [
@@ -294,7 +298,241 @@
       "joinNote": {
         "en": "Registration for the new academic year opens in the last week of May at the parish office.",
         "ml": "പുതിയ അധ്യയന വർഷത്തേക്കുള്ള രജിസ്ട്രേഷൻ മെയ് അവസാന ആഴ്ച ഇടവക ഓഫീസിൽ ആരംഭിക്കുന്നു."
-      }
+      },
+      "groupsLabel": {
+        "en": "Classes",
+        "ml": "ക്ലാസുകൾ"
+      },
+      "groups": [
+        {
+          "name": {
+            "en": "Class 1",
+            "ml": "ഒന്നാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 2",
+            "ml": "രണ്ടാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 3",
+            "ml": "മൂന്നാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 4",
+            "ml": "നാലാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 5",
+            "ml": "അഞ്ചാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 6",
+            "ml": "ആറാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 7",
+            "ml": "ഏഴാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 8",
+            "ml": "എട്ടാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 9",
+            "ml": "ഒൻപതാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 10",
+            "ml": "പത്താം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 11",
+            "ml": "പതിനൊന്നാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Class 12",
+            "ml": "പന്ത്രണ്ടാം ക്ലാസ്"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "",
+                "ml": ""
+              },
+              "role": {
+                "en": "Teacher",
+                "ml": "അധ്യാപകൻ"
+              },
+              "phone": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "choir",
@@ -463,48 +701,6 @@
           "ml": "വർഷത്തിലൊരിക്കൽ സഹഭോജനത്തോടെ കൂട്ടായ്മ ദിനം"
         }
       ],
-      "team": [
-        {
-          "name": {
-            "en": "Joy Manakkattu",
-            "ml": "ജോയ് മണക്കാട്ട്"
-          },
-          "role": {
-            "en": "St. Peter's Unit",
-            "ml": "വി. പത്രോസ് കൂട്ടായ്മ"
-          }
-        },
-        {
-          "name": {
-            "en": "Sheeja Vadakkan",
-            "ml": "ഷീജ വടക്കൻ"
-          },
-          "role": {
-            "en": "St. Joseph's Unit",
-            "ml": "വി. യൗസേപ്പ് കൂട്ടായ്മ"
-          }
-        },
-        {
-          "name": {
-            "en": "Bijoy Ouseph",
-            "ml": "ബിജോയ് ഔസേപ്പ്"
-          },
-          "role": {
-            "en": "St. Sebastian's Unit",
-            "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
-          }
-        },
-        {
-          "name": {
-            "en": "Rosily Kalathil",
-            "ml": "റോസിലി കളത്തിൽ"
-          },
-          "role": {
-            "en": "St. Thomas Unit",
-            "ml": "വി. തോമാശ്ലീഹാ കൂട്ടായ്മ"
-          }
-        }
-      ],
       "events": [
         {
           "date": "2026-09-20",
@@ -532,7 +728,2270 @@
       "joinNote": {
         "en": "Every household in the parish register already belongs to a unit. The office will tell you which.",
         "ml": "ഇടവക രജിസ്റ്ററിലെ എല്ലാ കുടുംബവും ഇതിനകം ഒരു കൂട്ടായ്മയിൽ ഉൾപ്പെട്ടിട്ടുണ്ട്. ഏതെന്ന് ഓഫീസ് അറിയിക്കും."
-      }
+      },
+      "groupsLabel": {
+        "en": "Units",
+        "ml": "കൂട്ടായ്മകൾ"
+      },
+      "groups": [
+        {
+          "name": {
+            "en": "St. Peter's Unit",
+            "ml": "വി. പത്രോസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Joy Manakkattu",
+                "ml": "ജോയ് മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20201",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Jose Vadakkan",
+                "ml": "ജോസ് വടക്കൻ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20202",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Thomas Kunnel",
+                "ml": "തോമസ് കുന്നേൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20203",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Devassy Chakkalakkal",
+                "ml": "ദേവസ്സി ചക്കാലയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20204",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sebastian Kalapurackal",
+                "ml": "സെബാസ്റ്റ്യൻ കളപ്പുരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20205",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Antony Panackal",
+                "ml": "ആന്റണി പനയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20206",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Varghese Puthenpurayil",
+                "ml": "വർഗീസ് പുത്തൻപുരയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20207",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "George Thekkekara",
+                "ml": "ജോർജ് തെക്കേകര"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20208",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Paul Palliparambil",
+                "ml": "പോൾ പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20209",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Francis Mundackal",
+                "ml": "ഫ്രാൻസിസ് മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20210",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Mathew Kizhakkedathu",
+                "ml": "മാത്യു കിഴക്കേടത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20211",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Johnson Nedumparambil",
+                "ml": "ജോൺസൺ നെടുമ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20212",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Biju Karottu",
+                "ml": "ബിജു കാരോട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20213",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Shaji Vettikkattil",
+                "ml": "ഷാജി വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20214",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jomon Chirayath",
+                "ml": "ജോമോൻ ചിറയത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20215",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Joseph's Unit",
+            "ml": "വി. യൗസേപ്പ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Sheeja Vadakkan",
+                "ml": "ഷീജ വടക്കൻ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20216",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sunny Padinjarekara",
+                "ml": "സണ്ണി പടിഞ്ഞാറേകര"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20217",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Benny Arakkal",
+                "ml": "ബെന്നി അരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20218",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Roy Maliekkal",
+                "ml": "റോയ് മാളിയേക്കൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20219",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Jacob Thundathil",
+                "ml": "ജേക്കബ് തുണ്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20220",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Kuriakose Kollamparambil",
+                "ml": "കുര്യാക്കോസ് കൊല്ലംപറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20221",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sheeja Njavallil",
+                "ml": "ഷീജ ഞാവള്ളിൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20222",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Mary Cheruvathur",
+                "ml": "മേരി ചെറുവത്തൂർ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20223",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Alice Parayil",
+                "ml": "ആലീസ് പാറയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20224",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Rosily Illikkal",
+                "ml": "റോസിലി ഇല്ലിക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20225",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Lissy Muttathil",
+                "ml": "ലിസി മുട്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20226",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jessy Kadavil",
+                "ml": "ജെസ്സി കടവിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20227",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Bindu Anikkad",
+                "ml": "ബിന്ദു ആനിക്കാട്"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20228",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sini Puliyanmakkal",
+                "ml": "സിനി പുളിയൻമാക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20229",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Ancy Thottiyil",
+                "ml": "ആൻസി തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20230",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Sebastian's Unit",
+            "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Bijoy Ouseph",
+                "ml": "ബിജോയ് ഔസേപ്പ്"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20231",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Deepa Ollukkaran",
+                "ml": "ദീപ ഒള്ളൂക്കാരൻ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20232",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Tessy Manakkattu",
+                "ml": "ടെസ്സി മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20233",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Molly Vadakkan",
+                "ml": "മോളി വടക്കൻ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20234",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Annie Kunnel",
+                "ml": "ആനി കുന്നേൽ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20235",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Gracy Chakkalakkal",
+                "ml": "ഗ്രേസി ചക്കാലയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20236",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sherly Kalapurackal",
+                "ml": "ഷെർലി കളപ്പുരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20237",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Reena Panackal",
+                "ml": "റീന പനയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20238",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Anitha Puthenpurayil",
+                "ml": "അനിത പുത്തൻപുരയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20239",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jaya Thekkekara",
+                "ml": "ജയ തെക്കേകര"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20240",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Elsy Palliparambil",
+                "ml": "എൽസി പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20241",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Treesa Mundackal",
+                "ml": "തെരേസ മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20242",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Joy Maliekkal",
+                "ml": "ജോയ് മാളിയേക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20243",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jose Thundathil",
+                "ml": "ജോസ് തുണ്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20244",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Thomas Kollamparambil",
+                "ml": "തോമസ് കൊല്ലംപറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20245",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Thomas Unit",
+            "ml": "വി. തോമാശ്ലീഹാ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Rosily Kalathil",
+                "ml": "റോസിലി കളത്തിൽ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20246",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Devassy Njavallil",
+                "ml": "ദേവസ്സി ഞാവള്ളിൽ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20247",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sebastian Cheruvathur",
+                "ml": "സെബാസ്റ്റ്യൻ ചെറുവത്തൂർ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20248",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Antony Parayil",
+                "ml": "ആന്റണി പാറയിൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20249",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Varghese Illikkal",
+                "ml": "വർഗീസ് ഇല്ലിക്കൽ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20250",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "George Muttathil",
+                "ml": "ജോർജ് മുട്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20251",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Paul Kadavil",
+                "ml": "പോൾ കടവിൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20252",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Francis Anikkad",
+                "ml": "ഫ്രാൻസിസ് ആനിക്കാട്"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20253",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Mathew Puliyanmakkal",
+                "ml": "മാത്യു പുളിയൻമാക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20254",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Johnson Thottiyil",
+                "ml": "ജോൺസൺ തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20255",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Biju Ollukkaran",
+                "ml": "ബിജു ഒള്ളൂക്കാരൻ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20256",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Shaji Manakkattu",
+                "ml": "ഷാജി മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20257",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jomon Vadakkan",
+                "ml": "ജോമോൻ വടക്കൻ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20258",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sunny Kunnel",
+                "ml": "സണ്ണി കുന്നേൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20259",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Benny Chakkalakkal",
+                "ml": "ബെന്നി ചക്കാലയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20260",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Mary's Unit",
+            "ml": "വി. മറിയം കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Benny Puliyanmakkal",
+                "ml": "ബെന്നി പുളിയൻമാക്കൽ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20261",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Roy Kalapurackal",
+                "ml": "റോയ് കളപ്പുരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20262",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Jacob Panackal",
+                "ml": "ജേക്കബ് പനയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20263",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Kuriakose Puthenpurayil",
+                "ml": "കുര്യാക്കോസ് പുത്തൻപുരയിൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20264",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sheeja Thekkekara",
+                "ml": "ഷീജ തെക്കേകര"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20265",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Mary Palliparambil",
+                "ml": "മേരി പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20266",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Alice Mundackal",
+                "ml": "ആലീസ് മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20267",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Rosily Kizhakkedathu",
+                "ml": "റോസിലി കിഴക്കേടത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20268",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Lissy Nedumparambil",
+                "ml": "ലിസി നെടുമ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20269",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jessy Karottu",
+                "ml": "ജെസ്സി കാരോട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20270",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Bindu Vettikkattil",
+                "ml": "ബിന്ദു വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20271",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sini Chirayath",
+                "ml": "സിനി ചിറയത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20272",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Ancy Padinjarekara",
+                "ml": "ആൻസി പടിഞ്ഞാറേകര"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20273",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Deepa Arakkal",
+                "ml": "ദീപ അരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20274",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Tessy Maliekkal",
+                "ml": "ടെസ്സി മാളിയേക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20275",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. George's Unit",
+            "ml": "വി. ഗീവർഗീസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Molly Karottu",
+                "ml": "മോളി കാരോട്ട്"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20276",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Molly Thundathil",
+                "ml": "മോളി തുണ്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20277",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Annie Kollamparambil",
+                "ml": "ആനി കൊല്ലംപറമ്പിൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20278",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Gracy Njavallil",
+                "ml": "ഗ്രേസി ഞാവള്ളിൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20279",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sherly Cheruvathur",
+                "ml": "ഷെർലി ചെറുവത്തൂർ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20280",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Reena Parayil",
+                "ml": "റീന പാറയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20281",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Anitha Illikkal",
+                "ml": "അനിത ഇല്ലിക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20282",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jaya Muttathil",
+                "ml": "ജയ മുട്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20283",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Elsy Kadavil",
+                "ml": "എൽസി കടവിൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20284",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Treesa Anikkad",
+                "ml": "തെരേസ ആനിക്കാട്"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20285",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Joy Kalapurackal",
+                "ml": "ജോയ് കളപ്പുരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20286",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jose Panackal",
+                "ml": "ജോസ് പനയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20287",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Thomas Puthenpurayil",
+                "ml": "തോമസ് പുത്തൻപുരയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20288",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Devassy Thekkekara",
+                "ml": "ദേവസ്സി തെക്കേകര"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20289",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sebastian Palliparambil",
+                "ml": "സെബാസ്റ്റ്യൻ പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20290",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Antony's Unit",
+            "ml": "വി. അന്തോണീസ് കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Varghese Thottiyil",
+                "ml": "വർഗീസ് തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20291",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Antony Mundackal",
+                "ml": "ആന്റണി മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20292",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Varghese Kizhakkedathu",
+                "ml": "വർഗീസ് കിഴക്കേടത്ത്"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20293",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "George Nedumparambil",
+                "ml": "ജോർജ് നെടുമ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20294",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Paul Karottu",
+                "ml": "പോൾ കാരോട്ട്"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20295",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Francis Vettikkattil",
+                "ml": "ഫ്രാൻസിസ് വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20296",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Mathew Chirayath",
+                "ml": "മാത്യു ചിറയത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20297",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Johnson Padinjarekara",
+                "ml": "ജോൺസൺ പടിഞ്ഞാറേകര"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20298",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Biju Arakkal",
+                "ml": "ബിജു അരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20299",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Shaji Maliekkal",
+                "ml": "ഷാജി മാളിയേക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20300",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jomon Thundathil",
+                "ml": "ജോമോൻ തുണ്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20301",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sunny Kollamparambil",
+                "ml": "സണ്ണി കൊല്ലംപറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20302",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Benny Njavallil",
+                "ml": "ബെന്നി ഞാവള്ളിൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20303",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Roy Cheruvathur",
+                "ml": "റോയ് ചെറുവത്തൂർ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20304",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jacob Parayil",
+                "ml": "ജേക്കബ് പാറയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20305",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Alphonsa Unit",
+            "ml": "വി. അൽഫോൻസാമ്മ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Mary Vettikkattil",
+                "ml": "മേരി വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20306",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Kuriakose Illikkal",
+                "ml": "കുര്യാക്കോസ് ഇല്ലിക്കൽ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20307",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sheeja Muttathil",
+                "ml": "ഷീജ മുട്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20308",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Mary Kadavil",
+                "ml": "മേരി കടവിൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20309",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Alice Anikkad",
+                "ml": "ആലീസ് ആനിക്കാട്"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20310",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Rosily Puliyanmakkal",
+                "ml": "റോസിലി പുളിയൻമാക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20311",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Lissy Thottiyil",
+                "ml": "ലിസി തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20312",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jessy Ollukkaran",
+                "ml": "ജെസ്സി ഒള്ളൂക്കാരൻ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20313",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Bindu Manakkattu",
+                "ml": "ബിന്ദു മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20314",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sini Vadakkan",
+                "ml": "സിനി വടക്കൻ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20315",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Ancy Kunnel",
+                "ml": "ആൻസി കുന്നേൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20316",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Deepa Chakkalakkal",
+                "ml": "ദീപ ചക്കാലയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20317",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Tessy Kalapurackal",
+                "ml": "ടെസ്സി കളപ്പുരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20318",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Molly Panackal",
+                "ml": "മോളി പനയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20319",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Annie Puthenpurayil",
+                "ml": "ആനി പുത്തൻപുരയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20320",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "St. Chavara Unit",
+            "ml": "വി. ചാവറയച്ചൻ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Anitha Thottiyil",
+                "ml": "അനിത തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20321",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Gracy Thekkekara",
+                "ml": "ഗ്രേസി തെക്കേകര"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20322",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Sherly Palliparambil",
+                "ml": "ഷെർലി പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20323",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Reena Mundackal",
+                "ml": "റീന മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20324",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Anitha Kizhakkedathu",
+                "ml": "അനിത കിഴക്കേടത്ത്"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20325",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Jaya Nedumparambil",
+                "ml": "ജയ നെടുമ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20326",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Elsy Karottu",
+                "ml": "എൽസി കാരോട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20327",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Treesa Vettikkattil",
+                "ml": "തെരേസ വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20328",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Joy Cheruvathur",
+                "ml": "ജോയ് ചെറുവത്തൂർ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20329",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jose Parayil",
+                "ml": "ജോസ് പാറയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20330",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Thomas Illikkal",
+                "ml": "തോമസ് ഇല്ലിക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20331",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Devassy Muttathil",
+                "ml": "ദേവസ്സി മുട്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20332",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sebastian Kadavil",
+                "ml": "സെബാസ്റ്റ്യൻ കടവിൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20333",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Antony Anikkad",
+                "ml": "ആന്റണി ആനിക്കാട്"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20334",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Varghese Puliyanmakkal",
+                "ml": "വർഗീസ് പുളിയൻമാക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20335",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Sacred Heart Unit",
+            "ml": "തിരുഹൃദയ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Johnson Chirayath",
+                "ml": "ജോൺസൺ ചിറയത്ത്"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20336",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "George Thottiyil",
+                "ml": "ജോർജ് തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20337",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Paul Ollukkaran",
+                "ml": "പോൾ ഒള്ളൂക്കാരൻ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20338",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Francis Manakkattu",
+                "ml": "ഫ്രാൻസിസ് മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20339",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Mathew Vadakkan",
+                "ml": "മാത്യു വടക്കൻ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20340",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Johnson Kunnel",
+                "ml": "ജോൺസൺ കുന്നേൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20341",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Biju Chakkalakkal",
+                "ml": "ബിജു ചക്കാലയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20342",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Shaji Kalapurackal",
+                "ml": "ഷാജി കളപ്പുരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20343",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jomon Panackal",
+                "ml": "ജോമോൻ പനയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20344",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sunny Puthenpurayil",
+                "ml": "സണ്ണി പുത്തൻപുരയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20345",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Benny Thekkekara",
+                "ml": "ബെന്നി തെക്കേകര"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20346",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Roy Palliparambil",
+                "ml": "റോയ് പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20347",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jacob Mundackal",
+                "ml": "ജേക്കബ് മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20348",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Kuriakose Kizhakkedathu",
+                "ml": "കുര്യാക്കോസ് കിഴക്കേടത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20349",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sheeja Nedumparambil",
+                "ml": "ഷീജ നെടുമ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20350",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Little Flower Unit",
+            "ml": "വി. കൊച്ചുത്രേസ്യാ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Bindu Ollukkaran",
+                "ml": "ബിന്ദു ഒള്ളൂക്കാരൻ"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20351",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Mary Karottu",
+                "ml": "മേരി കാരോട്ട്"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20352",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Alice Vettikkattil",
+                "ml": "ആലീസ് വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20353",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Rosily Chirayath",
+                "ml": "റോസിലി ചിറയത്ത്"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20354",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Lissy Padinjarekara",
+                "ml": "ലിസി പടിഞ്ഞാറേകര"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20355",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Jessy Arakkal",
+                "ml": "ജെസ്സി അരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20356",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Bindu Maliekkal",
+                "ml": "ബിന്ദു മാളിയേക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20357",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sini Thundathil",
+                "ml": "സിനി തുണ്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20358",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Ancy Kollamparambil",
+                "ml": "ആൻസി കൊല്ലംപറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20359",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Deepa Njavallil",
+                "ml": "ദീപ ഞാവള്ളിൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20360",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Tessy Cheruvathur",
+                "ml": "ടെസ്സി ചെറുവത്തൂർ"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20361",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Molly Parayil",
+                "ml": "മോളി പാറയിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20362",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Annie Illikkal",
+                "ml": "ആനി ഇല്ലിക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20363",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Gracy Muttathil",
+                "ml": "ഗ്രേസി മുട്ടത്തിൽ"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20364",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sherly Kadavil",
+                "ml": "ഷെർലി കടവിൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20365",
+              "office": false
+            }
+          ]
+        },
+        {
+          "name": {
+            "en": "Holy Family Unit",
+            "ml": "തിരുക്കുടുംബ കൂട്ടായ്മ"
+          },
+          "people": [
+            {
+              "name": {
+                "en": "Jose Padinjarekara",
+                "ml": "ജോസ് പടിഞ്ഞാറേകര"
+              },
+              "role": {
+                "en": "President",
+                "ml": "പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20366",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Reena Anikkad",
+                "ml": "റീന ആനിക്കാട്"
+              },
+              "role": {
+                "en": "Vice President",
+                "ml": "വൈസ് പ്രസിഡന്റ്"
+              },
+              "phone": "+91 94470 20367",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Anitha Puliyanmakkal",
+                "ml": "അനിത പുളിയൻമാക്കൽ"
+              },
+              "role": {
+                "en": "Secretary",
+                "ml": "സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20368",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Jaya Thottiyil",
+                "ml": "ജയ തൊട്ടിയിൽ"
+              },
+              "role": {
+                "en": "Joint Secretary",
+                "ml": "ജോയിന്റ് സെക്രട്ടറി"
+              },
+              "phone": "+91 94470 20369",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Elsy Ollukkaran",
+                "ml": "എൽസി ഒള്ളൂക്കാരൻ"
+              },
+              "role": {
+                "en": "Treasurer",
+                "ml": "ട്രഷറർ"
+              },
+              "phone": "+91 94470 20370",
+              "office": true
+            },
+            {
+              "name": {
+                "en": "Treesa Manakkattu",
+                "ml": "തെരേസ മണക്കാട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 1",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 1"
+              },
+              "phone": "+91 94470 20371",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Joy Palliparambil",
+                "ml": "ജോയ് പള്ളിപ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 2",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 2"
+              },
+              "phone": "+91 94470 20372",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Jose Mundackal",
+                "ml": "ജോസ് മുണ്ടയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 3",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 3"
+              },
+              "phone": "+91 94470 20373",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Thomas Kizhakkedathu",
+                "ml": "തോമസ് കിഴക്കേടത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 4",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 4"
+              },
+              "phone": "+91 94470 20374",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Devassy Nedumparambil",
+                "ml": "ദേവസ്സി നെടുമ്പറമ്പിൽ"
+              },
+              "role": {
+                "en": "Group Leader 5",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 5"
+              },
+              "phone": "+91 94470 20375",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Sebastian Karottu",
+                "ml": "സെബാസ്റ്റ്യൻ കാരോട്ട്"
+              },
+              "role": {
+                "en": "Group Leader 6",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 6"
+              },
+              "phone": "+91 94470 20376",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Antony Vettikkattil",
+                "ml": "ആന്റണി വെട്ടിക്കാട്ടിൽ"
+              },
+              "role": {
+                "en": "Group Leader 7",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 7"
+              },
+              "phone": "+91 94470 20377",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Varghese Chirayath",
+                "ml": "വർഗീസ് ചിറയത്ത്"
+              },
+              "role": {
+                "en": "Group Leader 8",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 8"
+              },
+              "phone": "+91 94470 20378",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "George Padinjarekara",
+                "ml": "ജോർജ് പടിഞ്ഞാറേകര"
+              },
+              "role": {
+                "en": "Group Leader 9",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 9"
+              },
+              "phone": "+91 94470 20379",
+              "office": false
+            },
+            {
+              "name": {
+                "en": "Paul Arakkal",
+                "ml": "പോൾ അരയ്ക്കൽ"
+              },
+              "role": {
+                "en": "Group Leader 10",
+                "ml": "ഗ്രൂപ്പ് ലീഡർ 10"
+              },
+              "phone": "+91 94470 20380",
+              "office": false
+            }
+          ]
+        }
+      ],
+      "groupsDrilldown": true
     },
     {
       "id": "mathruvedi",

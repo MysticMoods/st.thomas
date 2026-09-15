@@ -1,19 +1,17 @@
-import path from 'node:path'
-
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
-import { readRecords, writeJson } from '@/lib/content'
+import { audit } from '@/lib/audit'
+import { requireArea } from '@/lib/auth'
+import { readRecords, updateRecords } from '@/lib/content'
 import type { HallReview } from '@/lib/hall'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const FILE = path.join(process.cwd(), 'content', 'hall-reviews.json')
 const STATUSES = new Set(['pending', 'published', 'hidden'])
 
 export async function GET() {
-  if (!(await isAuthenticated())) {
+  if (!(await requireArea('hall'))) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
   const reviews = (await readRecords('hall-reviews')) as HallReview[]
@@ -22,7 +20,8 @@ export async function GET() {
 
 /** Publish a review, hide it again, or send it back to the queue. */
 export async function PATCH(request: Request) {
-  if (!(await isAuthenticated())) {
+  const session = await requireArea('hall')
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -40,21 +39,33 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: 'Need a review id and a status' }, { status: 422 })
   }
 
-  const reviews = (await readRecords('hall-reviews')) as HallReview[]
-  const review = reviews.find((entry) => entry.id === id)
+  // One operation, through the store: a review sent while this one is being
+  // decided is no longer lost, and the write lands wherever the records live.
+  let review: HallReview | undefined
+  await updateRecords<HallReview>('hall-reviews', (all) => {
+    review = all.find((entry) => entry.id === id)
+    if (!review) return all
+    review.status = status as HallReview['status']
+    review.decidedAt = new Date().toISOString()
+    return all
+  })
   if (!review) return NextResponse.json({ error: 'No such review' }, { status: 404 })
-
-  review.status = status as HallReview['status']
-  review.decidedAt = new Date().toISOString()
-
-  await writeJson(FILE, reviews)
+  await audit({
+    request,
+    actor: session.username,
+    role: session.role,
+    action: 'review-decide',
+    target: review.id,
+    detail: `${review.hall} by ${review.name} -> ${status}`,
+  })
 
   return NextResponse.json({ ok: true, review })
 }
 
 /** Remove a review outright — for anything that should never have been sent. */
 export async function DELETE(request: Request) {
-  if (!(await isAuthenticated())) {
+  const session = await requireArea('hall')
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
@@ -66,13 +77,20 @@ export async function DELETE(request: Request) {
   }
   if (!id) return NextResponse.json({ error: 'Need a review id' }, { status: 422 })
 
-  const reviews = (await readRecords('hall-reviews')) as HallReview[]
-  const left = reviews.filter((entry) => entry.id !== id)
-  if (left.length === reviews.length) {
-    return NextResponse.json({ error: 'No such review' }, { status: 404 })
-  }
-
-  await writeJson(FILE, left)
+  let gone: HallReview | undefined
+  await updateRecords<HallReview>('hall-reviews', (all) => {
+    gone = all.find((entry) => entry.id === id)
+    return gone ? all.filter((entry) => entry.id !== id) : all
+  })
+  if (!gone) return NextResponse.json({ error: 'No such review' }, { status: 404 })
+  await audit({
+    request,
+    actor: session.username,
+    role: session.role,
+    action: 'review-delete',
+    target: id,
+    detail: gone ? `${gone.hall} by ${gone.name}` : undefined,
+  })
 
   return NextResponse.json({ ok: true })
 }

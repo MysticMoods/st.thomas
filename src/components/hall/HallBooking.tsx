@@ -9,10 +9,12 @@ import { useLang } from '@/lib/i18n'
 import type { HallContent } from '@/lib/types'
 import { cn, formatDate, formatNumber, isEmail } from '@/lib/utils'
 
+import { Honeypot } from '../ui/Honeypot'
 import { Icon } from '../ui/Icon'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
 import { HallCalendar } from './HallCalendar'
+import { HallAdvance } from './HallAdvance'
 import { HallDay } from './HallDay'
 import { HallSlotManager } from './HallSlotManager'
 
@@ -25,7 +27,14 @@ type Availability = {
  * Pick a hall, a day and a session, tick what is needed, send. The parish
  * office then rings back — no money changes hands on the site.
  */
-export function HallBooking({ hall }: { hall: HallContent }) {
+export function HallBooking({
+  hall,
+  gatewayReady = false,
+}: {
+  hall: HallContent
+  /** True when Razorpay is set up, so the advance can be paid here and now. */
+  gatewayReady?: boolean
+}) {
   const { t, lang } = useLang()
   const { isAdmin } = useAdminMode()
   // The slot staff opened from the day panel, to manage rather than to request.
@@ -41,6 +50,10 @@ export function HallBooking({ hall }: { hall: HallContent }) {
   const [day, setDay] = useState('')
   const [amenities, setAmenities] = useState<string[]>([])
   const [form, setForm] = useState({ name: '', phone: '', email: '', purpose: '', guests: '', message: '' })
+  // Filled only by something that cannot see the page.
+  const [website, setWebsite] = useState('')
+  // The reference the office will ask for on the telephone.
+  const [reference, setReference] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [error, setError] = useState('')
 
@@ -141,6 +154,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
+          website,
           guests: Number(form.guests) || 0,
           hall: roomId,
           date,
@@ -150,6 +164,7 @@ export function HallBooking({ hall }: { hall: HallContent }) {
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Could not send the request')
+      setReference(String(json.id ?? ''))
       setStatus('sent')
       setDate('')
       setAmenities([])
@@ -163,10 +178,10 @@ export function HallBooking({ hall }: { hall: HallContent }) {
   }
 
   return (
-    <section id="book" className="section bg-[rgb(var(--page))]">
+    <section id="book" className="hall-anchor section-tight bg-[rgb(var(--page-alt))]">
       <div className="container">
         <SectionHeading
-          eyebrow={{ en: 'Availability', ml: 'ലഭ്യത' }}
+          eyebrow={{ en: '05 · Availability', ml: '05 · ലഭ്യത' }}
           title={{ en: 'Find a free day', ml: 'ഒഴിവുള്ള ദിവസം കണ്ടെത്തുക' }}
           subtitle={hall.booking.note}
         />
@@ -273,7 +288,8 @@ export function HallBooking({ hall }: { hall: HallContent }) {
           )}
         </div>
 
-        <form id="book-form" onSubmit={submit} className="mx-auto mt-16 max-w-4xl scroll-mt-40">
+        <form id="book-form" onSubmit={submit} className="relative mx-auto mt-16 max-w-4xl scroll-mt-40">
+          <Honeypot value={website} onChange={setWebsite} />
           <div className="card p-7 sm:p-10">
             <p className="font-sans text-2xs uppercase tracking-[0.18em] text-gold-600 dark:text-gold-400">
               {t({ en: 'Your request', ml: 'നിങ്ങളുടെ അപേക്ഷ' })}
@@ -436,12 +452,39 @@ export function HallBooking({ hall }: { hall: HallContent }) {
             </div>
 
             {status === 'sent' ? (
-              <p className="mt-5 rounded-sm border border-gold-400/40 bg-gold-400/10 p-4 font-sans text-sm text-[rgb(var(--ink))]">
-                {t({
-                  en: 'The request has reached the parish office. Someone will ring you to confirm the day and take the advance.',
-                  ml: 'അപേക്ഷ ഇടവക ഓഫീസിൽ എത്തി. ദിവസം ഉറപ്പിക്കാനും അഡ്വാൻസ് സ്വീകരിക്കാനും ആരെങ്കിലും വിളിക്കും.',
-                })}
-              </p>
+              <div className="mt-5 rounded-sm border border-gold-400/40 bg-gold-400/10 p-5">
+                <p className="font-sans text-sm text-[rgb(var(--ink))]">
+                  {t({
+                    en: 'The request has reached the parish office. Someone will ring you to confirm the day and take the advance.',
+                    ml: 'അപേക്ഷ ഇടവക ഓഫീസിൽ എത്തി. ദിവസം ഉറപ്പിക്കാനും അഡ്വാൻസ് സ്വീകരിക്കാനും ആരെങ്കിലും വിളിക്കും.',
+                  })}
+                </p>
+
+                {reference ? (
+                  <p className="mt-4 border-t border-gold-400/30 pt-4 font-sans text-sm text-[rgb(var(--ink))]">
+                    {t({ en: 'Your reference', ml: 'നിങ്ങളുടെ റഫറൻസ്' })}{' '}
+                    <strong className="font-mono tracking-wider text-gold-700 dark:text-gold-300">
+                      {reference}
+                    </strong>
+                    <span className="mt-1 block font-sans text-2xs text-[rgb(var(--muted))]">
+                      {t({
+                        en: 'Quote it if you telephone. A copy has been sent to your email address.',
+                        ml: 'ഫോൺ ചെയ്യുമ്പോൾ ഇത് പറയുക. ഒരു പകർപ്പ് നിങ്ങളുടെ ഇമെയിലിലേക്ക് അയച്ചിട്ടുണ്ട്.',
+                      })}
+                    </span>
+                  </p>
+                ) : null}
+
+                {reference && gatewayReady ? (
+                  <HallAdvance
+                    bookingId={reference}
+                    advance={hall.booking.advance}
+                    phone={hall.booking.contact.phone}
+                    name={form.name}
+                    email={form.email}
+                  />
+                ) : null}
+              </div>
             ) : null}
 
             {status === 'error' && error ? (

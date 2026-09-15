@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { AutoTranslateProvider, useAutoTranslate } from '@/app/admin/AutoTranslate'
+import { AutoTranslateProvider, AutoTranslateToggle, useAutoTranslate } from '@/app/admin/AutoTranslate'
 import { JsonEditor } from '@/app/admin/JsonEditor'
 import { Icon } from '@/components/ui/Icon'
 import { Modal, useDialogId } from '@/components/ui/Modal'
@@ -25,10 +25,16 @@ export function EditableSection({
   label: string
   children: React.ReactNode
 }) {
-  const { isAdmin, editing } = useAdminMode()
+  const { isAdmin, editing, canEdit } = useAdminMode()
   const [open, setOpen] = useState(false)
 
   if (!isAdmin) return <>{children}</>
+
+  // A section outside this person's jurisdiction is simply the page as a
+  // visitor sees it: no outline, no button, nothing to press and be refused.
+  // The server refuses it too — this only keeps it out of their way.
+  const mine = canEdit(section)
+  if (!mine) return <>{children}</>
 
   return (
     <div className={cn('relative', editing && 'outline-dashed outline-2 -outline-offset-2 outline-gold-400/50')}>
@@ -136,6 +142,8 @@ function SectionDialog({
             </p>
           </div>
           <div className="flex items-center gap-2">
+            {/* The switch that turns auto-translation off, beside the words it acts on. */}
+            <AutoTranslateToggle />
             <button
               type="button"
               onClick={close}

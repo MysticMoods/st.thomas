@@ -1,7 +1,8 @@
 import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
+import { audit } from '@/lib/audit'
+import { canEditSection, currentSession } from '@/lib/auth'
 import { contentVersion, readContent, writeContent } from '@/lib/content'
 import { CONTENT_KEYS, type ContentKey } from '@/lib/types'
 
@@ -12,11 +13,18 @@ function guard(key: string): key is ContentKey {
 }
 
 export async function GET(_request: Request, ctx: { params: Promise<{ key: string }> }) {
-  if (!(await isAuthenticated())) {
+  const session = await currentSession()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
   const { key } = await ctx.params
   if (!guard(key)) return NextResponse.json({ error: 'Unknown section' }, { status: 404 })
+  // Reading a section is how the editor fills its form, so it is refused on the
+  // same terms as saving one. Otherwise a hall manager could read the accounts
+  // page into a form they are not allowed to submit.
+  if (!canEditSection(session, key)) {
+    return NextResponse.json({ error: 'Not your section to edit' }, { status: 403 })
+  }
 
   return NextResponse.json({
     key,
@@ -26,11 +34,15 @@ export async function GET(_request: Request, ctx: { params: Promise<{ key: strin
 }
 
 export async function PUT(request: Request, ctx: { params: Promise<{ key: string }> }) {
-  if (!(await isAuthenticated())) {
+  const session = await currentSession()
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
   const { key } = await ctx.params
   if (!guard(key)) return NextResponse.json({ error: 'Unknown section' }, { status: 404 })
+  if (!canEditSection(session, key)) {
+    return NextResponse.json({ error: 'Not your section to edit' }, { status: 403 })
+  }
 
   let data: unknown
   let version: string | undefined
@@ -48,8 +60,24 @@ export async function PUT(request: Request, ctx: { params: Promise<{ key: string
 
   // Refuse a save built on a copy that is no longer current, so one stale tab
   // can never wipe out an edit someone else already saved.
+  //
+  // The version is required, not merely checked when offered. It used to be
+  // optional, which meant the guard was really a guard against tabs and not
+  // against anything else: leave the field out and the whole section could be
+  // replaced with whatever was sent, no questions asked. The dashboard has
+  // always sent it, so nothing that should work stops working.
   const current = await contentVersion(key)
-  if (version && version !== current) {
+  if (!version) {
+    return NextResponse.json(
+      {
+        error:
+          'This save did not say which version it was built on. Reload the section and try again.',
+        version: current,
+      },
+      { status: 428 },
+    )
+  }
+  if (version !== current) {
     return NextResponse.json(
       {
         error:
@@ -61,6 +89,14 @@ export async function PUT(request: Request, ctx: { params: Promise<{ key: string
   }
 
   await writeContent(key, data)
+  await audit({
+    request,
+    actor: session.username,
+    role: session.role,
+    action: 'content-save',
+    target: key,
+    detail: `${JSON.stringify(data).length} characters`,
+  })
   // Push the edit to the public site straight away rather than waiting for the
   // homepage's five minute revalidation window.
   revalidatePath('/')

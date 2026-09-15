@@ -7,7 +7,7 @@ import type { MassContent } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 import { Icon } from './ui/Icon'
-import { StaggerGroup, staggerItem } from './ui/Reveal'
+import { Reveal, StaggerGroup, staggerItem } from './ui/Reveal'
 import { SectionHeading } from './ui/SectionHeading'
 import { SmartImage } from './ui/SmartImage'
 
@@ -75,7 +75,7 @@ export function MassTimings({ mass }: { mass: MassContent }) {
                     className="h-full w-full object-cover"
                   />
                   <div
-                    className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/25 to-transparent"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/25 to-transparent"
                     aria-hidden="true"
                   />
                   <div className="absolute inset-x-0 bottom-0 flex items-end gap-4 p-6">
@@ -124,6 +124,26 @@ export function MassTimings({ mass }: { mass: MassContent }) {
             )
           })}
         </StaggerGroup>
+
+        {/* The timetable, in a form a phone can keep up with. Subscribing means
+            a change made in the dashboard reaches every phone that followed it. */}
+        <Reveal delay={0.1}>
+          <p className="mt-12 text-center">
+            <a
+              href="/calendar.ics"
+              className="inline-flex items-center gap-2 rounded-sm border border-[rgb(var(--line))] px-5 py-3 font-sans text-2xs uppercase tracking-[0.16em] text-[rgb(var(--muted))] transition-colors hover:border-gold-400 hover:text-gold-500"
+            >
+              <Icon name="calendar" className="h-4 w-4" />
+              {t({ en: 'Add these to your calendar', ml: 'ഇവ നിങ്ങളുടെ കലണ്ടറിൽ ചേർക്കുക' })}
+            </a>
+            <span className="mt-3 block font-sans text-2xs text-[rgb(var(--muted))]">
+              {t({
+                en: 'The parish week, kept up to date automatically.',
+                ml: 'ഇടവക ആഴ്ച, സ്വയമേവ പുതുക്കപ്പെടുന്നു.',
+              })}
+            </span>
+          </p>
+        </Reveal>
       </div>
     </section>
   )

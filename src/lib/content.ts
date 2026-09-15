@@ -1,101 +1,36 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-
+import { store } from './store'
 import type { Content, ContentKey } from './types'
-import { CONTENT_KEYS } from './types'
 
-const DIR = path.join(process.cwd(), 'content')
+/**
+ * Reading and writing what the parish publishes.
+ *
+ * Every one of these used to open a file. They now ask the store, which is the
+ * parish's own disk in development and on a box the parish owns, and Supabase
+ * where there is no disk to write to. Nothing above this file knows or cares:
+ * the twenty-eight modules that import from here call the same functions with
+ * the same arguments they always did.
+ */
 
-function file(key: ContentKey) {
-  return path.join(DIR, `${key}.json`)
-}
+export type { RecordList } from './store'
 
-/** Reads one content file. Throws if the key is not part of the schema. */
+/** Reads one content section. Throws if the key is not part of the schema. */
 export async function readContent<T = unknown>(key: ContentKey): Promise<T> {
-  if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
-  const raw = await fs.readFile(file(key), 'utf-8')
-  return JSON.parse(raw) as T
+  return store.readContent<T>(key)
 }
 
 /**
- * A cheap fingerprint of the file as it stands right now. The dashboard sends
- * back the version it loaded, so a save made from a stale editor — a second tab,
- * or another member of staff who saved first — is rejected instead of silently
- * overwriting the newer copy.
+ * A cheap fingerprint of the section as it stands right now. The dashboard
+ * sends back the version it loaded, so a save made from a stale editor — a
+ * second tab, or another member of staff who saved first — is rejected instead
+ * of silently overwriting the newer copy.
  */
 export async function contentVersion(key: ContentKey): Promise<string> {
-  if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
-  const stat = await fs.stat(file(key))
-  return `${stat.mtimeMs.toFixed(0)}-${stat.size}`
+  return store.contentVersion(key)
 }
 
-const BACKUPS = path.join(DIR, '.backups')
-const KEEP_BACKUPS = 20
-
-/** Copies the current file aside before it is overwritten. Never fatal. */
-async function backup(key: ContentKey) {
-  try {
-    const current = await fs.readFile(file(key), 'utf-8')
-    await fs.mkdir(BACKUPS, { recursive: true })
-    const stamp = new Date().toISOString().replace(/[:.]/g, '-')
-    await fs.writeFile(path.join(BACKUPS, `${key}.${stamp}.json`), current, 'utf-8')
-
-    // keep only the most recent copies of this key
-    const all = (await fs.readdir(BACKUPS))
-      .filter((name) => name.startsWith(`${key}.`))
-      .sort()
-    await Promise.all(
-      all.slice(0, Math.max(0, all.length - KEEP_BACKUPS)).map((name) =>
-        fs.rm(path.join(BACKUPS, name), { force: true }),
-      ),
-    )
-  } catch {
-    /* a missing or unreadable original must not block the save */
-  }
-}
-
-/**
- * Writes one content file, pretty printed so it stays reviewable in git.
- *
- * The previous version is copied to `content/.backups/` first, and the new one
- * is written to a temporary file and renamed into place — a crash mid-write can
- * never leave a half-written, unparseable content file behind.
- */
-/**
- * Writes JSON where a half-written file would be worse than a slow one.
- *
- * The write goes to a temporary file and is renamed into place, which is atomic
- * on a normal filesystem. On Windows the rename can fail with EPERM while
- * something else holds the file open for a moment — OneDrive syncing this
- * folder, a virus scanner, a concurrent reader — so it is retried, and only
- * then does it fall back to writing in place.
- */
-export async function writeJson(target: string, data: unknown): Promise<void> {
-  const body = `${JSON.stringify(data, null, 2)}
-`
-  const temp = `${target}.${process.pid}.${Math.random().toString(36).slice(2, 8)}.tmp`
-  await fs.writeFile(temp, body, 'utf-8')
-
-  for (let attempt = 0; attempt < 6; attempt += 1) {
-    try {
-      await fs.rename(temp, target)
-      return
-    } catch {
-      await new Promise((resolve) => setTimeout(resolve, 40 * (attempt + 1)))
-    }
-  }
-
-  // The rename never got through. Write straight to the file — the rolling
-  // backup taken beforehand is the safety net if this one is interrupted.
-  await fs.writeFile(target, body, 'utf-8')
-  await fs.rm(temp, { force: true })
-}
-
+/** Writes one content section, keeping a copy of what it replaced. */
 export async function writeContent(key: ContentKey, data: unknown): Promise<void> {
-  if (!CONTENT_KEYS.includes(key)) throw new Error(`Unknown content key: ${key}`)
-
-  await backup(key)
-  await writeJson(file(key), data)
+  return store.writeContent(key, data)
 }
 
 /** Loads every content file for the public site. */
@@ -117,6 +52,9 @@ export async function getContent(): Promise<Content> {
     obituaries,
     committee,
     donation,
+    office,
+    chapels,
+    ads,
   ] = await Promise.all([
     readContent('site'),
     readContent('about'),
@@ -134,6 +72,9 @@ export async function getContent(): Promise<Content> {
     readContent('obituaries'),
     readContent('committee'),
     readContent('donation'),
+    readContent('office'),
+    readContent('chapels'),
+    readContent('ads'),
   ])
 
   return {
@@ -153,37 +94,49 @@ export async function getContent(): Promise<Content> {
     obituaries,
     committee,
     donation,
+    office,
+    chapels,
+    ads,
   } as Content
 }
 
-/** Runtime lists written by the public forms, not by the dashboard editor. */
-export type RecordList =
-  | 'subscribers'
-  | 'messages'
-  | 'donations'
-  | 'hall-bookings'
-  | 'hall-reviews'
+/* ------------------------------------------------- lists written at runtime */
 
-/** Appends a record to a small JSON list under content/. */
-export async function appendRecord(name: RecordList, record: unknown) {
-  const target = path.join(DIR, `${name}.json`)
-  let list: unknown[] = []
-  try {
-    list = JSON.parse(await fs.readFile(target, 'utf-8'))
-    if (!Array.isArray(list)) list = []
-  } catch {
-    list = []
-  }
-  list.unshift(record)
-  await writeJson(target, list.slice(0, 2000))
+import type { RecordList } from './store'
+
+/** Everything a list holds, newest first. */
+export async function readRecords(name: RecordList) {
+  return store.readRecords<unknown>(name)
 }
 
-export async function readRecords(name: RecordList) {
-  try {
-    const raw = await fs.readFile(path.join(DIR, `${name}.json`), 'utf-8')
-    const list = JSON.parse(raw)
-    return Array.isArray(list) ? list : []
-  } catch {
-    return []
-  }
+/**
+ * Adds one record to a list.
+ *
+ * On disk this is read, change, write, with a queue behind it so two records
+ * written in the same moment cannot lose one another. On Supabase it is a row
+ * insert, where the problem cannot arise at all.
+ */
+export async function appendRecord(name: RecordList, record: unknown) {
+  return store.appendRecord(name, record)
+}
+
+/**
+ * Changes records already written — marking a message answered, a booking
+ * confirmed. The whole list is handed to the updater and what it returns is
+ * kept, as one operation that nothing else interleaves with.
+ */
+export async function updateRecords<T>(name: RecordList, update: (list: T[]) => T[]) {
+  return store.updateRecords<T>(name, update)
+}
+
+/* -------------------------------------------------------------- the backups */
+
+/** The saved copies of one content section, newest first. */
+export async function listBackups(key: ContentKey) {
+  return store.listBackups(key)
+}
+
+/** Reads one saved copy back. The name is checked, never trusted. */
+export async function readBackup(name: string) {
+  return store.readBackup(name)
 }

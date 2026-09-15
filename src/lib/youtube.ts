@@ -158,3 +158,31 @@ export async function withLatestUploads(media: MediaContent): Promise<MediaConte
     videos: featured ? videos : videos.map((video, i) => (i === 0 ? { ...video, featured: true } : video)),
   }
 }
+
+/**
+ * The video id out of whatever somebody pasted.
+ *
+ * An advertiser sends a link, not an id, and the link arrives in every shape
+ * YouTube hands out — the watch page, the share link, an embed, a Short, and
+ * sometimes with a playlist or a start time hanging off the end. All of them
+ * carry the same eleven characters, so find those and ignore the rest. A bare
+ * id is passed through, which is what the media list already stores.
+ *
+ * Returns '' for anything that is not a YouTube link, so a mistyped address
+ * leaves a gap rather than an embed pointing nowhere.
+ */
+export function youtubeId(value: string): string {
+  const raw = (value ?? '').trim()
+  if (!raw) return ''
+  if (/^[\w-]{11}$/.test(raw)) return raw
+
+  const match = raw.match(
+    /(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|v\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/,
+  )
+  return match ? match[1] : ''
+}
+
+/** The still YouTube publishes for a video, used as the click-to-play facade. */
+export function youtubeThumb(id: string) {
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
+}

@@ -8,7 +8,7 @@ the dashboard are two routes on the same port.
 | Public parish site | http://localhost:3000 |
 | Parish dashboard | http://localhost:3000/admin |
 
-Dashboard sign-in — user ID `vicar`, password `mangalassery1893`.
+Dashboard sign-in — the user ID and password in `.env.local`.
 
 ---
 
@@ -127,6 +127,85 @@ If the translation service is unreachable the field says so and you can type the
 other language by hand. Nothing blocks the save.
 
 ---
+
+## The pages
+
+| Page | What it is |
+| --- | --- |
+| `/` | The parish: notices, mass timings, the week, ministries, gallery, giving |
+| `/hall` | The three parish halls — tariff, gallery, availability, booking, reviews |
+| `/office` | Ask for a Mass, a certificate, or a prayer |
+| `/obituary` | The obituary column, and a page for each person |
+| `/calendar.ics` | The mass timetable and parish week, for a phone to subscribe to |
+| `/admin` | The dashboard |
+
+## Changing what the site says
+
+Sign in at `/admin`, and you are put back on the site with a strip along the
+top. Press **Edit this page** and every section grows an **Edit** button: press
+one, change the words, press **Save**. The page reloads showing what you wrote.
+
+You are always looking at the thing you are changing, which is why there is no
+separate editor in the dashboard.
+
+## Answering somebody
+
+Every message in **Inbox**, every request in **Hall Bookings** and everything in
+**Office Requests** has a **Reply** button under it.
+
+- **Send email** posts it through the site. It needs the mail settings in
+  `.env.local`; without them the words are kept and the panel says plainly that
+  nothing was delivered.
+- **WhatsApp** opens WhatsApp on your own phone or desktop with the answer
+  already typed. You press send there, so it comes from the parish's number and
+  the family can reply to it.
+
+Either way the answer stays under the message, with your name against it.
+
+## Running the site day to day
+
+Signed in, the dashboard has a second group in the sidebar called **Running the
+site**:
+
+| Panel | What it answers |
+| --- | --- |
+| People & access | Who may sign in, and what each of them may do |
+| Activity log | Who changed what, and when — refused sign-ins included |
+| Backups & restore | Read or put back any of the twenty saved copies per section |
+| Visits | How much the site is being read, counted by the site itself |
+| Problems | Faults hit on the server and in visitors' browsers |
+| System health | Disk, settings still on demo values, what is stored |
+| Newsletter | Write to everybody who asked for parish news |
+| Letters sent | Every letter posted, and whether it arrived |
+
+**Make a real account the first time you sign in.** Until one exists everybody
+shares the `.env.local` login, and the activity log cannot say who did what. The
+first account made becomes the owner, and the shared login stops working the
+moment it exists.
+
+**Set up mail early.** Without `MAIL_HOST` and `MAIL_FROM` in `.env.local` the
+site still takes every message, hall request and gift, but nobody hears back —
+no acknowledgement, no notice to the office, no receipt, no newsletter. Nothing
+is lost: every unsent letter is kept under *Letters sent*, and they go out once
+the settings work.
+
+For hosting, TLS, mail, the systemd unit, nightly backups and the launch
+checklist, see [DEPLOY.md](DEPLOY.md).
+
+## Is it alive?
+
+```bash
+curl -s localhost:3000/api/health
+```
+
+```json
+{ "ok": true, "checks": { "content": true, "writable": true }, "uptimeSeconds": 84213 }
+```
+
+`200` while the site can read its content and write to disk, `503` the moment it
+cannot. Point an uptime monitor at it — the `writable` check is the one that
+earns its keep, because a full or read-only disk leaves every page serving
+perfectly while every edit silently fails to save.
 
 ## Notes
 

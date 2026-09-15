@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+import type { Reply } from '@/lib/reply'
 import { cn } from '@/lib/utils'
+
+import { ReplyBox } from './ops/ReplyBox'
 
 type Booking = {
   id: string
@@ -18,6 +21,7 @@ type Booking = {
   amenities: string[]
   message: string
   at: string
+  replies?: Reply[]
 }
 
 /**
@@ -174,6 +178,12 @@ export function HallBookings() {
                   {booking.message}
                 </p>
               ) : null}
+
+              <ReplyBox
+                list="hall-bookings"
+                target={{ ...booking, subject: `hall booking ${booking.date}` }}
+                onDone={load}
+              />
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 {booking.status !== 'confirmed' ? (

@@ -1,4 +1,5 @@
 import { About } from '@/components/About'
+import { Ads } from '@/components/Ads'
 import { Clergy } from '@/components/Clergy'
 import { Committee } from '@/components/Committee'
 import { Contact } from '@/components/Contact'
@@ -8,6 +9,7 @@ import { Gallery } from '@/components/Gallery'
 import { HallPromo } from '@/components/HallPromo'
 import { Hero } from '@/components/Hero'
 import { Leadership } from '@/components/Leadership'
+import { Chapels } from '@/components/Chapels'
 import { MassTimings } from '@/components/MassTimings'
 import { Media } from '@/components/Media'
 import { Members } from '@/components/Members'
@@ -60,7 +62,7 @@ export default async function HomePage() {
         <EditableSection section="clergy" label="Parish Priest">
           <Clergy clergy={content.clergy} />
         </EditableSection>
-        <EditableSection section="committee" label="Parish Committee">
+        <EditableSection section="committee" label="Parish Council">
           <Committee committee={content.committee} />
         </EditableSection>
 
@@ -92,6 +94,9 @@ export default async function HomePage() {
 
         <EditableSection section="mass" label="Mass Timings">
           <MassTimings mass={content.mass} />
+        </EditableSection>
+        <EditableSection section="chapels" label="Chapels">
+          <Chapels chapels={content.chapels} />
         </EditableSection>
         <EditableSection section="events" label="Weekly Events">
           <WeeklyCalendar events={content.events} />
@@ -132,6 +137,9 @@ export default async function HomePage() {
         <Members stats={content.stats} />
         <Newsletter site={content.site} />
         <Contact site={content.site} />
+        <EditableSection section="ads" label="Advertisements">
+          <Ads ads={content.ads} place="home" />
+        </EditableSection>
       </main>
 
       <Footer site={content.site} mass={content.mass} notices={content.notices} />

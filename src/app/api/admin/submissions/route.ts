@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 
-import { isAuthenticated } from '@/lib/auth'
+import { requireArea } from '@/lib/auth'
 import { readRecords } from '@/lib/content'
 
 export const runtime = 'nodejs'
 
 export async function GET() {
-  if (!(await isAuthenticated())) {
+  if (!(await requireArea('messages'))) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 

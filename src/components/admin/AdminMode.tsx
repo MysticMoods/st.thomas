@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
+import { type Role, mayEditSection } from '@/lib/permissions'
+import type { ContentKey } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 type AdminModeValue = {
@@ -12,6 +14,11 @@ type AdminModeValue = {
   /** True when they have switched editing on. */
   editing: boolean
   setEditing: (next: boolean) => void
+  /**
+   * Whether this person may edit one section. The server decides in earnest;
+   * this is so a button they cannot use is never put in front of them.
+   */
+  canEdit: (section: ContentKey) => boolean
 }
 
 const STORAGE_KEY = 'stc-editing'
@@ -20,13 +27,20 @@ const AdminModeContext = createContext<AdminModeValue>({
   isAdmin: false,
   editing: false,
   setEditing: () => {},
+  canEdit: () => false,
 })
 
 export function AdminModeProvider({
   isAdmin,
+  role,
+  sections,
   children,
 }: {
   isAdmin: boolean
+  /** The signed-in person's role, read on the server from the accounts file. */
+  role?: Role
+  /** The sections they may edit. Absent or empty means all of them. */
+  sections?: ContentKey[]
   children: React.ReactNode
 }) {
   const [editing, setEditingState] = useState(false)
@@ -51,8 +65,13 @@ export function AdminModeProvider({
     window.sessionStorage.setItem(STORAGE_KEY, next ? 'on' : 'off')
   }, [])
 
+  const canEdit = useCallback(
+    (section: ContentKey) => (role ? mayEditSection(role, sections, section) : false),
+    [role, sections],
+  )
+
   return (
-    <AdminModeContext.Provider value={{ isAdmin, editing, setEditing }}>
+    <AdminModeContext.Provider value={{ isAdmin, editing, setEditing, canEdit }}>
       {children}
     </AdminModeContext.Provider>
   )

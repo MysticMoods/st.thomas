@@ -1,0 +1,197 @@
+{
+  "title": {
+    "en": "The Parish Office",
+    "ml": "ഇടവക ഓഫീസ്"
+  },
+  "subtitle": {
+    "en": "Three things the office is asked for most, which need no longer wait for a queue at the counter — a Mass offered for someone, a certificate from the registers, and a prayer said by the parish.",
+    "ml": "ഓഫീസിനോട് ഏറ്റവും കൂടുതൽ ആവശ്യപ്പെടുന്ന മൂന്ന് കാര്യങ്ങൾ — ഒരാൾക്കുവേണ്ടിയുള്ള കുർബാന, രജിസ്റ്ററിൽ നിന്നുള്ള സാക്ഷ്യപത്രം, ഇടവകയുടെ പ്രാർത്ഥന."
+  },
+  "image": "/images/site/doorway-light.jpg",
+  "hours": {
+    "en": "Monday to Saturday, 9:00 AM – 1:00 PM. Closed on Sundays and holy days.",
+    "ml": "തിങ്കൾ മുതൽ ശനി വരെ, രാവിലെ 9:00 – ഉച്ചയ്ക്ക് 1:00. ഞായറാഴ്ചകളിലും തിരുനാൾ ദിവസങ്ങളിലും അടച്ചിരിക്കും."
+  },
+  "intentions": {
+    "title": {
+      "en": "Offer a Holy Mass",
+      "ml": "വിശുദ്ധ കുർബാന അർപ്പിക്കുക"
+    },
+    "blurb": {
+      "en": "A Mass may be offered for the dead, in thanksgiving, or for anybody in need of prayer. Ask here and the office will write it into the register and tell you which Mass it will be said at.",
+      "ml": "മരിച്ചവർക്കുവേണ്ടിയോ നന്ദിയർപ്പണമായോ പ്രാർത്ഥന ആവശ്യമുള്ള ആർക്കുവേണ്ടിയോ കുർബാന അർപ്പിക്കാം. ഇവിടെ ആവശ്യപ്പെട്ടാൽ ഓഫീസ് അത് രജിസ്റ്ററിൽ ചേർത്ത് ഏത് കുർബാനയിലാണെന്ന് അറിയിക്കും."
+    },
+    "noticeDays": 3,
+    "monthsAhead": 6,
+    "offering": 100,
+    "types": [
+      {
+        "id": "departed",
+        "label": {
+          "en": "For the departed",
+          "ml": "മരിച്ചവർക്കുവേണ്ടി"
+        },
+        "note": {
+          "en": "Anniversary, month's mind, or any day",
+          "ml": "ചരമവാർഷികം, മാസമടിയന്തിരം, മറ്റേതെങ്കിലും ദിവസം"
+        }
+      },
+      {
+        "id": "thanksgiving",
+        "label": {
+          "en": "In thanksgiving",
+          "ml": "നന്ദിയർപ്പണം"
+        },
+        "note": {
+          "en": "A birthday, a wedding anniversary, an examination passed",
+          "ml": "പിറന്നാൾ, വിവാഹ വാർഷികം, പരീക്ഷാ വിജയം"
+        }
+      },
+      {
+        "id": "healing",
+        "label": {
+          "en": "For healing",
+          "ml": "സൗഖ്യത്തിനുവേണ്ടി"
+        },
+        "note": {
+          "en": "For somebody who is ill",
+          "ml": "രോഗിയായ ഒരാൾക്കുവേണ്ടി"
+        }
+      },
+      {
+        "id": "special",
+        "label": {
+          "en": "A special intention",
+          "ml": "പ്രത്യേക നിയോഗം"
+        },
+        "note": {
+          "en": "Anything else you wish prayed for",
+          "ml": "പ്രാർത്ഥിക്കണമെന്ന് ആഗ്രഹിക്കുന്ന മറ്റെന്തും"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "en": "The offering is not a payment for the Mass. It is a gift towards the parish, and no Mass is refused for want of it.",
+        "ml": "കാഴ്ചവസ്തു കുർബാനയുടെ വിലയല്ല. അത് ഇടവകയ്ക്കുള്ള ഒരു ദാനമാണ്; അത് ഇല്ലാത്തതിന്റെ പേരിൽ ഒരു കുർബാനയും നിരസിക്കില്ല."
+      },
+      {
+        "en": "Only one intention is taken for each Mass, so a popular day fills early.",
+        "ml": "ഓരോ കുർബാനയ്ക്കും ഒരു നിയോഗം മാത്രമേ സ്വീകരിക്കൂ; അതിനാൽ തിരക്കുള്ള ദിവസങ്ങൾ നേരത്തെ നിറയും."
+      },
+      {
+        "en": "The office will telephone to say which Mass it has been written into.",
+        "ml": "ഏത് കുർബാനയിലാണ് ചേർത്തതെന്ന് ഓഫീസ് ഫോൺ ചെയ്ത് അറിയിക്കും."
+      }
+    ]
+  },
+  "certificates": {
+    "title": {
+      "en": "Ask for a certificate",
+      "ml": "സാക്ഷ്യപത്രത്തിന് അപേക്ഷിക്കുക"
+    },
+    "blurb": {
+      "en": "Certificates are copied from the parish registers by hand. Ask here and the office sends it to you — by email, or on WhatsApp to the number you leave. You do not have to come in for it.",
+      "ml": "സാക്ഷ്യപത്രങ്ങൾ ഇടവക രജിസ്റ്ററുകളിൽ നിന്ന് കൈകൊണ്ട് പകർത്തുന്നു. ഇവിടെ അപേക്ഷിക്കുക, ഓഫീസ് അത് നിങ്ങൾക്ക് അയച്ചുതരും — ഇമെയിലായോ നിങ്ങൾ നൽകുന്ന നമ്പറിൽ വാട്ട്‌സ്ആപ്പിലായോ. ഇതിനായി നേരിട്ട് വരേണ്ടതില്ല."
+    },
+    "days": 3,
+    "types": [
+      {
+        "id": "baptism",
+        "label": {
+          "en": "Baptism certificate",
+          "ml": "ജ്ഞാനസ്നാന സാക്ഷ്യപത്രം"
+        },
+        "needs": {
+          "en": "The name at baptism and the approximate year",
+          "ml": "ജ്ഞാനസ്നാന നാമവും ഏകദേശ വർഷവും"
+        },
+        "fee": 50
+      },
+      {
+        "id": "confirmation",
+        "label": {
+          "en": "Confirmation certificate",
+          "ml": "സ്ഥൈര്യലേപന സാക്ഷ്യപത്രം"
+        },
+        "needs": {
+          "en": "The name and the year of confirmation",
+          "ml": "പേരും സ്ഥൈര്യലേപന വർഷവും"
+        },
+        "fee": 50
+      },
+      {
+        "id": "marriage",
+        "label": {
+          "en": "Marriage certificate",
+          "ml": "വിവാഹ സാക്ഷ്യപത്രം"
+        },
+        "needs": {
+          "en": "Both names and the date of the wedding",
+          "ml": "രണ്ട് പേരുകളും വിവാഹ തീയതിയും"
+        },
+        "fee": 100
+      },
+      {
+        "id": "death",
+        "label": {
+          "en": "Death certificate",
+          "ml": "മരണ സാക്ഷ്യപത്രം"
+        },
+        "needs": {
+          "en": "The name and the date of death",
+          "ml": "പേരും മരണ തീയതിയും"
+        },
+        "fee": 50
+      },
+      {
+        "id": "membership",
+        "label": {
+          "en": "Parish membership",
+          "ml": "ഇടവക അംഗത്വം"
+        },
+        "needs": {
+          "en": "Your family unit and house name",
+          "ml": "നിങ്ങളുടെ കുടുംബക്കൂട്ടായ്മയും ഭവനപ്പേരും"
+        },
+        "fee": 50
+      },
+      {
+        "id": "noc",
+        "label": {
+          "en": "No objection certificate",
+          "ml": "എതിർപ്പില്ലാ സാക്ഷ്യപത്രം"
+        },
+        "needs": {
+          "en": "The parish it is for, and why it is needed",
+          "ml": "ഏത് ഇടവകയ്ക്കുവേണ്ടി, എന്തിനുവേണ്ടി"
+        },
+        "fee": 100
+      }
+    ],
+    "rules": [
+      {
+        "en": "Bring proof of who you are when you collect it. A certificate is given only to the person it concerns or to their family.",
+        "ml": "വാങ്ങാൻ വരുമ്പോൾ തിരിച്ചറിയൽ രേഖ കൊണ്ടുവരിക. സാക്ഷ്യപത്രം ബന്ധപ്പെട്ട വ്യക്തിക്കോ കുടുംബാംഗങ്ങൾക്കോ മാത്രമേ നൽകൂ."
+      },
+      {
+        "en": "The registers go back to 1893. An old entry may take a few days longer to find.",
+        "ml": "രജിസ്റ്ററുകൾ 1893 മുതലുള്ളതാണ്. പഴയ ഒരു രേഖ കണ്ടെത്താൻ കുറച്ച് ദിവസം കൂടി വേണ്ടിവന്നേക്കാം."
+      }
+    ]
+  },
+  "prayers": {
+    "title": {
+      "en": "Ask for a prayer",
+      "ml": "പ്രാർത്ഥന ആവശ്യപ്പെടുക"
+    },
+    "blurb": {
+      "en": "Whatever it is, the parish will pray for it. Nothing you write here is published unless you say it may be.",
+      "ml": "എന്തുതന്നെയായാലും ഇടവക അതിനുവേണ്ടി പ്രാർത്ഥിക്കും. നിങ്ങൾ അനുവദിച്ചാലല്ലാതെ ഇവിടെ എഴുതുന്നത് പ്രസിദ്ധീകരിക്കില്ല."
+    },
+    "note": {
+      "en": "Requests are read by the parish priest and the prayer group, and by nobody else.",
+      "ml": "അപേക്ഷകൾ ഇടവക വികാരിയും പ്രാർത്ഥനാ സംഘവും മാത്രമേ വായിക്കൂ."
+    }
+  }
+}

@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 
-import { appendRecord } from '@/lib/content'
+import { donationReceipt } from '@/lib/letters'
+import { post } from '@/lib/mail'
+
+import { updateRecords } from '@/lib/content'
+import { throttled } from '@/lib/limit'
 import { fetchPayment, isConfigured, verifyPaymentSignature } from '@/lib/razorpay'
 
 export const runtime = 'nodejs'
@@ -23,6 +27,9 @@ function clean(value: unknown, limit: number) {
 export async function POST(request: Request) {
   if (!isConfigured()) {
     return NextResponse.json({ error: 'Online giving is not switched on' }, { status: 503 })
+  }
+  if (throttled(request, 'donate-verify', 30)) {
+    return NextResponse.json({ error: 'Please try again shortly.' }, { status: 429 })
   }
 
   let body: Record<string, unknown>
@@ -60,7 +67,7 @@ export async function POST(request: Request) {
 
   const captured = payment.status === 'captured' || payment.status === 'authorized'
 
-  await appendRecord('donations', {
+  const record = {
     paymentId: payment.id,
     orderId,
     // Stored in rupees, the way the parish accounts are kept.
@@ -75,7 +82,37 @@ export async function POST(request: Request) {
     email: payment.email ?? clean(body.email, 160),
     phone: payment.contact ?? clean(body.phone, 40),
     at: new Date().toISOString(),
+  }
+
+  // One payment, one line in the parish record. The browser calls this and
+  // Razorpay's webhook posts the same payment, and either can arrive first — so
+  // whoever gets here second must find the payment already written and leave it
+  // alone. Reading and writing as one operation is what makes that hold when
+  // the two land together.
+  let alreadyRecorded = false
+  await updateRecords<{ paymentId?: string }>('donations', (all) => {
+    alreadyRecorded = all.some((entry) => entry.paymentId === record.paymentId)
+    if (alreadyRecorded) return all
+    all.unshift(record)
+    return all.slice(0, 2000)
   })
+
+  // A receipt, because a gift that vanishes into a website with nothing coming
+  // back is the last one that donor sends. The amount is read back from the
+  // payment itself, never from the browser. Sent once — a donor refreshing the
+  // page is not a second gift.
+  if (captured && record.email && !alreadyRecorded) {
+    post(
+      donationReceipt({
+        name: record.donor,
+        email: record.email,
+        amount: payment.amount,
+        fund: record.fundName || 'the parish',
+        paymentId: payment.id,
+        at: record.at,
+      }),
+    )
+  }
 
   return NextResponse.json({
     ok: captured,

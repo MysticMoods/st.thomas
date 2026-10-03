@@ -26,7 +26,11 @@ const nextConfig = {
   async rewrites() {
     const bucket = process.env.SUPABASE_URL?.trim().replace(/\/$/, '')
     const onDisk = process.env.STORAGE?.trim().toLowerCase() === 'disk'
-    if (!bucket || onDisk) return []
+    // On disk: anything public/ did not answer — a file uploaded since boot —
+    // is read fresh by src/app/api/uploads.
+    if (!bucket || onDisk) {
+      return [{ source: '/uploads/:file', destination: '/api/uploads/:file' }]
+    }
     return [
       {
         source: '/uploads/:file*',

@@ -33,6 +33,26 @@ const ADMIN_PASS = fromEnvFile('ADMIN_PASSWORD', 'mangalassery1893')
 const results = []
 const ok = (n, c, extra = '') => results.push(`${c ? 'PASS' : 'FAIL'}  ${n}${extra ? ' — ' + extra : ''}`)
 
+// The suite signs in with the bootstrap pair, which stops working the moment a
+// real account exists. Say so now rather than time out on a dashboard button
+// four minutes in. Run it in a fresh checkout, which is what it is built for.
+try {
+  const accounts = JSON.parse(readFileSync('content/users.json', 'utf-8'))
+  if ((Array.isArray(accounts) ? accounts : accounts.users ?? []).length > 0) {
+    console.error('content/users.json already holds accounts, so the bootstrap sign-in is closed.\n' +
+      'Run the suite in a fresh checkout (no runtime files) against its own server.')
+    process.exit(2)
+  }
+} catch {}
+
+// A step that throws ends the run; what had already been checked is still worth seeing.
+let reported = false
+process.on('exit', (code) => {
+  if (reported || results.length === 0) return
+  console.log(results.join('\n'))
+  console.log(`\n${results.filter((r) => r.startsWith('PASS')).length}/${results.length} passed before the run stopped (exit ${code})`)
+})
+
 const browser = await chromium.launch()
 // Booking and review endpoints are rate limited per address. Each run presents
 // a fresh one so the suite can be run repeatedly without tripping the limit that
@@ -450,11 +470,39 @@ ok('a ministry with units offers them as their own tab',
 await page.locator('[role=dialog] button:has-text("Units")').first().click()
 await page.waitForTimeout(900)
 const unitPanel = await page.locator('[role=dialog]').innerText()
-ok('every family unit is listed', /12\s+in all/i.test(unitPanel))
-// Only the leaders already written down appear; the roles nobody has filled in
+// Read from the content rather than written in here, so a parish filling in
+// its own units does not break the suite.
+const ministryRows = JSON.parse(readFileSync('content/ministries.json', 'utf-8'))
+const unitsMinistry = (Array.isArray(ministryRows) ? ministryRows : Object.values(ministryRows).find(Array.isArray))
+  .find((m) => /Family Units/i.test(m.name?.en ?? ''))
+const units = unitsMinistry?.groups ?? []
+const hasName = (person) => Boolean(person.name?.en?.trim() || person.name?.ml?.trim())
+ok('every family unit is listed', new RegExp(`${units.length}\\s+in all`, 'i').test(unitPanel))
+// Only the names already written down appear; the rows nobody has filled in
 // are left out rather than printed as empty lines.
-ok('a unit names who leads it', /Leader/i.test(unitPanel) && unitPanel.includes('Joy Manakkattu'))
-ok('a unit still waiting for its names says so', /Names to follow/i.test(unitPanel))
+const namedUnit = units.findIndex((unit) => (unit.people ?? []).some(hasName))
+const emptyUnit = units.findIndex((unit) => !(unit.people ?? []).some(hasName))
+const openUnit = async (index) => {
+  await page.locator('[role=dialog] li button').nth(index).click()
+  await page.waitForTimeout(700)
+  const text = await page.locator('[role=dialog]').innerText()
+  await page.locator('[role=dialog] button:has-text("All")').first().click()
+  await page.waitForTimeout(500)
+  return text
+}
+if (namedUnit >= 0) {
+  const first = units[namedUnit].people.find(hasName)
+  const unitText = await openUnit(namedUnit)
+  // innerText carries the CSS case, and the roles are set in capitals.
+  const shown = unitText.toLowerCase()
+  ok('a unit names who leads it',
+     shown.includes(first.name.en.toLowerCase()) && shown.includes((first.role?.en ?? '').toLowerCase()))
+}
+if (emptyUnit >= 0) {
+  ok('a unit still waiting for its names says so', /Names to follow/i.test(await openUnit(emptyUnit)))
+} else {
+  ok('no unit prints an empty row', !/Names to follow/i.test(unitPanel))
+}
 await page.keyboard.press('Escape')
 await page.waitForTimeout(700)
 
@@ -1478,6 +1526,7 @@ ok('the health check says nothing about the parish',
 
 ok('no uncaught console/page errors', errors.length === 0, errors.slice(0, 3).join(' | '))
 
+reported = true
 console.log(results.join('\n'))
 console.log(`\n${results.filter((r) => r.startsWith('PASS')).length}/${results.length} passed`)
 await browser.close()

@@ -94,6 +94,10 @@ E2E smoke tests:
 npm run test:e2e
 ```
 
+The suite signs in with the bootstrap pair from `.env.local`, which closes once
+any account exists — run it from a fresh checkout (no runtime files) against a
+server started there. It refuses to start otherwise rather than time out.
+
 Image refresh:
 
 ```bash
@@ -326,6 +330,10 @@ This app writes content files and uploaded media to disk at runtime.
 - Saves go to `content/*.json`
 - Uploaded files go to `public/uploads/`
 - Backups are stored under `content/.backups/`
+- `next start` only serves the `public/` files that existed when it booted, so
+  `next.config.mjs` rewrites any other `/uploads/<file>` to
+  `src/app/api/uploads/[file]`, which reads it off the disk. Without that a
+  photograph uploaded after a restart is a 404 until the next one.
 
 This means the app is best hosted on a Node environment with a persistent filesystem. Vercel/Netlify-style serverless hosts are not suitable for the current dashboard save flow because the filesystem is read-only there.
 

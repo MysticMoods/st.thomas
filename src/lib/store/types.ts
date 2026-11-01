@@ -15,7 +15,6 @@ import type { ContentKey } from '../types'
  */
 
 export type RecordList =
-  | 'subscribers'
   | 'messages'
   | 'donations'
   | 'hall-bookings'
@@ -36,7 +35,8 @@ export type RecordList =
  * staff accounts, the visit counts, the throttle's counters. They are read and
  * written whole, exactly like a content section, so they are kept the same way.
  */
-export type StateKey = 'users' | 'analytics' | 'limits'
+/** `retired`: uploads a save stopped using, waiting out their fourteen days — lib/retire.ts. */
+export type StateKey = 'users' | 'analytics' | 'limits' | 'retired'
 
 export type BackupEntry = { name: string; at: string; size: number }
 
@@ -76,6 +76,8 @@ export interface Store {
 
   // ------------------------------------------------------------------ files
   putFile(name: string, body: Buffer, contentType: string): Promise<StoredFile>
+  /** Removes one upload. Missing already is not an error. */
+  deleteFile(name: string): Promise<void>
 
   /** Whether the store can be written to at all — for the health panel. */
   writable(): Promise<boolean>

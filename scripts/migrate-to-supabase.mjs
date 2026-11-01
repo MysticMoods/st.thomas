@@ -36,7 +36,7 @@ const CONTENT_KEYS = [
 
 /** The lists the forms write into. */
 const RECORD_LISTS = [
-  'subscribers', 'messages', 'donations', 'hall-bookings', 'hall-reviews',
+  'messages', 'donations', 'hall-bookings', 'hall-reviews',
   'audit', 'errors', 'outbox', 'intentions', 'certificates', 'prayers',
 ]
 

@@ -37,7 +37,7 @@ export function Ministries({ ministries }: { ministries: MinistriesContent }) {
           subtitle={ministries.subtitle}
         />
 
-        <StaggerGroup className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <StaggerGroup className="mt-10 grid grid-cols-2 gap-3 sm:mt-20 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
           {ministries.items.map((item) => (
             <motion.button
               key={item.id}

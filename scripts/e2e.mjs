@@ -67,7 +67,12 @@ const page = await ctx.newPage()
 page.on('dialog', (dialog) => dialog.accept())
 const errors = []
 page.on('pageerror', (e) => errors.push(`[after ${results.length} checks] ${page.url()} :: ${e}`))
-page.on('console', (m) => { if (m.type() === 'error') errors.push(`[after ${results.length} checks] ${page.url()} :: ${m.text()}`) })
+// YouTube's own player asks for a browser feature the page does not grant it;
+// that is the embed talking about itself, not a fault of this site.
+const THIRD_PARTY_NOISE = /Permissions policy violation: compute-pressure/
+page.on('console', (m) => {
+  if (m.type() === 'error' && !THIRD_PARTY_NOISE.test(m.text())) errors.push(`[after ${results.length} checks] ${page.url()} :: ${m.text()}`)
+})
 
 // ---- public site
 await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
@@ -122,6 +127,17 @@ ok('media section points at the parish channel',
    (await page.locator('#media a[href*="@st.thomaschurchmangalasser2793"]').count()) > 0)
 ok('media section plays videos from that channel',
    (await page.locator('#media a[href*="watch?v=fBtzCbruf3g"]').count()) > 0)
+// a video picked from the grid plays in the parish's own player, not on YouTube
+const pickedTitle = (await page.locator('#media button[aria-label^="Play video"]').nth(1).getAttribute('aria-label')).replace(/^Play video: /, '')
+await page.locator('#media button[aria-label^="Play video"]').nth(1).click()
+await page.waitForTimeout(1200)
+ok('a video from the grid plays in the page',
+   (await page.locator('#media iframe[src*="youtube-nocookie.com/embed/"]').count()) === 1 &&
+   (await page.locator('#media h3').first().innerText()).trim() === pickedTitle.trim())
+ok('the staff note about the channel is not shown to visitors',
+   !/Anything you add or reword below is kept/i.test(await page.locator('#media').innerText()))
+await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
+await page.waitForTimeout(1800)
 const mediaThumbs = await page.locator('#media img[src*="ytimg"]').count()
 ok('every video shows its YouTube thumbnail', mediaThumbs >= 8, `${mediaThumbs} thumbnails`)
 
@@ -217,14 +233,13 @@ ok('obituary year filter narrows the column', (await page.locator('button.card')
 await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(1800)
 
-// newsletter + contact
-const nl = await page.request.post('http://localhost:3000/api/newsletter', { headers: fromRunAddress, data: { email: 'test.parishioner@example.com' } })
-ok('newsletter API accepts valid email', nl.ok(), `status=${nl.status()}`)
-const nlBad = await page.request.post('http://localhost:3000/api/newsletter', { headers: fromRunAddress, data: { email: 'nope' } })
-ok('newsletter API rejects bad email', nlBad.status() === 422, `status=${nlBad.status()}`)
+// there is no newsletter: nothing on the page offers one, and nothing answers for it
+ok('the homepage offers no newsletter', (await page.locator('#newsletter').count()) === 0)
+ok('the newsletter API is gone',
+   (await page.request.post('http://localhost:3000/api/newsletter', { headers: fromRunAddress, data: { email: 'a@example.com' } })).status() === 404)
+ok('there is no unsubscribe page', (await page.request.get('http://localhost:3000/unsubscribe')).status() === 404)
 // forms are protected, and nothing they take is left un-acknowledged
 const formAddress = { 'x-forwarded-for': `10.31.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` }
-const runEmail = `e2e-${Date.now().toString(36)}@example.com`
 
 const trap = await page.request.post('http://localhost:3000/api/contact', {
   headers: formAddress,
@@ -234,12 +249,6 @@ const trap = await page.request.post('http://localhost:3000/api/contact', {
   },
 })
 ok('a form filled by a robot is answered cheerfully', trap.ok())
-
-const nlTrap = await page.request.post('http://localhost:3000/api/newsletter', {
-  headers: formAddress,
-  data: { email: 'robot@example.com', website: 'http://spam.example' },
-})
-ok('the newsletter has the same hidden field', nlTrap.ok())
 
 // the contact form is now rate limited like everything else
 const floodAddress = { 'x-forwarded-for': `10.32.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` }
@@ -252,18 +261,6 @@ for (let i = 0; i < 7; i += 1) {
   floodStatus = res.status()
 }
 ok('the contact form stops a flood', floodStatus === 429, `last status=${floodStatus}`)
-
-// subscribing, and leaving again
-const joined = await page.request.post('http://localhost:3000/api/newsletter', {
-  headers: formAddress,
-  data: { email: runEmail },
-})
-ok('a new address can join the newsletter', joined.ok())
-const joinedTwice = await page.request.post('http://localhost:3000/api/newsletter', {
-  headers: formAddress,
-  data: { email: runEmail },
-})
-ok('joining twice is not an error', joinedTwice.ok())
 
 const cf = await page.request.post('http://localhost:3000/api/contact', {
   headers: fromRunAddress,
@@ -455,7 +452,12 @@ ok('the chapels have a section of their own', (await page.locator('#chapels').co
 const chapelText = await page.locator('#chapels').innerText()
 ok('a chapel is named', /chapel/i.test(chapelText))
 ok('it says where the chapel is', /rename this one|[a-z]{4}/i.test(chapelText))
-ok('and when people gather there', /\d{1,2}:\d{2}\s*(AM|PM)/i.test(chapelText))
+// A time is shown only where the office has written one.
+const chapelTimes = (JSON.parse(readFileSync('content/chapels.json', 'utf-8')).items ?? []).filter((c) => c.time?.en)
+ok('and when people gather there, where that is known',
+   chapelTimes.length === 0 || /\d{1,2}:\d{2}\s*(AM|PM)/i.test(chapelText))
+ok('every chapel carries its own photograph',
+   (await page.locator('#chapels img[src*="chapel-"]').count()) >= 5)
 ok('a chapel can be searched for',
    ((await (await page.request.get('http://localhost:3000/api/search?q=chapel')).json()).results ?? [])
      .some((r) => String(r.href).includes('#chapels')))
@@ -847,7 +849,7 @@ ok('the dashboard is still there for bulk work',
    (await page.locator('text=Parish Dashboard').count()) > 0 &&
    (await page.locator('#admin-password').count()) === 0)
 
-await page.click('button:has-text("Messages & Subscribers")')
+await page.click('aside button:has-text("Messages")')
 await page.waitForTimeout(1600)
 ok('the inbox shows what people wrote in',
    (await page.locator('text=Messages (').count()) > 0)
@@ -865,6 +867,9 @@ ok('the accounts can be taken away as a file',
 // nowhere else to live, and says where the editing went.
 ok('the dashboard no longer offers a second editor',
    (await page.locator('aside button:has-text("Parish Statistics")').count()) === 0)
+ok('the dashboard has no backups tab and no newsletter tab',
+   (await page.locator('aside button:has-text("Backups")').count()) === 0 &&
+   (await page.locator('aside button:has-text("Newsletter")').count()) === 0)
 ok('it points at the pages instead',
    (await page.locator('aside a:has-text("Edit the pages")').count()) === 1)
 ok('the queues are still here',
@@ -922,26 +927,26 @@ await page.waitForTimeout(2200)
 ok('the site shows an admin strip to signed-in staff',
    (await page.evaluate(() => document.body.dataset.admin)) === 'true')
 // signing in leaves editing switched on, and the strip can turn it off again
-const editButtons = await page.locator('button').filter({ hasText: /^Edit / }).count()
+const editButtons = await page.locator('button[aria-label^="Edit "]').count()
 ok('every section carries an edit button', editButtons >= 15, `${editButtons} buttons`)
 await page.click('button:has-text("Done editing")')
 await page.waitForTimeout(800)
 ok('turning editing off clears the buttons',
-   (await page.locator('button:has-text("Edit Notice Board")').count()) === 0)
+   (await page.locator('button[aria-label="Edit Notice Board"]').count()) === 0)
 await page.click('button:has-text("Edit this page")')
 await page.waitForTimeout(800)
 ok('turning it back on restores them',
-   (await page.locator('button:has-text("Edit Notice Board")').count()) === 1)
-await page.click('button:has-text("Edit Notice Board")')
+   (await page.locator('button[aria-label="Edit Notice Board"]').count()) === 1)
+await page.click('button[aria-label="Edit Notice Board"]')
 await page.waitForTimeout(1800)
 ok('a section opens for editing in place', (await page.locator('[role=dialog]').count()) === 1)
-ok('the editor names the file it writes',
-   /content\/notices\.json/.test(await page.locator('[role=dialog]').innerText()))
+ok('the editor says plainly that a save goes live',
+   /go live as soon as you save/i.test(await page.locator('[role=dialog]').innerText()))
 await page.click('[role=dialog] button:has-text("Close")')
 await page.waitForTimeout(700)
 
 // the whole round trip, in place: open a section, change a number, save it
-await page.click('button:has-text("Edit Parish Statistics")')
+await page.click('button[aria-label="Edit Parish Statistics"]')
 await page.waitForTimeout(1800)
 const groupToggle = page.locator('[role=dialog] button[aria-expanded]').first()
 if (await groupToggle.count()) {
@@ -959,7 +964,7 @@ const savedStats = await (await page.request.get('http://localhost:3000/api/admi
 ok('editing in place writes to content/stats.json',
    savedStats.data.items[0].value === 999, `value=${savedStats.data.items[0].value}`)
 
-await page.click('button:has-text("Edit Parish Statistics")')
+await page.click('button[aria-label="Edit Parish Statistics"]')
 await page.waitForTimeout(1800)
 const undoToggle = page.locator('[role=dialog] button[aria-expanded]').first()
 if (await undoToggle.count()) {
@@ -1024,7 +1029,7 @@ if ((await page.locator('button:has-text("Edit this page")').count()) > 0) {
   await page.click('button:has-text("Edit this page")')
   await page.waitForTimeout(700)
 }
-await page.click('button:has-text("Edit Notice Board")')
+await page.click('button[aria-label="Edit Notice Board"]')
 await page.waitForTimeout(2000)
 await page.locator('[role=dialog] button[aria-expanded]', { hasText: 'Assumption Feast' }).first().click()
 await page.waitForTimeout(900)
@@ -1071,56 +1076,64 @@ const trBack = await page.request.post('http://localhost:3000/api/admin/translat
 const trBackJson = trBack.ok() ? await trBack.json() : { text: '' }
 ok('translate ml -> en returns English', trBack.ok() && /[A-Za-z]/.test(trBackJson.text || ''), trBackJson.text)
 
-// editing one language rewrites the other in place, not only when it is blank.
-// The editor is on the page now, and so is the switch that stops it.
+// The editor shows one language at a time — English, unless Malayalam is asked
+// for. Editing the English keeps the hidden Malayalam in step; nothing written
+// in Malayalam ever rewrites the English.
 await page.goto('http://localhost:3000/', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2400)
 if ((await page.locator('button:has-text("Edit this page")').count()) > 0) {
   await page.click('button:has-text("Edit this page")')
   await page.waitForTimeout(700)
 }
-await page.click('button:has-text("Edit Homepage & Banners")')
+await page.click('button[aria-label="Edit Homepage & Banners"]')
 await page.waitForTimeout(2200)
+const langSwitch = page.locator('[role=dialog] [role=group][aria-label="Language being edited"]')
+const showLang = async (name) => { await langSwitch.locator(`button:has-text("${name}")`).click(); await page.waitForTimeout(400) }
+const firstBox = page.locator('[role=dialog] .field:not([placeholder^="Find among"])').first()
+const MALAYALAM = /[ഀ-ൿ]/
+ok('the editor offers English or Malayalam', (await langSwitch.count()) === 1)
+ok('the editor opens in English alone', !MALAYALAM.test(await firstBox.inputValue()) &&
+   (await page.locator('[role=dialog] .font-malayalam.field').count()) === 0)
 ok('the editor carries the auto-translate switch',
-   (await page.locator('[role=dialog] button[aria-pressed]').count()) > 0)
-const enBox = page.locator('[role=dialog] label:has(span:text-is("English"))').first().locator('input.field, textarea.field').first()
-const mlBox = page.locator('[role=dialog] label:has(span:text-is("മലയാളം"))').first().locator('input.field, textarea.field').first()
-const mlBefore = await mlBox.inputValue()
-ok('bilingual field starts with both languages filled', mlBefore.trim().length > 0)
-await enBox.fill('The parish office will stay open on Saturday evening')
+   (await page.locator('[role=dialog] button:has-text("Auto-translate")').count()) === 1)
+
+await showLang('മലയാളം')
+const mlBefore = await firstBox.inputValue()
+ok('Malayalam is shown when asked for', MALAYALAM.test(mlBefore), mlBefore)
+
+await showLang('English')
+await firstBox.fill('The parish office will stay open on Saturday evening')
 await page.keyboard.press('Tab')
+await page.waitForTimeout(500)
+await showLang('മലയാളം')
 await page.waitForFunction(
   (old) => {
-    const label = [...document.querySelectorAll('label')].find((l) => l.textContent.includes('മലയാളം'))
-    const field = label && label.querySelector('input.field, textarea.field')
-    return field && field.value !== old
+    const box = [...document.querySelectorAll('[role=dialog] .field')].find((el) => !el.placeholder?.startsWith('Find among'))
+    return box && box.value !== old
   },
   mlBefore,
   { timeout: 25000 },
 ).catch(() => {})
-const mlAfter = await mlBox.inputValue()
-ok('editing English rewrites the filled Malayalam', mlAfter !== mlBefore && /[ഀ-ൿ]/.test(mlAfter), mlAfter)
-const enBefore = await enBox.inputValue()
-await mlBox.fill('ഇടവക ഓഫീസ് ഞായറാഴ്ച അടച്ചിരിക്കും')
+const mlAfter = await firstBox.inputValue()
+ok('editing English rewrites the hidden Malayalam', mlAfter !== mlBefore && MALAYALAM.test(mlAfter), mlAfter)
+
+await firstBox.fill('ഇടവക ഓഫീസ് ഞായറാഴ്ച അടച്ചിരിക്കും')
 await page.keyboard.press('Tab')
-await page.waitForFunction(
-  (old) => {
-    const label = [...document.querySelectorAll('label')].find((l) => l.textContent.includes('English'))
-    const field = label && label.querySelector('input.field, textarea.field')
-    return field && field.value !== old
-  },
-  enBefore,
-  { timeout: 25000 },
-).catch(() => {})
-ok('editing Malayalam rewrites the filled English', (await enBox.inputValue()) !== enBefore, await enBox.inputValue())
-// the toggle stops it, and nothing here is saved
-const autoToggle = page.locator('[role=dialog] button[aria-pressed]').first()
+await page.waitForTimeout(3000)
+await showLang('English')
+ok('editing Malayalam never rewrites the English',
+   (await firstBox.inputValue()) === 'The parish office will stay open on Saturday evening', await firstBox.inputValue())
+
+// the switch stops it, and nothing here is saved
+const autoToggle = page.locator('[role=dialog] button:has-text("Auto-translate")')
 await autoToggle.click()
-const heldMl = await mlBox.inputValue()
-await enBox.fill('Nothing should be translated now')
+await firstBox.fill('Nothing should be translated now')
 await page.keyboard.press('Tab')
 await page.waitForTimeout(4000)
-ok('auto translate off leaves the other language alone', (await mlBox.inputValue()) === heldMl)
+await showLang('മലയാളം')
+ok('auto translate off leaves the Malayalam alone',
+   (await firstBox.inputValue()) === 'ഇടവക ഓഫീസ് ഞായറാഴ്ച അടച്ചിരിക്കും')
+await showLang('English')
 await autoToggle.click()
 // Closing without saving throws all of it away, which is the point. The
 // confirmation is accepted by the handler set up at the top of this file.
@@ -1128,6 +1141,11 @@ await page.click('[role=dialog] button:has-text("Close")')
 await page.waitForTimeout(1200)
 ok('closing without saving leaves the site as it was',
    !/Nothing should be translated now/.test(await page.locator('body').innerText()))
+await page.click('button[aria-label="Edit Homepage & Banners"]')
+await page.waitForTimeout(1800)
+ok('the editor opens in English again next time', !MALAYALAM.test(await firstBox.inputValue()))
+await page.click('[role=dialog] button:has-text("Close")')
+await page.waitForTimeout(800)
 
 await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2400)
@@ -1148,6 +1166,54 @@ ok('a content save is recorded against a person',
 ok('confirming a hall booking is recorded', entries.some((e) => e.action === 'hall-decide'))
 ok('publishing a review is recorded', entries.some((e) => e.action === 'review-decide'))
 ok('every entry carries the time it happened', entries.every((e) => typeof e.at === 'string'))
+
+// --- a replaced photograph is kept for fourteen days, then deleted if unused
+{
+  const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64')
+  const upload = async (name) => (await (await page.request.post('http://localhost:3000/api/admin/upload', {
+    multipart: { file: { name, mimeType: 'image/png', buffer: PNG } },
+  })).json()).path
+  const onDisk = (url) => existsSync(`public${url}`)
+  const RETIRED = 'content/retired.json'
+  const retired = () => (existsSync(RETIRED) ? JSON.parse(readFileSync(RETIRED, 'utf-8')) : [])
+  const backdate = () => writeFileSync(RETIRED, JSON.stringify(
+    retired().map((entry) => ({ ...entry, since: new Date(Date.now() - 15 * 86400000).toISOString() }))))
+  const setOgImage = async (url) => {
+    const cur = await (await page.request.get('http://localhost:3000/api/admin/content/site')).json()
+    const original = cur.data.seo.ogImage
+    cur.data.seo.ogImage = url
+    const res = await page.request.put('http://localhost:3000/api/admin/content/site', {
+      data: { data: cur.data, version: cur.version },
+    })
+    return { ok: res.ok(), original }
+  }
+
+  const a = await upload('retire-a.png')
+  const b = await upload('retire-b.png')
+  const c = await upload('retire-c.png')
+  const { original } = await setOgImage(a)
+  await setOgImage(b)
+  ok('a replaced photograph is noted, not deleted',
+     retired().some((entry) => `/uploads/${entry.file}` === a) && onDisk(a))
+  ok('the new photograph is in place at once', onDisk(b) &&
+     (await page.request.get(`http://localhost:3000${b}`)).ok())
+
+  backdate()
+  await setOgImage(c) // b is dropped now…
+  await setOgImage(b) // …and put back, which drops c
+  backdate()
+  // any save sweeps on its way past
+  const stats = await (await page.request.get('http://localhost:3000/api/admin/content/stats')).json()
+  await page.request.put('http://localhost:3000/api/admin/content/stats', { data: { data: stats.data, version: stats.version } })
+  await page.waitForTimeout(1200)
+  ok('after fourteen days an unused photograph is deleted', !onDisk(a) && !onDisk(c))
+  ok('a photograph put back within the fortnight is never deleted',
+     onDisk(b) && !retired().some((entry) => `/uploads/${entry.file}` === b))
+
+  await setOgImage(original)
+  rmSync(`public${b}`, { force: true })
+  rmSync(RETIRED, { force: true })
+}
 
 // --- backups can be read and put back
 const backupIndex = await (await page.request.get('http://localhost:3000/api/admin/backups')).json()
@@ -1336,7 +1402,6 @@ ok('a hall request is acknowledged with a reference',
    letters.some((l) => l.kind === 'hall-ack'))
 ok('confirming a booking writes to the family',
    letters.some((l) => l.kind === 'hall-confirmed'))
-ok('joining the newsletter is welcomed', letters.some((l) => l.kind === 'subscribe-welcome'))
 ok('a Mass intention is acknowledged', letters.some((l) => l.kind === 'office-intentions-ack'))
 ok('a certificate request is acknowledged',
    letters.some((l) => l.kind === 'office-certificates-ack'))
@@ -1349,50 +1414,6 @@ const mailCheck = await (await page.request.get('http://localhost:3000/api/admin
 ok('the mail settings can be tested without sending anything',
    mailCheck.check && mailCheck.check.ok === false, mailCheck.check?.error)
 
-// --- the newsletter itself
-const listInfo = await (await page.request.get('http://localhost:3000/api/admin/newsletter')).json()
-ok('the newsletter panel counts who is on the list', listInfo.subscribers > 0,
-   `${listInfo.subscribers} subscribers`)
-ok('an empty subject is refused',
-   (await page.request.post('http://localhost:3000/api/admin/newsletter', {
-     data: { subject: '', body: 'A long enough body to pass the length check.' },
-   })).status() === 422)
-ok('a letter with almost nothing in it is refused',
-   (await page.request.post('http://localhost:3000/api/admin/newsletter', {
-     data: { subject: 'Hello', body: 'Too short' },
-   })).status() === 422)
-const testSend = await page.request.post('http://localhost:3000/api/admin/newsletter', {
-  data: {
-    subject: 'E2E test letter',
-    body: 'This is the body of the test letter, long enough to be accepted.',
-    testTo: 'e2e-test@example.com',
-  },
-})
-ok('a test letter goes to one address only', testSend.ok(), `status=${testSend.status()}`)
-ok('the test letter reached the outbox',
-   ((await (await page.request.get('http://localhost:3000/api/admin/outbox')).json()).letters ?? [])
-     .some((l) => l.to === 'e2e-test@example.com'))
-
-// --- unsubscribing works from the link in the letter
-const subs = JSON.parse(readFileSync('content/subscribers.json', 'utf-8'))
-const joiner = subs.find((entry) => entry.email === runEmail)
-ok('a subscriber is given a token to leave with', !!joiner?.token)
-const left = await page.request.delete(
-  `http://localhost:3000/api/newsletter?token=${encodeURIComponent(joiner?.token ?? 'none')}`,
-)
-ok('the unsubscribe link works', left.ok())
-ok('a made-up unsubscribe link is refused',
-   (await page.request.delete('http://localhost:3000/api/newsletter?token=not-a-real-token')).status() === 404)
-const afterLeaving = await (await page.request.get('http://localhost:3000/api/admin/newsletter')).json()
-ok('somebody who left is not written to again',
-   !(afterLeaving.addresses ?? []).includes(runEmail))
-
-// and the page at the end of that link says so
-await page.goto(`http://localhost:3000/unsubscribe?token=${encodeURIComponent(joiner?.token ?? 'none')}`,
-  { waitUntil: 'domcontentloaded' })
-await page.waitForTimeout(1200)
-const stopPage = await page.locator('main').innerText()
-ok('the unsubscribe page confirms it in words', /taken off|expired/i.test(stopPage))
 await page.goto('http://localhost:3000/admin', { waitUntil: 'domcontentloaded' })
 await page.waitForTimeout(2000)
 
@@ -1513,7 +1534,7 @@ const trAnon = await page.request.post('http://localhost:3000/api/admin/translat
 ok('translate API rejects signed-out caller', trAnon.status() === 401)
 
 // none of the operations panels answer a stranger
-for (const route of ['users', 'audit', 'backups', 'health', 'metrics', 'problems', 'outbox', 'newsletter']) {
+for (const route of ['users', 'audit', 'backups', 'health', 'metrics', 'problems', 'outbox']) {
   ok(`the ${route} panel is closed to a signed-out caller`,
      (await page.request.get(`http://localhost:3000/api/admin/${route}`)).status() === 401)
 }

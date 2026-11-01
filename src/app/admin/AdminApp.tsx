@@ -13,9 +13,7 @@ import { HallReviews } from './HallReviews'
 import { OfficeRequests } from './OfficeRequests'
 import { Activity } from './ops/Activity'
 import { ReplyBox } from './ops/ReplyBox'
-import { Backups } from './ops/Backups'
 import { Letters } from './ops/Letters'
-import { NewsletterPanel } from './ops/NewsletterPanel'
 import { type Area, type Role, may } from '@/lib/permissions'
 import { People } from './ops/People'
 import { Problems } from './ops/Problems'
@@ -33,10 +31,8 @@ type PanelKey =
   | 'hall-reviews'
   | 'office-requests'
   | 'people'
-  | 'newsletter'
   | 'letters'
   | 'activity'
-  | 'backups'
   | 'visits'
   | 'problems'
   | 'system'
@@ -52,10 +48,8 @@ type PanelEntry = { key: PanelKey; name: string; icon: string; blurb: string; ar
  */
 const OPERATIONS: PanelEntry[] = [
   { key: 'people', name: 'People & access', icon: 'users', blurb: 'Staff accounts and what each may do', area: 'people' },
-  { key: 'newsletter', name: 'Newsletter', icon: 'mail', blurb: 'Write to everybody who asked for news', area: 'newsletter' },
   { key: 'letters', name: 'Letters sent', icon: 'file', blurb: 'What the site posted, and whether it arrived', area: 'system' },
   { key: 'activity', name: 'Activity log', icon: 'scroll', blurb: 'Who changed what, and when', area: 'system' },
-  { key: 'backups', name: 'Backups & restore', icon: 'copy', blurb: 'Read or put back an earlier copy', area: 'system' },
   { key: 'visits', name: 'Visits', icon: 'globe', blurb: 'How much the site is being read', area: 'system' },
   { key: 'problems', name: 'Problems', icon: 'bell', blurb: 'Faults the site has hit', area: 'system' },
   { key: 'system', name: 'System health', icon: 'shield', blurb: 'Disk, settings and what is stored', area: 'system' },
@@ -76,7 +70,6 @@ type Donation = {
 }
 
 type Submissions = {
-  subscribers: { email: string; at: string }[]
   messages: {
     id?: string
     name: string
@@ -106,7 +99,7 @@ export function AdminApp() {
     fetch('/api/admin/submissions', { cache: 'no-store' })
       .then((r) => r.json())
       .then(setSubmissions)
-      .catch(() => setSubmissions({ subscribers: [], messages: [], donations: [] }))
+      .catch(() => setSubmissions({ messages: [], donations: [] }))
   }, [])
 
   useEffect(() => {
@@ -137,7 +130,7 @@ export function AdminApp() {
     { key: 'office-requests', name: 'Office Requests', icon: 'scroll', blurb: 'Mass intentions, certificates and prayers', area: 'office' },
     { key: 'hall-bookings', name: 'Hall Bookings', icon: 'calendar', blurb: 'Requests to confirm or decline', area: 'hall' },
     { key: 'hall-reviews', name: 'Hall Reviews', icon: 'quote', blurb: 'Publish or hold what families wrote', area: 'hall' },
-    { key: 'inbox', name: 'Messages & Subscribers', icon: 'mail', blurb: 'What people wrote in, and who asked for news', area: 'messages' },
+    { key: 'inbox', name: 'Messages', icon: 'mail', blurb: 'What people wrote in through the contact form', area: 'messages' },
     { key: 'donations', name: 'Donations', icon: 'heart', blurb: 'Every gift received, the totals, and a copy for the accounts', area: 'giving' },
   ]
 
@@ -370,14 +363,10 @@ export function AdminApp() {
             )
           ) : active === 'people' ? (
             <People />
-          ) : active === 'newsletter' ? (
-            <NewsletterPanel />
           ) : active === 'letters' ? (
             <Letters />
           ) : active === 'activity' ? (
             <Activity />
-          ) : active === 'backups' ? (
-            <Backups canRestore={you?.role === 'owner'} />
           ) : active === 'visits' ? (
             <Visits />
           ) : active === 'problems' ? (
@@ -410,7 +399,6 @@ function Inbox({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <section className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
         <h2 className="border-b border-[rgb(var(--line))] px-6 py-5 font-display text-xl text-[rgb(var(--ink))]">
           Messages ({submissions.messages.length})
@@ -447,29 +435,6 @@ function Inbox({
           )}
         </ul>
       </section>
-
-      <section className="rounded-sm border border-[rgb(var(--line))] bg-[rgb(var(--card))]">
-        <h2 className="border-b border-[rgb(var(--line))] px-6 py-5 font-display text-xl text-[rgb(var(--ink))]">
-          Newsletter ({submissions.subscribers.length})
-        </h2>
-        <ul className="divide-y divide-[rgb(var(--line))]">
-          {submissions.subscribers.length === 0 ? (
-            <li className="px-6 py-8 font-sans text-sm text-[rgb(var(--muted))]">
-              No subscribers yet.
-            </li>
-          ) : (
-            submissions.subscribers.map((s, i) => (
-              <li key={i} className="flex items-center justify-between gap-4 px-6 py-3.5">
-                <span className="truncate font-sans text-sm text-[rgb(var(--ink))]">{s.email}</span>
-                <span className="shrink-0 font-sans text-2xs tabular-nums text-[rgb(var(--muted))]">
-                  {new Date(s.at).toLocaleDateString('en-IN')}
-                </span>
-              </li>
-            ))
-          )}
-        </ul>
-      </section>
-      </div>
     </div>
   )
 }

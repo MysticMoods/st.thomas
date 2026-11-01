@@ -9,20 +9,44 @@
   },
   "items": [
     {
-      "id": "example",
+      "id": "velankanni",
       "name": {
-        "en": "St. Jude's Chapel",
-        "ml": "വി. യൂദാ ശ്ലീഹാ കുരിശുപള്ളി"
+        "en": "Our Lady of Velankanni Chapel",
+        "ml": "വേളാങ്കണ്ണി മാതാവിന്റെ കപ്പേള"
       },
-      "place": {
-        "en": "Replace this card with a real chapel — its photograph, name, where it stands, and when people gather there.",
-        "ml": "ഈ കാർഡ് യഥാർത്ഥ കുരിശുപള്ളിയുടേതാക്കി മാറ്റുക — ഫോട്ടോ, പേര്, സ്ഥലം, പ്രാർത്ഥനാ സമയം."
+      "image": "/images/site/chapel-velankanni.jpg"
+    },
+    {
+      "id": "grotto",
+      "name": {
+        "en": "St. Mary's Grotto",
+        "ml": "സെന്റ് മേരീസ് ഗ്രോട്ടോ"
       },
-      "time": {
-        "en": "First Friday, 6:30 PM",
-        "ml": "ആദ്യ വെള്ളിയാഴ്ച, വൈകിട്ട് 6:30"
+      "image": "/images/site/chapel-grotto.jpg"
+    },
+    {
+      "id": "gethsemane",
+      "name": {
+        "en": "Gethsemane Chapel",
+        "ml": "ഗത്സെമേൻ കപ്പേള"
       },
-      "image": "/images/site/candles-cross.jpg"
+      "image": "/images/site/chapel-gethsemane.jpg"
+    },
+    {
+      "id": "our-lady",
+      "name": {
+        "en": "Our Lady's Chapel",
+        "ml": "മാതാവിന്റെ കപ്പേള"
+      },
+      "image": "/images/site/chapel-our-lady.jpg"
+    },
+    {
+      "id": "jai-jesus",
+      "name": {
+        "en": "Jai Jesus Chapel",
+        "ml": "ജയ് ജീസസ് കപ്പേള"
+      },
+      "image": "/images/site/chapel-jai-jesus.jpg"
     }
   ]
 }

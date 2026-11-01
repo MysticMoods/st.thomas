@@ -147,7 +147,7 @@ export function Footer({
           </div>
         </div>
 
-        {/* social + newsletter pointer */}
+        {/* social */}
         <div className="mt-16 flex flex-col gap-8 border-t border-white/10 pt-10 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h4 className="font-sans text-2xs uppercase tracking-[0.24em] text-gold-400">
@@ -156,24 +156,6 @@ export function Footer({
             <SocialRow social={site.social} tone="invert" className="mt-4" />
           </div>
 
-          <a
-            href="/#newsletter"
-            className="group flex items-center gap-4 rounded-sm border border-white/10 px-6 py-5 transition-colors hover:border-gold-400/50"
-          >
-            <Icon name="mail" className="h-5 w-5 text-gold-400" />
-            <span>
-              <span className="block font-display text-lg text-white">
-                {t(site.newsletter.title)}
-              </span>
-              <span className="block font-sans text-2xs text-stone-400">
-                {t(ui.newsletter.privacy)}
-              </span>
-            </span>
-            <Icon
-              name="arrowRight"
-              className="h-4 w-4 text-gold-400 transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </a>
         </div>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 font-sans text-2xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">

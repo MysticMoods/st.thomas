@@ -82,13 +82,13 @@ function TimelineEntry({
       viewport={{ once: true, margin: '-10% 0px -12% 0px' }}
       transition={{ duration: 0.95, ease: EASE }}
       className={cn(
-        'relative grid gap-6 pl-16 lg:grid-cols-2 lg:items-center lg:gap-14 lg:py-8 lg:pl-0',
+        'relative grid grid-cols-[6rem_minmax(0,1fr)] items-start gap-4 pl-12 sm:grid-cols-1 sm:gap-6 sm:pl-16 lg:grid-cols-2 lg:items-center lg:gap-14 lg:py-8 lg:pl-0',
         left ? '' : 'lg:[direction:rtl]',
       )}
     >
       {/* node */}
       <span
-        className="absolute left-6 top-8 z-10 grid h-4 w-4 -translate-x-1/2 place-items-center rounded-full border-2 border-gold-400 bg-[rgb(var(--page))] lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2"
+        className="absolute left-4 top-8 z-10 grid h-4 w-4 sm:left-6 -translate-x-1/2 place-items-center rounded-full border-2 border-gold-400 bg-[rgb(var(--page))] lg:left-1/2 lg:top-1/2 lg:-translate-y-1/2"
         aria-hidden="true"
       >
         <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
@@ -97,7 +97,7 @@ function TimelineEntry({
       <div className={cn('[direction:ltr]', left ? 'lg:text-right' : '')}>
         <figure
           className={cn(
-            'group relative inline-block w-full max-w-[15rem] overflow-hidden rounded-sm border border-[rgb(var(--line))] transition-all duration-500 ease-sacred hover:border-gold-300/70 hover:shadow-lift sm:max-w-[16rem]',
+            'group relative inline-block w-full max-w-[6rem] overflow-hidden sm:max-w-[16rem] rounded-sm border border-[rgb(var(--line))] transition-all duration-500 ease-sacred hover:border-gold-300/70 hover:shadow-lift sm:max-w-[16rem]',
             left ? 'lg:ml-auto' : '',
           )}
         >
@@ -109,7 +109,7 @@ function TimelineEntry({
             zoom
             sizes="(max-width: 1024px) 60vw, 16rem"
             wrapperClassName="aspect-[4/5] w-full"
-            className="h-full w-full object-cover grayscale transition-[filter,transform] duration-700 ease-sacred group-hover:grayscale-0"
+            className="h-full w-full object-cover transition-transform duration-700 ease-sacred"
           />
           <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-950/95 to-transparent px-4 pb-3 pt-10 text-left">
             <span className="font-sans text-2xs font-semibold uppercase tracking-[0.18em] tabular-nums text-gold-300">
@@ -120,17 +120,17 @@ function TimelineEntry({
       </div>
 
       <div className={cn('[direction:ltr] lg:pt-2', left ? '' : 'lg:text-right')}>
-        <h3 className="font-display text-2xl leading-snug text-[rgb(var(--ink))]">
+        <h3 className="font-display text-xl leading-snug text-[rgb(var(--ink))] sm:text-2xl">
           {t(priest.name)}
         </h3>
         <p className="mt-2 font-sans text-2xs uppercase tracking-[0.22em] tabular-nums text-gold-600 dark:text-gold-400">
           {priest.years}
         </p>
         <span
-          className={cn('mt-5 block h-px w-14 bg-gold-line', left ? '' : 'lg:ml-auto')}
+          className={cn('mt-3 block h-px w-14 bg-gold-line sm:mt-5', left ? '' : 'lg:ml-auto')}
           aria-hidden="true"
         />
-        <p className="mt-5 max-w-prose font-sans text-[0.97rem] leading-relaxed text-[rgb(var(--muted))]">
+        <p className="mt-3 max-w-prose font-sans text-sm leading-relaxed text-[rgb(var(--muted))] sm:mt-5 sm:text-[0.97rem]">
           {t(priest.bio)}
         </p>
       </div>

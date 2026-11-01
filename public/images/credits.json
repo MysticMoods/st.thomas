@@ -1,45 +1,9 @@
 [
   {
-    "file": "/images/site/hero-nave.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/architecture-building-57KRVGK2H9"
-  },
-  {
-    "file": "/images/site/hero-pews.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/wood-bench-R44UK4WLHX"
-  },
-  {
-    "file": "/images/site/hero-vault.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/architecture-building-VC3Z71TX2R"
-  },
-  {
-    "file": "/images/site/church-exterior.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/church-building-1BTKPBVREM"
-  },
-  {
-    "file": "/images/site/steeple.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/steeple-sky-208HLOPHHS"
-  },
-  {
     "file": "/images/site/old-church.jpg",
     "source": "StockSnap.io",
     "license": "CC0 1.0 (public domain, no attribution required)",
     "origin": "https://stocksnap.io/photo/architecture-building-5RQ89XH8Q8"
-  },
-  {
-    "file": "/images/site/doorway-light.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/architecture-building-B2IEY5FUIB"
   },
   {
     "file": "/images/site/glass.jpg",
@@ -58,12 +22,6 @@
     "source": "StockSnap.io",
     "license": "CC0 1.0 (public domain, no attribution required)",
     "origin": "https://stocksnap.io/photo/church-tower-DEAEC23ZVO"
-  },
-  {
-    "file": "/images/site/facade.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/church-architecture-IEXCLPXH3L"
   },
   {
     "file": "/images/site/arch-stone.jpg",
@@ -94,12 +52,6 @@
     "source": "StockSnap.io",
     "license": "CC0 1.0 (public domain, no attribution required)",
     "origin": "https://stocksnap.io/photo/church-chapel-5Q0IQEVLFP"
-  },
-  {
-    "file": "/images/site/interior-feast.jpg",
-    "source": "StockSnap.io",
-    "license": "CC0 1.0 (public domain, no attribution required)",
-    "origin": "https://stocksnap.io/photo/church-interior-NLKKBIH0J3"
   },
   {
     "file": "/images/site/rosary.jpg",
@@ -364,5 +316,143 @@
     "source": "StockSnap.io",
     "license": "CC0 1.0 (public domain, no attribution required)",
     "origin": "https://stocksnap.io/photo/man-portrait-B4SX9OQECA"
+  },
+  {
+    "file": "/images/site/church-front.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/nave.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/altar.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/church-exterior.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/hero-nave.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/hero-pews.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/hero-vault.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/interior-feast.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/facade.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/steeple.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/doorway-light.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/gallery-aisle.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/gallery-sanctuary.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/gallery-altar.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/gallery-walkway.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/gallery-pews.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/chapel-velankanni.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/chapel-grotto.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/chapel-gethsemane.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/chapel-our-lady.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/chapel-jai-jesus.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/band-cross.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
+  },
+  {
+    "file": "/images/site/band-aisle.jpg",
+    "source": "St. Thomas Church, Mangalassery",
+    "license": "The parish's own photograph",
+    "origin": ""
   }
 ]

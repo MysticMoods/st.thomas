@@ -8,7 +8,7 @@
       "en": "Mangalassery",
       "ml": "മംഗലശ്ശേരി"
     },
-    "established": "1893",
+    "established": "1952",
     "forane": {
       "en": "Koratty Forane",
       "ml": "മംഗലശ്ശേരി ഫൊറോന"
@@ -24,9 +24,9 @@
   },
   "hero": {
     "images": [
-      "/uploads/screenshot-2026-08-03-213628-msdf9i12.png",
-      "/uploads/screenshot-2026-08-03-213951-msdfdlpb.png",
-      "/uploads/pic1-msdev76a.jpg"
+      "/videos/church-aisle.mp4",
+      "/images/site/altar.jpg",
+      "/images/site/church-front.jpg"
     ],
     "eyebrow": {
       "en": "Established 1893 · Diocese of Angamaly",
@@ -76,11 +76,11 @@
       "en": "St. Thomas Church, Mangalassery",
       "ml": "സെൻ്റ് തോമസ് ചർച്ച്, മംഗലശ്ശേരി"
     },
-    "phone": "+91 487 246 8120",
-    "office": "+91 98470 12345",
+    "phone": "+91 94475 28082",
+    "office": "+91 94475 28082",
     "emergency": "+91 98470 67890",
     "email": "office@stthomasmangalassery.org",
-    "whatsapp": "919847012345",
+    "whatsapp": "919447528082",
     "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3926.229893863527!2d76.3625067!3d10.243033800000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0803fe3ef9fc2f%3A0xf748faba8cb46f59!2sSt.%20Thomas%20Syro-Malabar%20Church%2C%20Mangalassery!5e0!3m2!1sen!2sin!4v1785767803619!5m2!1sen!2sin",
     "mapLink": "https://maps.app.goo.gl/W6Q8rS7K8y5BebP8A",
     "coordinates": {
@@ -142,7 +142,7 @@
     {
       "network": "whatsapp",
       "label": "WhatsApp",
-      "url": "https://wa.me/919847012345",
+      "url": "https://wa.me/919447528082",
       "handle": "Parish Office"
     },
     {
@@ -170,17 +170,6 @@
       "handle": "stthomasmangalassery.org"
     }
   ],
-  "newsletter": {
-    "title": {
-      "en": "The Parish Letter",
-      "ml": "ഇടവക ലേഖനം"
-    },
-    "description": {
-      "en": "A short note every Friday evening — the Sunday readings, the week's intentions, and news from our families.",
-      "ml": "എല്ലാ വെള്ളിയാഴ്ച വൈകുന്നേരവും ഒരു ചെറിയ കുറിപ്പ് — ഞായറാഴ്ചത്തെ വായനകൾ, ആഴ്ചയിലെ നിയോഗങ്ങൾ, കുടുംബങ്ങളിൽ നിന്നുള്ള വാർത്തകൾ."
-    },
-    "image": "/images/site/candle-quiet.jpg"
-  },
   "seo": {
     "title": "St. Thomas Church, Mangalassery",
     "description": "The parish community of St. Thomas Church, Mangalassery — Mass timings, parish news, ministries, gallery and contact. Established 1893, Diocese of Angamaly, Kerala.",

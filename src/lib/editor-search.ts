@@ -24,8 +24,62 @@ export function isBilingual(value: unknown): value is { en: string; ml: string }
   )
 }
 
+/**
+ * Field names that are a designer's or a programmer's word rather than the
+ * parish's. Anything not here is simply spelled out from its key.
+ */
+const PLAIN: Record<string, string> = {
+  eyebrow: 'Small heading above the title',
+  kicker: 'Small heading above the title',
+  lede: 'Opening paragraph',
+  intro: 'Introduction',
+  blurb: 'Short description',
+  excerpt: 'Short summary',
+  tagline: 'Tagline',
+  marquee: 'Scrolling banner',
+  hero: 'Top banner',
+  cta: 'Button',
+  href: 'Link',
+  url: 'Link',
+  contactHref: 'Contact link',
+  mapLink: 'Map link',
+  mapEmbed: 'Map on the page',
+  src: 'Picture',
+  image: 'Picture',
+  images: 'Pictures',
+  photo: 'Photograph',
+  file: 'File',
+  ogImage: 'Picture shown when the site is shared',
+  seo: 'Search engines & sharing',
+  keywords: 'Search words',
+  icon: 'Icon',
+  accent: 'Highlight colour',
+  variant: 'Style',
+  span: 'Width on the page',
+  pinned: 'Keep at the top',
+  featured: 'Show first',
+  active: 'Shown on the site',
+  lat: 'Latitude',
+  lng: 'Longitude',
+  q: 'Question',
+  a: 'Answer',
+  ifsc: 'IFSC code',
+  upiId: 'UPI ID',
+  whatsapp: 'WhatsApp number',
+  groupsLabel: 'Name for the groups (Units, Classes…)',
+  leadRole: "Leader's title",
+  leadPhone: "Leader's telephone",
+  verseRef: 'Bible reference',
+  survivedBy: 'Survived by',
+  receiptNote: 'Note on the receipt',
+  minNoticeDays: 'Days of notice needed',
+  monthsAhead: 'How many months ahead can be booked',
+  'full-day': 'Full day',
+}
+
 /** `groupsDrilldown` -> `Groups Drilldown`, so a field reads as English. */
 export function label(key: string) {
+  if (PLAIN[key]) return PLAIN[key]
   return key
     .replace(/([A-Z])/g, ' $1')
     .replace(/[-_]/g, ' ')

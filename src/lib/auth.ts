@@ -120,7 +120,11 @@ export async function currentSession(): Promise<Session | null> {
     // cannot be used to sign in again — verifyLogin only consults the store
     // once the store has anybody in it.
     const bootstrap = (process.env.ADMIN_USERNAME || 'vicar').trim().toLowerCase()
-    return claimed.username === bootstrap ? { username: bootstrap, role: 'owner' } : null
+    const fbAdmin = (process.env.FIREBASE_ADMIN_EMAIL || '').trim().toLowerCase()
+    if (claimed.username === bootstrap || (fbAdmin && claimed.username === fbAdmin)) {
+      return { username: claimed.username, role: 'owner' }
+    }
+    return null
   }
   if (user.disabled) return null
   return { username: user.username, role: user.role, sections: user.sections }

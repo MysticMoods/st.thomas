@@ -15,7 +15,6 @@ import { Media } from '@/components/Media'
 import { Members } from '@/components/Members'
 import { Ministries } from '@/components/Ministries'
 import { Navigation } from '@/components/Navigation'
-import { Newsletter } from '@/components/Newsletter'
 import { Notices } from '@/components/Notices'
 import { Obituaries } from '@/components/Obituaries'
 import { PastPriestsTimeline } from '@/components/PastPriestsTimeline'
@@ -49,7 +48,7 @@ export default async function HomePage() {
       <Navigation site={content.site} />
 
       <main>
-        <EditableSection section="site" label="Homepage & Banners">
+        <EditableSection section="site" label="Homepage & Banners" underHeader>
           <Hero site={content.site} />
         </EditableSection>
         <EditableSection section="about" label="About the Church">
@@ -102,7 +101,7 @@ export default async function HomePage() {
           <WeeklyCalendar events={content.events} />
         </EditableSection>
 
-        <ParallaxBand image="/images/site/hero-vault.jpg" height="sm" strength={0.34} />
+        <ParallaxBand image="/images/site/band-aisle.jpg" height="sm" strength={0.34} />
 
         <EditableSection section="ministries" label="Ministries">
           <Ministries ministries={content.ministries} />
@@ -129,13 +128,12 @@ export default async function HomePage() {
           <Obituaries obituaries={content.obituaries} />
         </EditableSection>
 
-        <ParallaxBand image="/images/site/steeple.jpg" height="sm" strength={0.34} />
+        <ParallaxBand image="/images/site/band-cross.jpg" height="sm" strength={0.34} />
 
         <EditableSection section="hall" label="Parish Hall">
           <HallPromo hall={content.hall} />
         </EditableSection>
         <Members stats={content.stats} />
-        <Newsletter site={content.site} />
         <Contact site={content.site} />
         <EditableSection section="ads" label="Advertisements">
           <Ads ads={content.ads} place="home" />

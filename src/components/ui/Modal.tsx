@@ -23,6 +23,7 @@ export function Modal({
   children,
   className,
   align = 'center',
+  closeButton = true,
 }: {
   open: boolean
   onClose: () => void
@@ -32,6 +33,8 @@ export function Modal({
   className?: string
   /** `end` slides up from the bottom edge on small screens. */
   align?: 'center' | 'end'
+  /** Off for a dialog that carries its own Close beside its other actions. */
+  closeButton?: boolean
 }) {
   const { t } = useLang()
   const reduce = useReducedMotion()
@@ -131,6 +134,7 @@ export function Modal({
               className,
             )}
           >
+            {closeButton ? (
             <button
               type="button"
               onClick={close}
@@ -139,6 +143,7 @@ export function Modal({
             >
               <Icon name="close" className="h-4 w-4" />
             </button>
+            ) : null}
             {children}
           </motion.div>
         </motion.div>

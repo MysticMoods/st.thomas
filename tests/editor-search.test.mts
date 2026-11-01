@@ -44,8 +44,13 @@ describe('what counts as one field', () => {
 describe('field names read as English', () => {
   test('camel case is broken apart and capitalised', () => {
     assert.equal(label('groupsDrilldown'), 'Groups Drilldown')
-    assert.equal(label('leadPhone'), 'Lead Phone')
+    assert.equal(label('accountNumber'), 'Account Number')
     assert.equal(label('name'), 'Name')
+  })
+  test("a designer's word is given the parish's", () => {
+    assert.equal(label('eyebrow'), 'Small heading above the title')
+    assert.equal(label('lede'), 'Opening paragraph')
+    assert.equal(label('leadPhone'), "Leader's telephone")
   })
 })
 

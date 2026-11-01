@@ -24,7 +24,18 @@ content/analytics.json
 content/errors.json
 content/outbox.json
 content/limits.json
+content/retired.json
 content/intentions.json
 content/certificates.json
 content/prayers.json
 content/.image-originals
+
+# The parish's raw photographs and drone video (HEIC, MP4) and the edited
+# masters cut from them — hundreds of megabytes. The site uses only the sized
+# copies scripts/parish-photos.py writes to public/images/site.
+/church/
+
+# The chapel photographs as taken, one folder per chapel.
+/c[1-5]/
+
+__pycache__/

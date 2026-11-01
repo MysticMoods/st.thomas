@@ -19,6 +19,7 @@ export type SiteContent = {
     tagline: L
   }
   hero: {
+    /** Photographs, or a short silent film (.mp4) in a photograph's place. */
     images: string[]
     eyebrow: L
     verse: L
@@ -39,7 +40,6 @@ export type SiteContent = {
     officeHours: { days: L; hours: L }[]
   }
   social: { network: string; label: string; url: string; handle: string }[]
-  newsletter: { title: L; description: L; image: string }
   seo: {
     title: string
     description: string

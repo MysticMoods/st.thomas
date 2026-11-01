@@ -65,8 +65,8 @@ describe('owner', () => {
 
 describe('editor keeps what it always had', () => {
   // The upgrade must not have taken work away from anybody overnight.
-  test('still does the pages, hall, office, messages and newsletter', () => {
-    for (const area of ['pages', 'hall', 'office', 'messages', 'newsletter'] as Area[]) {
+  test('still does the pages, hall, office and messages', () => {
+    for (const area of ['pages', 'hall', 'office', 'messages'] as Area[]) {
       assert.equal(may('editor', area), true, area)
     }
   })
@@ -83,8 +83,8 @@ describe('hall manager', () => {
   test('may take bookings and moderate reviews', () => {
     assert.equal(may('hall', 'hall'), true)
   })
-  test('may not answer the parish office, read messages, or send the newsletter', () => {
-    for (const area of ['office', 'messages', 'newsletter'] as Area[]) {
+  test('may not answer the parish office or read messages', () => {
+    for (const area of ['office', 'messages'] as Area[]) {
       assert.equal(may('hall', area), false, area)
     }
   })
@@ -111,8 +111,8 @@ describe('treasurer', () => {
 })
 
 describe('sacristan — everything except the hall and the advertisements', () => {
-  test('runs the office, the messages, the newsletter and the pages', () => {
-    for (const area of ['pages', 'office', 'messages', 'newsletter', 'giving'] as Area[]) {
+  test('runs the office, the messages and the pages', () => {
+    for (const area of ['pages', 'office', 'messages', 'giving'] as Area[]) {
       assert.equal(may('sacristan', area), true, area)
     }
   })
@@ -139,7 +139,7 @@ describe('sacristan — everything except the hall and the advertisements', () =
 
 describe('parish administration — everything except four pages', () => {
   test('runs the day to day, the hall included', () => {
-    for (const area of ['pages', 'hall', 'office', 'messages', 'newsletter', 'giving'] as Area[]) {
+    for (const area of ['pages', 'hall', 'office', 'messages', 'giving'] as Area[]) {
       assert.equal(may('administration', area), true, area)
     }
   })

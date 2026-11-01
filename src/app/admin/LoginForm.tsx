@@ -1,31 +1,72 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Icon } from '@/components/ui/Icon'
 import { ParishEmblem } from '@/components/ui/ParishEmblem'
+import { isFirebaseConfigured, signInWithFirebaseEmail } from '@/lib/firebase/client'
 
 export function LoginForm({ demo }: { demo?: boolean }) {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [firebaseReady, setFirebaseReady] = useState(false)
+
+  useEffect(() => {
+    setFirebaseReady(isFirebaseConfigured())
+  }, [])
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
     setBusy(true)
     setError('')
+
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      })
+      let res: Response
+
+      if (firebaseReady) {
+        // Sign in with Firebase Authentication
+        let idToken: string
+        try {
+          idToken = await signInWithFirebaseEmail(email, password)
+        } catch (firebaseErr: unknown) {
+          const code = (firebaseErr as { code?: string })?.code || ''
+          if (
+            code === 'auth/invalid-credential' ||
+            code === 'auth/user-not-found' ||
+            code === 'auth/wrong-password' ||
+            code === 'auth/invalid-email'
+          ) {
+            throw new Error('Incorrect email or password')
+          } else if (code === 'auth/too-many-requests') {
+            throw new Error('Too many failed attempts. Please try again later.')
+          } else if (code === 'auth/user-disabled') {
+            throw new Error('This account has been disabled.')
+          } else {
+            const msg = (firebaseErr as { message?: string })?.message
+            throw new Error(msg ?? 'Firebase sign in failed')
+          }
+        }
+
+        res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        })
+      } else {
+        // Fallback for when Firebase configuration keys are still being added
+        res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: email, password }),
+        })
+      }
+
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Sign in failed')
 
       // Signing in puts the parish into administrative mode on the site itself.
-      // The dashboard is still one click away, from the strip along the top.
       window.sessionStorage.setItem('stc-editing', 'on')
       const next = new URLSearchParams(window.location.search).get('next')
       window.location.href = next && next.startsWith('/') ? next : '/'
@@ -50,26 +91,41 @@ export function LoginForm({ demo }: { demo?: boolean }) {
           onSubmit={submit}
           className="mt-10 rounded-sm border border-white/10 bg-white/[0.04] p-8 backdrop-blur-sm"
         >
+          {firebaseReady ? (
+            <div className="mb-6 flex items-center gap-2 rounded-sm border border-gold-400/20 bg-gold-400/5 px-3.5 py-2 text-2xs text-gold-300">
+              <span className="h-1.5 w-1.5 rounded-full bg-gold-400 animate-pulse" />
+              Firebase Authentication Active
+            </div>
+          ) : (
+            <div className="mb-6 rounded-sm border border-amber-500/30 bg-amber-500/10 p-3 text-2xs leading-relaxed text-amber-200">
+              <p className="font-semibold text-amber-100">Firebase Setup</p>
+              <p className="mt-1 text-amber-200/80">
+                Add your Firebase project keys to <code className="text-amber-100">.env.local</code> to enable Firebase Auth.
+              </p>
+            </div>
+          )}
+
           <label
-            htmlFor="admin-username"
+            htmlFor="admin-email"
             className="font-sans text-2xs uppercase tracking-[0.18em] text-stone-400"
           >
-            User ID
+            {firebaseReady ? 'Email Address' : 'Email or User ID'}
           </label>
           <div className="mt-3 flex items-center gap-2 rounded-sm border border-white/15 bg-navy-950/60 px-4 focus-within:border-gold-400">
-            <Icon name="users" className="h-4 w-4 text-gold-400/70" />
+            <Icon name={firebaseReady ? 'mail' : 'users'} className="h-4 w-4 text-gold-400/70" />
             <input
-              id="admin-username"
-              name="username"
-              type="text"
+              id="admin-email"
+              name="email"
+              type={firebaseReady ? 'email' : 'text'}
               required
               autoFocus
               autoComplete="username"
               autoCapitalize="none"
               spellCheck={false}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full bg-transparent py-3.5 font-sans text-[0.95rem] text-white outline-none"
+              placeholder={firebaseReady ? 'office@stthomasmangalassery.org' : 'vicar'}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent py-3.5 font-sans text-[0.95rem] text-white outline-none placeholder:text-stone-600"
             />
           </div>
 
@@ -104,19 +160,16 @@ export function LoginForm({ demo }: { demo?: boolean }) {
             <Icon name="arrowRight" className="h-4 w-4" />
           </button>
 
-          {demo ? (
+          {demo && !firebaseReady ? (
             <p className="mt-6 border-t border-white/10 pt-5 font-sans text-2xs leading-relaxed text-stone-500">
-              Demo account: <code className="text-gold-400">vicar</code> /{' '}
-              <code className="text-gold-400">mangalassery1893</code>. Set{' '}
-              <code className="text-gold-400">ADMIN_USERNAME</code>,{' '}
-              <code className="text-gold-400">ADMIN_PASSWORD</code> and{' '}
-              <code className="text-gold-400">ADMIN_SESSION_SECRET</code> in{' '}
-              <code>.env.local</code> before anybody else can reach this page.
+              Bootstrap login: <code className="text-gold-400">vicar</code> /{' '}
+              <code className="text-gold-400">mangalassery1893</code>. Set your{' '}
+              <code className="text-gold-400">NEXT_PUBLIC_FIREBASE_*</code> values in{' '}
+              <code>.env.local</code> for production authentication.
             </p>
           ) : (
             <p className="mt-6 border-t border-white/10 pt-5 font-sans text-2xs leading-relaxed text-stone-500">
-              The parish office keeps the sign-in details. A forgotten password is
-              reset by an owner under People &amp; access.
+              Staff accounts are authenticated through Firebase. An administrator assigns roles under People &amp; access.
             </p>
           )}
         </form>

@@ -55,7 +55,7 @@ export function ObituaryCard({
           height={compact ? 640 : 800}
           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 22vw"
           wrapperClassName={cn('w-full', compact ? 'aspect-square' : 'aspect-[4/5]')}
-          className="h-full w-full object-cover grayscale transition-[filter,transform] duration-[1200ms] ease-sacred group-hover:grayscale-[0.35]"
+          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-sacred"
           zoom
           priority={priority}
         />
@@ -116,7 +116,7 @@ export function ObituaryDialog({
               height={700}
               sizes="(max-width: 768px) 100vw, 42rem"
               wrapperClassName="aspect-[16/9] w-full"
-              className="h-full w-full object-cover grayscale-[0.7]"
+              className="h-full w-full object-cover"
             />
             <div
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/55 to-transparent"
@@ -222,7 +222,7 @@ export function Obituaries({ obituaries }: { obituaries: ObituariesContent }) {
           subtitle={obituaries.subtitle}
         />
 
-        <StaggerGroup className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <StaggerGroup className="mt-10 grid grid-cols-2 gap-3 sm:mt-16 sm:gap-5 lg:grid-cols-4">
           {recent.map((person) => (
             <motion.div key={person.id} variants={staggerItem}>
               <ObituaryCard person={person} compact onOpen={() => setOpen(person)} />

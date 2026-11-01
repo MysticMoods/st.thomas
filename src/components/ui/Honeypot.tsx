@@ -21,7 +21,7 @@ export function Honeypot({
   value: string
   onChange: (next: string) => void
 }) {
-  // Two forms can share a page — the homepage has both contact and newsletter —
+  // Two forms can share a page — the contact form and another —
   // so the id has to be unique even though the name never changes.
   const id = useId()
 

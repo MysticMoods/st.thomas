@@ -51,8 +51,14 @@ const nextConfig = {
         ],
       },
       {
+        // Not immutable: the parish replaces these with its own photographs
+        // under the same names (scripts/parish-photos.py). A year-long promise
+        // here kept the old picture in every browser — and in next/image's own
+        // cache, which honours it — long after the file had changed.
         source: '/images/:path*',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        // Checked on every visit (an unchanged file is answered "not modified",
+        // so this costs almost nothing) — a replaced photograph shows at once.
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
     ]
   },

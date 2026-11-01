@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: 'What we collect',
-    body: 'Only what you type into a form on this site: your name, email address, an optional phone number and your message, or just your email address if you subscribe to the parish letter. The site sets two small preferences in your browser — your chosen language and light or dark theme. There is no analytics tracking, no advertising, and no third-party cookies.',
+    body: 'Only what you type into a form on this site: your name, email address, an optional phone number and your message. The site sets two small preferences in your browser — your chosen language and light or dark theme. There is no analytics tracking, no advertising, and no third-party cookies.',
   },
   {
     title: 'Why we keep it',
@@ -29,7 +29,7 @@ const SECTIONS = [
   },
   {
     title: 'How long we keep it',
-    body: 'Contact form messages are kept for two years. Newsletter subscriptions are kept until you ask us to remove them, which you may do at any time by writing to the office.',
+    body: 'Contact form messages are kept for two years.',
   },
   {
     title: 'Photographs',

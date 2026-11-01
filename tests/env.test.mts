@@ -18,7 +18,7 @@ import { describe, test } from 'node:test'
  */
 
 /** Set by node and by whatever runs the process, never written by hand. */
-const RUNTIME = new Set(['NODE_ENV', 'PORT'])
+const RUNTIME = new Set(['NODE_ENV', 'PORT', 'NEXT_RUNTIME'])
 
 function documented() {
   const text = readFileSync('.env.example', 'utf-8')

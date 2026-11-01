@@ -38,7 +38,7 @@ export function WeeklyCalendar({ events }: { events: EventsContent }) {
           subtitle={events.subtitle}
         />
 
-        <StaggerGroup className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        <StaggerGroup className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 no-scrollbar sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 pt-3 sm:pt-0 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
           {events.days.map((day) => {
             const isToday = today === day.key
             return (
@@ -46,7 +46,7 @@ export function WeeklyCalendar({ events }: { events: EventsContent }) {
                 key={day.key}
                 variants={staggerItem}
                 className={cn(
-                  'relative flex flex-col rounded-sm border p-5 transition-all duration-500 ease-sacred',
+                  'relative flex w-[78%] shrink-0 snap-center flex-col rounded-sm border p-5 transition-all duration-500 ease-sacred sm:w-auto',
                   isToday
                     ? 'border-gold-400/70 bg-gradient-to-b from-navy-900 to-navy-950 text-white shadow-lift'
                     : 'border-[rgb(var(--line))] bg-[rgb(var(--card))] hover:-translate-y-1 hover:border-gold-300/60 hover:shadow-sacred',

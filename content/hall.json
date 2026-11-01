@@ -7,14 +7,14 @@
     "en": "Three halls beside the church — a small room for meetings, and two larger halls that open into one another for weddings and receptions.",
     "ml": "ദേവാലയത്തിനരികിൽ മൂന്ന് ഹാളുകൾ — യോഗങ്ങൾക്ക് ഒരു ചെറിയ മുറി, വിവാഹങ്ങൾക്കും സ്വീകരണങ്ങൾക്കുമായി പരസ്പരം തുറക്കാവുന്ന രണ്ട് വലിയ ഹാളുകൾ."
   },
-  "image": "/images/site/interior-feast.jpg",
+  "image": "/images/site/church-exterior.jpg",
   "hero": {
     "eyebrow": {
       "en": "Parish halls · Mangalassery",
       "ml": "ഇടവക ഹാളുകൾ · മംഗലശ്ശേരി"
     },
     "images": [
-      "/images/site/interior-feast.jpg",
+      "/images/site/wedding.jpg",
       "/images/site/community-group.jpg",
       "/images/site/church-exterior.jpg"
     ],
@@ -182,7 +182,7 @@
         "generator": true,
         "stage": true
       },
-      "image": "/images/site/interior-feast.jpg",
+      "image": "/images/site/wedding.jpg",
       "gallery": [
         "/images/site/choir-strings.jpg",
         "/images/site/choir-piano.jpg",
@@ -227,7 +227,7 @@
       },
       "image": "/images/site/congregation.jpg",
       "gallery": [
-        "/images/site/interior-feast.jpg",
+        "/images/site/wedding.jpg",
         "/images/site/community-group.jpg",
         "/images/site/choir-piano.jpg"
       ],

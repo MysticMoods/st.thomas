@@ -30,20 +30,20 @@
         {
           "id": "s01",
           "name": {
-            "en": "Ouseph Thundathil",
-            "ml": "ഔസേപ്പ് തുണ്ടത്തിൽ"
+            "en": "Jojan N. P.",
+            "ml": "ജോജൻ എൻ. പി."
           },
           "role": {
             "en": "Sacristan",
             "ml": "കപ്പിയാർ"
           },
           "unit": {
-            "en": "St. Thomas Unit",
-            "ml": "വി. തോമസ് കൂട്ടായ്മ"
+            "en": "",
+            "ml": ""
           },
           "image": "",
-          "phone": "+91 94470 20130",
-          "since": "2016",
+          "phone": "+91 94475 28082",
+          "since": "",
           "office": true
         }
       ]
@@ -62,8 +62,8 @@
         {
           "id": "a01",
           "name": {
-            "en": "Jacob Puthenpurayil",
-            "ml": "ജേക്കബ് പുത്തൻപുരയിൽ"
+            "en": "Sebastian Pottackal",
+            "ml": "സെബാസ്റ്റ്യൻ പൊട്ടക്കൽ"
           },
           "role": {
             "en": "Parish Administrator",
@@ -73,28 +73,28 @@
             "en": "St. Mary's Unit",
             "ml": "വി. മറിയം കൂട്ടായ്മ"
           },
-          "image": "",
-          "phone": "+91 94470 20131",
+          "image": "/images/site/trustee-sebastian-pottackal.jpg",
+          "phone": "+91 95390 36609",
           "since": "2021",
           "office": true
         },
         {
           "id": "a02",
           "name": {
-            "en": "Alice Chirayath",
-            "ml": "ആലീസ് ചിറയത്ത്"
+            "en": "Sibi Puthussery",
+            "ml": "സിബി പുതുശ്ശേരി"
           },
           "role": {
             "en": "Parish Administrator",
             "ml": "ഇടവക അഡ്മിനിസ്ട്രേറ്റർ"
           },
           "unit": {
-            "en": "Sacred Heart Unit",
-            "ml": "തിരുഹൃദയ കൂട്ടായ്മ"
+            "en": "",
+            "ml": ""
           },
           "image": "",
-          "phone": "+91 94470 20132",
-          "since": "2023",
+          "phone": "+91 99954 87977",
+          "since": "",
           "office": true
         }
       ]
@@ -172,7 +172,7 @@
         "en": "St. Sebastian's Unit",
         "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
       },
-      "image": "",
+      "image": "/images/site/trustee-junior.jpg",
       "phone": "+91 94470 20102",
       "since": "2025",
       "office": true
@@ -237,18 +237,18 @@
     {
       "id": "c08",
       "name": {
-        "en": "Elsy Joseph",
-        "ml": "എൽസി ജോസഫ്"
+        "en": "Peter",
+        "ml": "പീറ്റർ"
       },
       "role": {
-        "en": "Catechism Representative",
-        "ml": "മതബോധന പ്രതിനിധി"
+        "en": "Head of Catechism Department",
+        "ml": "മതബോധന വിഭാഗം തലവൻ"
       },
       "unit": {
         "en": "St. Alphonsa Unit",
         "ml": "വി. അൽഫോൻസാമ്മ കൂട്ടായ്മ"
       },
-      "image": "",
+      "image": "/images/site/member-peter.jpg",
       "phone": "+91 94470 20106",
       "since": "2025"
     },
@@ -259,32 +259,32 @@
         "ml": "ആലീസ് പോൾ"
       },
       "role": {
-        "en": "Mathruvedi Representative",
-        "ml": "മാതൃവേദി പ്രതിനിധി"
+        "en": "Council Member",
+        "ml": "കൗൺസിൽ അംഗം"
       },
       "unit": {
         "en": "St. Anne's Unit",
         "ml": "വി. അന്ന കൂട്ടായ്മ"
       },
-      "image": "",
+      "image": "/images/site/member-council-2.jpg",
       "phone": "+91 94470 20107",
       "since": "2025"
     },
     {
       "id": "c10",
       "name": {
-        "en": "Paul Vattaparambil",
-        "ml": "പോൾ വട്ടപ്പറമ്പിൽ"
+        "en": "Thomas Puthussery",
+        "ml": "തോമസ് പുതുശ്ശേരി"
       },
       "role": {
-        "en": "Pithruvedi Representative",
-        "ml": "പിതൃവേദി പ്രതിനിധി"
+        "en": "Council Member",
+        "ml": "കൗൺസിൽ അംഗം"
       },
       "unit": {
         "en": "St. George's Unit",
         "ml": "വി. ഗീവർഗീസ് കൂട്ടായ്മ"
       },
-      "image": "",
+      "image": "/images/site/member-thomas-puthussery.jpg",
       "phone": "+91 94470 20108",
       "since": "2025"
     },
@@ -295,14 +295,14 @@
         "ml": "അനില സെബാസ്റ്റ്യൻ"
       },
       "role": {
-        "en": "Youth Representative",
-        "ml": "യുവജന പ്രതിനിധി"
+        "en": "Council Member",
+        "ml": "കൗൺസിൽ അംഗം"
       },
       "unit": {
         "en": "St. Jude's Unit",
         "ml": "വി. യൂദാ ശ്ലീഹാ കൂട്ടായ്മ"
       },
-      "image": "",
+      "image": "/images/site/member-council-1.jpg",
       "phone": "+91 94470 20109",
       "since": "2025"
     },
@@ -313,14 +313,14 @@
         "ml": "ബിജോയ് ഔസേപ്പ്"
       },
       "role": {
-        "en": "Ward Member — Church Hill",
-        "ml": "വാർഡ് അംഗം — ചർച്ച് ഹിൽ"
+        "en": "Council Member",
+        "ml": "കൗൺസിൽ അംഗം"
       },
       "unit": {
         "en": "St. Sebastian's Unit",
         "ml": "വി. സെബസ്ത്യാനോസ് കൂട്ടായ്മ"
       },
-      "image": "",
+      "image": "/images/site/member-council-3.jpg",
       "phone": "+91 94470 20110",
       "since": "2025"
     },

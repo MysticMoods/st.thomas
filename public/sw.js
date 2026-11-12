@@ -5,7 +5,7 @@
  * instantly on a poor connection. Pages are network-first so parish notices are
  * never stale. Nothing under /api or /admin is ever cached.
  */
-const VERSION = 'stc-v1'
+const VERSION = 'stc-v2'
 const ASSETS = `${VERSION}-assets`
 const PAGES = `${VERSION}-pages`
 const OFFLINE_URL = '/'

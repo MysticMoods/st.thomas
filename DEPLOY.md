@@ -175,7 +175,7 @@ Certbot installs its own renewal timer. Nothing further to do.
 
 Without a mail server the site still takes every message, request and gift — but
 nobody hears back. No acknowledgement to the family, no notice to the office, no
-donation receipt, no newsletter. Every unsent letter is kept and shown in the
+donation receipt. Every unsent letter is kept and shown in the
 dashboard under **Letters sent**, so nothing is lost, but nothing is delivered
 either.
 
@@ -197,12 +197,11 @@ arrive rather than landing in a junk folder:
    `something@gmail.com` from your server is forgery as far as the receiving
    mail host is concerned, and it will be treated that way.
 2. **Publish SPF and DKIM for that domain.** Your mail provider gives you the
-   two DNS records; add them where the domain is managed. Without them a parish
-   newsletter to four hundred people is a spam report waiting to happen.
+   two DNS records; add them where the domain is managed. Without them the
+   acknowledgements land in junk folders, or nowhere.
 
-`SITE_URL` is what the unsubscribe link in every newsletter points at. Get it
-wrong and people cannot leave the list, which is both rude and, in most places,
-against the law.
+`SITE_URL` is what the links inside every letter point at. Get it wrong and
+they go nowhere.
 
 Press **Test the connection** in *Letters sent* after any change. It talks to
 the mail server without sending anything to anybody.
@@ -211,9 +210,10 @@ the mail server without sending anything to anybody.
 
 ## 4. Backups
 
-The site keeps twenty copies of each content file in `content/.backups/`, and an
-owner can restore any of them from **Backups & restore** in the dashboard. That
-covers a bad edit. It does **not** cover the machine catching fire.
+The site keeps twenty copies of each content file in `content/.backups/`. To
+undo a bad edit, copy the right one back over the file in `content/` (the name
+carries the section and the moment it was saved) — the site reads it on the
+next request. That covers a bad edit. It does **not** cover the machine catching fire.
 
 Take a copy off the box every night. `/etc/cron.daily/parish-backup`:
 
@@ -264,13 +264,11 @@ Nothing in the response identifies the parish, so it is safe to leave open.
 | --- | --- |
 | **System health** | Disk, settings still on demo values, what is stored, record counts |
 | **Letters sent** | Every letter posted, whether it arrived, and a connection test |
-| **Newsletter** | Write to the list; every letter carries an unsubscribe link |
 | **Office Requests** | Mass intentions, certificates and prayer requests |
 | **Replying** | Answer any of them by email or WhatsApp, from where you read it |
 | **Problems** | Faults hit on the server and in visitors' browsers, newest first |
 | **Activity log** | Who changed what, and when — including refused sign-ins |
 | **Visits** | Page views and visits, counted by this site alone |
-| **Backups & restore** | Read or put back any of the saved copies |
 | **People & access** | Accounts and what each may do |
 
 ### On the machine
@@ -312,7 +310,7 @@ they save.
 - [ ] The nightly backup has run, and one has been restored as a test
 - [ ] **System health** shows no warnings
 - [ ] Mail is configured, SPF and DKIM are published, and a test letter arrived
-- [ ] `SITE_URL` is right, so the unsubscribe link in newsletters works
+- [ ] `SITE_URL` is right, so the links inside letters work
 - [ ] Razorpay keys are live keys, and the webhook points at `/api/donate/webhook`
 - [ ] Dummy telephone numbers are gone from the content files
 - [ ] The demo photographs have been replaced with real parish ones

@@ -287,6 +287,19 @@ export function makeSupabaseStore(url: string, serviceKey: string): Store {
       return { url: `/uploads/${name}`, bytes: body.byteLength }
     },
 
+    async deleteFile(name: string) {
+      if (name.includes('/') || name.startsWith('.')) throw new Error('Not an upload')
+      const res = await fetch(`${base}/storage/v1/object/uploads/${encodeURIComponent(name)}`, {
+        method: 'DELETE',
+        headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}` },
+      })
+      // Already gone is what we wanted.
+      if (!res.ok && res.status !== 404 && res.status !== 400) {
+        const detail = await res.text().catch(() => '')
+        throw new Error(`Supabase storage ${res.status}: ${detail.slice(0, 300)}`)
+      }
+    },
+
     async writable() {
       try {
         await upsert('documents', {

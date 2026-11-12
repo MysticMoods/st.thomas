@@ -50,7 +50,7 @@ and never falls back to an untranslated string.
 
 | File | What it drives |
 | --- | --- |
-| `site.json` | Hero images and text, contact details, office hours, social links, newsletter, SEO |
+| `site.json` | Hero images and text, contact details, office hours, social links, SEO |
 | `about.json` | History, mission, vision, patron saint, architecture, diocese, parish register, emblem |
 | `mass.json` | Sunday, weekday, holy day, confession, adoration and special service timings |
 | `events.json` | The seven-day parish calendar (today's column highlights itself) |
@@ -66,8 +66,8 @@ and never falls back to an untranslated string.
 | `obituaries.json` | The obituary column — deaths, funeral details and each memorial |
 | `media.json` | YouTube videos and downloadable PDF bulletins |
 
-`content/messages.json`, `content/subscribers.json` and `content/donations.json` are created at
-runtime by the contact form, the newsletter and the donation flow. All three are git-ignored —
+`content/messages.json` and `content/donations.json` are created at
+runtime by the contact form and the donation flow. Both are git-ignored —
 they hold people's addresses and their giving.
 
 ### Editing without touching JSON
@@ -85,7 +85,7 @@ they hold people's addresses and their giving.
 - a **JSON view** toggle is there for anyone who would rather edit the file directly.
 
 Saving writes the file back to `content/` pretty-printed, so every edit stays reviewable in git.
-The dashboard also has an inbox for contact-form messages and newsletter subscribers.
+The dashboard also has an inbox for contact-form messages.
 
 > On a serverless host (Vercel, Netlify) the filesystem is read-only at runtime, so dashboard saves
 > will not persist. For that deployment model, run the site on a Node host with a persistent disk,
@@ -130,7 +130,7 @@ The dashboard also has an inbox for contact-form messages and newsletter subscri
 **Sections** — hero (parallax, cross-fading images), about, Mass timings, upcoming events,
 weekly calendar, parish priest, parish committee, animated statistics, ministries (each opening
 a detail panel), past-priests timeline, masonry gallery with a full-screen lightbox, latest video
-and bulletins, giving, notice board, obituary column, members, newsletter, contact with map and
+and bulletins, giving, notice board, obituary column, members, contact with map and
 form, footer. A second route, `/obituary`, carries the full memorial archive.
 
 **The welcome popup** — the next three dated events from `upcoming.json`, shown a moment after

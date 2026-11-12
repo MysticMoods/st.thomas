@@ -148,7 +148,7 @@ export function Contact({ site }: { site: SiteContent }) {
                   title="Parish location map"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  className="h-72 w-full border-0 grayscale-[0.35] transition-[filter] duration-700 hover:grayscale-0 lg:h-full lg:min-h-[18rem]"
+                  className="h-72 w-full border-0 lg:h-full lg:min-h-[18rem]"
                 />
               </div>
             </div>

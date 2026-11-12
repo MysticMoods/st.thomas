@@ -8,6 +8,12 @@ import { cn } from '@/lib/utils'
 type Lang = 'en' | 'ml'
 
 type AutoTranslateValue = {
+  /**
+   * The one language the editor is showing. English unless somebody asks for
+   * Malayalam: two boxes per field made every section twice as long to read.
+   */
+  lang: Lang
+  setLang: (next: Lang) => void
   /** When on, editing one language rewrites the other on blur. */
   enabled: boolean
   setEnabled: (next: boolean) => void
@@ -24,6 +30,7 @@ const AutoTranslateContext = createContext<AutoTranslateValue | null>(null)
 
 export function AutoTranslateProvider({ children }: { children: React.ReactNode }) {
   const [enabled, setEnabledState] = useState(true)
+  const [lang, setLang] = useState<Lang>('en')
   const [pending, setPending] = useState(0)
   // Mirrors `pending` for waitForIdle, which polls outside of React's render.
   const pendingRef = useRef(0)
@@ -70,7 +77,7 @@ export function AutoTranslateProvider({ children }: { children: React.ReactNode 
 
   return (
     <AutoTranslateContext.Provider
-      value={{ enabled, setEnabled, pending, translate, waitForIdle }}
+      value={{ lang, setLang, enabled, setEnabled, pending, translate, waitForIdle }}
     >
       {children}
     </AutoTranslateContext.Provider>
@@ -83,6 +90,37 @@ export function useAutoTranslate() {
   return value
 }
 
+/** English or Malayalam — which one the fields below show. */
+export function LanguageSwitch() {
+  const { lang, setLang } = useAutoTranslate()
+
+  return (
+    <div
+      role="group"
+      aria-label="Language being edited"
+      className="flex rounded-sm border border-[rgb(var(--line))] p-0.5"
+    >
+      {(['en', 'ml'] as const).map((code) => (
+        <button
+          key={code}
+          type="button"
+          onClick={() => setLang(code)}
+          aria-pressed={lang === code}
+          className={cn(
+            'rounded-sm px-3 py-1.5 font-sans text-2xs tracking-[0.06em] transition-colors',
+            lang === code
+              ? 'bg-navy-950 text-gold-200 dark:bg-gold-400 dark:text-navy-950'
+              : 'text-[rgb(var(--muted))] hover:text-[rgb(var(--ink))]',
+            code === 'ml' && 'font-malayalam',
+          )}
+        >
+          {code === 'en' ? 'English' : 'മലയാളം'}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 /** Header switch, so a proofreader can stop the machine overwriting their wording. */
 export function AutoTranslateToggle() {
   const { enabled, setEnabled, pending } = useAutoTranslate()
@@ -93,8 +131,8 @@ export function AutoTranslateToggle() {
       onClick={() => setEnabled(!enabled)}
       title={
         enabled
-          ? 'Editing English rewrites the Malayalam automatically (and the other way round). Click to turn off.'
-          : 'Automatic translation is off — use the Translate button on a field instead.'
+          ? 'Finishing an English field fills in its Malayalam automatically. Click to turn off.'
+          : 'Automatic translation is off — switch to Malayalam to write it yourself.'
       }
       aria-pressed={enabled}
       className={cn(
@@ -108,7 +146,7 @@ export function AutoTranslateToggle() {
         name="translate"
         className={cn('h-3.5 w-3.5', pending > 0 && 'animate-pulse text-gold-500')}
       />
-      {pending > 0 ? 'Translating…' : enabled ? 'Auto EN ⇄ ML' : 'Auto off'}
+      {pending > 0 ? 'Translating…' : enabled ? 'Auto-translate on' : 'Auto-translate off'}
     </button>
   )
 }

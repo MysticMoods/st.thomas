@@ -26,7 +26,11 @@ const nextConfig = {
   async rewrites() {
     const bucket = process.env.SUPABASE_URL?.trim().replace(/\/$/, '')
     const onDisk = process.env.STORAGE?.trim().toLowerCase() === 'disk'
-    if (!bucket || onDisk) return []
+    // On disk: anything public/ did not answer — a file uploaded since boot —
+    // is read fresh by src/app/api/uploads.
+    if (!bucket || onDisk) {
+      return [{ source: '/uploads/:file', destination: '/api/uploads/:file' }]
+    }
     return [
       {
         source: '/uploads/:file*',
@@ -47,8 +51,14 @@ const nextConfig = {
         ],
       },
       {
+        // Not immutable: the parish replaces these with its own photographs
+        // under the same names (scripts/parish-photos.py). A year-long promise
+        // here kept the old picture in every browser — and in next/image's own
+        // cache, which honours it — long after the file had changed.
         source: '/images/:path*',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+        // Checked on every visit (an unchanged file is answered "not modified",
+        // so this costs almost nothing) — a replaced photograph shows at once.
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
     ]
   },

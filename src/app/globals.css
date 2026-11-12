@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  /* slide-in animations start off to the side; never let them widen the page */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   :root {
     --font-display: 'Playfair Display';
     --font-serif: 'Cormorant Garamond';
@@ -102,6 +108,18 @@
     color: rgb(var(--ink));
   }
 
+  img,
+  video {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  img::selection,
+  video::selection {
+    background: transparent;
+  }
+
   :focus-visible {
     outline: 2px solid #c9a227;
     outline-offset: 3px;
@@ -127,11 +145,11 @@
 
 @layer components {
   .section {
-    @apply relative py-24 md:py-32 lg:py-40;
+    @apply relative py-16 md:py-32 lg:py-40;
   }
 
   .section-tight {
-    @apply relative py-20 md:py-24;
+    @apply relative py-14 md:py-24;
   }
 
   /* Pages without a hero start directly under the fixed header. The header is

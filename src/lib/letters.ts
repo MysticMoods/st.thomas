@@ -416,52 +416,6 @@ export function donationReceipt(d: {
   }
 }
 
-/* --------------------------------------------------------------- newsletter */
-
-export function newsletter(to: string, subject: string, body: string, token: string): Letter {
-  const paragraphs = body
-    .split(/\n{2,}/)
-    .map((block) => block.trim())
-    .filter(Boolean)
-    .map((block) => nl2br(esc(block)))
-
-  const stop = `${siteUrl()}/unsubscribe?token=${encodeURIComponent(token)}`
-  const footer = `${SIGN_OFF.en} · ${SIGN_OFF.ml}<br>
-You are receiving this because you asked for parish news at ${siteUrl().replace(/^https?:\/\//, '')}.<br>
-<a href="${stop}" style="color:#8a6d1c">Stop receiving these</a> · <span style="color:#8a6d1c">വരിസംഖ്യ അവസാനിപ്പിക്കുക</span>`
-
-  return {
-    kind: 'newsletter',
-    to,
-    subject,
-    text: plain(paragraphs.map((block) => unesc(block.replace(/<br>/g, '\n'))), `${SIGN_OFF.en}\nStop receiving these: ${stop}`),
-    html: dress(subject, paragraphs, footer),
-  }
-}
-
-export function subscribeWelcome(to: string, token: string): Letter {
-  const stop = `${siteUrl()}/unsubscribe?token=${encodeURIComponent(token)}`
-  const lines = [
-    'You will now get the parish newsletter — notices, feast days and what is coming up.',
-    'It is sent rarely and never passed to anybody else.',
-    '<em>ഇടവക വാർത്താക്കുറിപ്പ് ഇനി നിങ്ങൾക്ക് ലഭിക്കും.</em>',
-  ]
-  return {
-    kind: 'subscribe-welcome',
-    to,
-    subject: 'You are on the parish newsletter',
-    text: plain(
-      lines.map((line) => unesc(line.replace(/<[^>]+>/g, ''))),
-      `${SIGN_OFF.en}\nStop receiving these: ${stop}`,
-    ),
-    html: dress(
-      'Welcome',
-      lines,
-      `${SIGN_OFF.en}<br><a href="${stop}" style="color:#8a6d1c">Stop receiving these</a>`,
-    ),
-  }
-}
-
 /* -------------------------------------------------------------------- reply */
 
 /**

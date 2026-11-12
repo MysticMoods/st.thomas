@@ -9,8 +9,11 @@ each slot needs, and written out as optimised progressive JPEGs.
 
 To swap in real parish photography, either drop a file with the same name into
 public/images/site/ or edit the `image` field in the relevant content/*.json.
+Slots built from the parish's own photographs (scripts/parish-photos.py) are
+skipped, and their credits kept, so a refresh never puts stock back over them.
 """
 
+import importlib.util
 import json
 import os
 import shutil
@@ -114,12 +117,29 @@ def fetch(name):
     return path
 
 
+def parish_slots():
+    """The slots that hold the parish's own photographs."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "parish-photos.py")
+    spec = importlib.util.spec_from_file_location("parish_photos", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return set(module.PLAN)
+
+
 def main():
     os.makedirs(POOL, exist_ok=True)
     os.makedirs(DST, exist_ok=True)
     credits, missing = [], []
+    own = parish_slots()
+    try:
+        with open(os.path.join(IMAGES, "credits.json"), encoding="utf-8") as fh:
+            credits = [c for c in json.load(fh) if c.get("file", "").split("/")[-1][:-4] in own]
+    except FileNotFoundError:
+        pass
 
     for slot, (name, geom, focus) in PLAN.items():
+        if slot in own:
+            continue
         try:
             src = fetch(name)
         except Exception as exc:  # noqa: BLE001

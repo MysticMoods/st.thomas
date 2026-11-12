@@ -96,7 +96,7 @@ Yes. Saves are written straight to disk, not held in memory:
 | --- | --- | --- | --- | --- |
 | Any text, timing, notice, phone number | `content/*.json` | yes | yes | yes |
 | Uploaded photo or PDF | `public/uploads/` | yes | yes | yes |
-| Contact messages, newsletter sign-ups | `content/messages.json`, `content/subscribers.json` | yes | yes | yes |
+| Contact messages | `content/messages.json` | yes | yes | yes |
 
 The homepage re-reads `content/` on every request, so a save shows on the public
 site the moment you press **Save changes** — no rebuild, no waiting.
@@ -171,11 +171,9 @@ site**:
 | --- | --- |
 | People & access | Who may sign in, and what each of them may do |
 | Activity log | Who changed what, and when — refused sign-ins included |
-| Backups & restore | Read or put back any of the twenty saved copies per section |
 | Visits | How much the site is being read, counted by the site itself |
 | Problems | Faults hit on the server and in visitors' browsers |
 | System health | Disk, settings still on demo values, what is stored |
-| Newsletter | Write to everybody who asked for parish news |
 | Letters sent | Every letter posted, and whether it arrived |
 
 **Make a real account the first time you sign in.** Until one exists everybody
@@ -185,7 +183,7 @@ moment it exists.
 
 **Set up mail early.** Without `MAIL_HOST` and `MAIL_FROM` in `.env.local` the
 site still takes every message, hall request and gift, but nobody hears back —
-no acknowledgement, no notice to the office, no receipt, no newsletter. Nothing
+no acknowledgement, no notice to the office, no receipt. Nothing
 is lost: every unsent letter is kept under *Letters sent*, and they go out once
 the settings work.
 

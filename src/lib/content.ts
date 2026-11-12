@@ -28,9 +28,16 @@ export async function contentVersion(key: ContentKey): Promise<string> {
   return store.contentVersion(key)
 }
 
-/** Writes one content section, keeping a copy of what it replaced. */
+/**
+ * Writes one content section, keeping a copy of what it replaced. Any upload the
+ * save stopped using is kept for fourteen days before it is deleted — see
+ * lib/retire.ts — so a replaced photograph can still be put back.
+ */
 export async function writeContent(key: ContentKey, data: unknown): Promise<void> {
-  return store.writeContent(key, data)
+  const before = await store.readContent(key).catch(() => null)
+  await store.writeContent(key, data)
+  await noteDropped(key, before, data)
+  void sweepRetired()
 }
 
 /** Loads every content file for the public site. */
@@ -103,6 +110,7 @@ export async function getContent(): Promise<Content> {
 /* ------------------------------------------------- lists written at runtime */
 
 import type { RecordList } from './store'
+import { noteDropped, sweepRetired } from './retire'
 
 /** Everything a list holds, newest first. */
 export async function readRecords(name: RecordList) {

@@ -27,7 +27,6 @@ export type AuditAction =
   | 'user-update'
   | 'user-delete'
   | 'problems-clear'
-  | 'newsletter-send'
   | 'outbox-clear'
   | 'office-decide'
   | 'office-delete'

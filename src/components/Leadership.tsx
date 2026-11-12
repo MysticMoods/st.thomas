@@ -35,9 +35,9 @@ export function Leadership({ leadership }: { leadership: LeadershipContent }) {
           subtitle={leadership.subtitle}
         />
 
-        <StaggerGroup className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <StaggerGroup className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 no-scrollbar sm:mx-0 sm:grid sm:overflow-visible sm:px-0 sm:pb-0 sm:mt-16 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {leadership.people.map((person) => (
-            <motion.article key={person.id} variants={staggerItem} className="card card-hover group flex flex-col">
+            <motion.article key={person.id} variants={staggerItem} className="card card-hover group flex w-[78%] shrink-0 snap-center flex-col sm:w-auto">
               {person.image ? (
                 <SmartImage
                   src={person.image}
@@ -45,7 +45,7 @@ export function Leadership({ leadership }: { leadership: LeadershipContent }) {
                   width={900}
                   height={1125}
                   zoom
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                  sizes="(max-width: 640px) 78vw, (max-width: 1024px) 45vw, 30vw"
                   wrapperClassName="aspect-[4/5] w-full"
                   className="h-full w-full object-cover"
                 />

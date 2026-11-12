@@ -191,8 +191,16 @@ function Field({
     return <ImageField value={text} onChange={onChange} />
   }
 
-  if (DATE_KEYS.has(key) && /^\d{4}-\d{2}-\d{2}/.test(text)) {
+  // An empty one too: a notice added a minute ago has no date yet, and that is
+  // exactly when somebody needs the calendar.
+  if (DATE_KEYS.has(key) && (text === '' || /^\d{4}-\d{2}-\d{2}/.test(text))) {
     return <DateField value={text} onChange={onChange} />
+  }
+
+  // "6:30 AM" in the Mass timetable and the parish week. Free wording such as
+  // "After the evening Mass" is left as text.
+  if (key === 'time' && (text === '' || CLOCK.test(text))) {
+    return <TimeField value={text} onChange={onChange} />
   }
 
   if (key === 'category' || key === 'fund') {
@@ -309,27 +317,97 @@ function ObjectField({
   )
 }
 
+/** "6:30 AM", the way the site writes a time of day. */
+const CLOCK = /^(\d{1,2}):(\d{2})\s*([AP]M)$/i
+
+/** "6:30 PM" → "18:30", for a time input. */
+function toClock24(text: string) {
+  const m = CLOCK.exec(text.trim())
+  if (!m) return ''
+  let hour = Number(m[1]) % 12
+  if (m[3].toUpperCase() === 'PM') hour += 12
+  return `${String(hour).padStart(2, '0')}:${m[2]}`
+}
+
+/** "18:30" → "6:30 PM", as the site prints it. */
+function toClock12(value: string) {
+  const [h, m] = value.split(':').map(Number)
+  if (Number.isNaN(h) || Number.isNaN(m)) return ''
+  return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`
+}
+
+/** Opens the browser's own calendar or clock on a click anywhere in the box. */
+function openPicker(event: React.MouseEvent<HTMLInputElement>) {
+  try {
+    event.currentTarget.showPicker?.()
+  } catch {
+    /* older browsers: the box still takes typing */
+  }
+}
+
 /**
- * A calendar picker for the date part, so nobody has to remember that the site
- * wants ISO order. A stored time ("2026-08-10T15:30:00+05:30") keeps its tail.
+ * A calendar for the date, opened by a click anywhere in the box, with the date
+ * written out beside it so a slip of the finger is seen before it is saved.
+ * Stored as ISO ("2026-08-10"). A stored time ("2026-08-10T15:30:00+05:30" — the
+ * funeral) is carried along untouched: the time the site prints is the worded
+ * field beside it, which has a Malayalam form a clock cannot give.
  */
 function DateField({ value, onChange }: { value: string; onChange: (next: Json) => void }) {
   const [date, ...rest] = value.split('T')
   const tail = rest.length ? `T${rest.join('T')}` : ''
+
+  const spelled = /^\d{4}-\d{2}-\d{2}$/.test(date)
+    ? new Date(`${date}T12:00:00`).toLocaleDateString('en-IN', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      })
+    : ''
 
   return (
     <div className="flex flex-wrap items-center gap-3">
       <input
         type="date"
         value={date}
+        onClick={openPicker}
         onChange={(e) => onChange(e.target.value ? `${e.target.value}${tail}` : '')}
-        className="field max-w-[14rem] tabular-nums"
+        className="field max-w-[12rem] cursor-pointer tabular-nums"
+        aria-label="Date"
       />
-      {tail ? (
-        <span className="font-sans text-2xs text-[rgb(var(--muted))]">
-          keeps the time {tail.slice(1, 6)}
-        </span>
+      {spelled ? (
+        <span className="font-sans text-2xs text-[rgb(var(--muted))]">{spelled}</span>
+      ) : (
+        <span className="font-sans text-2xs text-[rgb(var(--muted))]">Click to choose a date</span>
+      )}
+      {date ? (
+        <button
+          type="button"
+          onClick={() => onChange('')}
+          className="font-sans text-2xs uppercase tracking-[0.14em] text-[rgb(var(--muted))] underline-offset-4 hover:text-burgundy-500 hover:underline"
+        >
+          Clear
+        </button>
       ) : null}
+    </div>
+  )
+}
+
+/** A clock for a time of day, kept in the words the site prints: "6:30 AM". */
+function TimeField({ value, onChange }: { value: string; onChange: (next: Json) => void }) {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <input
+        type="time"
+        value={toClock24(value)}
+        onClick={openPicker}
+        onChange={(e) => onChange(e.target.value ? toClock12(e.target.value) : '')}
+        className="field max-w-[9rem] cursor-pointer tabular-nums"
+        aria-label="Time"
+      />
+      <span className="font-sans text-2xs text-[rgb(var(--muted))]">
+        {value ? `Shown as ${value}` : 'Click to choose a time'}
+      </span>
     </div>
   )
 }
@@ -428,107 +506,103 @@ function BilingualField({
   onChange: (next: Json) => void
   name: string
 }) {
-  const long = LONG_KEYS.has(name) || value.en.length > 110
-  const Field = long ? 'textarea' : 'input'
-  const [busy, setBusy] = useState<'en' | 'ml' | null>(null)
+  const { lang, enabled, translate } = useAutoTranslate()
+  const long = LONG_KEYS.has(name) || value.en.length > 110 || value.ml.length > 110
+  const Box = long ? 'textarea' : 'input'
+  const [busy, setBusy] = useState(false)
   const [failed, setFailed] = useState('')
-  const { enabled, translate } = useAutoTranslate()
 
-  // Which box was typed in most recently. Editing English then leaving the
-  // field rewrites the Malayalam, and the other way round; whichever side was
-  // touched last is treated as the truth.
-  const edited = useRef({ en: 0, ml: 0 })
-  const order = useRef(0)
-  // Source text already translated once, so tabbing back through an untouched
-  // field does not fire the same request again.
-  const done = useRef({ en: '', ml: '' })
+  // The English as it was last translated, so tabbing through an untouched
+  // field does not ask for the same translation again.
+  const done = useRef(value.en.trim())
+  // Whether the English was typed in since this field was opened.
+  const touched = useRef(false)
 
-  /** Translates one side into the other. `force` overwrites existing text. */
-  const run = useCallback(
-    async (from: 'en' | 'ml', force: boolean) => {
-      const to = from === 'en' ? 'ml' : 'en'
-      const source = value[from].trim()
-      if (!source) return
-      if (!force && value[to].trim()) return
+  /** English into Malayalam. The English is the parish's own wording. */
+  const toMalayalam = useCallback(async () => {
+    const source = value.en.trim()
+    if (!source) return
+    setBusy(true)
+    setFailed('')
+    try {
+      const text = await translate(source, 'en', 'ml')
+      done.current = source
+      if (text) onChange({ ...value, ml: text })
+    } catch (e) {
+      setFailed(e instanceof Error ? e.message : 'Translation failed')
+    } finally {
+      setBusy(false)
+    }
+  }, [value, onChange, translate])
 
-      setBusy(to)
-      setFailed('')
-      try {
-        const text = await translate(source, from, to)
-        done.current[from] = source
-        if (text) onChange({ ...value, [to]: text })
-      } catch (e) {
-        setFailed(e instanceof Error ? e.message : 'Translation failed')
-      } finally {
-        setBusy(null)
-      }
-    },
-    [value, onChange, translate],
-  )
+  /**
+   * Leaving an English box keeps the Malayalam in step, out of sight: an empty
+   * one is filled, and one is rewritten only when the English was just changed.
+   * Nothing written in Malayalam ever rewrites the English — it cannot be seen
+   * from there to be checked.
+   */
+  const sync = useCallback(() => {
+    if (!enabled || lang !== 'en') return
+    const source = value.en.trim()
+    if (!source || source === done.current) return
+    if (!value.ml.trim() || touched.current) toMalayalam()
+  }, [enabled, lang, value, toMalayalam])
 
-  /** Called when a box loses focus — decides whether the other side is stale. */
-  const sync = useCallback(
-    (from: 'en' | 'ml') => {
-      if (!enabled) return
-      const to = from === 'en' ? 'ml' : 'en'
-      const source = value[from].trim()
-      if (!source || source === done.current[from]) return
-      // Fill an empty box always; overwrite a filled one only when this side is
-      // the one that was just edited, so hand-written text is never clobbered
-      // by merely clicking through a field.
-      if (!value[to].trim() || edited.current[from] > edited.current[to]) run(from, true)
-    },
-    [enabled, value, run],
-  )
+  const missing = lang === 'ml' && !value.ml.trim()
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="grid gap-3 sm:grid-cols-2">
-        {(['en', 'ml'] as const).map((code) => (
-          <label key={code} className="flex flex-col gap-1.5">
-            <span className="flex items-center justify-between gap-2">
-              <span className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-gold-600/80 dark:text-gold-400/80">
-                {code === 'en' ? 'English' : 'മലയാളം'}
-              </span>
-              <button
-                type="button"
-                onClick={() => run(code === 'en' ? 'ml' : 'en', true)}
-                disabled={busy !== null || !value[code === 'en' ? 'ml' : 'en'].trim()}
-                title={
-                  code === 'en'
-                    ? 'Translate the Malayalam into English, replacing this box'
-                    : 'Translate the English into Malayalam, replacing this box'
-                }
-                className="flex items-center gap-1 font-sans text-[0.58rem] uppercase tracking-[0.12em] text-[rgb(var(--muted))] transition-colors hover:text-gold-500 disabled:opacity-30"
-              >
-                <Icon name="translate" className="h-3 w-3" />
-                {busy === code ? 'translating…' : 'translate'}
-              </button>
-            </span>
-            <Field
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              {...({ rows: long ? 5 : undefined } as any)}
-              value={value[code]}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                edited.current[code] = ++order.current
-                onChange({ ...value, [code]: e.target.value })
-              }}
-              // Typing in one box and moving on rewrites the other one.
-              onBlur={() => sync(code)}
-              className={cn(
-                'field',
-                long && 'resize-y',
-                code === 'ml' && 'font-malayalam',
-                busy === code && 'animate-pulse border-gold-400',
-              )}
-            />
-          </label>
-        ))}
+    <div className="flex flex-col gap-1.5">
+      <div className="relative">
+        <Box
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          {...({ rows: long ? 5 : undefined } as any)}
+          value={value[lang]}
+          lang={lang}
+          placeholder={lang === 'ml' ? 'ഇതുവരെ മലയാളത്തിൽ ഇല്ല — not written in Malayalam yet' : ''}
+          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            if (lang === 'en') touched.current = true
+            onChange({ ...value, [lang]: e.target.value })
+          }}
+          onBlur={sync}
+          className={cn(
+            'field',
+            long && 'resize-y',
+            lang === 'ml' && 'font-malayalam',
+            lang === 'ml' && !missing && '!pr-11',
+            missing && 'border-dashed',
+            busy && 'animate-pulse border-gold-400',
+          )}
+        />
+        {/* Already in Malayalam: redoing it is there, but out of the way. */}
+        {lang === 'ml' && !missing && value.en.trim() ? (
+          <button
+            type="button"
+            onClick={toMalayalam}
+            disabled={busy}
+            title="Translate again from English, replacing this"
+            aria-label="Translate again from English"
+            className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-sm text-[rgb(var(--muted))] opacity-60 transition hover:bg-gold-400/10 hover:text-gold-600 hover:opacity-100 disabled:opacity-30"
+          >
+            <Icon name="translate" className="h-4 w-4" />
+          </button>
+        ) : null}
       </div>
 
+      {missing && value.en.trim() ? (
+        <button
+          type="button"
+          onClick={toMalayalam}
+          disabled={busy}
+          className="flex items-center gap-1.5 self-start font-sans text-2xs text-gold-700 transition-colors hover:text-gold-500 disabled:opacity-40 dark:text-gold-300"
+        >
+          <Icon name="translate" className="h-3.5 w-3.5" />
+          {busy ? 'Translating…' : 'Translate from English'}
+        </button>
+      ) : null}
+
       {failed ? (
-        <p className="font-sans text-[0.6rem] text-burgundy-500 dark:text-burgundy-300">
-          {failed} — type the other language by hand.
+        <p className="font-sans text-2xs text-burgundy-500 dark:text-burgundy-300">
+          {failed} — write the Malayalam by hand.
         </p>
       ) : null}
     </div>

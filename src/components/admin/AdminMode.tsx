@@ -101,17 +101,21 @@ export function AdminBar() {
           : 'border-white/10 bg-navy-950 text-stone-200',
       )}
     >
-      <div className="container flex flex-wrap items-center gap-x-4 gap-y-2 py-2">
-        <span className="flex items-center gap-2 font-sans text-2xs font-semibold uppercase tracking-[0.16em]">
-          <Icon name={editing ? 'sparkle' : 'lock'} className="h-3.5 w-3.5" />
-          {editing ? 'Editing the live site' : 'Signed in as parish staff'}
+      {/* One row at every width: the header below is moved down by exactly
+          this height (globals.css), so a second row would hide it. */}
+      <div className="container flex h-11 items-center gap-3 sm:gap-4">
+        <span className="flex min-w-0 items-center gap-2 font-sans text-2xs font-semibold uppercase tracking-[0.16em]">
+          <Icon name={editing ? 'sparkle' : 'lock'} className="h-3.5 w-3.5 shrink-0" />
+          <span className="hidden truncate md:inline">
+            {editing ? 'Editing the live site' : 'Signed in as parish staff'}
+          </span>
         </span>
 
         <button
           type="button"
           onClick={() => setEditing(!editing)}
           className={cn(
-            'rounded-sm border px-4 py-1.5 font-sans text-2xs font-semibold uppercase tracking-[0.14em] transition-colors',
+            'shrink-0 whitespace-nowrap rounded-sm border px-3 py-1.5 font-sans text-2xs font-semibold uppercase tracking-[0.14em] transition-colors sm:px-4',
             editing
               ? 'border-navy-950/40 bg-navy-950 text-gold-200 hover:bg-navy-900'
               : 'border-gold-400 bg-gold-400 text-navy-950 hover:bg-gold-300',
@@ -121,13 +125,13 @@ export function AdminBar() {
         </button>
 
         {editing ? (
-          <span className="font-sans text-2xs">
+          <span className="hidden truncate font-sans text-2xs xl:inline">
             Every section now carries an <strong>Edit</strong> button. Changes save straight to the
             site.
           </span>
         ) : null}
 
-        <div className="ml-auto flex items-center gap-4 font-sans text-2xs uppercase tracking-[0.14em]">
+        <div className="ml-auto flex shrink-0 items-center gap-3 whitespace-nowrap font-sans text-2xs uppercase tracking-[0.14em] sm:gap-4">
           <a href="/admin" className="transition-opacity hover:opacity-70">
             Dashboard
           </a>

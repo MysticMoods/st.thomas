@@ -106,16 +106,6 @@ export const ui = {
     backToTop: { en: 'Back to top', ml: 'മുകളിലേക്ക്' },
     loading: { en: 'Loading', ml: 'ലോഡ് ചെയ്യുന്നു' },
   },
-  newsletter: {
-    placeholder: { en: 'your@email.com', ml: 'your@email.com' },
-    subscribe: { en: 'Subscribe', ml: 'സബ്സ്ക്രൈബ് ചെയ്യുക' },
-    success: { en: 'Thank you — you are on the list.', ml: 'നന്ദി — നിങ്ങൾ പട്ടികയിൽ ചേർന്നിരിക്കുന്നു.' },
-    error: { en: 'Please enter a valid email address.', ml: 'സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക.' },
-    privacy: {
-      en: 'One letter a week. No sharing of your address, ever.',
-      ml: 'ആഴ്ചയിൽ ഒരു കത്ത്. നിങ്ങളുടെ വിലാസം ഒരിക്കലും പങ്കുവയ്ക്കില്ല.',
-    },
-  },
   contact: {
     heading: { en: 'Write to the parish office', ml: 'ഇടവക ഓഫീസിലേക്ക് എഴുതുക' },
     name: { en: 'Your name', ml: 'നിങ്ങളുടെ പേര്' },

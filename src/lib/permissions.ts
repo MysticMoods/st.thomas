@@ -34,8 +34,6 @@ export type Area =
   | 'office'
   /** Messages sent through the website, and the people who wrote them. */
   | 'messages'
-  /** The newsletter list, and sending to it. */
-  | 'newsletter'
   /** What people have given. */
   | 'giving'
   /** Staff accounts. */
@@ -48,7 +46,6 @@ export const AREAS: Area[] = [
   'hall',
   'office',
   'messages',
-  'newsletter',
   'giving',
   'people',
   'system',
@@ -64,12 +61,12 @@ export const AREAS: Area[] = [
  */
 const ROLE_AREAS: Record<Role, Area[]> = {
   owner: AREAS,
-  editor: ['pages', 'hall', 'office', 'messages', 'newsletter'],
+  editor: ['pages', 'hall', 'office', 'messages'],
   // Everything the parish does day to day, except letting the hall.
-  sacristan: ['pages', 'office', 'messages', 'newsletter', 'giving'],
+  sacristan: ['pages', 'office', 'messages', 'giving'],
   // Everything day to day, the hall included. What they may not do is not an
   // area at all — it is four pages, listed below.
-  administration: ['pages', 'hall', 'office', 'messages', 'newsletter', 'giving'],
+  administration: ['pages', 'hall', 'office', 'messages', 'giving'],
   hall: ['pages', 'hall'],
   treasurer: ['giving'],
 }
@@ -112,7 +109,7 @@ export function deniedSections(role: Role): readonly ContentKey[] {
 export const ROLE_LABELS: Record<Role, { name: string; blurb: string }> = {
   owner: {
     name: 'Parish Priest',
-    blurb: 'Everything — every page, every queue, the accounts and the backups.',
+    blurb: 'Everything — every page, every queue, the accounts and the running of the site.',
   },
   sacristan: {
     name: 'Sacristan',
@@ -127,7 +124,7 @@ export const ROLE_LABELS: Record<Role, { name: string; blurb: string }> = {
   editor: {
     name: 'Editor',
     blurb:
-      'The pages, the hall, the office requests, the messages and the newsletter — everything except accounts, giving and the backups.',
+      'The pages, the hall, the office requests and the messages — everything except accounts, giving and the running of the site.',
   },
   hall: {
     name: 'Hall Manager',

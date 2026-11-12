@@ -67,7 +67,7 @@ export function Committee({ committee }: { committee: CommitteeContent }) {
         </Reveal>
 
         {officers.length > 0 ? (
-          <StaggerGroup className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerGroup className="mt-10 grid grid-cols-2 gap-3 sm:mt-16 sm:gap-5 lg:grid-cols-4">
             {officers.map((member) => (
               <motion.div key={member.id} variants={staggerItem}>
                 <OfficerCard member={member} />
@@ -165,8 +165,8 @@ function OfficerCard({ member }: { member: CommitteeMember }) {
               width={640}
               height={720}
               sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 22vw"
-              wrapperClassName="aspect-[3/2] w-full sm:aspect-[5/6]"
-              className="h-full w-full object-cover grayscale-[0.35] transition-[filter,transform] duration-[1200ms] ease-sacred group-hover:grayscale-0"
+              wrapperClassName="aspect-[4/5] w-full sm:aspect-[5/6]"
+              className="h-full w-full object-cover transition-transform duration-[1200ms] ease-sacred"
               zoom
             />
             <div
@@ -176,28 +176,28 @@ function OfficerCard({ member }: { member: CommitteeMember }) {
           </>
         ) : (
           // No photograph on file. A monogram is honest; a stock face is not.
-          <div className="flex aspect-[3/2] w-full items-center justify-center bg-navy-950 sm:aspect-[5/6]">
+          <div className="flex aspect-[4/5] w-full items-start justify-center bg-navy-950 pt-[22%] sm:aspect-[5/6] sm:items-center sm:pt-0">
             <span
-              className="font-display text-6xl text-gold-400/60"
+              className="font-display text-4xl text-gold-400/60 sm:text-6xl"
               aria-hidden="true"
             >
               {initials(member.name.en)}
             </span>
           </div>
         )}
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <p className="font-display text-lg leading-tight text-white">{t(member.name)}</p>
-          <p className="mt-1 font-sans text-[0.6rem] uppercase tracking-[0.18em] text-gold-300">
+        <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5">
+          <p className="font-display text-base leading-tight text-white sm:text-lg">{t(member.name)}</p>
+          <p className="mt-1 font-sans text-[0.55rem] uppercase tracking-[0.14em] text-gold-300 sm:text-[0.6rem] sm:tracking-[0.18em]">
             {t(member.role)}
           </p>
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      <div className="flex flex-1 flex-col gap-3 p-3 sm:p-5">
         <p className="font-sans text-2xs text-[rgb(var(--muted))]">{t(member.unit)}</p>
         <div className="mt-auto flex items-center justify-between gap-3 border-t border-[rgb(var(--line))] pt-4">
           <span className="font-sans text-[0.6rem] uppercase tracking-[0.14em] text-[rgb(var(--muted))]">
-            {t({ en: 'Since', ml: 'മുതൽ' })} {member.since}
+            {member.since ? `${t({ en: 'Since', ml: 'മുതൽ' })} ${member.since}` : null}
           </span>
           {member.phone ? (
             <a
@@ -233,7 +233,7 @@ function MemberRow({ member }: { member: CommitteeMember }) {
           sizes="64px"
           rounded
           wrapperClassName="h-14 w-14 shrink-0 rounded-full"
-          className="h-full w-full rounded-full object-cover grayscale-[0.4]"
+          className="h-full w-full rounded-full object-cover"
         />
       ) : (
         <span

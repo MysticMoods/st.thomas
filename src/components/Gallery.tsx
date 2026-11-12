@@ -22,6 +22,8 @@ export function Gallery({ gallery }: { gallery: GalleryContent }) {
   const { t } = useLang()
   const [category, setCategory] = useState('all')
   const [lightbox, setLightbox] = useState<number | null>(null)
+  // A phone shows the first few; the rest wait behind a button.
+  const [showAll, setShowAll] = useState(false)
 
   const items = useMemo(
     () => (category === 'all' ? gallery.items : gallery.items.filter((i) => i.category === category)),
@@ -82,7 +84,7 @@ export function Gallery({ gallery }: { gallery: GalleryContent }) {
           ))}
         </div>
 
-        <motion.div layout className="mt-12 columns-1 gap-5 sm:columns-2 lg:columns-3 xl:columns-4">
+        <motion.div layout className="mt-8 columns-2 gap-3 sm:mt-12 sm:gap-5 lg:columns-3 xl:columns-4">
           <AnimatePresence mode="popLayout">
             {items.map((item, i) => (
               <motion.button
@@ -94,7 +96,10 @@ export function Gallery({ gallery }: { gallery: GalleryContent }) {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setLightbox(i)}
-                className="group mb-5 block w-full break-inside-avoid overflow-hidden rounded-sm border border-[rgb(var(--line))] text-left transition-all duration-500 ease-sacred hover:border-gold-300/70 hover:shadow-lift"
+                className={cn(
+                  'group mb-3 block w-full break-inside-avoid overflow-hidden rounded-sm border border-[rgb(var(--line))] text-left transition-all duration-500 ease-sacred hover:border-gold-300/70 hover:shadow-lift sm:mb-5',
+                  !showAll && i >= 8 && 'hidden sm:block',
+                )}
               >
                 <span className="relative block">
                   <SmartImage
@@ -103,7 +108,7 @@ export function Gallery({ gallery }: { gallery: GalleryContent }) {
                     width={1200}
                     height={900}
                     zoom
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    sizes="(max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     wrapperClassName={cn('w-full', RATIO[item.span] ?? RATIO.normal)}
                     className="h-full w-full object-cover"
                   />
@@ -124,6 +129,14 @@ export function Gallery({ gallery }: { gallery: GalleryContent }) {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {!showAll && items.length > 8 ? (
+          <div className="mt-4 flex justify-center sm:hidden">
+            <button type="button" onClick={() => setShowAll(true)} className="btn-outline !py-2.5 !text-[0.6rem]">
+              {t({ en: `Show all ${items.length} photos`, ml: `എല്ലാ ${items.length} ചിത്രങ്ങളും കാണുക` })}
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <AnimatePresence>

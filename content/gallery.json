@@ -88,73 +88,53 @@
   ],
   "items": [
     {
-      "id": "g01",
+      "id": "g40",
       "category": "church",
-      "src": "/images/site/hero-nave.jpg",
+      "src": "/images/site/gallery-aisle.jpg",
+      "span": "wide",
+      "caption": {
+        "en": "Down the aisle, between the pews",
+        "ml": "ഇരിപ്പിടങ്ങൾക്കിടയിലൂടെ അൾത്താരയിലേക്ക്"
+      }
+    },
+    {
+      "id": "g41",
+      "category": "church",
+      "src": "/images/site/gallery-sanctuary.jpg",
       "span": "tall",
       "caption": {
-        "en": "The nave at first light",
-        "ml": "പ്രഭാത വെളിച്ചത്തിൽ ദേവാലയം"
+        "en": "The altar at the end of the aisle",
+        "ml": "ഇടനാഴിയുടെ അറ്റത്തെ അൾത്താര"
       }
     },
     {
-      "id": "g02",
+      "id": "g42",
       "category": "church",
-      "src": "/images/site/hero-vault.jpg",
-      "span": "wide",
-      "caption": {
-        "en": "Vaults above the sanctuary",
-        "ml": "മദ്ബഹായ്ക്കു മുകളിലെ കമാനങ്ങൾ"
-      }
-    },
-    {
-      "id": "g03",
-      "category": "church",
-      "src": "/images/site/church-exterior.jpg",
-      "span": "wide",
-      "caption": {
-        "en": "The bell tower from the west path",
-        "ml": "പടിഞ്ഞാറൻ പാതയിൽ നിന്ന് മണിമാളിക"
-      }
-    },
-    {
-      "id": "g04",
-      "category": "church",
-      "src": "/images/site/glass.jpg",
+      "src": "/images/site/gallery-altar.jpg",
       "span": "normal",
       "caption": {
-        "en": "Stained glass, south aisle",
-        "ml": "സ്റ്റെയിൻഡ് ഗ്ലാസ്, തെക്കേ ഇടനാഴി"
+        "en": "The high altar and the crucifix",
+        "ml": "പ്രധാന അൾത്താരയും ക്രൂശിതരൂപവും"
       }
     },
     {
-      "id": "g05",
+      "id": "g44",
       "category": "church",
-      "src": "/images/site/steeple.jpg",
+      "src": "/images/site/gallery-pews.jpg",
       "span": "tall",
       "caption": {
-        "en": "The cross above the gable",
-        "ml": "മേൽക്കൂരയ്ക്കു മുകളിലെ കുരിശ്"
+        "en": "The pews, waiting for Sunday",
+        "ml": "ഞായറാഴ്ചയ്ക്കായി കാത്തിരിക്കുന്ന ഇരിപ്പിടങ്ങൾ"
       }
     },
     {
-      "id": "g06",
+      "id": "g19",
       "category": "church",
-      "src": "/images/site/old-church.jpg",
-      "span": "normal",
+      "src": "/images/site/gallery-walkway.jpg",
+      "span": "tall",
       "caption": {
-        "en": "The old church, kept as a chapel",
-        "ml": "ചാപ്പലായി സൂക്ഷിച്ചിരിക്കുന്ന പഴയ ദേവാലയം"
-      }
-    },
-    {
-      "id": "g07",
-      "category": "mass",
-      "src": "/images/site/interior-feast.jpg",
-      "span": "wide",
-      "caption": {
-        "en": "Before the Solemn High Mass",
-        "ml": "ആഘോഷമായ കുർബാനയ്ക്കു മുൻപ്"
+        "en": "The walk up to the church",
+        "ml": "ദേവാലയത്തിലേക്കുള്ള നടപ്പാത"
       }
     },
     {
@@ -175,16 +155,6 @@
       "caption": {
         "en": "The eight o'clock congregation",
         "ml": "എട്ടു മണി കുർബാനയിലെ ജനം"
-      }
-    },
-    {
-      "id": "g10",
-      "category": "mass",
-      "src": "/images/site/doorway-light.jpg",
-      "span": "tall",
-      "caption": {
-        "en": "Waiting for confession",
-        "ml": "കുമ്പസാരത്തിനായി കാത്ത്"
       }
     },
     {
@@ -265,16 +235,6 @@
       "caption": {
         "en": "Lamps for the Dukhrana",
         "ml": "ദുക്റാനയ്ക്കുള്ള വിളക്കുകൾ"
-      }
-    },
-    {
-      "id": "g19",
-      "category": "feast",
-      "src": "/images/site/facade.jpg",
-      "span": "tall",
-      "caption": {
-        "en": "The facade dressed for the feast",
-        "ml": "തിരുനാളിനായി അലങ്കരിച്ച മുഖപ്പ്"
       }
     },
     {

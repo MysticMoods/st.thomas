@@ -30,8 +30,6 @@ const WORDS: Record<string, string> = {
   'hall-confirmed': 'booking confirmed',
   'hall-declined': 'booking declined',
   'donation-receipt': 'donation receipt',
-  newsletter: 'newsletter',
-  'subscribe-welcome': 'newsletter welcome',
 }
 
 /**

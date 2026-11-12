@@ -182,6 +182,12 @@ export const diskStore: Store = {
     return { url: `/uploads/${name}`, bytes: body.byteLength }
   },
 
+  async deleteFile(name: string) {
+    // One flat folder of names the upload route made; nothing else is ours.
+    if (name !== path.basename(name) || name.startsWith('.')) throw new Error('Not an upload')
+    await fs.rm(path.join(UPLOADS, name), { force: true })
+  },
+
   async writable() {
     try {
       const probe = path.join(DIR, `.writable-${process.pid}.tmp`)

@@ -110,7 +110,6 @@ export async function GET() {
 
   const counts = {
     messages: (await readRecords('messages')).length,
-    subscribers: (await readRecords('subscribers')).length,
     donations: (await readRecords('donations')).length,
     'hall-bookings': (await readRecords('hall-bookings')).length,
     'hall-reviews': (await readRecords('hall-reviews')).length,

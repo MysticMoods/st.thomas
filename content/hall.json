@@ -14,9 +14,9 @@
       "ml": "ഇടവക ഹാളുകൾ · മംഗലശ്ശേരി"
     },
     "images": [
-      "/images/site/wedding.jpg",
-      "/images/site/community-group.jpg",
-      "/images/site/church-exterior.jpg"
+      "/images/site/church-exterior.jpg",
+      "/images/site/interior-feast.jpg",
+      "/images/site/church-front.jpg"
     ],
     "marquee": [
       {
@@ -182,7 +182,7 @@
         "generator": true,
         "stage": true
       },
-      "image": "/images/site/wedding.jpg",
+      "image": "/images/site/interior-feast.jpg",
       "gallery": [
         "/images/site/choir-strings.jpg",
         "/images/site/choir-piano.jpg",
@@ -227,7 +227,7 @@
       },
       "image": "/images/site/congregation.jpg",
       "gallery": [
-        "/images/site/wedding.jpg",
+        "/images/site/church-exterior.jpg",
         "/images/site/community-group.jpg",
         "/images/site/choir-piano.jpg"
       ],

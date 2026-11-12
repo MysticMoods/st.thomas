@@ -1,7 +1,7 @@
 'use client'
 
 import Image, { type ImageProps } from 'next/image'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -22,6 +22,13 @@ export function SmartImage({
   rounded?: boolean
 }) {
   const [loaded, setLoaded] = useState(false)
+  const imgRef = useRef<HTMLImageElement | null>(null)
+
+  useEffect(() => {
+    if (imgRef.current && (imgRef.current.complete || imgRef.current.naturalWidth > 0)) {
+      setLoaded(true)
+    }
+  }, [])
 
   return (
     <span
@@ -40,8 +47,12 @@ export function SmartImage({
       />
       <Image
         {...props}
+        ref={imgRef}
         alt={props.alt}
-        onLoad={() => setLoaded(true)}
+        onLoad={(e) => {
+          setLoaded(true)
+          props.onLoad?.(e)
+        }}
         className={cn(
           'transition-[transform,opacity] duration-[1200ms] ease-sacred',
           loaded ? 'opacity-100' : 'opacity-0',

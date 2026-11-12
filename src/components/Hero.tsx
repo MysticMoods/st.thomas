@@ -170,6 +170,10 @@ export function Hero({ site }: { site: SiteContent }) {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_15%,rgba(7,14,26,0.72)_100%)]"
         aria-hidden="true"
       />
+      <div
+        className="pointer-events-none absolute inset-0 bg-navy-950/25 sm:hidden"
+        aria-hidden="true"
+      />
       <div className="pointer-events-none grain absolute inset-0" aria-hidden="true" />
 
       <motion.div
@@ -220,7 +224,7 @@ export function Hero({ site }: { site: SiteContent }) {
           <p className="font-serif text-2xl italic leading-relaxed text-stone-100/95 text-shadow-sacred sm:text-3xl">
             “{t(site.hero.verse)}”
           </p>
-          <cite className="mt-4 block font-sans text-2xs uppercase not-italic tracking-[0.3em] text-gold-200/80 sm:text-xs">
+          <cite className="mt-4 block font-sans text-2xs uppercase not-italic tracking-[0.3em] text-gold-200/90 text-shadow-sacred sm:text-xs">
             {t(site.hero.verseRef)}
           </cite>
         </motion.blockquote>
@@ -229,7 +233,7 @@ export function Hero({ site }: { site: SiteContent }) {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.25, duration: 1.1, ease: EASE }}
-          className="mt-8 max-w-2xl font-sans text-[0.98rem] leading-relaxed text-stone-200/85 sm:text-lg"
+          className="mt-8 max-w-2xl font-sans text-[0.98rem] leading-relaxed text-stone-100/95 text-shadow-sacred sm:text-lg"
         >
           {t(site.hero.welcome)}
         </motion.p>
